@@ -1,0 +1,32 @@
+{
+  "name": "@unframed/react",
+  "version": "0.0.0",
+  "description": "Typed React wrappers for Unframed web components.",
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "build": "npm run generate && rm -rf dist && tsc -p tsconfig.json",
+    "typecheck": "npm run generate && tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@lit/react": "^1.0.8",
+    "@unframed/core": "0.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@unframed/tokens",
+  "version": "0.0.0",
+  "description": "Design tokens for Unframed, as CSS custom properties and resolved JSON.",
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist", "src"],
+  "exports": {
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.json": "./dist/tokens.json",
+    "./src/*": "./src/*"
+  },
+  "style": "./dist/tokens.css",
+  "sideEffects": ["*.css"],
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

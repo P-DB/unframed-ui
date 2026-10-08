@@ -1,0 +1,143 @@
+{
+  "$description": "Semantic tokens for the light theme. Components only use these.",
+  "color": {
+    "$type": "color",
+    "surface": {
+      "$value": "{palette.neutral.0}"
+    },
+    "surface-raised": {
+      "$value": "{palette.neutral.50}"
+    },
+    "surface-overlay": {
+      "$value": "{palette.neutral.0}"
+    },
+    "surface-hover": {
+      "$value": "{palette.neutral.100}"
+    },
+    "surface-active": {
+      "$value": "{palette.neutral.200}"
+    },
+    "text": {
+      "$value": "{palette.neutral.925}"
+    },
+    "text-muted": {
+      "$value": "{palette.neutral.600}"
+    },
+    "border": {
+      "$value": "{palette.neutral.200}"
+    },
+    "border-strong": {
+      "$value": "{palette.neutral.500}",
+      "$description": "Outlines of form controls; meets WCAG 1.4.11 (3:1) on surface."
+    },
+    "accent": {
+      "$value": "{palette.accent.600}"
+    },
+    "accent-hover": {
+      "$value": "{palette.accent.700}"
+    },
+    "accent-active": {
+      "$value": "{palette.accent.800}"
+    },
+    "accent-strong": {
+      "$description": "Accent for thin indicators on the page (focus ring, radio, switch, tab underline); >= 3:1 on surface.",
+      "$value": "{palette.accent.600}"
+    },
+    "accent-subtle": {
+      "$value": "{palette.accent.50}"
+    },
+    "on-accent": {
+      "$value": "{palette.neutral.0}"
+    },
+    "accent-tint": {
+      "$value": "{palette.accent.100}"
+    },
+    "accent-tint-hover": {
+      "$value": "{palette.accent.200}"
+    },
+    "accent-tint-active": {
+      "$value": "{palette.accent.300}"
+    },
+    "on-accent-tint": {
+      "$value": "{palette.accent.900}"
+    },
+    "danger": {
+      "$value": "{palette.danger.600}"
+    },
+    "danger-hover": {
+      "$value": "{palette.danger.700}"
+    },
+    "danger-subtle": {
+      "$value": "{palette.danger.50}"
+    },
+    "danger-text": {
+      "$value": "{palette.danger.600}"
+    },
+    "on-danger": {
+      "$value": "{palette.neutral.0}"
+    },
+    "success": {
+      "$value": "{palette.success.700}"
+    },
+    "success-subtle": {
+      "$value": "{palette.success.50}"
+    },
+    "warning": {
+      "$value": "{palette.warning.700}"
+    },
+    "warning-subtle": {
+      "$value": "{palette.warning.50}"
+    },
+    "focus-ring": {
+      "$value": "{palette.accent.600}"
+    },
+    "backdrop": {
+      "$value": "{palette.neutral.950}"
+    },
+    "toast-neutral-bg": {
+      "$value": "{palette.neutral.800}"
+    },
+    "toast-neutral-border": {
+      "$value": "{palette.neutral.800}"
+    },
+    "toast-neutral-text": {
+      "$value": "{palette.neutral.0}"
+    },
+    "toast-info-bg": {
+      "$value": "{palette.signal.blue}"
+    },
+    "toast-info-border": {
+      "$value": "{palette.signal.blue}"
+    },
+    "toast-info-text": {
+      "$value": "{palette.neutral.0}"
+    },
+    "toast-success-bg": {
+      "$value": "{palette.signal.green}"
+    },
+    "toast-success-border": {
+      "$value": "{palette.signal.green}"
+    },
+    "toast-success-text": {
+      "$value": "{palette.neutral.0}"
+    },
+    "toast-warning-bg": {
+      "$value": "{palette.signal.orange}"
+    },
+    "toast-warning-border": {
+      "$value": "{palette.signal.orange}"
+    },
+    "toast-warning-text": {
+      "$value": "{palette.signal.orange-ink}"
+    },
+    "toast-danger-bg": {
+      "$value": "{palette.danger.600}"
+    },
+    "toast-danger-border": {
+      "$value": "{palette.danger.600}"
+    },
+    "toast-danger-text": {
+      "$value": "{palette.neutral.0}"
+    }
+  }
+}

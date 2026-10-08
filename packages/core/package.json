@@ -1,0 +1,47 @@
+{
+  "name": "@unframed/core",
+  "version": "0.0.0",
+  "description": "Framework-agnostic web components built with Lit.",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist",
+    "custom-elements.json"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./custom-elements.json": "./custom-elements.json",
+    "./*": {
+      "types": "./dist/components/*/*.d.ts",
+      "default": "./dist/components/*/*.js"
+    }
+  },
+  "customElements": "custom-elements.json",
+  "sideEffects": [
+    "./dist/components/**/*.js",
+    "./dist/index.js"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json && npm run analyze",
+    "analyze": "custom-elements-manifest analyze",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "lit": "^3.3.3"
+  },
+  "peerDependencies": {
+    "@unframed/tokens": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,310 @@
+{
+  "$description": "Primitive tokens. Themes reference these; they are never used directly by components.",
+  "palette": {
+    "$type": "color",
+    "neutral": {
+      "0": {
+        "$value": "#ffffff"
+      },
+      "50": {
+        "$value": "#f7f6f9"
+      },
+      "100": {
+        "$value": "#efedf2"
+      },
+      "200": {
+        "$value": "#e1dfe6"
+      },
+      "300": {
+        "$value": "#c9c6d1"
+      },
+      "400": {
+        "$value": "#a29eae"
+      },
+      "500": {
+        "$value": "#7c778a"
+      },
+      "600": {
+        "$value": "#5d586b"
+      },
+      "700": {
+        "$value": "#464155"
+      },
+      "750": {
+        "$value": "#373442"
+      },
+      "800": {
+        "$value": "#302d38"
+      },
+      "825": {
+        "$value": "#28262e"
+      },
+      "850": {
+        "$value": "#212026"
+      },
+      "900": {
+        "$value": "#19191c"
+      },
+      "925": {
+        "$value": "#111312"
+      },
+      "950": {
+        "$value": "#0a0b08"
+      }
+    },
+    "accent": {
+      "50": {
+        "$value": "#f3eefb"
+      },
+      "100": {
+        "$value": "#e5dbf6"
+      },
+      "200": {
+        "$value": "#cbb7ee"
+      },
+      "300": {
+        "$value": "#ad8fe3"
+      },
+      "400": {
+        "$value": "#9067d6"
+      },
+      "500": {
+        "$value": "#7b47cc"
+      },
+      "600": {
+        "$value": "#6930c3"
+      },
+      "700": {
+        "$value": "#5726a3"
+      },
+      "800": {
+        "$value": "#461f83"
+      },
+      "900": {
+        "$value": "#361865"
+      },
+      "950": {
+        "$value": "#1f0e3b"
+      }
+    },
+    "danger": {
+      "50": {
+        "$value": "#fdecec"
+      },
+      "100": {
+        "$value": "#fbd0d1"
+      },
+      "200": {
+        "$value": "#f6a3a6"
+      },
+      "300": {
+        "$value": "#ef7479"
+      },
+      "400": {
+        "$value": "#e5484f"
+      },
+      "500": {
+        "$value": "#c81d25"
+      },
+      "600": {
+        "$value": "#9d0208"
+      },
+      "700": {
+        "$value": "#800006"
+      },
+      "800": {
+        "$value": "#650005"
+      },
+      "900": {
+        "$value": "#4d0004"
+      },
+      "950": {
+        "$value": "#2e0002"
+      }
+    },
+    "success": {
+      "50": {
+        "$value": "#f0fdf4"
+      },
+      "100": {
+        "$value": "#dcfce7"
+      },
+      "400": {
+        "$value": "#4ade80"
+      },
+      "500": {
+        "$value": "#22c55e"
+      },
+      "600": {
+        "$value": "#16a34a"
+      },
+      "700": {
+        "$value": "#15803d"
+      },
+      "800": {
+        "$value": "#166534"
+      },
+      "950": {
+        "$value": "#052e16"
+      }
+    },
+    "warning": {
+      "50": {
+        "$value": "#fffbeb"
+      },
+      "100": {
+        "$value": "#fef3c7"
+      },
+      "400": {
+        "$value": "#fbbf24"
+      },
+      "500": {
+        "$value": "#f59e0b"
+      },
+      "600": {
+        "$value": "#d97706"
+      },
+      "700": {
+        "$value": "#b45309"
+      },
+      "800": {
+        "$value": "#92400e"
+      },
+      "950": {
+        "$value": "#451a03"
+      }
+    },
+    "signal": {
+      "blue": {
+        "$value": "#4763c9"
+      },
+      "green": {
+        "$value": "#1f7a66"
+      },
+      "orange": {
+        "$value": "#f2a65a"
+      },
+      "orange-ink": {
+        "$value": "#1b1407"
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+      },
+      "mono": {
+        "$value": "ui-monospace, 'SF Mono', Menlo, Consolas, monospace"
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "sm": {
+        "$value": "0.8125rem"
+      },
+      "md": {
+        "$value": "0.875rem"
+      },
+      "lg": {
+        "$value": "1rem"
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 400
+      },
+      "medium": {
+        "$value": 500
+      },
+      "semibold": {
+        "$value": 600
+      }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "sm": {
+      "$value": "4px"
+    },
+    "md": {
+      "$value": "8px"
+    },
+    "lg": {
+      "$value": "12px"
+    },
+    "full": {
+      "$value": "9999px"
+    },
+    "control": {
+      "$value": "0px",
+      "$description": "Corners of buttons and form controls. Set e.g. 6px for rounded controls."
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "1": {
+      "$value": "0.25rem"
+    },
+    "2": {
+      "$value": "0.5rem"
+    },
+    "3": {
+      "$value": "0.75rem"
+    },
+    "4": {
+      "$value": "1rem"
+    },
+    "5": {
+      "$value": "1.25rem"
+    },
+    "6": {
+      "$value": "1.5rem"
+    }
+  },
+  "size": {
+    "$type": "dimension",
+    "control-sm": {
+      "$value": "2rem"
+    },
+    "control-md": {
+      "$value": "2.5rem"
+    },
+    "control-lg": {
+      "$value": "3rem"
+    }
+  },
+  "focus": {
+    "ring-width": {
+      "$type": "dimension",
+      "$value": "2px"
+    },
+    "ring-offset": {
+      "$type": "dimension",
+      "$value": "2px"
+    }
+  },
+  "duration": {
+    "$type": "duration",
+    "fast": {
+      "$value": "120ms"
+    },
+    "base": {
+      "$value": "200ms"
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "sm": {
+      "$value": "0 1px 2px rgb(0 0 0 / 0.06)"
+    },
+    "md": {
+      "$value": "0 4px 12px rgb(0 0 0 / 0.10), 0 1px 3px rgb(0 0 0 / 0.08)"
+    },
+    "lg": {
+      "$value": "0 16px 40px rgb(0 0 0 / 0.18), 0 4px 12px rgb(0 0 0 / 0.10)"
+    }
+  }
+}

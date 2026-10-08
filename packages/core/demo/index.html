@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Unframed playground</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 2rem 1rem 4rem;
+        background: var(--uf-color-surface);
+        color: var(--uf-color-text);
+        font-family: var(--uf-font-family-sans);
+      }
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+        margin: 0;
+      }
+      h2 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--uf-color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 2.5rem 0 1rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--uf-color-border);
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .stack {
+        display: grid;
+        gap: 1rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+      }
+      output {
+        display: block;
+        margin-top: 0.75rem;
+        color: var(--uf-color-text-muted);
+        font-family: var(--uf-font-family-mono);
+        font-size: 0.8125rem;
+        overflow-wrap: anywhere;
+      }
+      .custom {
+        --uf-button-radius: var(--uf-radius-full);
+        --uf-button-bg: #0f766e;
+        --uf-button-bg-hover: #115e59;
+        --uf-button-bg-active: #134e4a;
+      }
+      .custom-part::part(base) {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .popover-body {
+        display: grid;
+        gap: 0.75rem;
+        width: 240px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Unframed playground</h1>
+        <uf-tooltip content="Switch light / dark">
+          <uf-button id="theme-toggle" variant="outline" size="sm">Toggle theme</uf-button>
+        </uf-tooltip>
+      </header>
+
+      <h2>Button</h2>
+      <div class="stack">
+        <div class="row">
+          <uf-button>Primary</uf-button>
+          <uf-button variant="secondary">Secondary</uf-button>
+          <uf-button variant="outline">Outline</uf-button>
+          <uf-button variant="ghost">Ghost</uf-button>
+          <uf-button variant="danger">Danger</uf-button>
+        </div>
+        <div class="row">
+          <uf-button size="sm">Small</uf-button>
+          <uf-button size="lg">Large</uf-button>
+          <uf-button disabled>Disabled</uf-button>
+          <uf-button id="save">Click to load</uf-button>
+          <uf-button href="https://github.com" target="_blank" variant="outline">Link</uf-button>
+        </div>
+        <div class="row">
+          <uf-button><uf-icon slot="prefix" name="plus"></uf-icon>New item</uf-button>
+          <uf-button variant="secondary">Next<uf-icon slot="suffix" name="chevron-right"></uf-icon></uf-button>
+          <uf-tooltip content="Search">
+            <uf-button variant="ghost" label="Search"><uf-icon slot="prefix" name="search"></uf-icon></uf-button>
+          </uf-tooltip>
+          <uf-button class="custom">CSS properties</uf-button>
+          <uf-button class="custom-part" variant="outline">::part(base)</uf-button>
+        </div>
+      </div>
+
+      <h2>Form</h2>
+      <form id="signup" class="stack" novalidate>
+        <div class="grid">
+          <uf-input name="name" label="Full name" placeholder="Ada Lovelace" required></uf-input>
+          <uf-input name="email" type="email" label="Email" hint="We never share it." required>
+            <uf-icon slot="prefix" name="info"></uf-icon>
+          </uf-input>
+        </div>
+        <div class="grid">
+          <uf-select name="country" label="Country" placeholder="Choose a country" required>
+            <option value="it">Italy</option>
+            <option value="fr">France</option>
+            <option value="de">Germany</option>
+            <optgroup label="Elsewhere">
+              <option value="jp">Japan</option>
+              <option value="us">United States</option>
+            </optgroup>
+          </uf-select>
+          <uf-input name="age" type="number" label="Age" min="18" max="120" value="30"></uf-input>
+        </div>
+        <uf-textarea name="bio" label="Bio" resize="auto" rows="3" maxlength="280" hint="Up to 280 characters."></uf-textarea>
+        <uf-radio-group name="plan" label="Plan" value="pro" orientation="horizontal">
+          <uf-radio value="free">Free</uf-radio>
+          <uf-radio value="pro">Pro</uf-radio>
+          <uf-radio value="team">Team</uf-radio>
+          <uf-radio value="enterprise" disabled>Enterprise</uf-radio>
+        </uf-radio-group>
+        <div class="stack" style="gap: 0.5rem">
+          <uf-checkbox name="newsletter" checked hint="One email a month, no spam.">Subscribe to the newsletter</uf-checkbox>
+          <uf-checkbox name="terms" required>I accept the terms</uf-checkbox>
+          <uf-switch name="public">Make my profile public</uf-switch>
+        </div>
+        <div class="row">
+          <uf-button type="submit">Create account</uf-button>
+          <uf-button type="reset" variant="ghost">Reset</uf-button>
+        </div>
+        <output>Submit the form to see its data</output>
+      </form>
+
+      <h2>Tabs</h2>
+      <uf-tabs label="Project settings">
+        <uf-tab panel="general">General</uf-tab>
+        <uf-tab panel="members">Members</uf-tab>
+        <uf-tab panel="billing">Billing</uf-tab>
+        <uf-tab panel="archived" disabled>Archived</uf-tab>
+        <uf-tab-panel name="general">General settings for the project. Use the arrow keys to move between tabs.</uf-tab-panel>
+        <uf-tab-panel name="members">Invite people and manage roles.</uf-tab-panel>
+        <uf-tab-panel name="billing">Plans, invoices and payment methods.</uf-tab-panel>
+        <uf-tab-panel name="archived">Nothing here.</uf-tab-panel>
+      </uf-tabs>
+
+      <h2>Overlays</h2>
+      <div class="row">
+        <uf-button id="open-dialog" variant="danger">Delete project…</uf-button>
+        <uf-popover placement="bottom-start">
+          <uf-button slot="trigger" variant="outline">
+            Filters<uf-icon slot="suffix" name="chevron-down"></uf-icon>
+          </uf-button>
+          <div class="popover-body">
+            <uf-checkbox checked>Open issues</uf-checkbox>
+            <uf-checkbox>Closed issues</uf-checkbox>
+            <uf-switch>Only mine</uf-switch>
+          </div>
+        </uf-popover>
+        <uf-tooltip content="Tooltips show on hover and keyboard focus" placement="bottom">
+          <uf-button variant="secondary">Hover or focus me</uf-button>
+        </uf-tooltip>
+      </div>
+
+      <uf-dialog id="dialog" label="Delete project?" light-dismiss>
+        <p style="margin: 0">This permanently deletes <strong>unframed-ui</strong> and its 128 issues. This can't be undone.</p>
+        <uf-button slot="footer" variant="ghost" data-dialog="close">Cancel</uf-button>
+        <uf-button slot="footer" variant="danger" id="confirm-delete">Delete</uf-button>
+      </uf-dialog>
+
+      <h2>Toast</h2>
+      <div class="row">
+        <uf-button variant="outline" data-toast="neutral">Neutral</uf-button>
+        <uf-button variant="outline" data-toast="info">Info</uf-button>
+        <uf-button variant="outline" data-toast="success">Success</uf-button>
+        <uf-button variant="outline" data-toast="warning">Warning</uf-button>
+        <uf-button variant="outline" data-toast="danger">Danger</uf-button>
+      </div>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

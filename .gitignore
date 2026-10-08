@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+coverage/
+packages/core/custom-elements.json
+packages/react/src/generated/
+__screenshots__/
+.vitest/
