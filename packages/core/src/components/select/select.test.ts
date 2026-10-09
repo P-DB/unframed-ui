@@ -38,6 +38,26 @@ describe('uf-select', () => {
     expect(b.value).toBe('b');
   });
 
+  it('keeps its value when options are appended after it is connected', async () => {
+    const el = document.createElement('uf-select');
+    el.value = 'b';
+    document.body.append(el);
+    await el.updateComplete;
+    el.innerHTML = '<option value="a">A</option><option value="b">B</option>';
+    await new Promise((r) => setTimeout(r));
+    await el.updateComplete;
+    expect(el.value).toBe('b');
+  });
+
+  it('keeps a value set before its options were read', async () => {
+    const el = document.createElement('uf-select');
+    el.value = 'fr';
+    el.innerHTML = '<option value="it">Italy</option><option value="fr">France</option>';
+    document.body.append(el);
+    await el.updateComplete;
+    expect(el.value).toBe('fr');
+  });
+
   it('starts empty with a placeholder and requires a choice', async () => {
     const el = await fixture<UfSelect>(`<uf-select placeholder="Choose…" required>${options}</uf-select>`);
     expect(el.value).toBe('');

@@ -55,6 +55,27 @@ describe('uf-combobox', () => {
     expect(b.input.value).toBe('Japan');
   });
 
+  it('keeps its value when options are appended after it is connected', async () => {
+    const el = document.createElement('uf-combobox');
+    el.value = 'b';
+    document.body.append(el);
+    await el.updateComplete;
+    el.innerHTML = '<option value="a">A</option><option value="b">B</option>';
+    await new Promise((r) => setTimeout(r));
+    await el.updateComplete;
+    expect(el.value).toBe('b');
+  });
+
+  it('keeps a value set before its options were read', async () => {
+    const el = document.createElement('uf-combobox');
+    el.value = 'jp';
+    el.innerHTML = '<option value="it">Italy</option><option value="jp">Japan</option>';
+    document.body.append(el);
+    await el.updateComplete;
+    expect(el.value).toBe('jp');
+    expect(el.shadowRoot!.querySelector('input')!.value).toBe('Japan');
+  });
+
   it('opens with ArrowDown and highlights the first option', async () => {
     const { el, input, listbox, active, key } = await setup();
     await key('ArrowDown');

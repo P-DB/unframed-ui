@@ -13,6 +13,8 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | [`@unframed/core`](packages/core) | The web components (`<uf-button>`, …) |
 | [`@unframed/tokens`](packages/tokens) | Design tokens as CSS custom properties (light + dark) |
 | [`@unframed/react`](packages/react) | Typed React wrappers, generated from the components' manifest |
+| [`@unframed/vue`](packages/vue) | Vue components with `v-model` and typed template props, generated from the manifest |
+| [`@unframed/angular`](packages/angular) | Angular standalone components and form directives (`ngModel`, `formControl`), generated from the manifest |
 | [`@unframed/cli`](packages/cli) | Copies components into your project so you own the code |
 
 ## Components
@@ -67,6 +69,46 @@ import { toast } from '@unframed/core/toast';
 
 toast('Saved', { variant: 'success' });
 ```
+
+### Vue
+
+```bash
+npm install @unframed/vue @unframed/tokens
+```
+
+```vue
+<script setup lang="ts">
+import '@unframed/tokens/tokens.css';
+import { UfCheckbox, UfInput } from '@unframed/vue';
+const email = ref('');
+const agree = ref(false);
+</script>
+
+<template>
+  <UfInput v-model="email" type="email" label="Email" required />
+  <UfCheckbox v-model="agree">I accept the terms</UfCheckbox>
+</template>
+```
+
+Props and events are type-checked in templates (vue-tsc / Volar). `app.use(UnframedVue)` registers everything globally.
+
+### Angular
+
+```bash
+npm install @unframed/angular @unframed/tokens
+```
+
+```ts
+@Component({
+  imports: [UNFRAMED, ReactiveFormsModule],
+  template: `<uf-input [formControl]="email" type="email" label="Email" required />`,
+})
+export class SignupComponent {
+  email = new FormControl('');
+}
+```
+
+Standalone components with typed inputs and outputs (`(uf-tab-change)`), plus form directives so `ngModel`, `formControl` and `formControlName` work. No `CUSTOM_ELEMENTS_SCHEMA` needed.
 
 ### Own the code
 

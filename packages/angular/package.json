@@ -1,0 +1,36 @@
+{
+  "name": "@unframed/angular",
+  "version": "0.0.0",
+  "description": "Angular components and form integration for Unframed web components.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "build": "npm run generate && ng-packagr -p ng-package.json -c tsconfig.lib.json",
+    "typecheck": "npm run generate && tsc -p tsconfig.lib.json --noEmit",
+    "test": "npm run build && vitest run && node test/types/check.mjs"
+  },
+  "dependencies": {
+    "@unframed/core": "0.0.0"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=20.0.0",
+    "@angular/forms": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
+  "devDependencies": {
+    "@angular/common": "^22.2.2",
+    "@angular/compiler": "^22.2.2",
+    "@angular/compiler-cli": "^22.2.2",
+    "@angular/core": "^22.2.2",
+    "@angular/forms": "^22.2.2",
+    "@angular/platform-browser": "^22.2.2",
+    "ng-packagr": "^22.2.4",
+    "rxjs": "^7.8.2",
+    "tslib": "^2.8.1",
+    "typescript": "~6.0.3"
+  }
+}

@@ -9,3 +9,5 @@ __screenshots__/
 .vitest/
 packages/cli/registry.json
 packages/cli/.tmp/
+packages/vue/src/generated/
+packages/angular/src/lib/generated/

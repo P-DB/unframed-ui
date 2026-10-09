@@ -5,6 +5,13 @@ import { findPage } from '../demos';
 import { getElement } from '../manifest';
 import { NotFound } from './NotFound';
 
+/** The HTML example with Vue component names: <uf-tab-panel> -> <UfTabPanel>. */
+function toVue(html: string): string {
+  return html.replace(/<(\/?)uf-([a-z-]+)/g, (_, slash: string, name: string) =>
+    `<${slash}Uf${name.replace(/(^|-)(\w)/g, (_m: string, _d: string, c: string) => c.toUpperCase())}`,
+  );
+}
+
 /** Renders `backticks` in short descriptions as code. */
 function Inline({ text }: { text?: string }) {
   if (!text) return null;
@@ -32,7 +39,7 @@ export function ComponentPage() {
       />
 
       <h2>Examples</h2>
-      {page.examples.map(({ title, description, stack, Preview, html, react }) => (
+      {page.examples.map(({ title, description, stack, Preview, html, react, vue, angular }) => (
         <section key={title}>
           <h3>{title}</h3>
           {description && (
@@ -48,6 +55,8 @@ export function ComponentPage() {
               samples={[
                 { label: 'HTML', code: html },
                 { label: 'React', code: react },
+                { label: 'Vue', code: vue ?? toVue(html) },
+                { label: 'Angular', code: angular ?? html },
               ]}
             />
           </div>

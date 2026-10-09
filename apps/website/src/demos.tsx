@@ -32,6 +32,10 @@ export interface Example {
   Preview: ComponentType;
   html: string;
   react: string;
+  /** Defaults to the HTML with Vue component names. */
+  vue?: string;
+  /** Defaults to the HTML: Angular uses the same tags. */
+  angular?: string;
 }
 
 export interface Page {
@@ -150,6 +154,26 @@ export const pages: Page[] = [
   </UfInput>
   <UfButton type="submit">Subscribe</UfButton>
 </form>`),
+        vue: code(`
+<script setup>
+const email = ref('');
+</script>
+
+<template>
+  <form @submit.prevent="subscribe">
+    <UfInput v-model="email" name="email" type="email" label="Email" hint="We never share it." required>
+      <UfIcon slot="prefix" name="info" />
+    </UfInput>
+    <UfButton type="submit">Subscribe</UfButton>
+  </form>
+</template>`),
+        angular: code(`
+<form (ngSubmit)="subscribe()">
+  <uf-input [(ngModel)]="email" name="email" type="email" label="Email" hint="We never share it." required>
+    <uf-icon slot="prefix" name="info" />
+  </uf-input>
+  <uf-button type="submit">Subscribe</uf-button>
+</form>`),
       },
     ],
   },
@@ -252,6 +276,20 @@ export const pages: Page[] = [
   </optgroup>
   {/* … */}
 </UfCombobox>`),
+        vue: code(`
+<UfCombobox v-model="zone" label="Time zone" placeholder="Search time zones">
+  <optgroup label="Europe">
+    <option value="Europe/Rome">Rome</option>
+    <option value="Europe/Paris">Paris</option>
+  </optgroup>
+</UfCombobox>`),
+        angular: code(`
+<uf-combobox [formControl]="zone" label="Time zone" placeholder="Search time zones">
+  <optgroup label="Europe">
+    <option value="Europe/Rome">Rome</option>
+    <option value="Europe/Paris">Paris</option>
+  </optgroup>
+</uf-combobox>`),
       },
     ],
   },
@@ -308,6 +346,10 @@ const [on, setOn] = useState(true);
 <UfSwitch checked={on} onChange={(e) => setOn(e.target.checked)}>
   Notifications are {on ? 'on' : 'off'}
 </UfSwitch>`),
+        vue: code(`
+<UfSwitch v-model="on">Notifications are {{ on ? 'on' : 'off' }}</UfSwitch>`),
+        angular: code(`
+<uf-switch [(ngModel)]="on">Notifications are {{ on ? 'on' : 'off' }}</uf-switch>`),
       },
     ],
   },
@@ -381,6 +423,20 @@ const [on, setOn] = useState(true);
   <UfTabPanel name="general">General settings for the project.</UfTabPanel>
   <UfTabPanel name="members">Invite people and manage roles.</UfTabPanel>
 </UfTabs>`),
+        vue: code(`
+<UfTabs label="Project settings" @uf-tab-change="(e) => (tab = e.detail.name)">
+  <UfTab panel="general">General</UfTab>
+  <UfTab panel="members">Members</UfTab>
+  <UfTabPanel name="general">General settings for the project.</UfTabPanel>
+  <UfTabPanel name="members">Invite people and manage roles.</UfTabPanel>
+</UfTabs>`),
+        angular: code(`
+<uf-tabs label="Project settings" (uf-tab-change)="tab = $event.detail.name">
+  <uf-tab panel="general">General</uf-tab>
+  <uf-tab panel="members">Members</uf-tab>
+  <uf-tab-panel name="general">General settings for the project.</uf-tab-panel>
+  <uf-tab-panel name="members">Invite people and manage roles.</uf-tab-panel>
+</uf-tabs>`),
       },
     ],
   },
@@ -476,6 +532,26 @@ const [open, setOpen] = useState(false);
   <UfButton slot="footer" variant="ghost" data-dialog="close">Cancel</UfButton>
   <UfButton slot="footer" variant="danger" onClick={remove}>Delete</UfButton>
 </UfDialog>`),
+        vue: code(`
+<script setup>
+const dialog = ref();
+</script>
+
+<template>
+  <UfButton variant="danger" @click="dialog.el.show()">Delete project…</UfButton>
+  <UfDialog ref="dialog" label="Delete project?" light-dismiss>
+    <p>This permanently deletes the project and its 128 issues.</p>
+    <UfButton slot="footer" variant="ghost" data-dialog="close">Cancel</UfButton>
+    <UfButton slot="footer" variant="danger" @click="remove">Delete</UfButton>
+  </UfDialog>
+</template>`),
+        angular: code(`
+<uf-button variant="danger" (click)="dialog.el.show()">Delete project…</uf-button>
+<uf-dialog #dialog label="Delete project?" light-dismiss>
+  <p>This permanently deletes the project and its 128 issues.</p>
+  <uf-button slot="footer" variant="ghost" data-dialog="close">Cancel</uf-button>
+  <uf-button slot="footer" variant="danger" (click)="remove()">Delete</uf-button>
+</uf-dialog>`),
       },
     ],
   },
@@ -566,6 +642,26 @@ const [open, setOpen] = useState(false);
     <UfMenuItem value="pin" type="checkbox" checked>Pinned</UfMenuItem>
   </UfMenu>
 </UfDropdown>`),
+        vue: code(`
+<UfDropdown @uf-select="(e) => run(e.detail.value)">
+  <UfButton slot="trigger" variant="secondary">Actions</UfButton>
+  <UfMenu label="Project actions">
+    <UfMenuItem value="edit">Edit<span slot="suffix">⌘E</span></UfMenuItem>
+    <UfMenuItem value="duplicate">Duplicate</UfMenuItem>
+    <hr />
+    <UfMenuItem value="pin" type="checkbox" checked>Pinned</UfMenuItem>
+  </UfMenu>
+</UfDropdown>`),
+        angular: code(`
+<uf-dropdown (uf-select)="run($event.detail.value)">
+  <uf-button slot="trigger" variant="secondary">Actions</uf-button>
+  <uf-menu label="Project actions">
+    <uf-menu-item value="edit">Edit<span slot="suffix">⌘E</span></uf-menu-item>
+    <uf-menu-item value="duplicate">Duplicate</uf-menu-item>
+    <hr />
+    <uf-menu-item value="pin" type="checkbox" checked>Pinned</uf-menu-item>
+  </uf-menu>
+</uf-dropdown>`),
       },
     ],
   },
@@ -620,6 +716,21 @@ const [open, setOpen] = useState(false);
 import { toast } from '@unframed/core/toast';
 
 <UfButton onClick={() => toast('Changes published.', { variant: 'success' })}>Publish</UfButton>`),
+        vue: code(`
+<script setup>
+import { toast } from '@unframed/core/toast';
+</script>
+
+<template>
+  <UfButton @click="toast('Changes published.', { variant: 'success' })">Publish</UfButton>
+</template>`),
+        angular: code(`
+import { toast } from '@unframed/core/toast';
+
+// in your component
+publish() {
+  toast('Changes published.', { variant: 'success' });
+}`),
       },
     ],
   },

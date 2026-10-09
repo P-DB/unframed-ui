@@ -275,9 +275,13 @@ export class UfCombobox extends FormControl {
   override willUpdate(changed: PropertyValues<this>): void {
     if (changed.has('defaultValue') || this.#itemsChanged) {
       this.#itemsChanged = false;
-      if (!this.#hasInitialized || (this.value && !this.#selected)) {
+      // Frameworks often connect the element before appending its options: wait for them.
+      if (this.#items.length && !this.#hasInitialized) {
+        // A value set before the options were read (e.g. by a framework) wins if it exists.
+        if (!(this.value && this.#selected)) this.value = this.#initialValue();
+        this.#hasInitialized = true;
+      } else if (this.#items.length && this.value && !this.#selected) {
         this.value = this.#initialValue();
-        this.#hasInitialized = this.#items.length > 0;
       }
     }
     if (changed.has('open') && !this.open) {

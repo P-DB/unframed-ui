@@ -1,0 +1,39 @@
+{
+  "name": "@unframed/vue",
+  "version": "0.0.0",
+  "description": "Vue components for Unframed web components, with v-model and typed props.",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "build": "npm run generate && rm -rf dist && tsc -p tsconfig.json",
+    "typecheck": "npm run generate && tsc -p tsconfig.json --noEmit && node scripts/vue-tsc.cjs -p test/types/tsconfig.json",
+    "test": "npm run generate && vitest run"
+  },
+  "dependencies": {
+    "@unframed/core": "0.0.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.3",
+    "vue": "^3.5.43",
+    "vue-tsc": "^3.3.12"
+  }
+}

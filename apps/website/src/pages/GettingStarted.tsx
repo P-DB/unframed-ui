@@ -76,6 +76,76 @@ export function DeleteButton() {
           },
         ]}
       />
+
+      <h2>Vue</h2>
+      <p>
+        <code>@unframed/vue</code> has a Vue component for every element, with typed props and events in your templates
+        and <code>v-model</code> on every form control (checkboxes and switches bind <code>checked</code>).
+      </p>
+      <CodeBlock standalone samples={[{ label: 'Terminal', code: 'npm install @unframed/vue @unframed/tokens' }]} />
+      <CodeBlock
+        standalone
+        samples={[
+          {
+            label: 'Vue',
+            code: `<script setup lang="ts">
+import '@unframed/tokens/tokens.css';
+import { UfButton, UfCheckbox, UfInput } from '@unframed/vue';
+
+const email = ref('');
+const agree = ref(false);
+</script>
+
+<template>
+  <UfInput v-model="email" type="email" label="Email" required />
+  <UfCheckbox v-model="agree">I accept the terms</UfCheckbox>
+  <UfButton :disabled="!agree" @click="save">Save</UfButton>
+</template>`,
+          },
+          {
+            label: 'Register globally',
+            code: `import { UnframedVue } from '@unframed/vue';
+
+createApp(App).use(UnframedVue).mount('#app');`,
+          },
+        ]}
+      />
+      <p>
+        Prefer the plain <code>&lt;uf-*&gt;</code> tags? Tell Vue they're custom elements with{' '}
+        <code>isCustomElement: isUnframedElement</code> in your Vite config's <code>template.compilerOptions</code>.
+      </p>
+
+      <h2>Angular</h2>
+      <p>
+        <code>@unframed/angular</code> provides standalone components with typed inputs and outputs, and form directives,
+        so <code>ngModel</code>, <code>formControl</code> and <code>formControlName</code> work with every form control.
+        No <code>CUSTOM_ELEMENTS_SCHEMA</code> needed.
+      </p>
+      <CodeBlock standalone samples={[{ label: 'Terminal', code: 'npm install @unframed/angular @unframed/tokens' }]} />
+      <CodeBlock
+        standalone
+        samples={[
+          {
+            label: 'Angular',
+            code: `import { Component } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { UNFRAMED } from '@unframed/angular';
+
+@Component({
+  selector: 'app-signup',
+  imports: [UNFRAMED, ReactiveFormsModule],
+  template: \`
+    <uf-input [formControl]="email" type="email" label="Email" required />
+    <uf-button [disabled]="email.invalid" (click)="save()">Save</uf-button>
+  \`,
+})
+export class SignupComponent {
+  email = new FormControl('');
+}`,
+          },
+          { label: 'Styles', code: `// angular.json → "styles": ["node_modules/@unframed/tokens/dist/tokens.css"]` },
+        ]}
+      />
     </article>
   );
 }

@@ -8,6 +8,8 @@
     "packages/tokens",
     "packages/core",
     "packages/react",
+    "packages/vue",
+    "packages/angular",
     "packages/cli",
     "apps/storybook",
     "apps/website"

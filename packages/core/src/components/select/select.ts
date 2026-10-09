@@ -157,10 +157,15 @@ export class UfSelect extends FormControl {
     const defaultChanged = changed.has('defaultValue') || changed.has('placeholder') || this.#itemsChanged;
     if (!defaultChanged) return;
     this.#itemsChanged = false;
-    // Follow the default until the user (or code) picks something else.
-    if (!this.#hasInitialized || !this.#options.some((o) => o.value === this.value)) {
+    // Frameworks often connect the element before appending its options: wait for them.
+    if (!this.#items.length) return;
+    const valid = this.#options.some((o) => o.value === this.value);
+    if (!this.#hasInitialized) {
+      // A value set before the options were read (e.g. by a framework) wins if it exists.
+      if (!(this.value && valid)) this.value = this.#initialValue();
+      this.#hasInitialized = true;
+    } else if (!valid) {
       this.value = this.#initialValue();
-      this.#hasInitialized = this.#items.length > 0;
     }
   }
 
