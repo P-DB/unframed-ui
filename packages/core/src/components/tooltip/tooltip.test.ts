@@ -30,6 +30,15 @@ describe('uf-tooltip', () => {
     expect(button.shadowRoot!.querySelector('button')!.getAttribute('aria-description')).toBe('Save changes');
   });
 
+  it('does not repeat a label the trigger already has', async () => {
+    const el = await fixture<UfTooltip>(
+      '<main><uf-tooltip content="Search"><uf-button label="Search">S</uf-button></uf-tooltip></main>',
+      'uf-tooltip',
+    );
+    await settle();
+    expect(el.querySelector('uf-button')!.hasAttribute('aria-description')).toBe(false);
+  });
+
   it('shows on focus and hides on Escape', async () => {
     const el = await fixture<UfTooltip>(markup, 'uf-tooltip');
     el.querySelector('uf-button')!.focus();

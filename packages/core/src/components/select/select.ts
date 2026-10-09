@@ -3,39 +3,12 @@ import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
 import { defineElement } from '../../internal/define.js';
-import { controlBoxStyles, describedBy, fieldStyles, renderField } from '../../internal/field.js';
+import { controlBoxStyles, describedBy, fieldStyles, renderField, type FieldSize } from '../../internal/field.js';
 import { FormControl } from '../../internal/form-control.js';
 import { iconSvg, icons } from '../../internal/icons.js';
 import { hostStyles } from '../../internal/shared.styles.js';
 import { HasSlotController, uniqueId } from '../../internal/slot.js';
-import type { FieldSize } from '../input/input.js';
-
-interface OptionItem {
-  kind: 'option';
-  value: string;
-  label: string;
-  disabled: boolean;
-  selected: boolean;
-}
-
-interface GroupItem {
-  kind: 'group';
-  label: string;
-  disabled: boolean;
-  options: OptionItem[];
-}
-
-type Item = OptionItem | GroupItem;
-
-function readOption(option: HTMLOptionElement): OptionItem {
-  return {
-    kind: 'option',
-    value: option.value,
-    label: option.label || option.textContent?.trim() || '',
-    disabled: option.disabled,
-    selected: option.hasAttribute('selected'),
-  };
-}
+import { flattenOptions, readItems, type Item, type OptionItem } from '../../internal/options.js';
 
 /**
  * A dropdown built on the native `<select>`, so it gets the platform's
@@ -160,25 +133,12 @@ export class UfSelect extends FormControl {
   }
 
   get #options(): OptionItem[] {
-    return this.#items.flatMap((item) => (item.kind === 'group' ? item.options : [item]));
+    return flattenOptions(this.#items);
   }
 
   /** Mirrors the light-DOM options into the native select. */
   #readItems(): void {
-    this.#items = [...this.children].flatMap((child): Item[] => {
-      if (child instanceof HTMLOptionElement) return [readOption(child)];
-      if (child instanceof HTMLOptGroupElement) {
-        return [
-          {
-            kind: 'group',
-            label: child.label,
-            disabled: child.disabled,
-            options: [...child.querySelectorAll('option')].map(readOption),
-          },
-        ];
-      }
-      return [];
-    });
+    this.#items = readItems(this);
     this.#itemsChanged = true;
     this.requestUpdate();
   }

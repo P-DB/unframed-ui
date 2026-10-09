@@ -4,8 +4,9 @@ import { autoUpdate, positionFloating, type Placement } from '../../internal/pos
 
 /**
  * A short label that appears on hover and keyboard focus. Wrap the element it
- * describes. The text is also set as the trigger's `aria-description`, so
- * screen reader users get it too. Don't put interactive content in a tooltip.
+ * describes. The text is also set as the trigger's `aria-description` (unless it
+ * repeats the trigger's own label), so screen reader users get it too. Don't put
+ * interactive content in a tooltip.
  *
  * @summary Shows a short hint for the element it wraps.
  * @tag uf-tooltip
@@ -112,10 +113,12 @@ export class UfTooltip extends LitElement {
     this.#cleanup?.();
   }
 
+  /** Shows the tooltip, unless it's disabled. */
   show(): void {
     if (!this.disabled) this.open = true;
   }
 
+  /** Hides the tooltip. */
   hide(): void {
     clearTimeout(this.#timer);
     this.open = false;
@@ -124,7 +127,10 @@ export class UfTooltip extends LitElement {
   override updated(changed: PropertyValues<this>): void {
     const trigger = this.#trigger;
     if (trigger && changed.has('content')) {
-      trigger.setAttribute('aria-description', this.content);
+      // Skip when the tooltip repeats the trigger's name (icon buttons), or it's read twice.
+      const name = trigger.getAttribute('aria-label') ?? (trigger as HTMLElement & { label?: string }).label;
+      if (this.content && this.content !== name) trigger.setAttribute('aria-description', this.content);
+      else trigger.removeAttribute('aria-description');
     }
     const body = this.#body;
     if (!changed.has('open') || !body) return;

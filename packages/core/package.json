@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf dist && tsc -p tsconfig.build.json && npm run analyze",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json && npm run analyze && node scripts/check-docs.mjs",
     "analyze": "custom-elements-manifest analyze",
     "test": "vitest run",
     "test:watch": "vitest",

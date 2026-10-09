@@ -40,6 +40,12 @@ document.querySelector('#confirm-delete')!.addEventListener('click', () => {
   toast('The project was deleted.', { variant: 'danger', title: 'Deleted' });
 });
 
+document.addEventListener('uf-select', (event) => {
+  const { value, item } = (event as CustomEvent<{ value: string; item: { type: string; checked: boolean } }>).detail;
+  const state = item.type === 'checkbox' ? (item.checked ? ' (on)' : ' (off)') : '';
+  toast(`Menu: ${value}${state}`);
+});
+
 const messages: Record<ToastVariant, string> = {
   neutral: 'Draft saved.',
   info: 'A new version is available.',

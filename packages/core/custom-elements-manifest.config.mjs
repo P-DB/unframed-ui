@@ -13,5 +13,25 @@ export default {
         for (const mod of customElementsManifest.modules) mod.path = toDist(mod.path);
       },
     },
+    {
+      // Keeps the documented API public-only: no statics (styles, properties,
+      // shadowRootOptions…), private (#) or protected members, or @internal ones.
+      name: 'unframed-public-api',
+      packageLinkPhase({ customElementsManifest }) {
+        for (const mod of customElementsManifest.modules) {
+          for (const declaration of mod.declarations ?? []) {
+            if (!declaration.members) continue;
+            declaration.members = declaration.members.filter(
+              (m) =>
+                !m.static &&
+                !m.name.startsWith('#') &&
+                m.privacy !== 'private' &&
+                m.privacy !== 'protected' &&
+                !/@internal/.test(m.description ?? ''),
+            );
+          }
+        }
+      },
+    },
   ],
 };

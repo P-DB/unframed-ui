@@ -1,4 +1,4 @@
-import { LitElement, css, html, type PropertyDeclarations, type PropertyValues } from 'lit';
+import { LitElement, css, html, type CSSResultGroup, type PropertyDeclarations, type PropertyValues } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { defineElement } from '../../internal/define.js';
 import { autoUpdate, positionFloating, type Placement } from '../../internal/position.js';
@@ -24,7 +24,7 @@ import { hostStyles } from '../../internal/shared.styles.js';
  * @cssprop --uf-popover-width - Width of the panel. Defaults to its content.
  */
 export class UfPopover extends LitElement {
-  static override styles = [
+  static override styles: CSSResultGroup = [
     hostStyles,
     css`
       :host {
@@ -82,6 +82,7 @@ export class UfPopover extends LitElement {
 
   #cleanup?: () => void;
   #openAtPointerDown: boolean | undefined;
+  #restoreFocus = false;
 
   constructor() {
     super();
@@ -90,23 +91,43 @@ export class UfPopover extends LitElement {
     this.distance = 6;
   }
 
-  get #panel(): HTMLElement | null {
+  protected get panel(): HTMLElement | null {
     return this.renderRoot.querySelector('.panel');
   }
 
-  get #trigger(): HTMLElement | undefined {
+  protected get trigger(): HTMLElement | undefined {
     const slot = this.renderRoot.querySelector<HTMLSlotElement>('slot[name="trigger"]');
     return slot?.assignedElements()[0] as HTMLElement | undefined;
   }
 
+  /** What the panel is, for `aria-haspopup` and the panel's role. Subclasses override it. */
+  protected get popupKind(): 'dialog' | 'menu' {
+    return 'dialog';
+  }
+
+  /** Called after the panel opened. */
+  protected afterShow(): void {}
+
+  /** Keys pressed on the trigger. */
+  protected onTriggerKeyDown(_event: KeyboardEvent): void {}
+
+  /** True when focus is in the panel's content (light-DOM children other than the trigger). */
+  protected get focusInPanel(): boolean {
+    const active = document.activeElement;
+    return Boolean(active && this.contains(active) && !this.trigger?.contains(active));
+  }
+
+  /** Opens the popover. */
   show(): void {
     this.open = true;
   }
 
+  /** Closes the popover. */
   hide(): void {
     this.open = false;
   }
 
+  /** Opens the popover if closed, closes it if open. */
   toggle(): void {
     this.open = !this.open;
   }
@@ -117,9 +138,9 @@ export class UfPopover extends LitElement {
   }
 
   override updated(changed: PropertyValues<this>): void {
-    const panel = this.#panel;
-    const trigger = this.#trigger;
-    trigger?.setAttribute('aria-haspopup', 'dialog');
+    const panel = this.panel;
+    const trigger = this.trigger;
+    trigger?.setAttribute('aria-haspopup', this.popupKind);
     trigger?.setAttribute('aria-expanded', String(this.open));
     if (!changed.has('open') || !panel) return;
 
@@ -127,10 +148,16 @@ export class UfPopover extends LitElement {
       panel.showPopover();
       if (trigger) this.#cleanup = autoUpdate(trigger, panel, () => positionFloating(trigger, panel, this.placement, this.distance));
       this.dispatchEvent(new Event('uf-show', { bubbles: true, composed: true }));
+      this.afterShow();
     } else if (!this.open && panel.matches(':popover-open')) {
       panel.hidePopover();
     }
   }
+
+  #onBeforeToggle = (event: ToggleEvent): void => {
+    // Checked before the panel hides, while focus is still inside it.
+    if (event.newState === 'closed') this.#restoreFocus = this.focusInPanel;
+  };
 
   /** Keeps `open` in sync when the browser closes the popover (Escape, outside click). */
   #onToggle = (event: ToggleEvent): void => {
@@ -138,6 +165,9 @@ export class UfPopover extends LitElement {
       this.#cleanup?.();
       this.#cleanup = undefined;
       this.open = false;
+      // Focus would otherwise fall back to <body>.
+      if (this.#restoreFocus) this.trigger?.focus();
+      this.#restoreFocus = false;
       this.dispatchEvent(new Event('uf-hide', { bubbles: true, composed: true }));
     }
   };
@@ -160,14 +190,16 @@ export class UfPopover extends LitElement {
         name="trigger"
         @pointerdown=${this.#onTriggerPointerDown}
         @click=${this.#onTriggerClick}
+        @keydown=${(event: KeyboardEvent) => this.onTriggerKeyDown(event)}
         @slotchange=${() => this.requestUpdate()}
       ></slot>
       <div
         class="panel"
         part="panel"
         popover="auto"
-        role="dialog"
-        aria-label=${ifDefined(this.label ?? (this.#trigger?.textContent?.trim() || undefined))}
+        role=${ifDefined(this.popupKind === 'dialog' ? 'dialog' : undefined)}
+        aria-label=${ifDefined(this.popupKind === 'dialog' ? (this.label ?? (this.trigger?.textContent?.trim() || undefined)) : undefined)}
+        @beforetoggle=${this.#onBeforeToggle}
         @toggle=${this.#onToggle}
       >
         <slot></slot>

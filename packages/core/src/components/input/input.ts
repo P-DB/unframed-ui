@@ -3,13 +3,14 @@ import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
 import { defineElement } from '../../internal/define.js';
-import { controlBoxStyles, describedBy, fieldStyles, renderField } from '../../internal/field.js';
+import { controlBoxStyles, describedBy, fieldStyles, renderField, type FieldSize } from '../../internal/field.js';
 import { FormControl } from '../../internal/form-control.js';
 import { hostStyles } from '../../internal/shared.styles.js';
 import { HasSlotController, uniqueId } from '../../internal/slot.js';
 
+export type { FieldSize };
+
 export type InputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url' | 'number' | 'date' | 'time';
-export type FieldSize = 'sm' | 'md' | 'lg';
 
 /**
  * A single-line text field with a built-in label, hint and validation message.

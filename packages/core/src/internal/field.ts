@@ -1,6 +1,9 @@
 import { css, html, nothing, type TemplateResult } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 
+/** Size of a form field. */
+export type FieldSize = 'sm' | 'md' | 'lg';
+
 export interface FieldParts {
   /** Id of the native control the label points at. */
   controlId: string;

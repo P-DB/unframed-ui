@@ -48,18 +48,22 @@ export abstract class FormControl extends LitElement {
     return this.internals.form;
   }
 
+  /** The control's validity state, like a native input's. */
   get validity(): ValidityState {
     return this.internals.validity;
   }
 
+  /** The error message shown when the value is invalid. */
   get validationMessage(): string {
     return this.internals.validationMessage;
   }
 
+  /** Whether the control takes part in form validation. */
   get willValidate(): boolean {
     return this.internals.willValidate;
   }
 
+  /** Returns whether the value is valid, without showing an error. */
   checkValidity(): boolean {
     this.#checking = true;
     try {
@@ -69,6 +73,7 @@ export abstract class FormControl extends LitElement {
     }
   }
 
+  /** Returns whether the value is valid, and shows the error if not. */
   reportValidity(): boolean {
     this.markInteracted();
     return this.internals.reportValidity();

@@ -1,15 +1,24 @@
+export { UfAccordion, UfAccordionItem } from './components/accordion/accordion.js';
+
 export { UfButton } from './components/button/button.js';
 export type { ButtonSize, ButtonType, ButtonVariant } from './components/button/button.js';
 
 export { UfCheckbox } from './components/checkbox/checkbox.js';
 
+export { UfCombobox } from './components/combobox/combobox.js';
+
 export { UfDialog } from './components/dialog/dialog.js';
 export type { DialogCloseSource, DialogRequestCloseDetail } from './components/dialog/dialog.js';
+
+export { UfDropdown } from './components/dropdown/dropdown.js';
 
 export { UfIcon, registerIcons } from './components/icon/icon.js';
 
 export { UfInput } from './components/input/input.js';
 export type { FieldSize, InputType } from './components/input/input.js';
+
+export { UfMenu, UfMenuItem } from './components/menu/menu.js';
+export type { MenuSelectDetail } from './components/menu/menu.js';
 
 export { UfPopover } from './components/popover/popover.js';
 

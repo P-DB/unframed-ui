@@ -132,6 +132,24 @@
           </uf-select>
           <uf-input name="age" type="number" label="Age" min="18" max="120" value="30"></uf-input>
         </div>
+        <uf-combobox name="timezone" label="Time zone" placeholder="Search time zones" hint="Type to filter">
+          <optgroup label="Europe">
+            <option value="Europe/Rome">Rome</option>
+            <option value="Europe/Paris">Paris</option>
+            <option value="Europe/Berlin">Berlin</option>
+            <option value="Europe/London">London</option>
+            <option value="Europe/Madrid">Madrid</option>
+          </optgroup>
+          <optgroup label="Americas">
+            <option value="America/New_York">New York</option>
+            <option value="America/Los_Angeles">Los Angeles</option>
+            <option value="America/Sao_Paulo">São Paulo</option>
+          </optgroup>
+          <optgroup label="Asia">
+            <option value="Asia/Tokyo">Tokyo</option>
+            <option value="Asia/Singapore">Singapore</option>
+          </optgroup>
+        </uf-combobox>
         <uf-textarea name="bio" label="Bio" resize="auto" rows="3" maxlength="280" hint="Up to 280 characters."></uf-textarea>
         <uf-radio-group name="plan" label="Plan" value="pro" orientation="horizontal">
           <uf-radio value="free">Free</uf-radio>
@@ -163,6 +181,19 @@
         <uf-tab-panel name="archived">Nothing here.</uf-tab-panel>
       </uf-tabs>
 
+      <h2>Accordion</h2>
+      <uf-accordion>
+        <uf-accordion-item summary="What is Unframed?" open>
+          A library of web components that work in any framework, or none.
+        </uf-accordion-item>
+        <uf-accordion-item summary="Can I use it with React?">
+          Yes. Use the elements directly in React 19, or the typed wrappers from @unframed/react.
+        </uf-accordion-item>
+        <uf-accordion-item summary="How do I change the colors?">
+          Override the --uf-* custom properties, globally or per component.
+        </uf-accordion-item>
+      </uf-accordion>
+
       <h2>Overlays</h2>
       <div class="row">
         <uf-button id="open-dialog" variant="danger">Delete project…</uf-button>
@@ -176,6 +207,22 @@
             <uf-switch>Only mine</uf-switch>
           </div>
         </uf-popover>
+        <uf-dropdown>
+          <uf-button slot="trigger" variant="secondary">
+            Actions<uf-icon slot="suffix" name="chevron-down"></uf-icon>
+          </uf-button>
+          <uf-menu label="Project actions">
+            <uf-menu-item value="edit">Edit<span slot="suffix">⌘E</span></uf-menu-item>
+            <uf-menu-item value="duplicate">Duplicate<span slot="suffix">⌘D</span></uf-menu-item>
+            <uf-menu-item value="share">Share</uf-menu-item>
+            <uf-menu-item value="archive" disabled>Archive</uf-menu-item>
+            <hr />
+            <uf-menu-item value="pin" type="checkbox" checked>Pinned</uf-menu-item>
+            <uf-menu-item value="watch" type="checkbox">Watching</uf-menu-item>
+            <hr />
+            <uf-menu-item value="delete">Delete</uf-menu-item>
+          </uf-menu>
+        </uf-dropdown>
         <uf-tooltip content="Tooltips show on hover and keyboard focus" placement="bottom">
           <uf-button variant="secondary">Hover or focus me</uf-button>
         </uf-tooltip>
