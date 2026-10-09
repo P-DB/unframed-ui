@@ -7,3 +7,5 @@ packages/core/custom-elements.json
 packages/react/src/generated/
 __screenshots__/
 .vitest/
+packages/cli/registry.json
+packages/cli/.tmp/

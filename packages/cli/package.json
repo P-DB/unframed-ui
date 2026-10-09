@@ -1,0 +1,29 @@
+{
+  "name": "@unframed/cli",
+  "version": "0.0.0",
+  "description": "Copy Unframed web components into your project, and own the code.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "unframed": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "registry.json"
+  ],
+  "scripts": {
+    "registry": "node scripts/build-registry.mjs",
+    "build": "npm run registry && rm -rf dist && tsc -p tsconfig.json",
+    "test": "npm run build && vitest run",
+    "typecheck": "npm run registry && tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "sucrase": "^3.35.1"
+  }
+}

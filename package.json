@@ -7,7 +7,10 @@
   "workspaces": [
     "packages/tokens",
     "packages/core",
-    "packages/react"
+    "packages/react",
+    "packages/cli",
+    "apps/storybook",
+    "apps/website"
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
@@ -15,7 +18,9 @@
     "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "changeset": "changeset",
-    "release": "npm run build && changeset publish"
+    "release": "npm run build && changeset publish",
+    "storybook": "npm run storybook -w @unframed/storybook",
+    "website": "npm run dev -w @unframed/website"
   },
   "engines": {
     "node": ">=20"
