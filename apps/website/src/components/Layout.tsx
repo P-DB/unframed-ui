@@ -40,12 +40,12 @@ export function Layout() {
 
   return (
     <>
-      <header className="site-header">
+      <header className="site-header" data-uf-theme="dark">
         <div className="site-header-inner">
           <NavLink to="/" className="logo">
             <span className="logo-mark">
               <svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true">
-                <path d="M9 8v10a7 7 0 0 0 14 0V8" fill="none" stroke="#fff" strokeWidth="3.5" />
+                <path d="M9 8v10a7 7 0 0 0 14 0V8" fill="none" stroke="currentColor" strokeWidth="3.5" />
               </svg>
             </span>
             Unframed

@@ -82,6 +82,8 @@ export class UfButton extends LitElement {
   static #forwardedAria = ['aria-expanded', 'aria-haspopup', 'aria-pressed', 'aria-current', 'aria-description'];
 
   readonly #internals = this.attachInternals();
+  /** True when the default slot has no text or elements: an icon-only button. */
+  #iconOnly = false;
   readonly #ariaObserver = new MutationObserver(() => this.requestUpdate());
   /** Set when an ancestor `<fieldset disabled>` disables the button. */
   #formDisabled = false;
@@ -110,6 +112,21 @@ export class UfButton extends LitElement {
   #aria(name: string): string | undefined {
     return this.getAttribute(name) ?? undefined;
   }
+
+  // slotchange doesn't fire for a slot that starts empty, so check after the first render too.
+  override firstUpdated(): void {
+    this.#onLabelChange();
+  }
+
+  #onLabelChange = (): void => {
+    const slot = this.renderRoot.querySelector<HTMLSlotElement>('.label slot');
+    const nodes = slot?.assignedNodes({ flatten: true }) ?? [];
+    const iconOnly = !nodes.some((n) => n.nodeType === Node.ELEMENT_NODE || n.textContent?.trim());
+    if (iconOnly !== this.#iconOnly) {
+      this.#iconOnly = iconOnly;
+      this.requestUpdate();
+    }
+  };
 
   /** The form this button belongs to, if any. */
   get form(): HTMLFormElement | null {
@@ -141,10 +158,10 @@ export class UfButton extends LitElement {
 
   override render() {
     const disabled = this.#isDisabled;
-    const classes = classMap({ base: true, disabled, loading: this.loading });
+    const classes = classMap({ base: true, disabled, loading: this.loading, 'icon-only': this.#iconOnly });
     const content = html`
       <slot name="prefix" part="prefix"></slot>
-      <span class="label" part="label"><slot></slot></span>
+      <span class="label" part="label"><slot @slotchange=${this.#onLabelChange}></slot></span>
       <slot name="suffix" part="suffix"></slot>
       ${this.loading ? html`<span class="spinner" part="spinner" aria-hidden="true"></span>` : nothing}
     `;

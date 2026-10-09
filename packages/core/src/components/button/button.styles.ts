@@ -86,6 +86,16 @@ export const buttonStyles = [
         color var(--uf-duration-fast) ease;
     }
 
+    /* Icon-only: no empty label (its gaps pushed the icon off-center), and square. */
+    .base.icon-only {
+      width: var(--uf-button-height, var(--_height));
+      padding: 0;
+    }
+
+    .base.icon-only .label {
+      display: none;
+    }
+
     .base:hover {
       background: var(--uf-button-bg-hover, var(--_bg-hover));
       color: var(--uf-button-color, var(--_fg-hover, var(--_fg)));

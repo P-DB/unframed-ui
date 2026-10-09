@@ -115,6 +115,18 @@ describe('uf-button', () => {
     expect(inner(el).getAttribute('aria-label')).toBe('Close');
   });
 
+  it('centers the icon in a square when there is no text', async () => {
+    const el = await fixture<UfButton>(
+      '<uf-button label="Search"><svg slot="prefix" viewBox="0 0 24 24"></svg></uf-button>',
+    );
+    await new Promise((r) => setTimeout(r));
+    await el.updateComplete;
+    const base = inner(el).getBoundingClientRect();
+    const icon = el.querySelector('svg')!.getBoundingClientRect();
+    expect(base.width).toBe(base.height);
+    expect(Math.round(icon.left - base.left)).toBe(Math.round(base.right - icon.right));
+  });
+
   it('forwards ARIA state from the host to the inner button', async () => {
     const el = await fixture<UfButton>('<uf-button aria-expanded="false">Menu</uf-button>');
     expect(inner(el).getAttribute('aria-expanded')).toBe('false');

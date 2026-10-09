@@ -56,7 +56,7 @@ export class UfSwitch extends ToggleControl {
       }
 
       .native:checked {
-        background: var(--uf-switch-checked-bg, var(--uf-color-accent-strong));
+        background: var(--uf-switch-checked-bg, var(--uf-color-accent));
       }
 
       .invalid .native {
