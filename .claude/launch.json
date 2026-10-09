@@ -10,6 +10,29 @@
       ],
       "port": 5180,
       "autoPort": true
+    },
+    {
+      "name": "storybook",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "storybook",
+        "-w",
+        "@unframed/storybook"
+      ],
+      "port": 6006
+    },
+    {
+      "name": "website",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "-w",
+        "@unframed/website"
+      ],
+      "port": 5190,
+      "autoPort": true
     }
   ]
 }

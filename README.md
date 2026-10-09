@@ -13,6 +13,7 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | [`@unframed/core`](packages/core) | The web components (`<uf-button>`, …) |
 | [`@unframed/tokens`](packages/tokens) | Design tokens as CSS custom properties (light + dark) |
 | [`@unframed/react`](packages/react) | Typed React wrappers, generated from the components' manifest |
+| [`@unframed/cli`](packages/cli) | Copies components into your project so you own the code |
 
 ## Components
 
@@ -23,10 +24,13 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | Input | `<uf-input>` | Label, hint and validation built in; form-associated |
 | Textarea | `<uf-textarea>` | `resize="auto"` grows with content |
 | Select | `<uf-select>` | Wraps the native `<select>`: write plain `<option>` children |
+| Combobox | `<uf-combobox>` | Searchable, fully styled list; same `<option>` children as select |
 | Checkbox | `<uf-checkbox>` | Indeterminate state |
 | Switch | `<uf-switch>` | `role="switch"` |
 | Radio group | `<uf-radio-group>` + `<uf-radio>` | Arrow-key navigation, roving focus |
 | Tabs | `<uf-tabs>` + `<uf-tab>` + `<uf-tab-panel>` | Automatic or manual activation, vertical layout |
+| Accordion | `<uf-accordion>` + `<uf-accordion-item>` | Native `<details>`, one or many open, arrow keys, find-in-page |
+| Dropdown menu | `<uf-dropdown>` + `<uf-menu>` + `<uf-menu-item>` | Menu-button pattern, typeahead, checkbox items, `<hr>` separators |
 | Dialog | `<uf-dialog>` | Native modal `<dialog>`, cancellable close, `data-dialog="close"` |
 | Popover | `<uf-popover>` | Popover API, flips at viewport edges |
 | Tooltip | `<uf-tooltip>` | Hover and focus, Escape to dismiss, exposed as `aria-description` |
@@ -63,6 +67,19 @@ import { toast } from '@unframed/core/toast';
 
 toast('Saved', { variant: 'success' });
 ```
+
+### Own the code
+
+Prefer to edit components yourself? Copy them into your project instead of installing them:
+
+```bash
+npx @unframed/cli init          # choose a folder, TS or JS, and how to get the tokens
+npx @unframed/cli add dialog combobox
+```
+
+This copies each component's source, plus the shared helpers and other components it needs, into `src/components/uf-ui/` (configurable in `unframed.json`). The files are yours: change anything. `add` never overwrites a file you edited unless you pass `--overwrite`, and `npx @unframed/cli diff` shows how your copies differ from the latest version. `npx @unframed/cli add tokens` copies the tokens CSS too.
+
+Use each component either from npm or as a copy, not both: they register the same tag (e.g. `<uf-button>`).
 
 ### React
 
@@ -112,12 +129,23 @@ Dark mode follows `prefers-color-scheme` automatically. Force a theme with `data
 - Form controls are form-associated through `ElementInternals`.
 - Every component has an axe accessibility test.
 
+## Apps
+
+| App | What | Run |
+|---|---|---|
+| [`apps/storybook`](apps/storybook) | Workbench: every component with live controls, API tables from `custom-elements.json`, and axe checks per story | `npm run storybook` → http://localhost:6006 |
+| [`apps/website`](apps/website) | Public docs and showcase (React + React Router), dogfooding `@unframed/react` | `npm run website` → http://localhost:5190 |
+
+Both read the component sources directly, so edits show up without rebuilding. API tables on both come from the same manifest; the core build fails if a public attribute, property, method or event has no JSDoc description.
+
 ## Development
 
 ```bash
 npm install
 npx playwright install chromium   # once, for browser tests
 npm run dev        # playground at http://localhost:5180
+npm run storybook  # Storybook at http://localhost:6006
+npm run website    # docs site at http://localhost:5190
 npm run build      # tokens → core (+ manifest) → react wrappers
 npm test           # Vitest browser mode in headless Chromium
 npm run changeset  # describe a change for the next release

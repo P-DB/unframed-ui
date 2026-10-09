@@ -1,0 +1,32 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Unframed
+
+Framework-agnostic web components built with Lit. They work in React, Vue, Angular, Svelte, Astro or plain HTML.
+
+This Storybook is the workbench for building and testing components. Every component page shows:
+
+- **Controls** to try each attribute live.
+- **An API table** generated from the component's JSDoc via `custom-elements.json`: attributes, properties, slots, CSS parts, CSS custom properties and events.
+- **An accessibility panel** that runs axe on every story.
+
+Switch between light and dark with the **Theme** button in the toolbar.
+
+## Using a component
+
+```js
+import '@unframed/tokens/tokens.css';
+import '@unframed/core/button';
+```
+
+```html
+<uf-button variant="primary">Save</uf-button>
+```
+
+Or copy the source into your project and own it:
+
+```bash
+npx @unframed/cli add button
+```

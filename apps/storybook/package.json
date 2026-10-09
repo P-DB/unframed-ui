@@ -1,0 +1,19 @@
+{
+  "name": "@unframed/storybook",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prestorybook": "npm run build -w @unframed/tokens && npm run analyze -w @unframed/core",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "prebuild-storybook": "npm run build -w @unframed/tokens && npm run analyze -w @unframed/core",
+    "build-storybook": "storybook build -o dist",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^10.6.1",
+    "@storybook/addon-docs": "^10.6.1",
+    "@storybook/web-components-vite": "^10.6.1",
+    "lit": "^3.3.3",
+    "storybook": "^10.6.1"
+  }
+}

@@ -1,0 +1,18 @@
+import { fileURLToPath } from 'node:url';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+
+const packages = fileURLToPath(new URL('../../packages', import.meta.url));
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    // Use the sources directly, so component edits show up without rebuilding the packages.
+    alias: [
+      { find: /^@unframed\/core$/, replacement: `${packages}/core/src/index.ts` },
+      { find: /^@unframed\/core\/([\w-]+)$/, replacement: `${packages}/core/src/components/$1/$1.ts` },
+      { find: /^@unframed\/react$/, replacement: `${packages}/react/src/index.ts` },
+    ],
+  },
+  server: { port: Number(process.env.PORT) || 5190 },
+});
