@@ -1,3 +1,9 @@
+/*
+ * Naming: BEM. Blocks (.block), elements (.block__element) and modifiers
+ * (.block--modifier / .block__element--modifier). Element selectors are only used
+ * in this base layer, for page typography.
+ */
+
 *,
 *::before,
 *::after {
@@ -22,26 +28,16 @@ a {
   color: var(--uf-color-accent-strong);
 }
 
-/* A soft purple light in the corners of the page, behind everything. */
-:root {
-  --glow: rgb(105 48 195 / 0.11);
-  --glow-soft: rgb(105 48 195 / 0.06);
-}
-
-:root[data-uf-theme='dark'] {
-  --glow: rgb(105 48 195 / 0.3);
-  --glow-soft: rgb(105 48 195 / 0.14);
-}
-
-body::before {
+/* A soft purple light in the corners of the page, behind everything. Dark theme only. */
+:root[data-uf-theme='dark'] body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(55rem 38rem at 100% 0%, var(--glow), transparent 70%),
-    radial-gradient(40rem 30rem at 0% 100%, var(--glow-soft), transparent 70%);
+    radial-gradient(55rem 38rem at 100% 0%, rgb(105 48 195 / 0.3), transparent 70%),
+    radial-gradient(40rem 30rem at 0% 100%, rgb(105 48 195 / 0.14), transparent 70%);
 }
 
 /* Syntax colors, used by the highlighter (src/highlight.ts). All >= 4.5:1 on the code background. */
@@ -103,6 +99,7 @@ h3 {
   margin: 2rem 0 0.75rem;
 }
 
+/* Lead paragraph under a page title */
 .lead {
   font-size: 1.125rem;
   color: var(--uf-color-text-muted);
@@ -110,7 +107,11 @@ h3 {
   margin: 0 0 2rem;
 }
 
-/* Header: our purple fading to black. Marked data-uf-theme="dark" in Layout.tsx,
+.lead--hero {
+  font-size: 1.25rem;
+}
+
+/* Site header: our purple fading to black. Marked data-uf-theme="dark" in Layout.tsx,
    so the components inside use their dark-theme colors in both site themes. */
 .site-header {
   position: sticky;
@@ -121,7 +122,7 @@ h3 {
   box-shadow: 0 1px 0 rgb(255 255 255 / 0.06);
 }
 
-.site-header-inner {
+.site-header__inner {
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -131,7 +132,7 @@ h3 {
   padding: 0 1rem;
 }
 
-.logo {
+.site-header__logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -141,7 +142,7 @@ h3 {
   text-decoration: none;
 }
 
-.logo-mark {
+.site-header__logo-mark {
   display: inline-grid;
   place-items: center;
   width: 1.75rem;
@@ -150,25 +151,25 @@ h3 {
   color: #6930c3;
 }
 
-.site-nav {
+.site-header__nav {
   display: flex;
   gap: 1.25rem;
   margin-inline-end: auto;
 }
 
-.site-nav a {
+.site-header__link {
   color: #e5dbf6; /* 5.6:1 even on the purple end of the header */
   text-decoration: none;
   font-size: 0.9375rem;
   font-weight: 500;
 }
 
-.site-nav a:hover,
-.site-nav a.active {
+.site-header__link:hover,
+.site-header__link--active {
   color: #fff;
 }
 
-/* Docs layout */
+/* Docs layout: sidebar + content */
 .docs-layout {
   display: grid;
   grid-template-columns: 14rem minmax(0, 1fr);
@@ -178,16 +179,26 @@ h3 {
   padding: 2.5rem 1rem 6rem;
 }
 
-.sidebar {
+.docs-layout__content {
+  min-width: 0;
+  max-width: 52rem;
+}
+
+/* Where the sidebar sits in the layout (mixed with the .sidebar block) */
+.docs-layout__sidebar {
   position: sticky;
   top: 6rem;
   align-self: start;
   max-height: calc(100vh - 7rem);
   overflow: auto;
+}
+
+/* Sidebar navigation */
+.sidebar {
   font-size: 0.9375rem;
 }
 
-.sidebar h4 {
+.sidebar__heading {
   margin: 1.5rem 0 0.5rem;
   color: var(--uf-color-text-muted);
   font-size: 0.75rem;
@@ -196,11 +207,11 @@ h3 {
   text-transform: uppercase;
 }
 
-.sidebar h4:first-child {
+.sidebar__heading:first-child {
   margin-top: 0;
 }
 
-.sidebar a {
+.sidebar__link {
   display: block;
   padding: 0.25rem 0.75rem;
   border-inline-start: 2px solid transparent;
@@ -208,19 +219,14 @@ h3 {
   text-decoration: none;
 }
 
-.sidebar a:hover {
+.sidebar__link:hover {
   color: var(--uf-color-text);
 }
 
-.sidebar a.active {
+.sidebar__link--active {
   border-color: var(--uf-color-accent-strong);
   color: var(--uf-color-text);
   font-weight: 500;
-}
-
-.docs-content {
-  min-width: 0;
-  max-width: 52rem;
 }
 
 @media (max-width: 800px) {
@@ -230,9 +236,13 @@ h3 {
     padding-top: 1.5rem;
   }
 
-  .sidebar {
+  .docs-layout__sidebar {
     position: static;
     max-height: none;
+  }
+
+  /* On phones the sidebar becomes a horizontal strip of links. */
+  .sidebar {
     display: flex;
     gap: 0.25rem;
     overflow-x: auto;
@@ -240,55 +250,57 @@ h3 {
     border-bottom: 1px solid var(--uf-color-border);
   }
 
-  .sidebar h4 {
+  .sidebar__heading {
     display: none;
   }
 
-  .sidebar a {
+  .sidebar__link {
     flex: none;
     border: 0;
     padding: 0.25rem 0.5rem;
   }
 
-  .site-nav {
+  .site-header__nav {
     gap: 0.75rem;
   }
 }
 
-/* Home */
+/* Home hero */
 .hero {
   max-width: 1200px;
   margin: 0 auto;
   padding: 5rem 1rem 3rem;
 }
 
-.hero h1 {
+.hero__title {
   max-width: 48rem;
   font-size: clamp(2.25rem, 6vw, 3.75rem);
   letter-spacing: -0.03em;
 }
 
-.hero h1 em {
+.hero__highlight {
   font-style: normal;
   color: var(--uf-color-accent-strong);
 }
 
-.hero .lead {
-  font-size: 1.25rem;
-}
-
-.hero-actions {
+.hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
 
+/* Full-width page section */
 .section {
   max-width: 1200px;
   margin: 0 auto;
   padding: 3rem 1rem;
 }
 
+.section__title {
+  margin-top: 0;
+}
+
+/* Feature list on the home page */
 .features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
@@ -301,21 +313,22 @@ h3 {
   background: color-mix(in srgb, var(--uf-color-surface) 75%, transparent);
 }
 
-.feature h3 {
-  margin: 0.75rem 0 0.5rem;
-}
-
-.feature p {
-  margin: 0;
-  color: var(--uf-color-text-muted);
-}
-
-.feature uf-icon {
+.feature__icon {
   --uf-icon-size: 1.5rem;
   color: var(--uf-color-accent-strong);
 }
 
-.cards {
+.feature__title {
+  margin: 0.75rem 0 0.5rem;
+}
+
+.feature__text {
+  margin: 0;
+  color: var(--uf-color-text-muted);
+}
+
+/* Component cards */
+.card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   gap: 1rem;
@@ -334,22 +347,22 @@ h3 {
   border-color: var(--uf-color-accent-strong);
 }
 
-.card strong {
+.card__title {
   display: block;
   margin-bottom: 0.25rem;
 }
 
-.card span {
+.card__text {
   color: var(--uf-color-text-muted);
   font-size: 0.9375rem;
 }
 
-/* Demos and code */
+/* Live demo with its code */
 .demo {
   border: 1px solid var(--uf-color-border);
 }
 
-.demo-preview {
+.demo__preview {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -357,21 +370,21 @@ h3 {
   padding: 2rem 1.5rem;
 }
 
-.demo-preview.stack {
+.demo__preview--stack {
   display: grid;
   max-width: 30rem;
 }
 
+/* Code with language tabs and a copy button */
 .code-block {
   border-top: 1px solid var(--uf-color-border);
 }
 
-.demo > .code-block:first-child,
-.code-block.standalone {
+.code-block--standalone {
   border: 1px solid var(--uf-color-border);
 }
 
-.code-tabs {
+.code-block__tabs {
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -380,7 +393,7 @@ h3 {
   background: var(--uf-color-surface-raised);
 }
 
-.code-tab {
+.code-block__tab {
   padding: 0.25rem 0.625rem;
   border: 0;
   background: transparent;
@@ -391,20 +404,20 @@ h3 {
   cursor: pointer;
 }
 
-.code-tab[aria-selected='true'] {
+.code-block__tab--active {
   background: var(--uf-color-accent-tint);
   color: var(--uf-color-on-accent-tint);
 }
 
-.code-tab:focus-visible {
+.code-block__tab:focus-visible {
   outline: 2px solid var(--uf-color-focus-ring);
 }
 
-.code-copy {
+.code-block__copy {
   margin-inline-start: auto;
 }
 
-.code-block pre {
+.code-block__panel {
   margin: 0;
   padding: 1rem 1.25rem;
   overflow-x: auto;
@@ -412,55 +425,68 @@ h3 {
   line-height: 1.6;
 }
 
-/* API tables */
-.api-table-wrap {
+/* Notes under an example */
+.example-notes {
+  margin: 1rem 0 0;
+  padding-inline-start: 1.25rem;
+  color: var(--uf-color-text-muted);
+  font-size: 0.9375rem;
+}
+
+.example-notes__item + .example-notes__item {
+  margin-top: 0.375rem;
+}
+
+/* API reference tables */
+.api-table {
   overflow-x: auto;
   border: 1px solid var(--uf-color-border);
 }
 
-.api-table {
+.api-table__table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
 }
 
-.api-table th,
-.api-table td {
+.api-table__row + .api-table__row {
+  border-top: 1px solid var(--uf-color-border);
+}
+
+.api-table__header,
+.api-table__cell {
   padding: 0.625rem 0.875rem;
-  border-bottom: 1px solid var(--uf-color-border);
   text-align: start;
   vertical-align: top;
 }
 
-.api-table tr:last-child td {
-  border-bottom: 0;
-}
-
-.api-table th {
+.api-table__header {
+  border-bottom: 1px solid var(--uf-color-border);
   background: var(--uf-color-surface-raised);
   color: var(--uf-color-text-muted);
   font-weight: 600;
   white-space: nowrap;
 }
 
-.api-table td:first-child code {
+.api-table__name {
   color: var(--uf-color-accent-strong);
   white-space: nowrap;
 }
 
-.api-table .type {
+.api-table__type {
   color: var(--uf-color-text-muted);
   font-family: var(--uf-font-family-mono);
   font-size: 0.8125rem;
 }
 
+/* Site footer */
 .site-footer {
   border-top: 1px solid var(--uf-color-border);
   color: var(--uf-color-text-muted);
   font-size: 0.875rem;
 }
 
-.site-footer div {
+.site-footer__inner {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;

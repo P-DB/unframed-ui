@@ -32,7 +32,7 @@ function Code({ code, lang }: { code: string; lang: Lang }) {
   return (
     <code>
       {tokens.map((line, i) => (
-        <span key={i} className="line">
+        <span key={i}>
           {line.map((token, j) => (
             <span
               key={j}
@@ -78,13 +78,13 @@ export function CodeBlock({ samples, standalone = false }: { samples: CodeSample
   };
 
   return (
-    <div className={`code-block${standalone ? ' standalone' : ''}`}>
-      <div className="code-tabs" role="tablist" aria-label="Code language" onKeyDown={onKeyDown}>
+    <div className={`code-block${standalone ? ' code-block--standalone' : ''}`}>
+      <div className="code-block__tabs" role="tablist" aria-label="Code language" onKeyDown={onKeyDown}>
         {samples.map((s, i) => (
           <button
             key={s.label}
             id={`${id}-tab-${i}`}
-            className="code-tab"
+            className={`code-block__tab${i === active ? ' code-block__tab--active' : ''}`}
             role="tab"
             aria-selected={i === active}
             aria-controls={`${id}-panel`}
@@ -94,11 +94,11 @@ export function CodeBlock({ samples, standalone = false }: { samples: CodeSample
             {s.label}
           </button>
         ))}
-        <UfButton className="code-copy" variant="ghost" size="sm" onClick={copy}>
+        <UfButton className="code-block__copy" variant="ghost" size="sm" onClick={copy}>
           Copy
         </UfButton>
       </div>
-      <pre id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${active}`} tabIndex={0}>
+      <pre id={`${id}-panel`} className="code-block__panel" role="tabpanel" aria-labelledby={`${id}-tab-${active}`} tabIndex={0}>
         <Code code={sample.code} lang={sample.lang ?? guessLang(sample.label, sample.code)} />
       </pre>
     </div>

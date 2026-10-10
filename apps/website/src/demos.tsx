@@ -1,9 +1,10 @@
-import { toast, type ToastVariant } from '@unframed/core';
+import { registerIcons, toast, type ToastVariant } from '@unframed/core';
 import {
   UfAccordion,
   UfAccordionItem,
   UfButton,
   UfCheckbox,
+  UfCheckboxGroup,
   UfCombobox,
   UfDialog,
   UfDropdown,
@@ -36,6 +37,8 @@ export interface Example {
   vue?: string;
   /** Defaults to the HTML: Angular uses the same tags. */
   angular?: string;
+  /** Short points shown under the example. */
+  notes?: string[];
 }
 
 export interface Page {
@@ -49,6 +52,13 @@ export interface Page {
 }
 
 const code = (s: string) => s.trim();
+
+// Registered once, at startup, like an app would: used by the Icon page's "Your own icons" example.
+registerIcons({
+  heart:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.3 1.3-6.6L2.5 9.5l6.6-.8z"/></svg>',
+});
 
 export const pages: Page[] = [
   {
@@ -127,7 +137,7 @@ export const pages: Page[] = [
         description: 'Errors appear after the user edits the field or tries to submit.',
         stack: true,
         Preview: () => (
-          <form className="stack" style={{ display: 'grid', gap: '1rem' }} noValidate onSubmit={(e) => {
+          <form style={{ display: 'grid', gap: '1rem' }} noValidate onSubmit={(e) => {
             e.preventDefault();
             const fields = [...e.currentTarget.querySelectorAll<HTMLElement & { reportValidity(): boolean }>('uf-input')];
             if (fields.map((f) => f.reportValidity()).every(Boolean)) toast('Subscribed', { variant: 'success' });
@@ -296,7 +306,7 @@ const email = ref('');
   {
     slug: 'checkbox',
     title: 'Checkbox',
-    tags: ['uf-checkbox'],
+    tags: ['uf-checkbox', 'uf-checkbox-group'],
     module: 'checkbox',
     examples: [
       {
@@ -319,6 +329,116 @@ const email = ref('');
 <UfCheckbox checked hint="One email a month.">Subscribe to the newsletter</UfCheckbox>
 <UfCheckbox indeterminate>Select all</UfCheckbox>
 <UfCheckbox disabled>Disabled</UfCheckbox>`),
+      },
+      {
+        title: 'Select all',
+        description:
+          'Inside `<uf-checkbox-group>`, a checkbox with `select-all` checks or unchecks the others, and turns indeterminate when only some are checked. The group\'s `value` lists the checked values.',
+        stack: true,
+        Preview: () => {
+          const [toppings, setToppings] = useState<string[]>(['olives']);
+          return (
+            <>
+              <UfCheckboxGroup
+                label="Toppings"
+                value={toppings}
+                onChange={(e) => setToppings([...(e.currentTarget as HTMLElement & { value: string[] }).value])}
+              >
+                <UfCheckbox selectAll>All toppings</UfCheckbox>
+                <UfCheckbox name="topping" value="cheese">Cheese</UfCheckbox>
+                <UfCheckbox name="topping" value="olives">Olives</UfCheckbox>
+                <UfCheckbox name="topping" value="basil">Basil</UfCheckbox>
+              </UfCheckboxGroup>
+              <span style={{ color: 'var(--uf-color-text-muted)', fontSize: '0.875rem' }}>
+                Selected: {toppings.length ? toppings.join(', ') : 'none'}
+              </span>
+            </>
+          );
+        },
+        html: code(`
+<uf-checkbox-group label="Toppings">
+  <uf-checkbox select-all>All toppings</uf-checkbox>
+  <uf-checkbox name="topping" value="cheese">Cheese</uf-checkbox>
+  <uf-checkbox name="topping" value="olives" checked>Olives</uf-checkbox>
+  <uf-checkbox name="topping" value="basil">Basil</uf-checkbox>
+</uf-checkbox-group>`),
+        react: code(`
+const [toppings, setToppings] = useState(['olives']);
+
+<UfCheckboxGroup label="Toppings" value={toppings} onChange={(e) => setToppings([...e.currentTarget.value])}>
+  <UfCheckbox selectAll>All toppings</UfCheckbox>
+  <UfCheckbox value="cheese">Cheese</UfCheckbox>
+  <UfCheckbox value="olives">Olives</UfCheckbox>
+  <UfCheckbox value="basil">Basil</UfCheckbox>
+</UfCheckboxGroup>`),
+        vue: code(`
+<script setup>
+const toppings = ref(['olives']);
+</script>
+
+<template>
+  <UfCheckboxGroup v-model="toppings" label="Toppings">
+    <UfCheckbox select-all>All toppings</UfCheckbox>
+    <UfCheckbox value="cheese">Cheese</UfCheckbox>
+    <UfCheckbox value="olives">Olives</UfCheckbox>
+    <UfCheckbox value="basil">Basil</UfCheckbox>
+  </UfCheckboxGroup>
+</template>`),
+        angular: code(`
+<!-- toppings = new FormControl<string[]>(['olives']) -->
+<uf-checkbox-group [formControl]="toppings" label="Toppings">
+  <uf-checkbox select-all>All toppings</uf-checkbox>
+  <uf-checkbox value="cheese">Cheese</uf-checkbox>
+  <uf-checkbox value="olives">Olives</uf-checkbox>
+  <uf-checkbox value="basil">Basil</uf-checkbox>
+</uf-checkbox-group>`),
+      },
+      {
+        title: 'Binding the indeterminate state',
+        description:
+          'A click clears `indeterminate`. To keep your own state in sync, use `v-model:indeterminate` in Vue, `[(indeterminate)]` in Angular, or read it in `onChange` in React.',
+        stack: true,
+        Preview: () => {
+          const [checked, setChecked] = useState(false);
+          const [some, setSome] = useState(true);
+          return (
+            <>
+              <UfCheckbox
+                checked={checked}
+                indeterminate={some}
+                onChange={(e) => {
+                  const box = e.currentTarget as HTMLElement & { checked: boolean; indeterminate: boolean };
+                  setChecked(box.checked);
+                  setSome(box.indeterminate);
+                }}
+              >
+                Notify me
+              </UfCheckbox>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <UfButton size="sm" variant="secondary" onClick={() => setSome(true)}>
+                  Make indeterminate
+                </UfButton>
+              </div>
+            </>
+          );
+        },
+        html: code(`<uf-checkbox indeterminate>Notify me</uf-checkbox>`),
+        react: code(`
+const [checked, setChecked] = useState(false);
+const [some, setSome] = useState(true);
+
+<UfCheckbox
+  checked={checked}
+  indeterminate={some}
+  onChange={(e) => {
+    setChecked(e.currentTarget.checked);
+    setSome(e.currentTarget.indeterminate);
+  }}
+>
+  Notify me
+</UfCheckbox>`),
+        vue: code(`<UfCheckbox v-model="checked" v-model:indeterminate="some">Notify me</UfCheckbox>`),
+        angular: code(`<uf-checkbox [(ngModel)]="checked" [(indeterminate)]="some">Notify me</uf-checkbox>`),
       },
     ],
   },
@@ -754,6 +874,69 @@ publish() {
         ),
         html: code(`<uf-icon name="check-circle" label="Done"></uf-icon>`),
         react: code(`<UfIcon name="check-circle" label="Done" />`),
+      },
+      {
+        title: 'Your own icons',
+        description:
+          'Call `registerIcons()` once, at startup, with SVG markup keyed by name. Then use the name like a built-in icon.',
+        Preview: () => (
+          <>
+            <UfIcon name="heart" label="Favorite" style={{ '--uf-icon-size': '1.5rem', color: 'var(--uf-color-danger-text)' } as React.CSSProperties} />
+            <UfIcon name="star" label="Starred" style={{ '--uf-icon-size': '1.5rem', color: 'var(--uf-color-warning)' } as React.CSSProperties} />
+            <UfButton variant="secondary">
+              <UfIcon slot="prefix" name="heart" />
+              Save
+            </UfButton>
+          </>
+        ),
+        html: code(`
+<script type="module">
+  import { registerIcons } from '@unframed/core/icon';
+
+  registerIcons({
+    heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">…</svg>',
+    star: '<svg viewBox="0 0 24 24" fill="currentColor">…</svg>',
+  });
+</script>
+
+<uf-icon name="heart" label="Favorite"></uf-icon>
+<uf-button><uf-icon slot="prefix" name="heart"></uf-icon>Save</uf-button>`),
+        react: code(`
+// main.tsx, once at startup
+import { registerIcons } from '@unframed/core/icon';
+import heart from './icons/heart.svg?raw'; // Vite: import the file as a string
+
+registerIcons({ heart });
+
+// anywhere
+<UfIcon name="heart" label="Favorite" />
+<UfButton><UfIcon slot="prefix" name="heart" />Save</UfButton>`),
+        vue: code(`
+// main.ts, once at startup
+import { registerIcons } from '@unframed/core/icon';
+import heart from './icons/heart.svg?raw';
+
+registerIcons({ heart });
+
+<!-- any template -->
+<UfIcon name="heart" label="Favorite" />`),
+        angular: code(`
+// main.ts, before bootstrapApplication()
+import { registerIcons } from '@unframed/core/icon';
+
+registerIcons({
+  heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">…</svg>',
+});
+
+<!-- any template -->
+<uf-icon name="heart" label="Favorite" />`),
+        notes: [
+          'Use `currentColor` for strokes and fills, so the icon takes the text color around it (set `color` to change it).',
+          'Keep a `viewBox` and leave out `width`/`height`: the icon is `1em` square, so it follows the font size. Change it with `--uf-icon-size`.',
+          'Registering a built-in name (e.g. `x`) replaces that icon everywhere, including inside components like the dialog\'s close button.',
+          'Icons already on the page update when you register their name, so registration order doesn\'t matter.',
+          'The markup is inserted as-is: only register SVG from your own code or files, never from user input.',
+        ],
       },
     ],
   },

@@ -29,13 +29,13 @@ export function Home() {
   return (
     <>
       <section className="hero">
-        <h1>
-          UI components that <em>don’t care</em> about your framework.
+        <h1 className="hero__title">
+          UI components that <em className="hero__highlight">don’t care</em> about your framework.
         </h1>
-        <p className="lead">
+        <p className="lead lead--hero">
           Unframed is a library of accessible, themeable web components. Use them anywhere, and own them when you want to.
         </p>
-        <div className="hero-actions">
+        <div className="hero__actions">
           <UfButton size="lg" onClick={() => navigate('/docs/getting-started')}>
             Get started
           </UfButton>
@@ -49,19 +49,19 @@ export function Home() {
         <div className="features">
           {features.map((f) => (
             <div key={f.title} className="feature">
-              <UfIcon name={f.icon} />
-              <h3>{f.title}</h3>
-              <p>{f.text}</p>
+              <UfIcon className="feature__icon" name={f.icon} />
+              <h3 className="feature__title">{f.title}</h3>
+              <p className="feature__text">{f.text}</p>
             </div>
           ))}
         </div>
       </section>
 
       <section className="section">
-        <h2 style={{ marginTop: 0 }}>Try it</h2>
+        <h2 className="section__title">Try it</h2>
         <div className="demo">
           <form
-            className="demo-preview stack"
+            className="demo__preview demo__preview--stack"
             noValidate
             onSubmit={(e) => {
               e.preventDefault();
@@ -120,12 +120,12 @@ export function Home() {
       </section>
 
       <section className="section">
-        <h2 style={{ marginTop: 0 }}>{pages.length} components, and counting</h2>
-        <div className="cards">
+        <h2 className="section__title">{pages.length} components, and counting</h2>
+        <div className="card-grid">
           {pages.map((page) => (
             <a key={page.slug} href={`/components/${page.slug}`} className="card" onClick={(e) => { e.preventDefault(); navigate(`/components/${page.slug}`); }}>
-              <strong>{page.title}</strong>
-              <span>{getElement(page.tags[0])?.summary}</span>
+              <strong className="card__title">{page.title}</strong>
+              <span className="card__text">{getElement(page.tags[0])?.summary}</span>
             </a>
           ))}
         </div>

@@ -39,7 +39,7 @@ export function ComponentPage() {
       />
 
       <h2>Examples</h2>
-      {page.examples.map(({ title, description, stack, Preview, html, react, vue, angular }) => (
+      {page.examples.map(({ title, description, stack, Preview, html, react, vue, angular, notes }) => (
         <section key={title}>
           <h3>{title}</h3>
           {description && (
@@ -48,7 +48,7 @@ export function ComponentPage() {
             </p>
           )}
           <div className="demo">
-            <div className={`demo-preview${stack ? ' stack' : ''}`}>
+            <div className={`demo__preview${stack ? ' demo__preview--stack' : ''}`}>
               <Preview />
             </div>
             <CodeBlock
@@ -60,6 +60,15 @@ export function ComponentPage() {
               ]}
             />
           </div>
+          {notes && (
+            <ul className="example-notes">
+              {notes.map((note) => (
+                <li key={note} className="example-notes__item">
+                  <Inline text={note} />
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       ))}
 

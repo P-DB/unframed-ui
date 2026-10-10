@@ -1,11 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-uf-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Unframed: accessible web components that work in any framework, or none." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>Unframed: UI components for any framework</title>
+    <script>
+      // Apply the saved theme before the first paint (dark by default), so it never flashes.
+      try {
+        const saved = localStorage.getItem('uf-theme');
+        if (saved === 'light' || saved === 'dark') document.documentElement.dataset.ufTheme = saved;
+      } catch {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

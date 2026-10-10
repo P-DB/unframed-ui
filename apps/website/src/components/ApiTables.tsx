@@ -18,12 +18,12 @@ function Table({ title, head, rows }: { title: string; head: string[]; rows: Rea
   return (
     <>
       <h3>{title}</h3>
-      <div className="api-table-wrap">
-        <table className="api-table">
+      <div className="api-table">
+        <table className="api-table__table">
           <thead>
             <tr>
               {head.map((h) => (
-                <th key={h} scope="col">
+                <th key={h} scope="col" className="api-table__header">
                   {h}
                 </th>
               ))}
@@ -31,9 +31,9 @@ function Table({ title, head, rows }: { title: string; head: string[]; rows: Rea
           </thead>
           <tbody>
             {rows.map((cells, i) => (
-              <tr key={i}>
+              <tr key={i} className="api-table__row">
                 {cells.map((cell, j) => (
-                  <td key={j}>{cell}</td>
+                  <td key={j} className="api-table__cell">{cell}</td>
                 ))}
               </tr>
             ))}
@@ -44,8 +44,8 @@ function Table({ title, head, rows }: { title: string; head: string[]; rows: Rea
   );
 }
 
-const name = (n: string) => <code>{n}</code>;
-const type = (t?: { text: string }) => (t ? <span className="type">{t.text}</span> : null);
+const name = (n: string) => <code className="api-table__name">{n}</code>;
+const type = (t?: { text: string }) => (t ? <span className="api-table__type">{t.text}</span> : null);
 
 export function ApiTables({ tag, heading = true }: { tag: string; heading?: boolean }) {
   const el: ElementDoc | undefined = getElement(tag);
