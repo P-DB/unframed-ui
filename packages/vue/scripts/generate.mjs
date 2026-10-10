@@ -43,6 +43,10 @@ for (const el of elements) {
 
   const model = formModels[el.tagName];
   const modelType = model ? `${classType}['${model.prop}']` : 'never';
+  const synced = model?.synced ?? [];
+  const syncedEmits = synced.length
+    ? `{ ${synced.map((p) => `'update:${p}': (value: ${classType}['${p}']) => true`).join('; ')} }`
+    : '';
 
   const source = `${header}import type { ${el.name} as ${classType}${detailTypes.length ? `, ${detailTypes.join(', ')}` : ''} } from '@unframed/core';
 import '${coreImportPath(el.modulePath)}';
@@ -52,10 +56,10 @@ export interface ${el.name}Props {
 ${[...propLines, ...eventLines].join('\n')}
 }
 
-${el.summary ? `/** ${el.summary}${model ? ` Supports \`v-model\` (binds \`${model.prop}\`).` : ''} */\n` : ''}export const ${el.name} = createWrapper<${el.name}Props, ${modelType}>(
+${el.summary ? `/** ${el.summary}${model ? ` Supports \`v-model\` (binds \`${model.prop}\`)${synced.map((p) => ` and \`v-model:${p}\``).join('')}.` : ''} */\n` : ''}export const ${el.name} = createWrapper<${el.name}Props, ${modelType}${syncedEmits ? `, ${syncedEmits}` : ''}>(
   '${el.tagName}',
   '${el.name}',
-  ${JSON.stringify(props)},${model ? `\n  { prop: '${model.prop}', event: '${model.event}' },` : ''}
+  ${JSON.stringify(props)},${model ? `\n  { prop: '${model.prop}', event: '${model.event}'${synced.length ? `, synced: ${JSON.stringify(synced)}` : ''} },` : ''}
 );
 `;
   await writeFile(new URL(`${el.tagName}.ts`, outDir), source);

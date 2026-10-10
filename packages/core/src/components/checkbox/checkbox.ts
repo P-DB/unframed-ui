@@ -32,8 +32,10 @@ import { toggleStyles } from '../../internal/toggle.styles.js';
  * @cssprop --uf-checkbox-size - Size of the box.
  * @cssprop --uf-checkbox-radius - Corner radius of the box.
  * @cssprop --uf-checkbox-checked-bg - Background when checked.
+ * @cssprop --uf-checkbox-indeterminate-bg - Background when indeterminate. Defaults to the checked background.
  *
  * @cssstate checked - The checkbox is checked.
+ * @cssstate indeterminate - The checkbox shows a dash ("some selected").
  * @cssstate user-invalid - Required but unchecked, after the user interacted.
  */
 export class UfCheckbox extends ToggleControl {
@@ -64,6 +66,10 @@ export class UfCheckbox extends ToggleControl {
         background: var(--uf-checkbox-checked-bg, var(--uf-color-accent));
       }
 
+      .native:indeterminate {
+        background: var(--uf-checkbox-indeterminate-bg, var(--uf-checkbox-checked-bg, var(--uf-color-accent)));
+      }
+
       .invalid .native {
         border-color: var(--uf-color-danger-text);
         box-shadow: inset 0 0 0 1px var(--uf-color-danger-text);
@@ -90,11 +96,17 @@ export class UfCheckbox extends ToggleControl {
 
   static override properties: PropertyDeclarations = {
     indeterminate: { type: Boolean, reflect: true },
+    selectAll: { type: Boolean, reflect: true, attribute: 'select-all' },
     hint: {},
   };
 
   /** Shows a dash instead of a check, for "some selected". Cleared when the user clicks. */
   declare indeterminate: boolean;
+  /**
+   * Inside `<uf-checkbox-group>`: checks or unchecks every other checkbox in the
+   * group, and shows checked, unchecked or indeterminate to match them.
+   */
+  declare selectAll: boolean;
   /** Help text below the label. */
   declare hint: string | undefined;
 
@@ -104,6 +116,12 @@ export class UfCheckbox extends ToggleControl {
   constructor() {
     super();
     this.indeterminate = false;
+    this.selectAll = false;
+  }
+
+  override updated(): void {
+    super.updated();
+    this.internals.states?.[this.indeterminate ? 'add' : 'delete']('indeterminate');
   }
 
   #onChange = (event: Event): void => {

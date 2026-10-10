@@ -4,6 +4,7 @@ import { html } from 'lit';
 const meta: Meta = {
   title: 'Components/Checkbox',
   component: 'uf-checkbox',
+  subcomponents: { CheckboxGroup: 'uf-checkbox-group' },
   args: { label: 'Subscribe to the newsletter', hint: 'One email a month.', checked: false, indeterminate: false, required: false, disabled: false },
   render: (a) => html`<uf-checkbox
     hint=${a.hint}
@@ -24,4 +25,14 @@ export const States: StoryObj = {
     <uf-checkbox indeterminate>Indeterminate</uf-checkbox>
     <uf-checkbox disabled>Disabled</uf-checkbox>
   </div>`,
+};
+
+export const SelectAll: StoryObj = {
+  name: 'Select all (checkbox group)',
+  render: () => html`<uf-checkbox-group label="Toppings" style="max-width: 20rem">
+    <uf-checkbox select-all>All toppings</uf-checkbox>
+    <uf-checkbox name="topping" value="cheese">Cheese</uf-checkbox>
+    <uf-checkbox name="topping" value="olives" checked>Olives</uf-checkbox>
+    <uf-checkbox name="topping" value="basil">Basil</uf-checkbox>
+  </uf-checkbox-group>`,
 };

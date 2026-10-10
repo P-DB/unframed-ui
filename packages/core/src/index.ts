@@ -4,6 +4,7 @@ export { UfButton } from './components/button/button.js';
 export type { ButtonSize, ButtonType, ButtonVariant } from './components/button/button.js';
 
 export { UfCheckbox } from './components/checkbox/checkbox.js';
+export { UfCheckboxGroup } from './components/checkbox-group/checkbox-group.js';
 
 export { UfCombobox } from './components/combobox/combobox.js';
 

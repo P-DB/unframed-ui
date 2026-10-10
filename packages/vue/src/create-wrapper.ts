@@ -5,6 +5,8 @@ export interface ModelConfig {
   prop: string;
   /** Event the element fires when the user changes the value. */
   event: string;
+  /** Other properties the user can change, emitted as `update:<prop>` (e.g. `v-model:indeterminate`). */
+  synced?: readonly string[];
 }
 
 /** Props added to form controls so `v-model` works. */
@@ -24,7 +26,7 @@ export type ModelEmits<T> = { 'update:modelValue': (value: T) => true };
  * - Form controls get `modelValue` / `update:modelValue`, so `v-model` works.
  * - The element is exposed as `el` on the component instance, for its methods.
  */
-export function createWrapper<Props extends Record<string, any>, Model = never>(
+export function createWrapper<Props extends Record<string, any>, Model = never, SyncedEmits extends EmitsOptions = {}>(
   tagName: string,
   name: string,
   propNames: readonly string[],
@@ -34,7 +36,7 @@ export function createWrapper<Props extends Record<string, any>, Model = never>(
     name,
     inheritAttrs: false,
     props: [...propNames, ...(model ? ['modelValue'] : [])],
-    emits: model ? ['update:modelValue'] : [],
+    emits: model ? ['update:modelValue', ...(model.synced ?? []).map((p) => `update:${p}`)] : [],
     setup(props, { attrs, slots, emit, expose }) {
       const el = ref<HTMLElement>();
       expose({ el });
@@ -49,7 +51,9 @@ export function createWrapper<Props extends Record<string, any>, Model = never>(
           if (values.modelValue !== undefined) modelBinding[model.prop] = values.modelValue;
           // e.g. onChange listens for the element's `change` event.
           modelBinding[`on${model.event[0].toUpperCase()}${model.event.slice(1)}`] = () => {
-            emit('update:modelValue', (el.value as unknown as Record<string, unknown>)[model.prop]);
+            const element = el.value as unknown as Record<string, unknown>;
+            emit('update:modelValue', element[model.prop]);
+            for (const prop of model.synced ?? []) emit(`update:${prop}`, element[prop]);
           };
         }
 
@@ -57,7 +61,10 @@ export function createWrapper<Props extends Record<string, any>, Model = never>(
       };
     },
   });
-  return component as unknown as WrapperComponent<Props & ModelProps<Model>, [Model] extends [never] ? {} : ModelEmits<Model>>;
+  return component as unknown as WrapperComponent<
+    Props & ModelProps<Model>,
+    ([Model] extends [never] ? {} : ModelEmits<Model>) & SyncedEmits
+  >;
 }
 
 /**

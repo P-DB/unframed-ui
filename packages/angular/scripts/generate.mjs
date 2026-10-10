@@ -55,6 +55,14 @@ const components = elements.map((el) => {
   );
   const listen = events.map((e) => `    this.el.addEventListener('${e.name}', (event) => this.${camel(e.name)}.emit(event as ${e.type?.text ?? 'Event'}));`);
 
+  // Properties the user can change besides the model value: an \`<prop>Change\`
+  // output enables two-way binding, e.g. [(indeterminate)].
+  const model = formModels[el.tagName];
+  for (const prop of model?.synced ?? []) {
+    outputLines.push(`${doc(`Emits the new \`${prop}\` when the user changes it, for \`[(${prop})]\`.`)}  @Output() readonly ${prop}Change = new EventEmitter<${classType}['${prop}']>();`);
+    listen.push(`    this.el.addEventListener('${model.event}', () => this.${prop}Change.emit(this.el.${prop}));`);
+  }
+
   return `${el.summary ? `/** ${el.summary} */\n` : ''}@Component({
   selector: '${el.tagName}',
   template: '<ng-content />',
@@ -81,14 +89,21 @@ await writeFile(new URL('components.ts', outDir), componentsFile);
 // One value accessor per (property, event) pair.
 const groups = new Map();
 for (const [tag, model] of Object.entries(formModels)) {
-  const key = `${model.prop}:${model.event}`;
+  const key = `${model.prop}:${model.event}:${model.type}`;
   if (!groups.has(key)) groups.set(key, { ...model, tags: [] });
   groups.get(key).tags.push(tag);
 }
-const accessorNames = { 'value:input': 'UfTextValueAccessor', 'value:change': 'UfSelectValueAccessor', 'checked:change': 'UfCheckedValueAccessor' };
+const accessorNames = {
+  'value:input:string': 'UfTextValueAccessor',
+  'value:change:string': 'UfSelectValueAccessor',
+  'checked:change:boolean': 'UfCheckedValueAccessor',
+  'value:change:string[]': 'UfArrayValueAccessor',
+};
+const emptyValues = { string: "''", boolean: 'false', 'string[]': '[]' };
 
 const accessors = [...groups.entries()].map(([key, { prop, event, type, tags }]) => {
-  const name = accessorNames[key] ?? `Uf${pascal(prop)}${pascal(event)}ValueAccessor`;
+  const name = accessorNames[key];
+  if (!name) throw new Error(`No value accessor name for ${key} (${tags.join(', ')}): add one to accessorNames`);
   const selector = tags.flatMap((t) => [`${t}[ngModel]`, `${t}[formControl]`, `${t}[formControlName]`]).join(',');
   return { name, code: `/** Angular forms support for ${tags.map((t) => `\`<${t}>\``).join(', ')}. */
 @Directive({
@@ -98,7 +113,7 @@ const accessors = [...groups.entries()].map(([key, { prop, event, type, tags }])
 })
 export class ${name} extends UfValueAccessor<${type}> {
   protected readonly prop = '${prop}';
-  protected readonly empty = ${type === 'boolean' ? 'false' : "''"};
+  protected readonly empty: ${type} = ${emptyValues[type]};
 }
 ` };
 });

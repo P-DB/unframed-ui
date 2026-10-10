@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { UfButton, UfCheckbox, UfDialog, UfInput, UfTabs, UfTab, UfTabPanel } from '../../src/index.js';
+import { UfButton, UfCheckbox, UfCheckboxGroup, UfDialog, UfInput, UfTabs, UfTab, UfTabPanel } from '../../src/index.js';
 
 const email = ref('');
 const agree = ref(false);
+const some = ref(true);
+const toppings = ref<string[]>([]);
 const tab = ref('');
 const dialog = ref<InstanceType<typeof UfDialog>>();
 
@@ -15,6 +17,9 @@ function open() {
 <template>
   <UfInput v-model="email" type="email" label="Email" required />
   <UfCheckbox v-model="agree">Agree</UfCheckbox>
+  <UfCheckboxGroup v-model="toppings" label="Toppings">
+    <UfCheckbox v-model:indeterminate="some" select-all>All</UfCheckbox>
+  </UfCheckboxGroup>
   <UfButton variant="danger" size="lg" @click="open">Delete</UfButton>
   <UfTabs @uf-tab-change="(e) => (tab = e.detail.name)">
     <UfTab panel="a">A</UfTab>

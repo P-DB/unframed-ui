@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createApp, nextTick, ref, type App } from 'vue';
 import '@unframed/tokens/tokens.css';
-import { UfButton, UfCheckbox, UfCombobox, UfDialog, UfInput, UfSelect, UfSwitch, UfTab, UfTabPanel, UfTabs, UnframedVue } from '../src/index.js';
+import { UfButton, UfCheckbox, UfCheckboxGroup, UfCombobox, UfDialog, UfInput, UfSelect, UfSwitch, UfTab, UfTabPanel, UfTabs, UnframedVue } from '../src/index.js';
 
 let app: App | undefined;
 let host: HTMLElement;
@@ -77,6 +77,44 @@ describe('@unframed/vue', () => {
     await settle();
     expect(agree.value).toBe(true);
     expect(wifi.value).toBe(false);
+  });
+
+  it('keeps v-model:indeterminate in sync when a click clears it', async () => {
+    const some = ref(true);
+    await mount(`<UfCheckbox v-model:indeterminate="some">All</UfCheckbox>`, () => ({ some }), { UfCheckbox });
+    const box = host.querySelector('uf-checkbox') as HTMLElement & { indeterminate: boolean };
+    expect(box.indeterminate).toBe(true);
+    (box.shadowRoot!.querySelector('input') as HTMLInputElement).click();
+    await settle();
+    expect(some.value).toBe(false);
+    some.value = true;
+    await settle();
+    expect(box.indeterminate).toBe(true);
+  });
+
+  it('binds a checkbox group to an array, with "select all"', async () => {
+    const toppings = ref<string[]>(['olives']);
+    await mount(
+      `<UfCheckboxGroup v-model="toppings" label="Toppings">
+        <UfCheckbox select-all>All</UfCheckbox>
+        <UfCheckbox value="cheese">Cheese</UfCheckbox>
+        <UfCheckbox value="olives">Olives</UfCheckbox>
+      </UfCheckboxGroup>`,
+      () => ({ toppings }),
+      { UfCheckboxGroup, UfCheckbox },
+    );
+    const [all, cheese] = [...host.querySelectorAll('uf-checkbox')] as (HTMLElement & { checked: boolean; indeterminate: boolean })[];
+    expect(all.indeterminate).toBe(true);
+
+    (all.shadowRoot!.querySelector('input') as HTMLInputElement).click();
+    await settle();
+    expect(toppings.value).toEqual(['cheese', 'olives']);
+
+    toppings.value = [];
+    await settle();
+    expect(cheese.checked).toBe(false);
+    expect(all.checked).toBe(false);
+    expect(all.indeterminate).toBe(false);
   });
 
   it('supports v-model on select and combobox (change)', async () => {

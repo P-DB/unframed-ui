@@ -45,6 +45,14 @@ describe('uf-checkbox', () => {
     expect(el.checked).toBe(true);
   });
 
+  it('exposes :state(indeterminate)', async () => {
+    const el = await fixture<UfCheckbox>('<uf-checkbox indeterminate>Some</uf-checkbox>');
+    expect(el.matches(':state(indeterminate)')).toBe(true);
+    el.indeterminate = false;
+    await el.updateComplete;
+    expect(el.matches(':state(indeterminate)')).toBe(false);
+  });
+
   it('is invalid when required and unchecked', async () => {
     const el = await fixture<UfCheckbox>('<uf-checkbox required>Required</uf-checkbox>');
     expect(el.validity.valueMissing).toBe(true);

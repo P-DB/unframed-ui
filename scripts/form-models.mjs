@@ -10,7 +10,10 @@ export const formModels = {
   'uf-select': { prop: 'value', event: 'change', type: 'string' },
   'uf-combobox': { prop: 'value', event: 'change', type: 'string' },
   'uf-radio-group': { prop: 'value', event: 'change', type: 'string' },
-  'uf-checkbox': { prop: 'checked', event: 'change', type: 'boolean' },
+  // `synced`: other properties the user can change, kept in sync with the framework too
+  // (a click clears `indeterminate`). Vue: v-model:indeterminate, Angular: [(indeterminate)].
+  'uf-checkbox': { prop: 'checked', event: 'change', type: 'boolean', synced: ['indeterminate'] },
+  'uf-checkbox-group': { prop: 'value', event: 'change', type: 'string[]' },
   'uf-switch': { prop: 'checked', event: 'change', type: 'boolean' },
 };
 

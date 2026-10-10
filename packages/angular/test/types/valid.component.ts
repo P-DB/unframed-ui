@@ -8,6 +8,10 @@ import { UNFRAMED, type UfDialog } from '@unframed/angular';
   template: `
     <uf-input [(ngModel)]="email" type="email" label="Email" required />
     <uf-checkbox [(ngModel)]="agree">Agree</uf-checkbox>
+    <uf-checkbox-group [formControl]="toppings" label="Toppings">
+      <uf-checkbox select-all [(indeterminate)]="some">All</uf-checkbox>
+      <uf-checkbox value="cheese">Cheese</uf-checkbox>
+    </uf-checkbox-group>
     <uf-select [formControl]="country"><option value="it">Italy</option></uf-select>
     <uf-button variant="danger" size="lg" [loading]="saving()" disabled (click)="dialog.el.show()">Delete</uf-button>
     <uf-tabs (uf-tab-change)="tab.set($event.detail.name)">
@@ -21,6 +25,8 @@ import { UNFRAMED, type UfDialog } from '@unframed/angular';
 export class ValidComponent {
   email = '';
   agree = false;
+  some = false;
+  toppings = new FormControl<string[]>([]);
   country = new FormControl('it');
   saving = signal(false);
   tab = signal('');

@@ -99,6 +99,40 @@ describe('@unframed/angular', () => {
     expect(instance.agree).toBe(true);
   });
 
+  it('two-way binds indeterminate with [(indeterminate)]', async () => {
+    const { instance, update } = await mount(`<uf-checkbox [(indeterminate)]="some">All</uf-checkbox>`, { some: true });
+    const box = $<HTMLElement & { indeterminate: boolean }>('uf-checkbox');
+    expect(box.indeterminate).toBe(true);
+    box.shadowRoot!.querySelector('input')!.click();
+    await settle();
+    expect(instance.some).toBe(false);
+    await update({ some: true });
+    expect(box.indeterminate).toBe(true);
+  });
+
+  it('binds a checkbox group to an array with reactive forms, including "select all"', async () => {
+    const toppings = new FormControl<string[]>(['olives']);
+    await mount(
+      `<uf-checkbox-group [formControl]="toppings" label="Toppings">
+        <uf-checkbox select-all>All</uf-checkbox>
+        <uf-checkbox value="cheese">Cheese</uf-checkbox>
+        <uf-checkbox value="olives">Olives</uf-checkbox>
+      </uf-checkbox-group>`,
+      { toppings },
+    );
+    const [all, cheese] = [...document.querySelectorAll('uf-checkbox')] as (HTMLElement & { checked: boolean; indeterminate: boolean })[];
+    expect(all.indeterminate).toBe(true);
+
+    all.shadowRoot!.querySelector('input')!.click();
+    await settle();
+    expect(toppings.value).toEqual(['cheese', 'olives']);
+
+    toppings.setValue([]);
+    await settle();
+    expect(cheese.checked).toBe(false);
+    expect(all.indeterminate).toBe(false);
+  });
+
   it('works with reactive forms: value, changes, disabled and touched', async () => {
     const country = new FormControl('fr');
     await mount(
