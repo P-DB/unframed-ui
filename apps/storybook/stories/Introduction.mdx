@@ -1,34 +1,104 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta, Source, Unstyled } from '@storybook/addon-docs/blocks';
 
 <Meta title="Introduction" />
 
-# Unframed
+export const docsUrl = 'https://p-db.github.io/unframed-ui/';
 
-<a href="https://p-db.github.io/unframed-ui/" target="_self">← Back to the documentation website</a>: guides, framework snippets (HTML, React, Vue, Angular) and installation.
+{/* Links to other Storybook pages and to the website must leave the preview iframe. */}
+export const storyHref = (id) => `./?path=/docs/${id}`;
 
-Framework-agnostic web components built with Lit. They work in React, Vue, Angular, Svelte, Astro or plain HTML.
+export const components = [
+  ['Button', 'components-button--docs', 'Triggers an action or navigates to a URL.'],
+  ['Input', 'components-input--docs', 'A single line of text, with label and validation.'],
+  ['Textarea', 'components-textarea--docs', 'Multiple lines of text, growing with the content.'],
+  ['Select', 'components-select--docs', 'One option from a native dropdown.'],
+  ['Combobox', 'components-combobox--docs', 'Search a list and pick one option.'],
+  ['Checkbox', 'components-checkbox--docs', 'On/off, with indeterminate and "select all".'],
+  ['Switch', 'components-switch--docs', 'Turns a setting on or off.'],
+  ['Radio group', 'components-radio-group--docs', 'Exactly one option from a list.'],
+  ['Tabs', 'components-tabs--docs', 'Panels of content, one visible at a time.'],
+  ['Accordion', 'components-accordion--docs', 'Sections that expand and collapse.'],
+  ['Dialog', 'components-dialog--docs', 'A modal window on top of the page.'],
+  ['Popover', 'components-popover--docs', 'Floating content next to a trigger.'],
+  ['Dropdown menu', 'components-dropdown-menu--docs', 'A menu of actions from a button.'],
+  ['Tooltip', 'components-tooltip--docs', 'A short hint on hover and focus.'],
+  ['Toast', 'components-toast--docs', 'Short, temporary notifications.'],
+  ['Icon', 'components-icon--docs', 'Built-in icons, or register your own.'],
+];
 
-This Storybook is the workbench for building and testing components. Every component page shows:
+<Unstyled>
+  <div className="intro" data-uf-theme="dark">
+    <header className="intro__hero">
+      <div className="intro__brand">
+        <span className="intro__logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="22" height="22">
+            <path d="M9 8v10a7 7 0 0 0 14 0V8" fill="none" stroke="currentColor" strokeWidth="3.5" />
+          </svg>
+        </span>
+        Unframed · Storybook
+      </div>
+      <h1 className="intro__title">UI components that <em className="intro__highlight">don’t care</em> about your framework.</h1>
+      <p className="intro__lead">The workbench for every Unframed component: try each attribute live, read the API generated from the source, and check accessibility on every story.</p>
+      <div className="intro__actions">
+        <uf-button href={docsUrl} target="_top" size="lg">
+          Documentation website
+        </uf-button>
+        <uf-button href={storyHref('components-button--docs')} target="_top" size="lg" variant="outline">
+          Browse components
+        </uf-button>
+      </div>
+    </header>
 
-- **Controls** to try each attribute live.
-- **An API table** generated from the component's JSDoc via `custom-elements.json`: attributes, properties, slots, CSS parts, CSS custom properties and events.
-- **An accessibility panel** that runs axe on every story.
+    <section className="intro__features">
+      <div className="intro__feature">
+        <uf-icon className="intro__feature-icon" name="check-circle"></uf-icon>
+        <h3 className="intro__feature-title">Controls on every page</h3>
+        <p className="intro__feature-text">Change attributes, slots and themes live, and copy the code for what you see.</p>
+      </div>
+      <div className="intro__feature">
+        <uf-icon className="intro__feature-icon" name="info"></uf-icon>
+        <h3 className="intro__feature-title">API from the source</h3>
+        <p className="intro__feature-text">Attributes, events, slots, CSS parts and custom properties, generated from each component’s JSDoc.</p>
+      </div>
+      <div className="intro__feature">
+        <uf-icon className="intro__feature-icon" name="alert-triangle"></uf-icon>
+        <h3 className="intro__feature-title">Accessibility checks</h3>
+        <p className="intro__feature-text">The Accessibility panel runs axe on every story, in light and dark.</p>
+      </div>
+    </section>
 
-Switch between light and dark with the **Theme** button in the toolbar.
+    <section className="intro__section">
+      <h2 className="intro__section-title">Quick start</h2>
+      <Source
+        dark
+        language="bash"
+        code={`npm install @unframed/core @unframed/tokens   # or @unframed/react, /vue, /angular
+npx @unframed/cli add dialog                    # or copy the source and own it`}
+      />
+      <Source
+        dark
+        language="html"
+        code={`<script type="module">
+  import '@unframed/tokens/tokens.css';
+  import '@unframed/core/button';
+</script>
 
-## Using a component
+<uf-button variant="primary">Save</uf-button>`}
+      />
+    </section>
 
-```js
-import '@unframed/tokens/tokens.css';
-import '@unframed/core/button';
-```
+    <section className="intro__section">
+      <h2 className="intro__section-title">Components</h2>
+      <div className="intro__grid">
+        {components.map(([name, id, summary]) => (
+          <a key={id} className="intro__card" href={storyHref(id)} target="_top">
+            <strong className="intro__card-title">{name}</strong>
+            <span className="intro__card-text">{summary}</span>
+          </a>
+        ))}
+      </div>
+    </section>
 
-```html
-<uf-button variant="primary">Save</uf-button>
-```
-
-Or copy the source into your project and own it:
-
-```bash
-npx @unframed/cli add button
-```
+    <footer className="intro__footer">Switch light and dark with the <strong>Theme</strong> button in the toolbar. Guides and framework snippets live on the <a className="intro__link" href={docsUrl} target="_top">documentation website</a>.</footer>
+  </div>
+</Unstyled>
