@@ -1,6 +1,6 @@
 import { toast } from '@unframed/core';
 import { UfButton, UfCheckbox, UfCombobox, UfIcon, UfInput, UfSwitch } from '@unframed/react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
 import { pages } from '../demos';
 import { getElement } from '../manifest';
@@ -123,10 +123,10 @@ export function Home() {
         <h2 className="section__title">{pages.length} components, and counting</h2>
         <div className="card-grid">
           {pages.map((page) => (
-            <a key={page.slug} href={`/components/${page.slug}`} className="card" onClick={(e) => { e.preventDefault(); navigate(`/components/${page.slug}`); }}>
+            <Link key={page.slug} to={`/components/${page.slug}`} className="card">
               <strong className="card__title">{page.title}</strong>
               <span className="card__text">{getElement(page.tags[0])?.summary}</span>
-            </a>
+            </Link>
           ))}
         </div>
       </section>

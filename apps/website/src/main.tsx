@@ -25,7 +25,10 @@ const router = createBrowserRouter([
       { path: '*', element: <NotFound /> },
     ],
   },
-]);
+], {
+  // '/' locally, '/unframed-ui/' on GitHub Pages.
+  basename: import.meta.env.BASE_URL,
+});
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

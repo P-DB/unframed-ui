@@ -5,6 +5,8 @@ import { defineConfig } from 'vite';
 const packages = fileURLToPath(new URL('../../packages', import.meta.url));
 
 export default defineConfig({
+  // GitHub Pages serves the site from /unframed-ui/ (set by the deploy workflow).
+  base: process.env.WEBSITE_BASE || '/',
   plugins: [react()],
   resolve: {
     // Use the sources directly, so component edits show up without rebuilding the packages.
