@@ -18,6 +18,19 @@
     "ui"
   ],
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/fesm2022/unframed-angular.mjs",
+  "typings": "./dist/types/unframed-angular.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/unframed-angular.d.ts",
+      "default": "./dist/fesm2022/unframed-angular.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
   "scripts": {
     "generate": "node scripts/generate.mjs",
     "build": "npm run generate && ng-packagr -p ng-package.json -c tsconfig.lib.json",
@@ -32,8 +45,7 @@
     "@angular/forms": ">=20.0.0"
   },
   "publishConfig": {
-    "access": "public",
-    "directory": "dist"
+    "access": "public"
   },
   "devDependencies": {
     "@angular/common": "^22.2.2",
