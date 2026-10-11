@@ -3,8 +3,24 @@
   "version": "0.0.0",
   "description": "Typed React wrappers for Unframed web components.",
   "license": "MIT",
+  "author": "Patrizio Di Bartolomeo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/P-DB/unframed-ui.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://p-db.github.io/unframed-ui/",
+  "bugs": "https://github.com/P-DB/unframed-ui/issues",
+  "keywords": [
+    "react",
+    "web-components",
+    "lit",
+    "ui"
+  ],
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

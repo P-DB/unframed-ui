@@ -3,15 +3,33 @@
   "version": "0.0.0",
   "description": "Design tokens for Unframed, as CSS custom properties and resolved JSON.",
   "license": "MIT",
+  "author": "Patrizio Di Bartolomeo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/P-DB/unframed-ui.git",
+    "directory": "packages/tokens"
+  },
+  "homepage": "https://p-db.github.io/unframed-ui/",
+  "bugs": "https://github.com/P-DB/unframed-ui/issues",
+  "keywords": [
+    "design-tokens",
+    "css-variables",
+    "theme"
+  ],
   "type": "module",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "exports": {
     "./tokens.css": "./dist/tokens.css",
     "./tokens.json": "./dist/tokens.json",
     "./src/*": "./src/*"
   },
   "style": "./dist/tokens.css",
-  "sideEffects": ["*.css"],
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "build": "node scripts/build.mjs"
   },

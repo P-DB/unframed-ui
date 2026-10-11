@@ -3,6 +3,22 @@
   "version": "0.0.0",
   "description": "Framework-agnostic web components built with Lit.",
   "license": "MIT",
+  "author": "Patrizio Di Bartolomeo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/P-DB/unframed-ui.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://p-db.github.io/unframed-ui/",
+  "bugs": "https://github.com/P-DB/unframed-ui/issues",
+  "keywords": [
+    "web-components",
+    "custom-elements",
+    "lit",
+    "ui",
+    "design-system",
+    "accessibility"
+  ],
   "type": "module",
   "files": [
     "dist",
