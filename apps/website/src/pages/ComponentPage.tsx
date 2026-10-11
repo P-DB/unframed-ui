@@ -1,4 +1,5 @@
-import { Link, useParams } from 'react-router';
+import { UfButton, UfIcon } from '@unframed/react';
+import { useHref, useNavigate, useParams } from 'react-router';
 import { ApiTables } from '../components/ApiTables';
 import { CodeBlock } from '../components/CodeBlock';
 import { findPage } from '../demos';
@@ -20,6 +21,8 @@ function Inline({ text }: { text?: string }) {
 
 export function ComponentPage() {
   const page = findPage(useParams().slug);
+  const navigate = useNavigate();
+  const allComponentsHref = useHref('/components');
   if (!page) return <NotFound />;
   const main = getElement(page.tags[0]);
 
@@ -76,9 +79,21 @@ export function ComponentPage() {
         <ApiTables key={tag} tag={tag} />
       ))}
 
-      <p style={{ marginTop: '3rem' }}>
-        <Link to="/components">← All components</Link>
-      </p>
+      <div className="component-page__back">
+        <UfButton
+          variant="ghost"
+          href={allComponentsHref}
+          onClick={(event) => {
+            // A real link (new tab, copy link), but in-app navigation on a plain click.
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+            event.preventDefault();
+            navigate('/components');
+          }}
+        >
+          <UfIcon slot="prefix" name="chevron-left" />
+          All components
+        </UfButton>
+      </div>
     </article>
   );
 }

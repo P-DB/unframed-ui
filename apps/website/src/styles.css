@@ -425,6 +425,11 @@ h3 {
   line-height: 1.6;
 }
 
+/* Component page */
+.component-page__back {
+  margin-top: 3rem;
+}
+
 /* Notes under an example */
 .example-notes {
   margin: 1rem 0 0;

@@ -5,9 +5,6 @@ import { pages } from '../demos';
 
 type Theme = 'light' | 'dark';
 
-/** Storybook runs on its own dev server locally, and is deployed next to the site. */
-const storybookUrl = import.meta.env.DEV ? 'http://localhost:6006' : `${import.meta.env.BASE_URL}storybook/`;
-
 /** BEM classes for NavLinks, with the --active modifier on the current page. */
 const sidebarLink = ({ isActive }: { isActive: boolean }) => `sidebar__link${isActive ? ' sidebar__link--active' : ''}`;
 const headerLink = ({ isActive }: { isActive: boolean }) =>
@@ -66,9 +63,6 @@ export function Layout() {
             <NavLink to="/components" className={headerLink}>
               Components
             </NavLink>
-            <a className="site-header__link" href={storybookUrl}>
-              Storybook
-            </a>
           </nav>
           <UfTooltip content={`Switch to ${next} theme`} placement="bottom">
             <UfButton variant="ghost" size="sm" label={`Switch to ${next} theme`} onClick={() => setTheme(next)}>

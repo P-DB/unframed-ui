@@ -2,6 +2,7 @@ import { toast } from '@unframed/core';
 import { UfButton, UfCheckbox, UfCombobox, UfIcon, UfInput, UfSwitch } from '@unframed/react';
 import { Link, useNavigate } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
+import { storybookUrl } from '../links';
 import { pages } from '../demos';
 import { getElement } from '../manifest';
 
@@ -41,6 +42,10 @@ export function Home() {
           </UfButton>
           <UfButton size="lg" variant="outline" onClick={() => navigate('/components')}>
             Browse components
+          </UfButton>
+          <UfButton size="lg" variant="ghost" href={storybookUrl}>
+            Open Storybook
+            <UfIcon slot="suffix" name="chevron-right" />
           </UfButton>
         </div>
       </section>
