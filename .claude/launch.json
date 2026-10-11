@@ -33,6 +33,18 @@
       ],
       "port": 5190,
       "autoPort": true
+    },
+    {
+      "name": "storybook-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "6007",
+        "--directory",
+        "apps/storybook/dist"
+      ],
+      "port": 6007
     }
   ]
 }

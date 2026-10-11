@@ -41,7 +41,9 @@
   "customElements": "custom-elements.json",
   "sideEffects": [
     "./dist/components/**/*.js",
-    "./dist/index.js"
+    "./dist/index.js",
+    "./src/components/**/*.ts",
+    "./src/index.ts"
   ],
   "scripts": {
     "dev": "vite",
