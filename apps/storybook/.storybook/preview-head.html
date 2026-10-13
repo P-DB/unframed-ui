@@ -21,6 +21,22 @@
     gap: 1rem;
     max-width: 28rem;
   }
+  /* A side-by-side grid of variations, each with a caption. */
+  .sb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+  }
+  /* Explains a story under its example; also used for event output. */
+  .sb-note {
+    margin: 1rem 0 0;
+    font-size: 0.875rem;
+    color: var(--uf-color-text-muted);
+  }
+  .sb-note code {
+    font-size: 0.8125rem;
+  }
 
   /* Introduction page (stories/Introduction.mdx): the docs website's look. BEM: .intro__* */
   .intro {
