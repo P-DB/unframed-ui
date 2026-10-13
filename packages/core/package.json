@@ -1,6 +1,6 @@
 {
   "name": "@unframed/core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Framework-agnostic web components built with Lit.",
   "license": "MIT",
   "author": "Patrizio Di Bartolomeo",
