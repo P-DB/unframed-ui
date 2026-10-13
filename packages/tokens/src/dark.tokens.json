@@ -88,6 +88,12 @@
     "warning-subtle": {
       "$value": "{palette.warning.950}"
     },
+    "info": {
+      "$value": "{palette.info.300}"
+    },
+    "info-subtle": {
+      "$value": "{palette.info.950}"
+    },
     "focus-ring": {
       "$value": "{palette.accent.400}"
     },

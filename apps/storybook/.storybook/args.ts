@@ -43,10 +43,20 @@ const publicMembers = (tag: string, kind: Field['kind']) =>
 /** Type aliases from @unframed/core, spelled out so their controls can offer the values. */
 const placements = ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'right'];
 const aliases: Record<string, string[]> = {
+  AvatarSize: ['sm', 'md', 'lg', 'xl'],
+  AvatarShape: ['circle', 'square'],
+  BadgeVariant: ['neutral', 'accent', 'info', 'success', 'warning', 'danger'],
+  BadgeAppearance: ['soft', 'solid', 'outline'],
+  BadgeSize: ['sm', 'md'],
   ButtonVariant: ['primary', 'secondary', 'outline', 'ghost', 'danger', 'link'],
   ButtonSize: ['sm', 'md', 'lg'],
   ButtonType: ['button', 'submit', 'reset'],
+  CardVariant: ['outline', 'elevated', 'filled'],
+  CardOrientation: ['vertical', 'horizontal'],
   FieldSize: ['sm', 'md', 'lg'],
+  PaginationSize: ['sm', 'md'],
+  SortDirection: ['ascending', 'descending'],
+  TableDensity: ['comfortable', 'compact'],
   InputType: ['text', 'email', 'password', 'search', 'tel', 'url', 'number', 'date', 'time'],
   TextareaResize: ['none', 'vertical', 'auto'],
   Placement: placements,
@@ -60,6 +70,8 @@ const aliases: Record<string, string[]> = {
 /** Example values for properties whose control is a JSON editor. */
 const objectExamples: Record<string, string> = {
   'string[]': `["cheese", "olives"]`,
+  'TableColumn[]': `[{ "key": "name", "label": "Name", "sortable": true }, { "key": "amount", "label": "Amount", "align": "end" }]`,
+  'TableRow[]': `[{ "name": "John", "amount": 120 }, { "name": "Jane", "amount": 80 }]`,
 };
 
 /** The control for a TypeScript type from the manifest, ignoring `undefined` and `null`. */
@@ -202,6 +214,7 @@ export function extractArgTypes(tag: unknown): ArgTypes {
 const isBooleanAttribute = (tag: string, attribute: string) =>
   publicMembers(tag, 'field').some((field) => field.attribute === attribute && field.type?.text === 'boolean');
 const hasAttribute = (tag: string, attribute: string) => publicMembers(tag, 'field').some((field) => field.attribute === attribute);
+const fieldOf = (tag: string, attribute: string) => publicMembers(tag, 'field').find((field) => field.attribute === attribute)?.name;
 
 /**
  * Applies story args to the element it's on, using the keys from
@@ -242,6 +255,8 @@ class SpreadDirective extends Directive {
         el[key.slice(1)] = value;
       } else if (hasAttribute(tag, key)) {
         if (isBooleanAttribute(tag, key)) el.toggleAttribute(key, value === true);
+        // Objects and arrays (a table's columns and rows) go to the property, not the attribute.
+        else if (typeof value === 'object') el[fieldOf(tag, key)!] = value;
         else el.setAttribute(key, String(value));
       } else {
         continue;

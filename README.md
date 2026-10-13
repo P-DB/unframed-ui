@@ -21,7 +21,7 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 
 | Component | Tag | Notes |
 |---|---|---|
-| Button | `<uf-button>` | 5 variants, 3 sizes, loading, link mode, form submit/reset |
+| Button | `<uf-button>` | 6 variants (including `link`), 3 sizes, loading, link mode, form submit/reset |
 | Icon | `<uf-icon>` | Built-in set, plus `registerIcons()` for your own |
 | Input | `<uf-input>` | Label, hint and validation built in; form-associated |
 | Textarea | `<uf-textarea>` | `resize="auto"` grows with content |
@@ -37,6 +37,11 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | Popover | `<uf-popover>` | Popover API, flips at viewport edges |
 | Tooltip | `<uf-tooltip>` | Hover and focus, Escape to dismiss, exposed as `aria-description` |
 | Toast | `toast()` / `<uf-toaster>` | Live region in the top layer, pauses on hover |
+| Badge | `<uf-badge>` | 6 colors by meaning, soft, solid or outline, status dot |
+| Avatar | `<uf-avatar>` | Image, then initials, then an icon; 4 sizes, circle or square |
+| Card | `<uf-card>` | Media, header, content and footer slots; empty ones take no space |
+| Table | `<uf-table>` | Native `<table>` from `columns` and `rows`, sorting, custom cells, sticky header |
+| Pagination | `<uf-pagination>` | Collapsing page ranges, keyboard friendly, pairs with the table |
 
 Every form control works inside a native `<form>`: it submits its value, resets, validates (`required`, `pattern`, `min`…), and respects `<fieldset disabled>`. Errors show inline after the user interacts or tries to submit, and `:state(user-invalid)` lets you style them.
 

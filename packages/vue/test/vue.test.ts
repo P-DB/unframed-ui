@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createApp, nextTick, ref, type App } from 'vue';
 import '@unframed/tokens/tokens.css';
-import { UfButton, UfCheckbox, UfCheckboxGroup, UfCombobox, UfDialog, UfInput, UfSelect, UfSwitch, UfTab, UfTabPanel, UfTabs, UnframedVue } from '../src/index.js';
+import { UfButton, UfCheckbox, UfCheckboxGroup, UfCombobox, UfDialog, UfInput, UfPagination, UfSelect, UfSwitch, UfTab, UfTabPanel, UfTable, UfTabs, UnframedVue } from '../src/index.js';
 
 let app: App | undefined;
 let host: HTMLElement;
@@ -156,6 +156,24 @@ describe('@unframed/vue', () => {
     (host.querySelectorAll('uf-tab')[1] as HTMLElement).click();
     await settle();
     expect(onChange.mock.calls[0][0].detail).toEqual({ name: 'b' });
+  });
+
+  it('passes arrays and objects as properties, e.g. a table with pagination', async () => {
+    const rows = Array.from({ length: 12 }, (_, i) => ({ id: i + 1, name: `Row ${i + 1}` }));
+    await mount(
+      `<UfTable label="Rows" :columns="columns" :rows="rows.slice((page - 1) * 5, page * 5)" row-key="id" />
+       <UfPagination :pages="3" :page="page" @uf-page-change="page = $event.detail.page" />`,
+      () => ({ columns: [{ key: 'name', label: 'Name', sortable: true }], rows, page: ref(1) }),
+      { UfTable, UfPagination },
+    );
+    const table = host.querySelector('uf-table')!;
+    const cells = () => [...table.shadowRoot!.querySelectorAll('tbody td')].map((td) => td.textContent!.trim());
+    expect(table.getAttribute('columns')).toBeNull();
+    expect(cells()).toEqual(['Row 1', 'Row 2', 'Row 3', 'Row 4', 'Row 5']);
+
+    host.querySelector('uf-pagination')!.shadowRoot!.querySelector<HTMLButtonElement>('[aria-label="Page 3"]')!.click();
+    await settle();
+    expect(cells()).toEqual(['Row 11', 'Row 12']);
   });
 
   it('exposes the element as `el` for its methods', async () => {

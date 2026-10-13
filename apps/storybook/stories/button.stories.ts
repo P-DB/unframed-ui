@@ -85,7 +85,7 @@ export const InAForm: Story = {
     }}
     @reset=${(e: Event) => ((e.target as HTMLFormElement).querySelector('output')!.textContent = 'Reset')}
   >
-    <uf-input name="name" label="Name" value="Ada"></uf-input>
+    <uf-input name="name" label="Name" value="John"></uf-input>
     <div class="sb-row">
       <uf-button type="submit">Submit</uf-button>
       <uf-button type="reset" variant="ghost">Reset</uf-button>

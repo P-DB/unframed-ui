@@ -13,7 +13,7 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['@angular/core', '@angular/compiler', '@angular/common', '@angular/forms', '@angular/platform-browser', 'rxjs',
-      'lit', 'lit/directives/class-map.js', 'lit/directives/if-defined.js', 'lit/directives/live.js', 'lit/directives/repeat.js',
+      'lit', 'lit/directives/class-map.js', 'lit/directives/if-defined.js', 'lit/directives/live.js', 'lit/directives/repeat.js', 'lit/directives/style-map.js',
       'lit/directives/unsafe-svg.js'],
   },
   test: {

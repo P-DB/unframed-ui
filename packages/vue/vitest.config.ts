@@ -16,7 +16,7 @@ export default defineConfig({
   define: { __VUE_OPTIONS_API__: true, __VUE_PROD_DEVTOOLS__: false, __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false },
   optimizeDeps: {
     include: ['vue/dist/vue.esm-bundler.js', 'lit', 'lit/directives/class-map.js', 'lit/directives/if-defined.js',
-      'lit/directives/live.js', 'lit/directives/repeat.js', 'lit/directives/unsafe-svg.js'],
+      'lit/directives/live.js', 'lit/directives/repeat.js', 'lit/directives/style-map.js', 'lit/directives/unsafe-svg.js'],
   },
   test: {
     include: ['test/**/*.test.ts'],

@@ -1,8 +1,11 @@
-import { registerIcons, toast, type ToastVariant } from '@unframed/core';
+import { registerIcons, toast, type TableColumn, type ToastVariant } from '@unframed/core';
 import {
   UfAccordion,
   UfAccordionItem,
+  UfAvatar,
+  UfBadge,
   UfButton,
+  UfCard,
   UfCheckbox,
   UfCheckboxGroup,
   UfCombobox,
@@ -12,12 +15,14 @@ import {
   UfInput,
   UfMenu,
   UfMenuItem,
+  UfPagination,
   UfPopover,
   UfRadio,
   UfRadioGroup,
   UfSelect,
   UfSwitch,
   UfTab,
+  UfTable,
   UfTabPanel,
   UfTabs,
   UfTextarea,
@@ -59,6 +64,61 @@ registerIcons({
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>',
   star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.3 1.3-6.6L2.5 9.5l6.6-.8z"/></svg>',
 });
+
+
+// A drawn portrait for the Avatar page, inline so it needs no image file.
+const portrait = `data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" fill="#6930c3"/><circle cx="40" cy="32" r="14" fill="#d9c8f5"/><path d="M14 80a26 26 0 0 1 52 0" fill="#d9c8f5"/></svg>',
+)}`;
+
+// Sample data for the Table and Pagination pages.
+const team = [
+  { name: 'John Smith', role: 'Product designer', commits: 412 },
+  { name: 'Jane Doe', role: 'Engineer', commits: 1290 },
+  { name: 'Mario Rossi', role: 'Product manager', commits: 87 },
+  { name: 'Sara Kim', role: 'Support', commits: 655 },
+];
+const teamColumns: TableColumn[] = [
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'role', label: 'Role' },
+  { key: 'commits', label: 'Commits', sortable: true, align: 'end' },
+];
+const invoices = Array.from({ length: 42 }, (_, i) => ({
+  id: `INV-${1001 + i}`,
+  customer: ['Acme', 'Globex', 'Initech', 'Hooli', 'Wonka', 'Stark'][(i * 5) % 6],
+  status: (['Paid', 'Paid', 'Pending', 'Overdue'] as const)[(i * 3) % 4],
+  amount: ((i * 137) % 900) + 100,
+}));
+const euro = new Intl.NumberFormat('en', { style: 'currency', currency: 'EUR' });
+const statusVariant = { Paid: 'success', Pending: 'warning', Overdue: 'danger' } as const;
+const invoiceColumns: TableColumn[] = [
+  { key: 'id', label: 'Invoice' },
+  { key: 'customer', label: 'Customer', sortable: true },
+  {
+    key: 'status',
+    label: 'Status',
+    sortable: true,
+    format: (value) =>
+      Object.assign(document.createElement('uf-badge'), { variant: statusVariant[value as 'Paid'], textContent: String(value) }),
+  },
+  { key: 'amount', label: 'Amount', sortable: true, align: 'end', format: (value) => euro.format(value as number) },
+];
+
+function PagedInvoices() {
+  const [page, setPage] = useState(1);
+  const pageSize = 8;
+  return (
+    <div style={{ display: 'grid', gap: '1rem', width: '100%' }}>
+      <UfTable label="Invoices" columns={invoiceColumns} rows={invoices.slice((page - 1) * pageSize, page * pageSize)} rowKey="id" />
+      <UfPagination
+        label="Invoice pages"
+        pages={Math.ceil(invoices.length / pageSize)}
+        page={page}
+        onUfPageChange={(event) => setPage(event.detail.page)}
+      />
+    </div>
+  );
+}
 
 export const pages: Page[] = [
   {
@@ -940,6 +1000,358 @@ registerIcons({
           'Icons already on the page update when you register their name, so registration order doesn\'t matter.',
           'The markup is inserted as-is: only register SVG from your own code or files, never from user input.',
         ],
+      },
+    ],
+  },
+  {
+    slug: 'badge',
+    title: 'Badge',
+    tags: ['uf-badge'],
+    module: 'badge',
+    examples: [
+      {
+        title: 'Variants',
+        description: 'Six colors by meaning, in three appearances: `soft` (the default), `solid` and `outline`.',
+        Preview: () => (
+          <div style={{ display: 'grid', gap: '0.75rem' }}>
+            {(['soft', 'solid', 'outline'] as const).map((appearance) => (
+              <div key={appearance} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                {(['neutral', 'accent', 'info', 'success', 'warning', 'danger'] as const).map((variant) => (
+                  <UfBadge key={variant} variant={variant} appearance={appearance}>
+                    {variant}
+                  </UfBadge>
+                ))}
+              </div>
+            ))}
+          </div>
+        ),
+        html: code(`
+<uf-badge>Draft</uf-badge>
+<uf-badge variant="success">Paid</uf-badge>
+<uf-badge variant="warning" appearance="solid">Expiring</uf-badge>
+<uf-badge variant="info" appearance="outline">Beta</uf-badge>`),
+        react: code(`
+<UfBadge>Draft</UfBadge>
+<UfBadge variant="success">Paid</UfBadge>
+<UfBadge variant="warning" appearance="solid">Expiring</UfBadge>
+<UfBadge variant="info" appearance="outline">Beta</UfBadge>`),
+      },
+      {
+        title: 'Dot, icon and size',
+        Preview: () => (
+          <>
+            <UfBadge dot variant="success">
+              Online
+            </UfBadge>
+            <UfBadge variant="success">
+              <UfIcon slot="prefix" name="check-circle" />
+              Verified
+            </UfBadge>
+            <UfBadge size="sm" variant="accent">
+              New
+            </UfBadge>
+          </>
+        ),
+        html: code(`
+<uf-badge dot variant="success">Online</uf-badge>
+<uf-badge variant="success"><uf-icon slot="prefix" name="check-circle"></uf-icon>Verified</uf-badge>
+<uf-badge size="sm" variant="accent">New</uf-badge>`),
+        react: code(`
+<UfBadge dot variant="success">Online</UfBadge>
+<UfBadge variant="success"><UfIcon slot="prefix" name="check-circle" />Verified</UfBadge>
+<UfBadge size="sm" variant="accent">New</UfBadge>`),
+        notes: ['Badges are read as plain text: write "3 unread" rather than "3", so the badge makes sense on its own.'],
+      },
+    ],
+  },
+  {
+    slug: 'avatar',
+    title: 'Avatar',
+    tags: ['uf-avatar'],
+    module: 'avatar',
+    examples: [
+      {
+        title: 'Image, initials or icon',
+        description: 'The image when it loads, the initials of `name` when it doesn\'t, a generic icon when there\'s neither.',
+        Preview: () => (
+          <>
+            <UfAvatar size="lg" name="John Smith" src={portrait} />
+            <UfAvatar size="lg" name="John Smith" />
+            <UfAvatar size="lg" />
+          </>
+        ),
+        html: code(`
+<uf-avatar name="John Smith" src="/photos/john.jpg"></uf-avatar>
+<uf-avatar name="John Smith"></uf-avatar>
+<uf-avatar></uf-avatar>`),
+        react: code(`
+<UfAvatar name="John Smith" src="/photos/john.jpg" />
+<UfAvatar name="John Smith" />
+<UfAvatar />`),
+      },
+      {
+        title: 'Sizes and shapes',
+        Preview: () => (
+          <>
+            {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+              <UfAvatar key={size} size={size} name="John Smith" />
+            ))}
+            <UfAvatar size="xl" shape="square" name="Unframed" initials="U" />
+          </>
+        ),
+        html: code(`
+<uf-avatar size="sm" name="John Smith"></uf-avatar>
+<uf-avatar size="xl" name="John Smith"></uf-avatar>
+<uf-avatar size="xl" shape="square" name="Unframed" initials="U"></uf-avatar>`),
+        react: code(`
+<UfAvatar size="sm" name="John Smith" />
+<UfAvatar size="xl" name="John Smith" />
+<UfAvatar size="xl" shape="square" name="Unframed" initials="U" />`),
+      },
+      {
+        title: 'Next to a name',
+        Preview: () => (
+          <span style={{ display: 'inline-flex', gap: '0.75rem', alignItems: 'center' }}>
+            <UfAvatar name="John Smith" decorative />
+            <strong>John Smith</strong>
+          </span>
+        ),
+        html: code(`
+<uf-avatar name="John Smith" decorative></uf-avatar>
+<strong>John Smith</strong>`),
+        react: code(`
+<UfAvatar name="John Smith" decorative />
+<strong>John Smith</strong>`),
+        notes: ['`name` is the accessible name. When the name is written next to the avatar, add `decorative` so screen readers don\'t read it twice.'],
+      },
+    ],
+  },
+  {
+    slug: 'card',
+    title: 'Card',
+    tags: ['uf-card'],
+    module: 'card',
+    examples: [
+      {
+        title: 'Media, header, content and footer',
+        description: 'Every section is optional; empty ones take no space.',
+        Preview: () => (
+          <UfCard style={{ maxWidth: '22rem' }}>
+            <img slot="media" src={`${import.meta.env.BASE_URL}og-image.png`} alt="The Unframed logo" style={{ aspectRatio: '1200 / 630' }} />
+            <div slot="header">
+              <h4 style={{ margin: 0 }}>Unframed 0.2</h4>
+              <small>Released this week</small>
+            </div>
+            A link button variant, new colors and smaller Angular bundles.
+            <UfButton slot="footer">Read more</UfButton>
+            <UfButton slot="footer" variant="ghost">
+              Dismiss
+            </UfButton>
+          </UfCard>
+        ),
+        html: code(`
+<uf-card>
+  <img slot="media" src="/cover.png" alt="The Unframed logo" />
+  <div slot="header">
+    <h3>Unframed 0.2</h3>
+    <small>Released this week</small>
+  </div>
+  A link button variant, new colors and smaller Angular bundles.
+  <uf-button slot="footer">Read more</uf-button>
+  <uf-button slot="footer" variant="ghost">Dismiss</uf-button>
+</uf-card>`),
+        react: code(`
+<UfCard>
+  <img slot="media" src="/cover.png" alt="The Unframed logo" />
+  <div slot="header">
+    <h3>Unframed 0.2</h3>
+    <small>Released this week</small>
+  </div>
+  A link button variant, new colors and smaller Angular bundles.
+  <UfButton slot="footer">Read more</UfButton>
+  <UfButton slot="footer" variant="ghost">Dismiss</UfButton>
+</UfCard>`),
+      },
+      {
+        title: 'Variants and orientation',
+        Preview: () => (
+          <>
+            {(['outline', 'elevated', 'filled'] as const).map((variant) => (
+              <UfCard key={variant} variant={variant} style={{ width: '10rem' }}>
+                <strong slot="header">{variant}</strong>A card.
+              </UfCard>
+            ))}
+          </>
+        ),
+        html: code(`
+<uf-card variant="elevated">…</uf-card>
+<uf-card variant="filled">…</uf-card>
+<uf-card orientation="horizontal">
+  <img slot="media" src="/cover.png" alt="" />
+  Media beside the content.
+</uf-card>`),
+        react: code(`
+<UfCard variant="elevated">…</UfCard>
+<UfCard variant="filled">…</UfCard>
+<UfCard orientation="horizontal">
+  <img slot="media" src="/cover.png" alt="" />
+  Media beside the content.
+</UfCard>`),
+      },
+    ],
+  },
+  {
+    slug: 'table',
+    title: 'Table',
+    tags: ['uf-table'],
+    module: 'table',
+    examples: [
+      {
+        title: 'Columns, rows and sorting',
+        description: 'Describe the columns and pass the rows. Columns marked `sortable` sort on click.',
+        Preview: () => <UfTable label="Team" columns={teamColumns} rows={team} style={{ width: '100%' }} />,
+        html: code(`
+<uf-table
+  label="Team"
+  columns='[{"key": "name", "label": "Name", "sortable": true},
+            {"key": "role", "label": "Role"},
+            {"key": "commits", "label": "Commits", "sortable": true, "align": "end"}]'
+  rows='[{"name": "John Smith", "role": "Product designer", "commits": 412},
+         {"name": "Jane Doe", "role": "Engineer", "commits": 1290}]'
+></uf-table>`),
+        react: code(`
+const columns: TableColumn[] = [
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'role', label: 'Role' },
+  { key: 'commits', label: 'Commits', sortable: true, align: 'end' },
+];
+
+<UfTable label="Team" columns={columns} rows={team} />`),
+        vue: code(`
+<script setup lang="ts">
+import type { TableColumn } from '@unframed/core';
+import { UfTable } from '@unframed/vue';
+
+const columns: TableColumn[] = [
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'role', label: 'Role' },
+  { key: 'commits', label: 'Commits', sortable: true, align: 'end' },
+];
+</script>
+
+<template>
+  <UfTable label="Team" :columns="columns" :rows="team" />
+</template>`),
+        angular: code(`
+<uf-table label="Team" [columns]="columns" [rows]="team" />`),
+        notes: [
+          'In plain HTML, `columns` and `rows` can be JSON attributes. From JavaScript, set them as properties.',
+          'Give the table a `label`: it names the table for screen readers.',
+        ],
+      },
+      {
+        title: 'Formatting, and pages',
+        description: '`format` turns a value into text or a DOM node, like a badge. Sorting still uses the raw values.',
+        Preview: PagedInvoices,
+        html: code(`
+<uf-table id="invoices" label="Invoices" row-key="id"></uf-table>
+<uf-pagination id="pages" label="Invoice pages"></uf-pagination>
+
+<script type="module">
+  const table = document.querySelector('#invoices');
+  const pages = document.querySelector('#pages');
+  const pageSize = 8;
+
+  table.columns = [
+    { key: 'customer', label: 'Customer', sortable: true },
+    { key: 'amount', label: 'Amount', sortable: true, align: 'end',
+      format: (value) => euro.format(value) },
+  ];
+  pages.pages = Math.ceil(invoices.length / pageSize);
+
+  const show = (page) => (table.rows = invoices.slice((page - 1) * pageSize, page * pageSize));
+  pages.addEventListener('uf-page-change', (event) => show(event.detail.page));
+  show(1);
+</script>`),
+        react: code(`
+const [page, setPage] = useState(1);
+const pageSize = 8;
+
+<UfTable label="Invoices" columns={columns} rows={invoices.slice((page - 1) * pageSize, page * pageSize)} rowKey="id" />
+<UfPagination
+  label="Invoice pages"
+  pages={Math.ceil(invoices.length / pageSize)}
+  page={page}
+  onUfPageChange={(event) => setPage(event.detail.page)}
+/>`),
+        vue: code(`
+<UfTable label="Invoices" :columns="columns" :rows="invoices.slice((page - 1) * 8, page * 8)" row-key="id" />
+<UfPagination
+  label="Invoice pages"
+  :pages="Math.ceil(invoices.length / 8)"
+  :page="page"
+  @uf-page-change="page = $event.detail.page"
+/>`),
+        angular: code(`
+<uf-table label="Invoices" [columns]="columns" [rows]="pageRows()" rowKey="id" />
+<uf-pagination
+  label="Invoice pages"
+  [pages]="pageCount"
+  [page]="page()"
+  (uf-page-change)="page.set($event.detail.page)"
+/>`),
+        notes: [
+          'To sort on the server, add `manual-sort`: the table shows the sort and fires `uf-sort`, and you load the rows in that order.',
+          'Set `--uf-table-max-height` to scroll long tables under a sticky header.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'pagination',
+    title: 'Pagination',
+    tags: ['uf-pagination'],
+    module: 'pagination',
+    examples: [
+      {
+        title: 'Pages',
+        description: 'Long ranges collapse around the current page; the number of buttons stays the same from page to page.',
+        Preview: () => {
+          const [page, setPage] = useState(6);
+          return <UfPagination pages={20} page={page} onUfPageChange={(event) => setPage(event.detail.page)} />;
+        },
+        html: code(`
+<uf-pagination pages="20" page="6"></uf-pagination>
+
+<script type="module">
+  document.querySelector('uf-pagination').addEventListener('uf-page-change', (event) => {
+    loadPage(event.detail.page);
+  });
+</script>`),
+        react: code(`
+const [page, setPage] = useState(6);
+
+<UfPagination pages={20} page={page} onUfPageChange={(event) => setPage(event.detail.page)} />`),
+        vue: code(`
+<UfPagination :pages="20" :page="page" @uf-page-change="page = $event.detail.page" />`),
+        angular: code(`
+<uf-pagination [pages]="20" [page]="page()" (uf-page-change)="page.set($event.detail.page)" />`),
+      },
+      {
+        title: 'Siblings and size',
+        Preview: () => (
+          <div style={{ display: 'grid', gap: '1rem' }}>
+            <UfPagination label="Two siblings" pages={30} page={15} siblings={2} />
+            <UfPagination label="Small" pages={30} page={15} size="sm" />
+          </div>
+        ),
+        html: code(`
+<uf-pagination pages="30" page="15" siblings="2"></uf-pagination>
+<uf-pagination pages="30" page="15" size="sm"></uf-pagination>`),
+        react: code(`
+<UfPagination pages={30} page={15} siblings={2} />
+<UfPagination pages={30} page={15} size="sm" />`),
+        notes: ['Each pagination is a navigation landmark: when a page has more than one, give each a different `label`.'],
       },
     ],
   },

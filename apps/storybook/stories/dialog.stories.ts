@@ -52,7 +52,7 @@ export const HeaderSlots: Story = {
     <uf-dialog>
       <span slot="label" style="display: inline-flex; gap: 0.5rem; align-items: center"><uf-icon name="info"></uf-icon>report-2026.pdf</span>
       <uf-button slot="header-actions" variant="ghost" size="sm" label="Search in file"><uf-icon slot="prefix" name="search"></uf-icon></uf-button>
-      <p style="margin: 0">2.4 MB · Updated yesterday by Ada.</p>
+      <p style="margin: 0">2.4 MB · Updated yesterday by John.</p>
     </uf-dialog>
   `,
 };
@@ -66,7 +66,7 @@ export const PreventClose: Story = {
       light-dismiss
       @uf-request-close=${(e: CustomEvent<{ source: string }>) => {
         const dialog = e.currentTarget as Dialog;
-        const dirty = dialog.querySelector<HTMLElement & { value: string }>('uf-input')!.value !== 'Ada';
+        const dirty = dialog.querySelector<HTMLElement & { value: string }>('uf-input')!.value !== 'John';
         // The footer's Save button closes it in any case.
         if (dirty && e.detail.source !== 'trigger') {
           e.preventDefault();
@@ -75,7 +75,7 @@ export const PreventClose: Story = {
       }}
     >
       <div class="sb-stack">
-        <uf-input label="Name" value="Ada" hint="Change it, then try Escape, the backdrop or the close button."></uf-input>
+        <uf-input label="Name" value="John" hint="Change it, then try Escape, the backdrop or the close button."></uf-input>
         <output class="sb-note" style="margin: 0"></output>
       </div>
       <uf-button slot="footer" data-dialog="close">Save</uf-button>
