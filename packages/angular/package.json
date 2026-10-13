@@ -28,6 +28,10 @@
       "types": "./dist/types/unframed-angular.d.ts",
       "default": "./dist/fesm2022/unframed-angular.mjs"
     },
+    "./*": {
+      "types": "./dist/types/unframed-angular-*.d.ts",
+      "default": "./dist/fesm2022/unframed-angular-*.mjs"
+    },
     "./package.json": "./package.json"
   },
   "sideEffects": false,

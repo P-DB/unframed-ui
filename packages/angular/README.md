@@ -18,7 +18,13 @@ export class SignupComponent {
 }
 ```
 
-Add `node_modules/@unframed/tokens/dist/tokens.css` to the `styles` in `angular.json`.
+`UNFRAMED` brings every component. To bundle only what you use, import components by name, from `@unframed/angular` or from each component's entry point:
+
+```ts
+import { UfInput, UfTextValueAccessor } from '@unframed/angular/input';
+```
+
+Load the tokens once, in `src/styles.css`: `@import '@unframed/tokens/tokens.css';`
 
 **[Documentation](https://p-db.github.io/unframed-ui/)** · **[Storybook](https://p-db.github.io/unframed-ui/storybook/)** · **[GitHub](https://github.com/P-DB/unframed-ui)**
 

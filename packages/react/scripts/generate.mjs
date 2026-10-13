@@ -1,6 +1,7 @@
 // Generates typed React wrappers for every custom element in @unframed/core's
 // custom-elements.json. Custom events like `uf-change` become `onUfChange` props.
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { coreImportPath } from '../../../scripts/form-models.mjs';
 
 const root = new URL('../', import.meta.url);
 const manifestUrl = new URL('../core/custom-elements.json', root);
@@ -9,12 +10,6 @@ const outDir = new URL('src/generated/', root);
 const manifest = JSON.parse(await readFile(manifestUrl, 'utf8'));
 
 const pascal = (name) => name.replace(/(^|-)(\w)/g, (_, __, c) => c.toUpperCase());
-
-/** dist/components/button/button.js -> @unframed/core/button */
-function importPath(modulePath) {
-  const match = modulePath.match(/^dist\/components\/([^/]+)\/\1\.js$/);
-  return match ? `@unframed/core/${match[1]}` : '@unframed/core';
-}
 
 const elements = manifest.modules.flatMap((mod) =>
   (mod.declarations ?? [])
@@ -43,7 +38,7 @@ for (const el of elements) {
 
   const source = `${header}import * as React from 'react';
 import { createComponent${events.length ? ', type EventName' : ''} } from '@lit/react';
-import { ${el.name} as ${el.name}Element } from '${importPath(el.modulePath)}';
+import { ${el.name} as ${el.name}Element } from '${coreImportPath(el.modulePath)}';
 ${typeImport}
 ${el.summary ? `/** ${el.summary} */\n` : ''}export const ${el.name} = createComponent({
   tagName: '${el.tagName}',

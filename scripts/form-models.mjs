@@ -24,9 +24,14 @@ export function readElements(manifest) {
   );
 }
 
-/** dist/components/button/button.js -> @unframed/core/button (or the root entry). */
+/**
+ * The smallest @unframed/core entry that registers and exports an element: its
+ * folder's entry, which also exports the sub-elements in that folder.
+ * dist/components/button/button.js -> @unframed/core/button
+ * dist/components/tabs/tab.js -> @unframed/core/tabs (exports UfTab, UfTabPanel)
+ */
 export function coreImportPath(modulePath) {
-  const match = modulePath.match(/^dist\/components\/([^/]+)\/\1\.js$/);
+  const match = modulePath.match(/^dist\/components\/([^/]+)\/[^/]+\.js$/);
   return match ? `@unframed/core/${match[1]}` : '@unframed/core';
 }
 

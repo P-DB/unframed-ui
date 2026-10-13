@@ -32,8 +32,8 @@ export function AngularGuide() {
       />
       <ul>
         <li>
-          <strong>UNFRAMED</strong> imports every component and form directive. You can also import single ones (see
-          below). Either way, the package currently loads every element, so they are all in your bundle.
+          <strong>UNFRAMED</strong> imports every component and form directive, so it bundles all of them. Handy to
+          start with; see below to ship only what you use.
         </li>
         <li>
           <strong>Inputs</strong> are the element's properties, typed: <code>[open]</code>, <code>[variant]</code>,{' '}
@@ -53,6 +53,15 @@ export function AngularGuide() {
           <code>@unframed/core</code>.
         </li>
       </ul>
+
+      <h2>Bundle only what you use</h2>
+      <p>
+        Import components by name, from the root or from each component's entry point, like{' '}
+        <code>@unframed/angular/input</code>. Your app then bundles only those components. An entry point also exports
+        its form directive (<code>UfTextValueAccessor</code> for inputs and textareas,{' '}
+        <code>UfCheckedValueAccessor</code> for checkboxes and switches…).
+      </p>
+      <CodeBlock standalone samples={[{ label: 'signup.component.ts', lang: 'angular-ts', code: angular.entries }]} />
 
       <h2>Template-driven forms</h2>
       <CodeBlock standalone samples={[{ label: 'settings.component.ts', lang: 'angular-ts', code: angular.ngModel }]} />

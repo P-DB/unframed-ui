@@ -1,6 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UNFRAMED, type UfDialog } from '@unframed/angular';
+import { UfButton as EntryButton } from '@unframed/angular/button';
+import { UfInput as EntryInput, UfTextValueAccessor } from '@unframed/angular/input';
+import { UfSwitch as EntrySwitch, UfCheckedValueAccessor } from '@unframed/angular/switch';
 
 @Component({
   selector: 'app-valid',
@@ -34,4 +37,19 @@ export class ValidComponent {
     void source;
   }
   dialogType?: UfDialog;
+}
+
+// Per-component entry points: each brings its component and form directive.
+@Component({
+  selector: 'app-entries',
+  imports: [EntryInput, UfTextValueAccessor, EntrySwitch, UfCheckedValueAccessor, EntryButton, FormsModule],
+  template: `
+    <uf-input [(ngModel)]="name" label="Name" />
+    <uf-switch [(ngModel)]="on">On</uf-switch>
+    <uf-button variant="ghost">Save</uf-button>
+  `,
+})
+export class EntriesComponent {
+  name = '';
+  on = false;
 }

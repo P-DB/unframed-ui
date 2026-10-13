@@ -218,18 +218,31 @@ export class SignupComponent {
 </uf-dialog>`,
   ngModel: `import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UfCheckedValueAccessor, UfSwitch } from '@unframed/angular';
+import { UfCheckedValueAccessor, UfSwitch } from '@unframed/angular/switch';
 
 @Component({
   selector: 'app-settings',
-  // Or just the ones this component uses: the switch and its form directive
-  // (UfCheckedValueAccessor covers checkboxes and switches).
   imports: [UfSwitch, UfCheckedValueAccessor, FormsModule],
   template: \`<uf-switch [(ngModel)]="notifications">Notifications</uf-switch>\`,
 })
 export class SettingsComponent {
   notifications = true;
 }`,
+  entries: `import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+// Each component has its own entry point, which also exports its form directive.
+import { UfButton } from '@unframed/angular/button';
+import { UfInput, UfTextValueAccessor } from '@unframed/angular/input';
+
+// Importing by name from the root works too: unused components are left out.
+import { UfDialog } from '@unframed/angular';
+
+@Component({
+  selector: 'app-signup',
+  imports: [UfButton, UfInput, UfTextValueAccessor, UfDialog, ReactiveFormsModule],
+  templateUrl: './signup.component.html',
+})
+export class SignupComponent {}`,
   methods: `import { Component, viewChild } from '@angular/core';
 import { UfButton, UfDialog } from '@unframed/angular';
 
