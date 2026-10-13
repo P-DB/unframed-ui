@@ -3,6 +3,7 @@ import { useHref, useNavigate, useParams } from 'react-router';
 import { ApiTables } from '../components/ApiTables';
 import { CodeBlock } from '../components/CodeBlock';
 import { findPage } from '../demos';
+import { storybookDocsUrl } from '../links';
 import { getElement } from '../manifest';
 import { NotFound } from './NotFound';
 
@@ -29,9 +30,15 @@ export function ComponentPage() {
   return (
     <article>
       <h1>{page.title}</h1>
-      <p className="lead">
+      <p className="lead component-page__lead">
         <Inline text={main?.description?.split('\n\n')[0] ?? main?.summary} />
       </p>
+      <div className="component-page__storybook">
+        <UfButton variant="outline" href={storybookDocsUrl(page.title)} target="_blank">
+          Open in Storybook
+          <UfIcon slot="suffix" name="chevron-right" />
+        </UfButton>
+      </div>
 
       <CodeBlock
         standalone
@@ -81,7 +88,7 @@ export function ComponentPage() {
 
       <div className="component-page__back">
         <UfButton
-          variant="ghost"
+          variant="outline"
           href={allComponentsHref}
           onClick={(event) => {
             // A real link (new tab, copy link), but in-app navigation on a plain click.

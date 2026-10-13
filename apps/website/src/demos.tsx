@@ -76,6 +76,7 @@ export const pages: Page[] = [
             <UfButton variant="outline">Outline</UfButton>
             <UfButton variant="ghost">Ghost</UfButton>
             <UfButton variant="danger">Danger</UfButton>
+            <UfButton variant="link">Link</UfButton>
           </>
         ),
         html: code(`
@@ -83,13 +84,15 @@ export const pages: Page[] = [
 <uf-button variant="secondary">Secondary</uf-button>
 <uf-button variant="outline">Outline</uf-button>
 <uf-button variant="ghost">Ghost</uf-button>
-<uf-button variant="danger">Danger</uf-button>`),
+<uf-button variant="danger">Danger</uf-button>
+<uf-button variant="link">Link</uf-button>`),
         react: code(`
 <UfButton>Primary</UfButton>
 <UfButton variant="secondary">Secondary</UfButton>
 <UfButton variant="outline">Outline</UfButton>
 <UfButton variant="ghost">Ghost</UfButton>
-<UfButton variant="danger">Danger</UfButton>`),
+<UfButton variant="danger">Danger</UfButton>
+<UfButton variant="link">Link</UfButton>`),
       },
       {
         title: 'Icons, sizes and states',

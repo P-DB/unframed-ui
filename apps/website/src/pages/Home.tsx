@@ -43,7 +43,7 @@ export function Home() {
           <UfButton size="lg" variant="outline" onClick={() => navigate('/components')}>
             Browse components
           </UfButton>
-          <UfButton size="lg" variant="ghost" href={storybookUrl} target="_blank">
+          <UfButton size="lg" variant="outline" href={storybookUrl} target="_blank">
             Open Storybook
             <UfIcon slot="suffix" name="chevron-right" />
           </UfButton>
