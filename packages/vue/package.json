@@ -1,6 +1,6 @@
 {
   "name": "@unframed/vue",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Vue components for Unframed web components, with v-model and typed props.",
   "license": "MIT",
   "author": "Patrizio Di Bartolomeo",
@@ -37,7 +37,7 @@
     "test": "npm run generate && vitest run"
   },
   "dependencies": {
-    "@unframed/core": "0.1.0"
+    "@unframed/core": "0.2.0"
   },
   "peerDependencies": {
     "vue": "^3.4.0"
