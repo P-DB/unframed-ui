@@ -115,6 +115,18 @@ describe('uf-button', () => {
     expect(inner(el).getAttribute('aria-label')).toBe('Close');
   });
 
+  it('looks like a text link with variant="link"', async () => {
+    const el = await fixture<UfButton>('<uf-button variant="link" href="/docs">Read the docs</uf-button>');
+    const style = getComputedStyle(inner(el));
+    expect(style.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(style.paddingLeft).toBe('0px');
+    // Same color as the accent-strong token, resolved by the browser.
+    const probe = document.body.appendChild(document.createElement('span'));
+    probe.style.color = 'var(--uf-color-accent-strong)';
+    expect(style.color).toBe(getComputedStyle(probe).color);
+    expect(inner(el).tagName).toBe('A');
+  });
+
   it('centers the icon in a square when there is no text', async () => {
     const el = await fixture<UfButton>(
       '<uf-button label="Search"><svg slot="prefix" viewBox="0 0 24 24"></svg></uf-button>',
@@ -146,6 +158,7 @@ describe('uf-button', () => {
         <uf-button variant="outline">Outline</uf-button>
         <uf-button variant="ghost">Ghost</uf-button>
         <uf-button variant="danger">Danger</uf-button>
+        <uf-button variant="link">Link</uf-button>
         <uf-button loading>Loading</uf-button>
         <uf-button href="/">Link</uf-button>
       </main>`;

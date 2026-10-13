@@ -89,37 +89,37 @@
     },
     "danger": {
       "50": {
-        "$value": "#fdecec"
+        "$value": "#fcedf0"
       },
       "100": {
-        "$value": "#fbd0d1"
+        "$value": "#f8d3db"
       },
       "200": {
-        "$value": "#f6a3a6"
+        "$value": "#f0a8b8"
       },
       "300": {
-        "$value": "#ef7479"
+        "$value": "#e57d93"
       },
       "400": {
-        "$value": "#e5484f"
+        "$value": "#d4566f"
       },
       "500": {
-        "$value": "#c81d25"
+        "$value": "#b13650"
       },
       "600": {
-        "$value": "#9d0208"
+        "$value": "#7c162e"
       },
       "700": {
-        "$value": "#800006"
+        "$value": "#661126"
       },
       "800": {
-        "$value": "#650005"
+        "$value": "#510d1e"
       },
       "900": {
-        "$value": "#4d0004"
+        "$value": "#3d0a17"
       },
       "950": {
-        "$value": "#2e0002"
+        "$value": "#24050d"
       }
     },
     "success": {

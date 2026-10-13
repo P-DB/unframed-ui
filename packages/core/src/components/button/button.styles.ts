@@ -58,6 +58,22 @@ export const buttonStyles = [
       --_fg: var(--uf-color-on-danger);
     }
 
+    /* Looks like a text link: no fill, no side padding (lines up with text), underline on hover.
+       After the size rules, so its padding wins. */
+    :host([variant='link']) {
+      --_bg: transparent;
+      --_bg-hover: transparent;
+      --_bg-active: transparent;
+      --_fg: var(--uf-color-accent-strong);
+      --_padding: 0;
+    }
+
+    :host([variant='link']) .base:hover:not(.disabled),
+    :host([variant='link']) .base:focus-visible {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+
     .base {
       position: relative;
       display: inline-flex;
