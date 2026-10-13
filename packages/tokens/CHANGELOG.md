@@ -1,5 +1,11 @@
 # @unframed/tokens
 
+## 0.3.0
+
+### Minor Changes
+
+- 453f778: New components: Badge (`<uf-badge>`), Avatar (`<uf-avatar>`), Card (`<uf-card>`), Table (`<uf-table>`) with sorting and custom cells, and Pagination (`<uf-pagination>`). They come with React, Vue and Angular wrappers, and the CLI can copy them. Tokens add `--uf-color-info` and `--uf-color-info-subtle`, and the icon set adds `user`.
+
 ## 0.2.0
 
 ### Minor Changes

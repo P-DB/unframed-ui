@@ -1,5 +1,17 @@
 # @unframed/core
 
+## 0.3.0
+
+### Minor Changes
+
+- 453f778: New components: Badge (`<uf-badge>`), Avatar (`<uf-avatar>`), Card (`<uf-card>`), Table (`<uf-table>`) with sorting and custom cells, and Pagination (`<uf-pagination>`). They come with React, Vue and Angular wrappers, and the CLI can copy them. Tokens add `--uf-color-info` and `--uf-color-info-subtle`, and the icon set adds `user`.
+
+### Patch Changes
+
+- 89fb75d: Form controls update their form value and validity as soon as `value`, `checked`, `required` or a constraint is set from code. Before, `field.value = 'x'; form.requestSubmit()` could be blocked by the old validity, and `new FormData(form)` could miss the new value.
+- Updated dependencies [453f778]
+  - @unframed/tokens@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

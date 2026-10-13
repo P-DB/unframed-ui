@@ -1,5 +1,20 @@
 # @unframed/angular
 
+## 0.3.0
+
+### Minor Changes
+
+- f721e60: Angular: every component has its own entry point, like `@unframed/angular/input`, which loads only that component and exports its form directive. Importing components by name from `@unframed/angular` is tree-shaken too: an app using only `UfButton` now bundles about 26 KB of Unframed code instead of 140 KB. `UNFRAMED` still brings everything.
+  
+  React and Vue: the wrappers for sub-elements (`UfTab`, `UfTabPanel`, `UfMenuItem`, `UfAccordionItem`) load only their component's module instead of the whole library.
+- 453f778: New components: Badge (`<uf-badge>`), Avatar (`<uf-avatar>`), Card (`<uf-card>`), Table (`<uf-table>`) with sorting and custom cells, and Pagination (`<uf-pagination>`). They come with React, Vue and Angular wrappers, and the CLI can copy them. Tokens add `--uf-color-info` and `--uf-color-info-subtle`, and the icon set adds `user`.
+
+### Patch Changes
+
+- Updated dependencies [453f778]
+- Updated dependencies [89fb75d]
+  - @unframed/core@0.3.0
+
 ## 0.2.0
 
 ### Patch Changes
