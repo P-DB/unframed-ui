@@ -42,6 +42,18 @@ export type InputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url'
 export class UfInput extends FormControl {
   static override styles = [hostStyles, fieldStyles, controlBoxStyles];
 
+  protected static override formStateProperties: ReadonlySet<PropertyKey> = new Set([
+    ...FormControl.formStateProperties,
+    'type',
+    'readonly',
+    'pattern',
+    'min',
+    'max',
+    'step',
+    'minlength',
+    'maxlength',
+  ]);
+
   static override properties: PropertyDeclarations = {
     type: { reflect: true },
     value: { attribute: false },

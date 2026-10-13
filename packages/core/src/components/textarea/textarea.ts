@@ -64,6 +64,13 @@ export class UfTextarea extends FormControl {
     `,
   ];
 
+  protected static override formStateProperties: ReadonlySet<PropertyKey> = new Set([
+    ...FormControl.formStateProperties,
+    'readonly',
+    'minlength',
+    'maxlength',
+  ]);
+
   static override properties: PropertyDeclarations = {
     value: { attribute: false },
     defaultValue: { attribute: 'value' },

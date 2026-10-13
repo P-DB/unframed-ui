@@ -43,6 +43,47 @@ export abstract class FormControl extends LitElement {
     });
   }
 
+  /** True while an update runs, so changes made during it don't start a nested one. */
+  #updating = false;
+
+  /**
+   * Properties that change the submitted value or the validity. Subclasses add
+   * their own constraints (`pattern`, `min`...).
+   */
+  protected static formStateProperties: ReadonlySet<PropertyKey> = new Set([
+    'value',
+    'checked',
+    'defaultValue',
+    'defaultChecked',
+    'required',
+    'name',
+  ]);
+
+  /**
+   * Form value and validity come from the rendered control, but the form reads
+   * them synchronously: `input.value = 'x'; form.requestSubmit()` must see the
+   * new value. So changing one of `formStateProperties` on a rendered control
+   * updates it at once, instead of in the next microtask. Other properties keep
+   * Lit's batched updates.
+   */
+  override requestUpdate(...args: Parameters<LitElement['requestUpdate']>): void {
+    super.requestUpdate(...args);
+    const [name] = args;
+    const formState = (this.constructor as typeof FormControl).formStateProperties;
+    if (name !== undefined && formState.has(name) && this.hasUpdated && !this.#updating && this.isUpdatePending) {
+      this.performUpdate();
+    }
+  }
+
+  protected override performUpdate(): void {
+    this.#updating = true;
+    try {
+      super.performUpdate();
+    } finally {
+      this.#updating = false;
+    }
+  }
+
   /** The form this control belongs to, if any. */
   get form(): HTMLFormElement | null {
     return this.internals.form;
