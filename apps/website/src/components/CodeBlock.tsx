@@ -79,21 +79,24 @@ export function CodeBlock({ samples, standalone = false }: { samples: CodeSample
 
   return (
     <div className={`code-block${standalone ? ' code-block--standalone' : ''}`}>
-      <div className="code-block__tabs" role="tablist" aria-label="Code language" onKeyDown={onKeyDown}>
-        {samples.map((s, i) => (
-          <button
-            key={s.label}
-            id={`${id}-tab-${i}`}
-            className={`code-block__tab${i === active ? ' code-block__tab--active' : ''}`}
-            role="tab"
-            aria-selected={i === active}
-            aria-controls={`${id}-panel`}
-            tabIndex={i === active ? 0 : -1}
-            onClick={() => setActive(i)}
-          >
-            {s.label}
-          </button>
-        ))}
+      {/* The tab list holds only tabs; Copy sits beside it in the same bar. */}
+      <div className="code-block__bar">
+        <div className="code-block__tabs" role="tablist" aria-label="Code language" onKeyDown={onKeyDown}>
+          {samples.map((s, i) => (
+            <button
+              key={s.label}
+              id={`${id}-tab-${i}`}
+              className={`code-block__tab${i === active ? ' code-block__tab--active' : ''}`}
+              role="tab"
+              aria-selected={i === active}
+              aria-controls={`${id}-panel`}
+              tabIndex={i === active ? 0 : -1}
+              onClick={() => setActive(i)}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
         <UfButton className="code-block__copy" variant="ghost" size="sm" onClick={copy}>
           Copy
         </UfButton>

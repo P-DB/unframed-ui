@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
 
 export function Theming() {
@@ -7,6 +8,11 @@ export function Theming() {
       <p className="lead">
         Everything is driven by CSS custom properties, at three levels: design tokens, per-component properties, and CSS
         parts.
+      </p>
+
+      <p>
+        Want a full palette from one color? The <Link to="/docs/theme-generator">theme generator</Link> builds the
+        tokens for you, with a live preview and contrast checks.
       </p>
 
       <h2>1. Design tokens</h2>
