@@ -1,7 +1,8 @@
 import { UfButton, UfIcon } from '@unframed/react';
-import { useHref, useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { ApiTables } from '../components/ApiTables';
 import { CodeBlock } from '../components/CodeBlock';
+import { LinkButton } from '../components/LinkButton';
 import { findPage } from '../demos';
 import { storybookDocsUrl } from '../links';
 import { getElement } from '../manifest';
@@ -22,8 +23,6 @@ function Inline({ text }: { text?: string }) {
 
 export function ComponentPage() {
   const page = findPage(useParams().slug);
-  const navigate = useNavigate();
-  const allComponentsHref = useHref('/components');
   if (!page) return <NotFound />;
   const main = getElement(page.tags[0]);
 
@@ -87,19 +86,10 @@ export function ComponentPage() {
       ))}
 
       <div className="component-page__back">
-        <UfButton
-          variant="outline"
-          href={allComponentsHref}
-          onClick={(event) => {
-            // A real link (new tab, copy link), but in-app navigation on a plain click.
-            if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
-            event.preventDefault();
-            navigate('/components');
-          }}
-        >
+        <LinkButton to="/components" variant="outline">
           <UfIcon slot="prefix" name="chevron-left" />
           All components
-        </UfButton>
+        </LinkButton>
       </div>
     </article>
   );

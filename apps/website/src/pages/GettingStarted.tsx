@@ -1,4 +1,12 @@
+import { Link } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
+
+const frameworks = [
+  ['/docs/frameworks/html', 'HTML & JavaScript', 'Plain HTML, Svelte, Solid, Astro… or straight from a CDN.'],
+  ['/docs/frameworks/react', 'React', 'Typed components and camelCase event handlers.'],
+  ['/docs/frameworks/vue', 'Vue', 'Typed components with v-model on every form control.'],
+  ['/docs/frameworks/angular', 'Angular', 'Standalone components and Angular forms support.'],
+];
 
 export function GettingStarted() {
   return (
@@ -50,102 +58,22 @@ npx @unframed/cli diff dialog      # compare your copy with upstream`,
         first wins.
       </p>
 
-      <h2>React</h2>
+      <h2>Your framework</h2>
       <p>
-        React 19 supports custom elements directly. The <code>@unframed/react</code> wrappers add typed props and
-        camelCase event handlers like <code>onUfTabChange</code>.
+        React, Vue and Angular have their own packages, with typed props, their event syntax and form bindings. Each
+        guide has everything you need to set it up:
       </p>
-      <CodeBlock standalone samples={[{ label: 'Terminal', code: 'npm install @unframed/react @unframed/tokens' }]} />
-      <CodeBlock
-        standalone
-        samples={[
-          {
-            label: 'React',
-            code: `import '@unframed/tokens/tokens.css';
-import { UfButton, UfDialog } from '@unframed/react';
-
-export function DeleteButton() {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <UfButton variant="danger" onClick={() => setOpen(true)}>Delete</UfButton>
-      <UfDialog label="Delete project?" open={open} onUfHide={() => setOpen(false)}>…</UfDialog>
-    </>
-  );
-}`,
-          },
-        ]}
-      />
-
-      <h2>Vue</h2>
+      <div className="card-grid">
+        {frameworks.map(([to, title, text]) => (
+          <Link key={to} to={to} className="card">
+            <strong className="card__title">{title}</strong>
+            <span className="card__text">{text}</span>
+          </Link>
+        ))}
+      </div>
       <p>
-        <code>@unframed/vue</code> has a Vue component for every element, with typed props and events in your templates
-        and <code>v-model</code> on every form control (checkboxes and switches bind <code>checked</code>).
+        Not sure which packages you need? See <Link to="/docs/packages">Packages</Link>.
       </p>
-      <CodeBlock standalone samples={[{ label: 'Terminal', code: 'npm install @unframed/vue @unframed/tokens' }]} />
-      <CodeBlock
-        standalone
-        samples={[
-          {
-            label: 'Vue',
-            code: `<script setup lang="ts">
-import '@unframed/tokens/tokens.css';
-import { UfButton, UfCheckbox, UfInput } from '@unframed/vue';
-
-const email = ref('');
-const agree = ref(false);
-</script>
-
-<template>
-  <UfInput v-model="email" type="email" label="Email" required />
-  <UfCheckbox v-model="agree">I accept the terms</UfCheckbox>
-  <UfButton :disabled="!agree" @click="save">Save</UfButton>
-</template>`,
-          },
-          {
-            label: 'Register globally',
-            code: `import { UnframedVue } from '@unframed/vue';
-
-createApp(App).use(UnframedVue).mount('#app');`,
-          },
-        ]}
-      />
-      <p>
-        Prefer the plain <code>&lt;uf-*&gt;</code> tags? Tell Vue they're custom elements with{' '}
-        <code>isCustomElement: isUnframedElement</code> in your Vite config's <code>template.compilerOptions</code>.
-      </p>
-
-      <h2>Angular</h2>
-      <p>
-        <code>@unframed/angular</code> provides standalone components with typed inputs and outputs, and form directives,
-        so <code>ngModel</code>, <code>formControl</code> and <code>formControlName</code> work with every form control.
-        No <code>CUSTOM_ELEMENTS_SCHEMA</code> needed.
-      </p>
-      <CodeBlock standalone samples={[{ label: 'Terminal', code: 'npm install @unframed/angular @unframed/tokens' }]} />
-      <CodeBlock
-        standalone
-        samples={[
-          {
-            label: 'Angular',
-            code: `import { Component } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { UNFRAMED } from '@unframed/angular';
-
-@Component({
-  selector: 'app-signup',
-  imports: [UNFRAMED, ReactiveFormsModule],
-  template: \`
-    <uf-input [formControl]="email" type="email" label="Email" required />
-    <uf-button [disabled]="email.invalid" (click)="save()">Save</uf-button>
-  \`,
-})
-export class SignupComponent {
-  email = new FormControl('');
-}`,
-          },
-          { label: 'Styles', code: `// angular.json → "styles": ["node_modules/@unframed/tokens/dist/tokens.css"]` },
-        ]}
-      />
     </article>
   );
 }

@@ -8,9 +8,14 @@ import './styles.css';
 import { Layout } from './components/Layout';
 import { ComponentPage } from './pages/ComponentPage';
 import { ComponentsIndex } from './pages/ComponentsIndex';
+import { AngularGuide } from './pages/frameworks/Angular';
+import { HtmlGuide } from './pages/frameworks/Html';
+import { ReactGuide } from './pages/frameworks/React';
+import { VueGuide } from './pages/frameworks/Vue';
 import { GettingStarted } from './pages/GettingStarted';
 import { Home } from './pages/Home';
 import { NotFound } from './pages/NotFound';
+import { Packages } from './pages/Packages';
 import { Theming } from './pages/Theming';
 
 const router = createBrowserRouter([
@@ -19,6 +24,11 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: 'docs/getting-started', element: <GettingStarted /> },
+      { path: 'docs/packages', element: <Packages /> },
+      { path: 'docs/frameworks/html', element: <HtmlGuide /> },
+      { path: 'docs/frameworks/react', element: <ReactGuide /> },
+      { path: 'docs/frameworks/vue', element: <VueGuide /> },
+      { path: 'docs/frameworks/angular', element: <AngularGuide /> },
       { path: 'docs/theming', element: <Theming /> },
       { path: 'components', element: <ComponentsIndex /> },
       { path: 'components/:slug', element: <ComponentPage /> },

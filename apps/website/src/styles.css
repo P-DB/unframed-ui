@@ -357,6 +357,96 @@ h3 {
   font-size: 0.9375rem;
 }
 
+/* Packages page: how the packages build on each other */
+.package-map {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem;
+  border: 1px solid var(--uf-color-border);
+  font-family: var(--uf-font-family-mono);
+  font-size: 0.875rem;
+}
+
+.package-map__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.package-map__box {
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--uf-color-border-strong);
+  background: var(--uf-color-surface);
+}
+
+.package-map__box--core {
+  padding: 0.75rem 2rem;
+  border-color: var(--uf-color-accent);
+  background: var(--uf-color-accent);
+  color: var(--uf-color-on-accent);
+  font-weight: 600;
+}
+
+.package-map__box--tool {
+  border-style: dashed;
+}
+
+.package-map__arrow {
+  color: var(--uf-color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.package-map__aside {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--uf-color-border);
+  width: 100%;
+}
+
+.package-map__note {
+  color: var(--uf-color-text-muted);
+  font-family: var(--uf-font-family-sans);
+}
+
+.package-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1rem;
+  margin: 0 0 1rem;
+}
+
+.package-facts__term {
+  color: var(--uf-color-text-muted);
+}
+
+.package-facts__value {
+  margin: 0;
+}
+
+@media (max-width: 40rem) {
+  .package-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .package-facts__value + .package-facts__term {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Links to the framework guides, at the end of the Packages page */
+.packages__guides {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 /* Live demo with its code */
 .demo {
   border: 1px solid var(--uf-color-border);

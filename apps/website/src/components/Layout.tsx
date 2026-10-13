@@ -77,7 +77,13 @@ export function Layout() {
           <aside className="docs-layout__sidebar sidebar" aria-label="Documentation">
             <h4 className="sidebar__heading">Get started</h4>
             <NavLink to="/docs/getting-started" className={sidebarLink}>Installation</NavLink>
+            <NavLink to="/docs/packages" className={sidebarLink}>Packages</NavLink>
             <NavLink to="/docs/theming" className={sidebarLink}>Theming</NavLink>
+            <h4 className="sidebar__heading">Frameworks</h4>
+            <NavLink to="/docs/frameworks/html" className={sidebarLink}>HTML &amp; JavaScript</NavLink>
+            <NavLink to="/docs/frameworks/react" className={sidebarLink}>React</NavLink>
+            <NavLink to="/docs/frameworks/vue" className={sidebarLink}>Vue</NavLink>
+            <NavLink to="/docs/frameworks/angular" className={sidebarLink}>Angular</NavLink>
             <h4 className="sidebar__heading">Components</h4>
             <NavLink to="/components" end className={sidebarLink}>
               Overview
