@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "npm run build -w @unframed/tokens && npm run analyze -w @unframed/core && npm run generate -w @unframed/react",
+    "predev": "npm run build -w @unframed/tokens && npm run analyze -w @unframed/core && npm run generate -w @unframed/react && node scripts/llms.mjs",
     "dev": "vite",
     "prebuild": "npm run predev",
     "build": "vite build",

@@ -23,13 +23,15 @@
   },
   "files": [
     "dist",
-    "registry.json"
+    "registry.json",
+    "skill"
   ],
   "scripts": {
     "registry": "node scripts/build-registry.mjs",
-    "build": "npm run registry && rm -rf dist && tsc -p tsconfig.json",
+    "build": "npm run registry && npm run skill && rm -rf dist && tsc -p tsconfig.json",
     "test": "npm run build && vitest run",
-    "typecheck": "npm run registry && tsc -p tsconfig.json --noEmit"
+    "typecheck": "npm run registry && tsc -p tsconfig.json --noEmit",
+    "skill": "node scripts/build-skill.mjs"
   },
   "engines": {
     "node": ">=20"

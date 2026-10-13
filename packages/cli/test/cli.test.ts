@@ -206,6 +206,49 @@ describe('list and diff', () => {
   });
 });
 
+describe('skill', () => {
+  it('installs SKILL.md and its references in .claude/skills/unframed', async () => {
+    const cwd = project();
+    const { code, out } = await cli(cwd, 'skill');
+    expect(code).toBe(0);
+    const dir = join(cwd, '.claude/skills/unframed');
+    const skillMd = readFileSync(join(dir, 'SKILL.md'), 'utf8');
+    // Agent Skills format: frontmatter with a name matching the folder, and a description.
+    expect(skillMd).toMatch(/^---\nname: unframed\ndescription: .+\n---\n/);
+    expect(skillMd).toContain(`Unframed ${loadRegistry().version}`);
+    expect(skillMd).not.toContain('{{');
+    for (const name of Object.keys(loadRegistry().components)) expect(skillMd).toContain(`@unframed/core/${name}`);
+    const components = readFileSync(join(dir, 'references/components.md'), 'utf8');
+    expect(components).toContain('`<uf-table>` API');
+    expect(components).toContain('```html');
+    expect(filesUnder(dir).map((f) => f.slice(dir.length + 1)).sort()).toEqual([
+      'SKILL.md',
+      'references/components.md',
+      'references/frameworks.md',
+      'references/theming.md',
+    ]);
+    expect(out).toContain('.claude/skills/unframed');
+  });
+
+  it('installs into another assistant\'s folder with --dir', async () => {
+    const cwd = project();
+    expect((await cli(cwd, 'skill', '--dir', '.agents/skills')).code).toBe(0);
+    expect(existsSync(join(cwd, '.agents/skills/unframed/SKILL.md'))).toBe(true);
+  });
+
+  it('keeps an edited skill unless --overwrite', async () => {
+    const cwd = project();
+    await cli(cwd, 'skill');
+    const file = join(cwd, '.claude/skills/unframed/SKILL.md');
+    appendFileSync(file, '\nOur team prefers ghost buttons.\n');
+    const kept = await cli(cwd, 'skill');
+    expect(kept.code).toBe(2);
+    expect(readFileSync(file, 'utf8')).toContain('ghost buttons');
+    expect((await cli(cwd, 'skill', '--overwrite')).code).toBe(0);
+    expect(readFileSync(file, 'utf8')).not.toContain('ghost buttons');
+  });
+});
+
 describe('toJavaScript', () => {
   it('removes types but keeps comments and layout tidy', () => {
     const js = toJavaScript(`import { a, type B } from './x.js';

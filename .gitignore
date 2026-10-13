@@ -8,6 +8,18 @@ packages/react/src/generated/
 __screenshots__/
 .vitest/
 packages/cli/registry.json
+packages/cli/skill/
+# Docs for AI assistants, written by apps/website/scripts/llms.mjs
+apps/website/public/llms.txt
+apps/website/public/llms-full.txt
+apps/website/public/llms/
 packages/cli/.tmp/
 packages/vue/src/generated/
 packages/angular/src/lib/generated/
+# Angular entry points, one folder per component (scripts/generate.mjs)
+packages/angular/*/
+!packages/angular/src/
+!packages/angular/scripts/
+!packages/angular/test/
+!packages/angular/forms/
+packages/angular/forms/accessors.ts

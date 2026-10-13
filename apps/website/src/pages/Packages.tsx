@@ -55,14 +55,18 @@ const packages: Package[] = [
     summary: 'Standalone Angular components with typed inputs and outputs, and form directives for ngModel and reactive forms.',
     install: 'In Angular apps (20 or later).',
     dependsOn: '@unframed/core; @angular/core, @angular/forms (peers)',
-    entries: [['@unframed/angular', 'UNFRAMED (every component and form directive), or each component on its own: UfButton, UfDialog…']],
+    entries: [
+      ['@unframed/angular', 'Every component and form directive by name (UfButton, UfDialog…), and UNFRAMED to import them all at once.'],
+      ['@unframed/angular/<component>', 'One component and its form directive, e.g. @unframed/angular/input. Loads only that component from core.'],
+      ['@unframed/angular/forms', 'Every form directive (UfTextValueAccessor, UfCheckedValueAccessor…).'],
+    ],
   },
   {
     name: '@unframed/cli',
-    summary: 'Copies the source of components into your project, so you own and can change the code.',
-    install: 'Never: run it with npx when you want a copy instead of an npm dependency.',
+    summary: 'Copies the source of components into your project, so you own and can change the code. Also installs the Unframed skill for AI assistants.',
+    install: 'Never: run it with npx when you want a copy instead of an npm dependency, or the AI skill.',
     dependsOn: 'Nothing at runtime',
-    entries: [['npx @unframed/cli', 'init, add, list and diff. See Installation.']],
+    entries: [['npx @unframed/cli', 'init, add, list and diff to copy components; skill for AI assistants. See Installation.']],
   },
 ];
 

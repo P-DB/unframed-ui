@@ -58,6 +58,12 @@ npx @unframed/cli diff dialog      # compare your copy with upstream`,
         first wins.
       </p>
 
+      <h2>AI assistants</h2>
+      <p>
+        <code>npx @unframed/cli skill</code> teaches your coding assistant Unframed. See{' '}
+        <Link to="/docs/ai-assistants">AI assistants</Link>.
+      </p>
+
       <h2>Your framework</h2>
       <p>
         React, Vue and Angular have their own packages, with typed props, their event syntax and form bindings. Each

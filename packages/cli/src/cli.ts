@@ -4,6 +4,7 @@ import { add } from './commands/add.js';
 import { diff } from './commands/diff.js';
 import { init } from './commands/init.js';
 import { list } from './commands/list.js';
+import { skill } from './commands/skill.js';
 import { color, type Io } from './lib/io.js';
 import type { Language } from './lib/transform.js';
 
@@ -18,15 +19,18 @@ ${color.bold('Commands')}
   add tokens           Copy tokens.css into your project
   list                 Show all components and which ones you've added
   diff [names...]      Compare your copies with this version of Unframed
+  skill                Teach your AI assistant Unframed: installs an agent skill
+                       (SKILL.md) with this version's components and API
 
 ${color.bold('Options')}
   --dir <path>         init: components folder (default src/components/uf-ui)
+                       skill: your assistant's skills folder (default .claude/skills)
   --lang <ts|js>       init: TypeScript or JavaScript files
   --tokens <package|copy>
                        init: use @unframed/tokens, or copy tokens.css
   --no-install         init: print the install command instead of running it
   --all                add: every component
-  --overwrite          add: replace files that differ, without asking
+  --overwrite          add, skill: replace files that differ, without asking
   -y, --yes            Accept defaults; never prompt
   -v, --version        Print the version
   -h, --help           Print this help
@@ -98,6 +102,8 @@ export async function run(argv: string[], io: Io): Promise<number> {
         return list(session);
       case 'diff':
         return diff(session, names);
+      case 'skill':
+        return await skill(session, { dir: values.dir, overwrite: values.overwrite });
       default:
         io.err(color.red(`Unknown command "${command}".`));
         io.out(help);
