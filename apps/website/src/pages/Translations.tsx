@@ -1,0 +1,198 @@
+import { setTranslations, type TableColumn } from '@unframed/core';
+import { UfCombobox, UfDialog, UfButton, UfPagination, UfSelect, UfTable } from '@unframed/react';
+import { useState } from 'react';
+import { CodeBlock } from '../components/CodeBlock';
+
+// Registered once, like an app would at startup. They only apply inside the
+// demo below, where `lang` is set: the rest of the site stays English.
+setTranslations(
+  {
+    close: 'Chiudi',
+    showOptions: 'Mostra opzioni',
+    noResults: 'Nessun risultato',
+    previousPage: 'Pagina precedente',
+    nextPage: 'Pagina successiva',
+    page: 'Pagina {page}',
+    pagination: 'Paginazione',
+    noData: 'Nessun dato',
+  },
+  'it',
+);
+setTranslations(
+  {
+    close: 'Fermer',
+    showOptions: 'Afficher les options',
+    noResults: 'Aucun résultat',
+    previousPage: 'Page précédente',
+    nextPage: 'Page suivante',
+    page: 'Page {page}',
+    pagination: 'Pagination',
+    noData: 'Aucune donnée',
+  },
+  'fr',
+);
+
+const keys: [string, string, string][] = [
+  ['close', 'Close', 'Dialog: the close button'],
+  ['dismiss', 'Dismiss', "Toast: each toast's dismiss button"],
+  ['notifications', 'Notifications', 'Toaster: the notification region, unless `label` is set'],
+  ['showOptions', 'Show options', 'Combobox: the arrow button'],
+  ['noResults', 'No results', 'Combobox: shown when the search matches nothing'],
+  ['selectItem', 'Please select an item in the list.', 'Combobox: error when required and empty'],
+  ['selectOption', 'Please select one of these options.', 'Radio group: error when required and empty'],
+  ['pagination', 'Pagination', 'Pagination: the navigation, unless `label` is set'],
+  ['previousPage', 'Previous page', 'Pagination: the previous button'],
+  ['nextPage', 'Next page', 'Pagination: the next button'],
+  ['page', 'Page {page}', 'Pagination: each page button; must contain `{page}`'],
+  ['noData', 'No data', 'Table: shown with no rows, unless the `empty` slot is used'],
+  ['invalidValue', 'Invalid value', 'Form controls: an invalid value without a message of its own'],
+];
+
+const columns: TableColumn[] = [
+  { key: 'name', label: 'Name' },
+  { key: 'city', label: 'City' },
+];
+
+/** Renders `backticks` as code. */
+const inline = (text: string) => text.split(/(`[^`]+`)/).map((part, i) => (part.startsWith('`') ? <code key={i}>{part.slice(1, -1)}</code> : part));
+
+function Demo() {
+  const [lang, setLang] = useState('it');
+  return (
+    <div className="demo">
+      <div className="demo__preview demo__preview--stack" lang={lang}>
+        <UfSelect label="Language (lang attribute)" value={lang} onChange={(e) => setLang((e.target as HTMLSelectElement).value)}>
+          <option value="en">English</option>
+          <option value="it">Italiano</option>
+          <option value="fr">Français</option>
+        </UfSelect>
+        <UfCombobox label="City" placeholder="Type “xyz”" hint="Search for something that isn't there.">
+          <option value="rome">Rome</option>
+          <option value="paris">Paris</option>
+        </UfCombobox>
+        <UfPagination pages={5} page={2} />
+        <UfTable label="People" columns={columns} rows={[]} />
+        <div>
+          <UfButton variant="outline" onClick={(e) => ((e.currentTarget as HTMLElement).nextElementSibling as HTMLElement & { show(): void }).show()}>
+            Open a dialog
+          </UfButton>
+          <UfDialog label="Dialog" lightDismiss>
+            Its close button is named in the chosen language.
+          </UfDialog>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Translations() {
+  return (
+    <article>
+      <h1>Translations</h1>
+      <p className="lead">
+        Components have a few built-in texts, like a dialog's close button or "No results". They're in English; replace
+        them with <code>setTranslations()</code>, for one language or many.
+      </p>
+
+      <h2>One language</h2>
+      <p>Call it once, when your app starts. Pass only what you want to change: the rest stays English.</p>
+      <CodeBlock
+        standalone
+        samples={[
+          {
+            label: 'JavaScript',
+            lang: 'javascript',
+            code: `import { setTranslations } from '@unframed/core';
+
+setTranslations({
+  close: 'Chiudi',
+  noResults: 'Nessun risultato',
+  page: 'Pagina {page}',   // {page} becomes the page number
+});`,
+          },
+        ]}
+      />
+      <p>
+        It works the same in React, Vue and Angular: call it from your app's entry file. Components already on the page
+        update at once, so you can also call it after loading translations from your i18n library:{' '}
+        <code>{"setTranslations({ close: t('close') })"}</code>.
+      </p>
+
+      <h2>Several languages</h2>
+      <p>
+        Register each language under its code. Each component then uses the language of the nearest <code>lang</code>{' '}
+        attribute: switch language by changing <code>&lt;html lang&gt;</code>, or mix languages by section.
+      </p>
+      <CodeBlock
+        standalone
+        samples={[
+          {
+            label: 'JavaScript',
+            lang: 'javascript',
+            code: `setTranslations({ close: 'Chiudi', page: 'Pagina {page}' }, 'it');
+setTranslations({ close: 'Fermer', page: 'Page {page}' }, 'fr');
+
+// Components update when lang changes:
+document.documentElement.lang = 'fr';`,
+          },
+          {
+            label: 'HTML',
+            code: `<html lang="it">
+  <uf-dialog label="Conferma">…</uf-dialog>   <!-- Italian -->
+  <section lang="fr">
+    <uf-pagination pages="5"></uf-pagination>  <!-- French -->
+  </section>
+</html>`,
+          },
+        ]}
+      />
+      <ul>
+        <li>
+          <code>pt-BR</code> uses <code>pt-BR</code> if registered, then <code>pt</code>, then the strings registered
+          without a code, then English.
+        </li>
+        <li>Language codes match regardless of case.</li>
+        <li>
+          i18n libraries usually set <code>&lt;html lang&gt;</code> for you, so the components follow them.
+        </li>
+      </ul>
+
+      <h2>Try it</h2>
+      <p>Italian and French are registered for this demo; change the language, then type in the combobox.</p>
+      <Demo />
+
+      <h2>Every text</h2>
+      <p>
+        With TypeScript, the keys autocomplete, and <code>page</code> must contain <code>{'{page}'}</code>. The{' '}
+        <code>label</code> attributes and the table's <code>empty</code> slot still win over translations, for one
+        element.
+      </p>
+      <div className="api-table">
+        <table className="api-table__table">
+          <thead>
+            <tr>
+              <th scope="col" className="api-table__header">Key</th>
+              <th scope="col" className="api-table__header">English</th>
+              <th scope="col" className="api-table__header">Where</th>
+            </tr>
+          </thead>
+          <tbody>
+            {keys.map(([key, english, where]) => (
+              <tr key={key} className="api-table__row">
+                <td className="api-table__cell">
+                  <code className="api-table__name">{key}</code>
+                </td>
+                <td className="api-table__cell">{english}</td>
+                <td className="api-table__cell">{inline(where)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Error messages for native checks, like a required input or an invalid email, come from the browser, in the
+        user's language already.
+      </p>
+    </article>
+  );
+}

@@ -1,5 +1,6 @@
 import { LitElement, css, html, type PropertyDeclarations, type PropertyValues } from 'lit';
 import { defineElement } from '../../internal/define.js';
+import { Translator } from '../../internal/i18n.js';
 import { iconSvg, icons } from '../../internal/icons.js';
 import { hostStyles } from '../../internal/shared.styles.js';
 import { HasSlotController, uniqueId } from '../../internal/slot.js';
@@ -243,6 +244,7 @@ export class UfDialog extends LitElement {
 
   readonly #slots = new HasSlotController(this, 'footer', 'label');
   readonly #id = uniqueId('uf-dialog');
+  readonly #translator = new Translator(this);
 
   constructor() {
     super();
@@ -365,7 +367,7 @@ export class UfDialog extends LitElement {
         <header class="header" part="header" ?hidden=${this.withoutHeader}>
           <h2 id=${titleId} class="title" part="title"><slot name="label">${this.label}</slot></h2>
           <slot name="header-actions"></slot>
-          <button class="close" part="close-button" type="button" aria-label="Close" @click=${() => this.requestClose('close-button')}>
+          <button class="close" part="close-button" type="button" aria-label=${this.#translator.t('close')} @click=${() => this.requestClose('close-button')}>
             ${iconSvg(icons.x)}
           </button>
         </header>

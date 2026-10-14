@@ -80,6 +80,7 @@ export function Layout() {
             <NavLink to="/docs/packages" className={sidebarLink}>Packages</NavLink>
             <NavLink to="/docs/theming" className={sidebarLink}>Theming</NavLink>
             <NavLink to="/docs/theme-generator" className={sidebarLink}>Theme generator</NavLink>
+            <NavLink to="/docs/translations" className={sidebarLink}>Translations</NavLink>
             <NavLink to="/docs/ai-assistants" className={sidebarLink}>AI assistants</NavLink>
             <h4 className="sidebar__heading">Frameworks</h4>
             <NavLink to="/docs/frameworks/html" className={sidebarLink}>HTML &amp; JavaScript</NavLink>

@@ -2,6 +2,7 @@ import { LitElement, css, html, type PropertyDeclarations } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { defineElement } from '../../internal/define.js';
+import { Translator } from '../../internal/i18n.js';
 import { iconSvg, icons } from '../../internal/icons.js';
 import { focusRing, hostStyles } from '../../internal/shared.styles.js';
 
@@ -145,17 +146,18 @@ export class UfPagination extends LitElement {
   declare pages: number;
   /** How many pages to show on each side of the current one. */
   declare siblings: number;
-  /** Accessible name of the navigation, e.g. "Search results pages". */
-  declare label: string;
+  /** Accessible name of the navigation, e.g. "Search results pages". Defaults to "Pagination", or its translation. */
+  declare label: string | undefined;
   /** Size: `sm` or `md`. */
   declare size: PaginationSize;
+
+  readonly #translator = new Translator(this);
 
   constructor() {
     super();
     this.page = 1;
     this.pages = 1;
     this.siblings = 1;
-    this.label = 'Pagination';
     this.size = 'md';
   }
 
@@ -175,14 +177,14 @@ export class UfPagination extends LitElement {
     const pages = Math.max(1, Math.floor(this.pages) || 1);
     const items = pageItems(current, pages, Math.max(0, Math.floor(this.siblings)));
 
-    return html`<nav part="base" aria-label=${this.label}>
+    return html`<nav part="base" aria-label=${this.label ?? this.#translator.t('pagination')}>
       <ul class="list" part="list">
         <li>
           <button
             class="button arrow"
             part="button previous"
             type="button"
-            aria-label="Previous page"
+            aria-label=${this.#translator.t('previousPage')}
             ?disabled=${current <= 1}
             @click=${() => this.#go(this.#current - 1)}
           >
@@ -199,7 +201,7 @@ export class UfPagination extends LitElement {
                     class=${classMap({ button: true, current: item === current })}
                     part=${item === current ? 'button current' : 'button'}
                     type="button"
-                    aria-label=${`Page ${item}`}
+                    aria-label=${this.#translator.t('page', { page: item })}
                     aria-current=${item === current ? 'page' : 'false'}
                     @click=${() => this.#go(item)}
                   >
@@ -213,7 +215,7 @@ export class UfPagination extends LitElement {
             class="button arrow"
             part="button next"
             type="button"
-            aria-label="Next page"
+            aria-label=${this.#translator.t('nextPage')}
             ?disabled=${current >= pages}
             @click=${() => this.#go(this.#current + 1)}
           >

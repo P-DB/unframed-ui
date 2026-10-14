@@ -122,7 +122,7 @@ export class UfRadioGroup extends FormControl {
     this.internals.setFormValue(this.value || null);
     this.setValidity(
       { valueMissing: this.required && !this.value },
-      'Please select one of these options.',
+      this.translator.t('selectOption'),
       this.#radios[0],
     );
   }

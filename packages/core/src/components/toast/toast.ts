@@ -2,6 +2,7 @@ import { LitElement, css, html, nothing, type PropertyDeclarations } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { defineElement } from '../../internal/define.js';
+import { Translator } from '../../internal/i18n.js';
 import { iconSvg, icons } from '../../internal/icons.js';
 
 export type ToastVariant = 'neutral' | 'info' | 'success' | 'warning' | 'danger';
@@ -239,16 +240,16 @@ export class UfToaster extends LitElement {
 
   /** Corner or edge of the viewport where toasts appear. */
   declare placement: ToasterPlacement;
-  /** Accessible name of the notification region. */
-  declare label: string;
+  /** Accessible name of the notification region. Defaults to "Notifications", or its translation. */
+  declare label: string | undefined;
 
   #items: ToastItem[] = [];
+  readonly #translator = new Translator(this);
   readonly #timers = new Map<number, Timer>();
 
   constructor() {
     super();
     this.placement = 'bottom-end';
-    this.label = 'Notifications';
   }
 
   override connectedCallback(): void {
@@ -341,7 +342,7 @@ export class UfToaster extends LitElement {
           <div class="message" part="message">${item.message}</div>
         </div>
         ${item.closable
-          ? html`<button class="close" part="close-button" type="button" aria-label="Dismiss" @click=${() => this.dismiss(item.id)}>
+          ? html`<button class="close" part="close-button" type="button" aria-label=${this.#translator.t('dismiss')} @click=${() => this.dismiss(item.id)}>
               ${iconSvg(icons.x)}
             </button>`
           : nothing}
@@ -351,7 +352,7 @@ export class UfToaster extends LitElement {
 
   override render() {
     return html`
-      <section aria-label=${this.label}>
+      <section aria-label=${this.label ?? this.#translator.t('notifications')}>
         <ol part="region" aria-live="polite" aria-relevant="additions">
           ${repeat(this.#items, (item) => item.id, (item) => this.#renderToast(item))}
         </ol>

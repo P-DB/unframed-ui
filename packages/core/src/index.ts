@@ -57,3 +57,6 @@ export type { ToastHandle, ToastOptions, ToastVariant, ToasterPlacement } from '
 export { UfTooltip } from './components/tooltip/tooltip.js';
 
 export type { Placement } from './internal/position.js';
+
+export { setTranslations } from './internal/i18n.js';
+export type { Translations } from './internal/i18n.js';

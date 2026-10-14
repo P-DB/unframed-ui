@@ -3,6 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { defineElement } from '../../internal/define.js';
+import { Translator } from '../../internal/i18n.js';
 import { iconSvg, icons } from '../../internal/icons.js';
 import { focusRing, hostStyles } from '../../internal/shared.styles.js';
 
@@ -58,7 +59,7 @@ function compareValues(a: unknown, b: unknown): number {
  * @summary Shows data in rows and columns, with sorting.
  * @tag uf-table
  *
- * @slot empty - Shown when there are no rows. Defaults to "No data".
+ * @slot empty - Shown when there are no rows. Defaults to "No data", or its translation.
  *
  * @event {CustomEvent<TableSortDetail>} uf-sort - The user sorted by a column.
  *
@@ -236,6 +237,7 @@ export class UfTable extends LitElement {
   /** The table overflows its container, so it scrolls. */
   #scrollable = false;
 
+  readonly #translator = new Translator(this);
   readonly #resizeObserver = new ResizeObserver(() => this.#checkScrollable());
 
   constructor() {
@@ -343,7 +345,7 @@ export class UfTable extends LitElement {
                 (row) => html`<tr part="row">${columns.map((column) => this.#renderCell(column, row))}</tr>`,
               )
             : html`<tr class="empty-row">
-                <td class="empty" part="empty" colspan=${Math.max(1, columns.length)}><slot name="empty">No data</slot></td>
+                <td class="empty" part="empty" colspan=${Math.max(1, columns.length)}><slot name="empty">${this.#translator.t('noData')}</slot></td>
               </tr>`}
         </tbody>
       </table>

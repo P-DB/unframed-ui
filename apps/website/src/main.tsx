@@ -19,6 +19,7 @@ import { NotFound } from './pages/NotFound';
 import { Packages } from './pages/Packages';
 import { ThemeGenerator } from './pages/ThemeGenerator';
 import { Theming } from './pages/Theming';
+import { Translations } from './pages/Translations';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       { path: 'docs/frameworks/angular', element: <AngularGuide /> },
       { path: 'docs/theming', element: <Theming /> },
       { path: 'docs/theme-generator', element: <ThemeGenerator /> },
+      { path: 'docs/translations', element: <Translations /> },
       { path: 'components', element: <ComponentsIndex /> },
       { path: 'components/:slug', element: <ComponentPage /> },
       { path: '*', element: <NotFound /> },

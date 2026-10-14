@@ -319,7 +319,7 @@ export class UfCombobox extends FormControl {
     const input = this.#input;
     if (!input) return;
     this.internals.setFormValue(this.value);
-    this.setValidity({ valueMissing: this.required && !this.value }, 'Please select an item in the list.', input);
+    this.setValidity({ valueMissing: this.required && !this.value }, this.translator.t('selectItem'), input);
   }
 
   protected resetValue(): void {
@@ -516,7 +516,7 @@ export class UfCombobox extends FormControl {
             part="toggle"
             type="button"
             tabindex="-1"
-            aria-label="Show options"
+            aria-label=${this.translator.t('showOptions')}
             ?disabled=${this.isDisabled}
             @pointerdown=${(e: Event) => e.preventDefault()}
             @click=${this.#onToggleClick}
@@ -525,7 +525,7 @@ export class UfCombobox extends FormControl {
           </button>
         </div>
         <div id=${listboxId} class="listbox" part="listbox" popover="manual" role="listbox" aria-label=${ifDefined(this.label)}>
-          ${rows.length ? this.#renderRows(rows) : html`<div class="empty" part="empty">No results</div>`}
+          ${rows.length ? this.#renderRows(rows) : html`<div class="empty" part="empty" role="option" aria-disabled="true" aria-selected="false">${this.translator.t('noResults')}</div>`}
         </div>
         <div class="sr-only" role="status">
           ${this.open && this.#query !== null ? `${rows.length} ${rows.length === 1 ? 'result' : 'results'}` : ''}

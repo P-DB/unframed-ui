@@ -1,4 +1,5 @@
 import { LitElement, type PropertyDeclarations } from 'lit';
+import { Translator } from './i18n.js';
 
 /**
  * Base class for form-associated controls. Handles everything a native control
@@ -26,6 +27,8 @@ export abstract class FormControl extends LitElement {
   declare required: boolean;
 
   protected readonly internals = this.attachInternals();
+  /** Built-in text, e.g. validation messages, in the page's language. */
+  protected readonly translator = new Translator(this);
   #formDisabled = false;
   #interacted = false;
   #customError = '';
@@ -155,7 +158,7 @@ export abstract class FormControl extends LitElement {
     if (this.#customError) {
       this.internals.setValidity({ ...flags, customError: true }, this.#customError, anchor);
     } else if (Object.values(flags).some(Boolean)) {
-      this.internals.setValidity(flags, message || 'Invalid value', anchor);
+      this.internals.setValidity(flags, message || this.translator.t('invalidValue'), anchor);
     } else {
       this.internals.setValidity({});
     }

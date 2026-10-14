@@ -27,6 +27,7 @@ const docs = await Promise.all(
     ['installation', 'Installation', 'Install from npm or copy the source; the AI skill.'],
     ['packages', 'Packages', 'The six packages, what each exports, and which to install.'],
     ['theming', 'Theming', 'Design tokens, component custom properties, CSS parts, dark mode.'],
+    ['translations', 'Translations', 'setTranslations(): built-in texts in other languages, per page or per lang attribute.'],
     ['ai-assistants', 'AI assistants', 'The Unframed agent skill: install it, what it contains, how to customize it.'],
   ].map(async ([slug, title, summary]) => ({ slug, title, summary, text: await readFile(new URL(`${slug}.md`, handWritten), 'utf8') })),
 );

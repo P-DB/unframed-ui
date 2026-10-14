@@ -21,7 +21,7 @@ async function setup(attrs = '') {
   await settle();
   const input = el.shadowRoot!.querySelector('input')!;
   const listbox = el.shadowRoot!.querySelector<HTMLElement>('[role="listbox"]')!;
-  const visible = () => [...listbox.querySelectorAll('[role="option"]')].map((o) => o.textContent!.trim());
+  const visible = () => [...listbox.querySelectorAll('[role="option"]:not([part="empty"])')].map((o) => o.textContent!.trim());
   const active = () => {
     const id = input.getAttribute('aria-activedescendant');
     return id ? el.shadowRoot!.getElementById(id)!.textContent!.trim() : null;
@@ -118,6 +118,19 @@ describe('uf-combobox', () => {
     await el.updateComplete;
     expect(visible()).toEqual([]);
     expect(listbox.querySelector('[part="empty"]')?.textContent).toContain('No results');
+  });
+
+  it('keeps the listbox valid when nothing matches, and Enter picks nothing', async () => {
+    const { el, input, listbox, key } = await setup();
+    typeInto(input, 'zzz');
+    await el.updateComplete;
+    // A listbox must contain options: the message is a disabled one.
+    const empty = listbox.querySelector('[part="empty"]')!;
+    expect(empty.getAttribute('role')).toBe('option');
+    expect(empty.getAttribute('aria-disabled')).toBe('true');
+    expect(await axeViolations()).toEqual([]);
+    await key('Enter');
+    expect(el.value).toBe('');
   });
 
   it('shows group headings', async () => {

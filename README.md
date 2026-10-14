@@ -43,6 +43,8 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | Table | `<uf-table>` | Native `<table>` from `columns` and `rows`, sorting, custom cells, sticky header |
 | Pagination | `<uf-pagination>` | Collapsing page ranges, keyboard friendly, pairs with the table |
 
+Built-in texts (a dialog's close button, "No results"…) can be translated with `setTranslations()`, for one language or several, following the page's `lang`.
+
 Every form control works inside a native `<form>`: it submits its value, resets, validates (`required`, `pattern`, `min`…), and respects `<fieldset disabled>`. Errors show inline after the user interacts or tries to submit, and `:state(user-invalid)` lets you style them.
 
 ## Quick start
