@@ -9,6 +9,8 @@ export type { BadgeAppearance, BadgeSize, BadgeVariant } from './components/badg
 export { UfButton } from './components/button/button.js';
 export type { ButtonSize, ButtonType, ButtonVariant } from './components/button/button.js';
 
+export { UfCalendar } from './components/calendar/calendar.js';
+
 export { UfCard } from './components/card/card.js';
 export type { CardOrientation, CardVariant } from './components/card/card.js';
 
@@ -16,6 +18,8 @@ export { UfCheckbox } from './components/checkbox/checkbox.js';
 export { UfCheckboxGroup } from './components/checkbox-group/checkbox-group.js';
 
 export { UfCombobox } from './components/combobox/combobox.js';
+
+export { UfDatePicker } from './components/date-picker/date-picker.js';
 
 export { UfDialog } from './components/dialog/dialog.js';
 export type { DialogCloseSource, DialogRequestCloseDetail } from './components/dialog/dialog.js';

@@ -30,6 +30,8 @@ document.documentElement.lang = 'fr'; // components update
 | `showOptions` | Show options | Combobox arrow button |
 | `noResults` | No results | Combobox, no match |
 | `selectItem` | Please select an item in the list. | Combobox error when required |
+| `oneResult` | 1 result | Combobox, announced while typing |
+| `results` | {count} results | Combobox, announced while typing; must contain `{count}` |
 | `selectOption` | Please select one of these options. | Radio group error when required |
 | `pagination` | Pagination | Pagination navigation, unless `label` is set |
 | `previousPage` | Previous page | Pagination previous button |
@@ -37,3 +39,13 @@ document.documentElement.lang = 'fr'; // components update
 | `page` | Page {page} | Each page button; must contain `{page}` |
 | `noData` | No data | Table with no rows, unless the `empty` slot is used |
 | `invalidValue` | Invalid value | Form controls, invalid value without its own message |
+| `chooseDate` | Choose date | Date picker calendar button |
+| `previousMonth` | Previous month | Calendar previous month button |
+| `nextMonth` | Next month | Calendar next month button |
+| `invalidDate` | Enter a date like {example}. | Date picker, text that isn't a date; must contain `{example}` |
+| `dateTooEarly` | Choose {date} or later. | Date picker, before `min`; must contain `{date}` |
+| `dateTooLate` | Choose {date} or earlier. | Date picker, after `max`; must contain `{date}` |
+| `dateUnavailable` | This date is not available. | Date picker, ruled out by `isDateDisabled` |
+| `dayPlaceholder`, `monthPlaceholder`, `yearPlaceholder` | dd, mm, yyyy | Date picker placeholder, in the language's date order |
+
+Month and weekday names, date formats and the first day of the week come from the browser (Intl), for the nearest `lang`.

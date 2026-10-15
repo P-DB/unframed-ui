@@ -9,6 +9,7 @@ export const formModels = {
   'uf-textarea': { prop: 'value', event: 'input', type: 'string' },
   'uf-select': { prop: 'value', event: 'change', type: 'string' },
   'uf-combobox': { prop: 'value', event: 'change', type: 'string' },
+  'uf-date-picker': { prop: 'value', event: 'change', type: 'string' },
   'uf-radio-group': { prop: 'value', event: 'change', type: 'string' },
   // `synced`: other properties the user can change, kept in sync with the framework too
   // (a click clears `indeterminate`). Vue: v-model:indeterminate, Angular: [(indeterminate)].

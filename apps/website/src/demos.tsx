@@ -5,10 +5,12 @@ import {
   UfAvatar,
   UfBadge,
   UfButton,
+  UfCalendar,
   UfCard,
   UfCheckbox,
   UfCheckboxGroup,
   UfCombobox,
+  UfDatePicker,
   UfDialog,
   UfDropdown,
   UfIcon,
@@ -363,6 +365,106 @@ const email = ref('');
     <option value="Europe/Paris">Paris</option>
   </optgroup>
 </uf-combobox>`),
+      },
+    ],
+  },
+  {
+    slug: 'date-picker',
+    title: 'Date picker',
+    tags: ['uf-date-picker', 'uf-calendar'],
+    module: 'date-picker',
+    examples: [
+      {
+        title: 'Type or pick a date',
+        description: 'Type a date in the page language\'s format, or open the calendar. The value is always `YYYY-MM-DD`.',
+        stack: true,
+        Preview: () => {
+          const [value, setValue] = useState('');
+          return (
+            <>
+              <UfDatePicker
+                label="Check-in"
+                hint="From 3 pm"
+                name="checkin"
+                min={new Date().toISOString().slice(0, 10)}
+                required
+                onChange={(event) => setValue((event.target as HTMLInputElement).value)}
+              />
+              <small>value: {value ? <code>{value}</code> : 'empty'}</small>
+            </>
+          );
+        },
+        html: code(`
+<uf-date-picker label="Check-in" hint="From 3 pm" name="checkin" min="2026-10-14" required></uf-date-picker>`),
+        react: code(`
+const [checkin, setCheckin] = useState('');
+
+<UfDatePicker
+  label="Check-in"
+  hint="From 3 pm"
+  min="2026-10-14"
+  required
+  value={checkin}
+  onChange={(event) => setCheckin((event.target as UfDatePickerElement).value)}
+/>`),
+        vue: code(`
+<UfDatePicker v-model="checkin" label="Check-in" hint="From 3 pm" min="2026-10-14" required />`),
+        angular: code(`
+<uf-date-picker [(ngModel)]="checkin" label="Check-in" hint="From 3 pm" min="2026-10-14" required />`),
+        notes: [
+          'Arrow keys move by day and week, Page Up and Page Down by month (with Shift, by year). Alt + Down Arrow opens the calendar, Escape closes it.',
+          'The format, month names and first day of the week follow the nearest `lang` attribute: `14/10/2026` in Italian, `10/14/2026` in US English.',
+          'Typed text that isn\'t a date stays in the field with an error, so the user can fix it.',
+        ],
+      },
+      {
+        title: 'Disabled dates',
+        description: '`min` and `max` limit the range; `isDateDisabled` rules out single dates, like weekends.',
+        stack: true,
+        Preview: () => (
+          <UfDatePicker
+            label="Delivery day"
+            hint="Weekdays only"
+            isDateDisabled={(date) => [0, 6].includes(new Date(date).getUTCDay())}
+          />
+        ),
+        html: code(`
+<uf-date-picker id="delivery" label="Delivery day" hint="Weekdays only"></uf-date-picker>
+
+<script type="module">
+  // A property, not an attribute: it's a function.
+  document.querySelector('#delivery').isDateDisabled = (date) =>
+    [0, 6].includes(new Date(date).getUTCDay());
+</script>`),
+        react: code(`
+<UfDatePicker
+  label="Delivery day"
+  hint="Weekdays only"
+  isDateDisabled={(date) => [0, 6].includes(new Date(date).getUTCDay())}
+/>`),
+      },
+      {
+        title: 'Calendar on its own',
+        description: '`<uf-calendar>` is the grid inside the picker. Use it inline, e.g. on a booking page.',
+        Preview: () => {
+          const [value, setValue] = useState('');
+          return (
+            <div style={{ display: 'grid', gap: '0.5rem', justifyItems: 'start' }}>
+              <UfCalendar value={value} onChange={(event) => setValue((event.target as HTMLElement & { value: string }).value)} />
+              <small>value: {value ? <code>{value}</code> : 'empty'}</small>
+            </div>
+          );
+        },
+        html: code(`
+<uf-calendar value="2026-10-14"></uf-calendar>
+
+<script type="module">
+  document.querySelector('uf-calendar').addEventListener('change', (event) => {
+    console.log(event.target.value); // "2026-10-21"
+  });
+</script>`),
+        react: code(`
+<UfCalendar value={day} onChange={(event) => setDay((event.target as UfCalendarElement).value)} />`),
       },
     ],
   },

@@ -528,7 +528,11 @@ export class UfCombobox extends FormControl {
           ${rows.length ? this.#renderRows(rows) : html`<div class="empty" part="empty" role="option" aria-disabled="true" aria-selected="false">${this.translator.t('noResults')}</div>`}
         </div>
         <div class="sr-only" role="status">
-          ${this.open && this.#query !== null ? `${rows.length} ${rows.length === 1 ? 'result' : 'results'}` : ''}
+          ${this.open && this.#query !== null
+            ? rows.length === 1
+              ? this.translator.t('oneResult')
+              : this.translator.t('results', { count: rows.length })
+            : ''}
         </div>
       `,
     });

@@ -67,6 +67,9 @@ const aliases: Record<string, string[]> = {
   AutoFill: ['off', 'on', 'name', 'email', 'username', 'current-password', 'new-password', 'one-time-code', 'tel', 'street-address', 'postal-code', 'country', 'bday'],
 };
 
+// `control: false` still shows a "Setup controls" link in the docs table; this doesn't.
+const noControl = { disable: true } as const;
+
 /** Example values for properties whose control is a JSON editor. */
 const objectExamples: Record<string, string> = {
   'string[]': `["cheese", "olives"]`,
@@ -76,6 +79,8 @@ const objectExamples: Record<string, string> = {
 
 /** The control for a TypeScript type from the manifest, ignoring `undefined` and `null`. */
 function controlFor(typeText = ''): ArgTypes[string]['control'] & object {
+  // Functions can't be edited in the panel; the stories show them in use.
+  if (typeText.includes('=>')) return noControl as never;
   const parts = typeText
     .split('|')
     .map((part) => part.trim())
@@ -114,8 +119,6 @@ function cssControl(name: string): { control: ArgTypes[string]['control']; examp
 }
 
 const summary = (text?: string) => (text ? { summary: text } : undefined);
-// `control: false` still shows a "Setup controls" link in the docs table; this doesn't.
-const noControl = { disable: true } as const;
 
 /**
  * Builds the Controls and API tables from the manifest. Replaces Storybook's own

@@ -27,6 +27,7 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | Textarea | `<uf-textarea>` | `resize="auto"` grows with content |
 | Select | `<uf-select>` | Wraps the native `<select>`: write plain `<option>` children |
 | Combobox | `<uf-combobox>` | Searchable, fully styled list; same `<option>` children as select |
+| Date picker | `<uf-date-picker>` + `<uf-calendar>` | Type or pick a date; format, month names and first weekday follow `lang`; value is `YYYY-MM-DD` |
 | Checkbox | `<uf-checkbox>` | Indeterminate state |
 | Switch | `<uf-switch>` | `role="switch"` |
 | Radio group | `<uf-radio-group>` + `<uf-radio>` | Arrow-key navigation, roving focus |

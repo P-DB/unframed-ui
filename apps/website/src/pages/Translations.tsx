@@ -39,6 +39,8 @@ const keys: [string, string, string][] = [
   ['showOptions', 'Show options', 'Combobox: the arrow button'],
   ['noResults', 'No results', 'Combobox: shown when the search matches nothing'],
   ['selectItem', 'Please select an item in the list.', 'Combobox: error when required and empty'],
+  ['oneResult', '1 result', 'Combobox: announced while typing, one match'],
+  ['results', '{count} results', 'Combobox: announced while typing; must contain `{count}`'],
   ['selectOption', 'Please select one of these options.', 'Radio group: error when required and empty'],
   ['pagination', 'Pagination', 'Pagination: the navigation, unless `label` is set'],
   ['previousPage', 'Previous page', 'Pagination: the previous button'],
@@ -46,6 +48,16 @@ const keys: [string, string, string][] = [
   ['page', 'Page {page}', 'Pagination: each page button; must contain `{page}`'],
   ['noData', 'No data', 'Table: shown with no rows, unless the `empty` slot is used'],
   ['invalidValue', 'Invalid value', 'Form controls: an invalid value without a message of its own'],
+  ['chooseDate', 'Choose date', "Date picker: the calendar button, and the popup's name without a `label`"],
+  ['previousMonth', 'Previous month', 'Calendar: the previous month button'],
+  ['nextMonth', 'Next month', 'Calendar: the next month button'],
+  ['invalidDate', 'Enter a date like {example}.', 'Date picker: typed text that is not a date; must contain `{example}`'],
+  ['dateTooEarly', 'Choose {date} or later.', 'Date picker: a date before `min`; must contain `{date}`'],
+  ['dateTooLate', 'Choose {date} or earlier.', 'Date picker: a date after `max`; must contain `{date}`'],
+  ['dateUnavailable', 'This date is not available.', 'Date picker: a date ruled out by `isDateDisabled`'],
+  ['dayPlaceholder', 'dd', 'Date picker: placeholder letters for the day'],
+  ['monthPlaceholder', 'mm', 'Date picker: placeholder letters for the month'],
+  ['yearPlaceholder', 'yyyy', 'Date picker: placeholder letters for the year'],
 ];
 
 const columns: TableColumn[] = [
@@ -163,7 +175,8 @@ document.documentElement.lang = 'fr';`,
 
       <h2>Every text</h2>
       <p>
-        With TypeScript, the keys autocomplete, and <code>page</code> must contain <code>{'{page}'}</code>. The{' '}
+        With TypeScript, the keys autocomplete, and texts with a placeholder (<code>{'{page}'}</code>,{' '}
+        <code>{'{count}'}</code>…) must contain it. The{' '}
         <code>label</code> attributes and the table's <code>empty</code> slot still win over translations, for one
         element.
       </p>
@@ -191,7 +204,8 @@ document.documentElement.lang = 'fr';`,
       </div>
       <p>
         Error messages for native checks, like a required input or an invalid email, come from the browser, in the
-        user's language already.
+        user's language already. Month and weekday names, date formats and the first day of the week come from the
+        browser too, for the nearest <code>lang</code>.
       </p>
     </article>
   );

@@ -14,6 +14,10 @@ export interface Translations {
   noResults: string;
   /** Combobox: error when required and empty. */
   selectItem: string;
+  /** Combobox: announced while typing when one option matches. */
+  oneResult: string;
+  /** Combobox: announced while typing; `{count}` is the number of matches. */
+  results: `${string}{count}${string}`;
   /** Radio group: error when required and empty. */
   selectOption: string;
   /** Pagination: the navigation's accessible name, unless `label` is set. */
@@ -28,6 +32,24 @@ export interface Translations {
   noData: string;
   /** Form controls: error for an invalid value that has no message of its own. */
   invalidValue: string;
+  /** Date picker: the calendar button's accessible name. */
+  chooseDate: string;
+  /** Calendar: the previous month button's accessible name. */
+  previousMonth: string;
+  /** Calendar: the next month button's accessible name. */
+  nextMonth: string;
+  /** Date picker: error for text that isn't a date; `{example}` is a date in the expected format. */
+  invalidDate: `${string}{example}${string}`;
+  /** Date picker: error for a date before `min`; `{date}` is the minimum. */
+  dateTooEarly: `${string}{date}${string}`;
+  /** Date picker: error for a date after `max`; `{date}` is the maximum. */
+  dateTooLate: `${string}{date}${string}`;
+  /** Date picker: error for a date that `isDateDisabled` rules out. */
+  dateUnavailable: string;
+  /** Date picker: placeholder letters for day, month and year, in the language's date order. */
+  dayPlaceholder: string;
+  monthPlaceholder: string;
+  yearPlaceholder: string;
 }
 
 const english: Translations = {
@@ -37,6 +59,8 @@ const english: Translations = {
   showOptions: 'Show options',
   noResults: 'No results',
   selectItem: 'Please select an item in the list.',
+  oneResult: '1 result',
+  results: '{count} results',
   selectOption: 'Please select one of these options.',
   pagination: 'Pagination',
   previousPage: 'Previous page',
@@ -44,6 +68,16 @@ const english: Translations = {
   page: 'Page {page}',
   noData: 'No data',
   invalidValue: 'Invalid value',
+  chooseDate: 'Choose date',
+  previousMonth: 'Previous month',
+  nextMonth: 'Next month',
+  invalidDate: 'Enter a date like {example}.',
+  dateTooEarly: 'Choose {date} or later.',
+  dateTooLate: 'Choose {date} or earlier.',
+  dateUnavailable: 'This date is not available.',
+  dayPlaceholder: 'dd',
+  monthPlaceholder: 'mm',
+  yearPlaceholder: 'yyyy',
 };
 
 /** Registered translations by lowercase language code; '' applies to every language. */
@@ -124,6 +158,11 @@ export class Translator implements ReactiveController {
       langObserver = new MutationObserver(refreshAll);
       langObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'], subtree: true });
     }
+  }
+
+  /** The language that applies to the component, from the nearest `lang` attribute ('' when none). */
+  get lang(): string {
+    return langOf(this.#host);
   }
 
   hostDisconnected(): void {
