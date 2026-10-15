@@ -115,6 +115,22 @@ describe('uf-button', () => {
     expect(inner(el).getAttribute('aria-label')).toBe('Close');
   });
 
+  for (const theme of ['light', 'dark']) {
+    it(`has a grey secondary, unlike a faded primary (${theme})`, async () => {
+      document.documentElement.dataset.ufTheme = theme;
+      await fixture('<div><uf-button variant="secondary">Cancel</uf-button><uf-button disabled>Save</uf-button></div>');
+      const [secondary, primary] = [...document.querySelectorAll<UfButton>('uf-button')].map((b) => getComputedStyle(b.shadowRoot!.querySelector('.base')!));
+      const probe = document.body.appendChild(document.createElement('span'));
+      probe.style.color = 'var(--uf-color-neutral-fill)';
+      expect(secondary.backgroundColor).toBe(getComputedStyle(probe).color);
+      // A grey: red, green and blue close together, unlike the purple primary.
+      const [r, g, b] = secondary.backgroundColor.match(/\d+/g)!.map(Number);
+      expect(Math.max(r, g, b) - Math.min(r, g, b)).toBeLessThan(16);
+      expect(primary.backgroundColor).not.toBe(secondary.backgroundColor);
+      delete document.documentElement.dataset.ufTheme;
+    });
+  }
+
   it('looks like a text link with variant="link"', async () => {
     const el = await fixture<UfButton>('<uf-button variant="link" href="/docs">Read the docs</uf-button>');
     const style = getComputedStyle(inner(el));

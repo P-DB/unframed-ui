@@ -33,6 +33,7 @@ export type CardOrientation = 'vertical' | 'horizontal';
  * @cssprop --uf-card-bg - Background color.
  * @cssprop --uf-card-border-color - Border color.
  * @cssprop --uf-card-radius - Corner radius.
+ * @cssprop --uf-card-shadow - Shadow of an elevated card. Defaults to a soft shadow in light mode and an accent glow in dark mode.
  * @cssprop --uf-card-media-width - Width of the media in a horizontal card. Defaults to 40%.
  */
 export class UfCard extends LitElement {
@@ -56,9 +57,10 @@ export class UfCard extends LitElement {
         font-family: var(--uf-font-family-sans);
       }
 
+      /* A shadow in light mode, an accent glow in dark mode (--uf-shadow-raised). */
       :host([variant='elevated']) .base {
         border-color: var(--uf-card-border-color, transparent);
-        box-shadow: var(--uf-shadow-md);
+        box-shadow: var(--uf-card-shadow, var(--uf-shadow-raised));
       }
 
       :host([variant='filled']) .base {
@@ -134,7 +136,7 @@ export class UfCard extends LitElement {
     orientation: { reflect: true },
   };
 
-  /** `outline` (a border), `elevated` (a shadow) or `filled` (a tinted background). */
+  /** `outline` (a border), `elevated` (a shadow, or an accent glow in dark mode) or `filled` (a tinted background). */
   declare variant: CardVariant;
   /** `vertical`, or `horizontal` to put the media beside the content. */
   declare orientation: CardOrientation;

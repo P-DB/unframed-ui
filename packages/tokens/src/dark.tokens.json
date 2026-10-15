@@ -61,6 +61,10 @@
     "on-accent-tint": {
       "$value": "{palette.accent.200}"
     },
+    "neutral-fill": {
+      "$description": "A quiet grey fill, e.g. secondary buttons; visible on the surface in both themes.",
+      "$value": "{palette.neutral.800}"
+    },
     "danger": {
       "$value": "{palette.danger.600}"
     },
@@ -144,6 +148,13 @@
     },
     "toast-danger-text": {
       "$value": "{palette.neutral.0}"
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "raised": {
+      "$description": "A raised surface, like an elevated card. Shadows barely show on dark backgrounds, so it is a faint accent edge and an accent glow.",
+      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 30%, transparent), 0 12px 32px -8px color-mix(in srgb, var(--uf-palette-accent-600) 55%, transparent)"
     }
   }
 }

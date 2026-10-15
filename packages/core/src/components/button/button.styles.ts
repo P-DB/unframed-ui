@@ -28,11 +28,13 @@ export const buttonStyles = [
       --_font-size: var(--uf-font-size-lg);
     }
 
+    /* Grey at rest, so it never looks like a faded (disabled) primary; accent tint on hover, like outline and ghost. */
     :host([variant='secondary']) {
-      --_bg: var(--uf-color-accent-tint);
-      --_bg-hover: var(--uf-color-accent-tint-hover);
-      --_bg-active: var(--uf-color-accent-tint-active);
-      --_fg: var(--uf-color-on-accent-tint);
+      --_bg: var(--uf-color-neutral-fill);
+      --_bg-hover: var(--uf-color-accent-tint);
+      --_bg-active: var(--uf-color-accent-tint-hover);
+      --_fg: var(--uf-color-text);
+      --_fg-hover: var(--uf-color-on-accent-tint);
     }
 
     :host([variant='outline']) {

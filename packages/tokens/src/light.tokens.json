@@ -61,6 +61,10 @@
     "on-accent-tint": {
       "$value": "{palette.accent.900}"
     },
+    "neutral-fill": {
+      "$description": "A quiet grey fill, e.g. secondary buttons; visible on the surface in both themes.",
+      "$value": "{palette.neutral.100}"
+    },
     "danger": {
       "$value": "{palette.danger.600}"
     },
@@ -144,6 +148,13 @@
     },
     "toast-danger-text": {
       "$value": "{palette.neutral.0}"
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "raised": {
+      "$description": "A raised surface, like an elevated card: a soft shadow.",
+      "$value": "{shadow.md}"
     }
   }
 }

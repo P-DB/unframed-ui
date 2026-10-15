@@ -46,6 +46,17 @@ describe('uf-card', () => {
     expect(style.borderTopColor).toBe('rgba(0, 0, 0, 0)');
   });
 
+  it('glows with the accent color when elevated in dark mode', async () => {
+    const light = await fixture<UfCard>('<uf-card variant="elevated" data-uf-theme="light">Body</uf-card>');
+    const lightShadow = getComputedStyle(part(light, 'base')).boxShadow;
+    expect(lightShadow).toContain('rgba(0, 0, 0');
+    const dark = await fixture<UfCard>('<uf-card variant="elevated" data-uf-theme="dark">Body</uf-card>');
+    const darkShadow = getComputedStyle(part(dark, 'base')).boxShadow;
+    // Accent-tinted, not black: black shadows don't show on dark backgrounds.
+    expect(darkShadow).not.toContain('rgba(0, 0, 0');
+    expect(darkShadow).not.toBe(lightShadow);
+  });
+
   it('has no axe violations', async () => {
     await fixture(`<main>
       <uf-card>
