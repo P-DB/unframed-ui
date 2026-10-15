@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { userEvent } from 'vitest/browser';
 import '@unframed/tokens/tokens.css';
 import { axeViolations, commit, fixture, settle, typeInto } from '../../test-utils.js';
 import './input.js';
@@ -14,6 +15,15 @@ describe('uf-input', () => {
   it('labels the native input', async () => {
     const el = await fixture<UfInput>('<uf-input label="Email"></uf-input>');
     expect(native(el).labels?.[0]?.textContent?.trim()).toBe('Email');
+  });
+
+  it("doesn't change its border on hover when disabled", async () => {
+    const el = await fixture<UfInput>('<uf-input label="Name" disabled style="--uf-duration-fast: 0s"></uf-input>');
+    const box = el.shadowRoot!.querySelector('.box')!;
+    const before = getComputedStyle(box).borderColor;
+    await userEvent.hover(box);
+    expect(getComputedStyle(box).borderColor).toBe(before);
+    await userEvent.unhover(box);
   });
 
   it('takes its initial value from the value attribute', async () => {

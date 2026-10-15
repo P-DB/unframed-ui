@@ -114,12 +114,13 @@ export const buttonStyles = [
       display: none;
     }
 
-    .base:hover {
+    /* No hover or pressed look on a disabled (or loading) button: it can't be used. */
+    .base:hover:not(.disabled, .loading) {
       background: var(--uf-button-bg-hover, var(--_bg-hover));
       color: var(--uf-button-color, var(--_fg-hover, var(--_fg)));
     }
 
-    .base:active {
+    .base:active:not(.disabled, .loading) {
       background: var(--uf-button-bg-active, var(--_bg-active));
     }
 
@@ -130,7 +131,6 @@ export const buttonStyles = [
     .base.disabled {
       opacity: 0.5;
       cursor: not-allowed;
-      background: var(--uf-button-bg, var(--_bg));
     }
 
     .base.loading {

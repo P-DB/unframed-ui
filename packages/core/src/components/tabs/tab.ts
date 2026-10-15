@@ -33,7 +33,7 @@ export class UfTab extends LitElement {
       transition: color var(--uf-duration-fast) ease;
     }
 
-    :host(:hover) {
+    :host(:hover:not([disabled])) {
       color: var(--uf-color-text);
     }
 

@@ -56,7 +56,7 @@ export class UfCheckbox extends ToggleControl {
         background: var(--uf-color-surface);
       }
 
-      .native:hover {
+      .native:hover:not(:disabled) {
         border-color: var(--uf-color-text-muted);
       }
 

@@ -54,7 +54,7 @@ export class UfRadio extends LitElement {
         transition: border-color var(--uf-duration-fast) ease;
       }
 
-      :host(:hover) .control {
+      :host(:hover:not([disabled], [data-group-disabled])) .control {
         border-color: var(--uf-color-text-muted);
       }
 

@@ -124,7 +124,7 @@ export const controlBoxStyles = css`
     --_font-size: var(--uf-font-size-lg);
   }
 
-  .box:hover {
+  .box:hover:not(.disabled) {
     border-color: var(--uf-color-text-muted);
   }
 

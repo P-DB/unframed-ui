@@ -1,5 +1,6 @@
 import axe from 'axe-core';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { userEvent } from 'vitest/browser';
 import '@unframed/tokens/tokens.css';
 import './button.js';
 import type { UfButton } from './button.js';
@@ -128,6 +129,19 @@ describe('uf-button', () => {
       expect(Math.max(r, g, b) - Math.min(r, g, b)).toBeLessThan(16);
       expect(primary.backgroundColor).not.toBe(secondary.backgroundColor);
       delete document.documentElement.dataset.ufTheme;
+    });
+  }
+
+  for (const variant of ['primary', 'secondary', 'outline', 'ghost', 'danger', 'link']) {
+    it(`doesn't react to hover when disabled (${variant})`, async () => {
+      // No transition, so the computed style is the final one right away.
+      const el = await fixture<UfButton>(`<uf-button variant="${variant}" disabled style="--uf-duration-fast: 0s">Disabled</uf-button>`);
+      const before = getComputedStyle(inner(el));
+      const [color, background, decoration] = [before.color, before.backgroundColor, before.textDecorationLine];
+      await userEvent.hover(el);
+      const after = getComputedStyle(inner(el));
+      expect([after.color, after.backgroundColor, after.textDecorationLine]).toEqual([color, background, decoration]);
+      await userEvent.unhover(el);
     });
   }
 
