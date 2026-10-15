@@ -1,5 +1,19 @@
 # @unframed/vue
 
+## 0.5.0
+
+### Minor Changes
+
+- 65aec48: New Date picker (`<uf-date-picker>`): type a date in the page language's format or pick one from a calendar popup. The value is `YYYY-MM-DD`; `min`, `max`, `isDateDisabled` and `required` validate natively in forms; `v-model` and Angular forms work. The calendar is also its own element, `<uf-calendar>`. New translation keys for its texts, and for the combobox's result count, which was English only.
+
+### Patch Changes
+
+- Updated dependencies [9103ad2]
+- Updated dependencies [65aec48]
+- Updated dependencies [9103ad2]
+- Updated dependencies [1a3c437]
+  - @unframed/core@0.5.0
+
 ## 0.4.0
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @unframed/core
 
+## 0.5.0
+
+### Minor Changes
+
+- 65aec48: New Date picker (`<uf-date-picker>`): type a date in the page language's format or pick one from a calendar popup. The value is `YYYY-MM-DD`; `min`, `max`, `isDateDisabled` and `required` validate natively in forms; `v-model` and Angular forms work. The calendar is also its own element, `<uf-calendar>`. New translation keys for its texts, and for the combobox's result count, which was English only.
+- 9103ad2: The secondary button is grey at rest, with the accent tint on hover, so it no longer looks like a disabled primary. New theme token: `--uf-color-neutral-fill`.
+
+### Patch Changes
+
+- 9103ad2: Elevated cards are visible in dark mode: instead of a black shadow, which barely shows on dark backgrounds, they get a faint accent edge and an accent glow. It comes from a new theme token, `--uf-shadow-raised` (a soft shadow in light mode), and can be changed per card with `--uf-card-shadow`.
+- 1a3c437: Disabled controls no longer react to hover: buttons keep their text and background color, and tabs, radios, checkboxes and field borders stay as they are.
+- Updated dependencies [9103ad2]
+- Updated dependencies [9103ad2]
+  - @unframed/tokens@0.5.0
+
 ## 0.4.0
 
 ### Minor Changes
