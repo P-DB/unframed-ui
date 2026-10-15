@@ -1,5 +1,12 @@
 # @unframed/tokens
 
+## 0.5.0
+
+### Minor Changes
+
+- 9103ad2: Elevated cards are visible in dark mode: instead of a black shadow, which barely shows on dark backgrounds, they get a faint accent edge and an accent glow. It comes from a new theme token, `--uf-shadow-raised` (a soft shadow in light mode), and can be changed per card with `--uf-card-shadow`.
+- 9103ad2: The secondary button is grey at rest, with the accent tint on hover, so it no longer looks like a disabled primary. New theme token: `--uf-color-neutral-fill`.
+
 ## 0.4.0
 
 No changes in this release.
