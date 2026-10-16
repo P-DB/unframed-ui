@@ -2,7 +2,22 @@
 
 Components have a few built-in texts (a dialog's close button, "No results"…), in English. Replace them with `setTranslations()` from `@unframed/core`; keys left out stay English. Components already on the page update at once. Native validation messages (required, invalid email…) come from the browser in the user's language.
 
-## One language
+## Built-in languages
+
+Italian, French, German, Spanish and Portuguese ship with the library, one file per language, so your bundle only has the ones you import:
+
+```js
+import { setTranslations } from '@unframed/core';
+import it from '@unframed/core/locales/it';
+import fr from '@unframed/core/locales/fr';
+
+setTranslations(it, 'it');
+setTranslations(fr, 'fr');
+```
+
+Codes: `it`, `fr`, `de`, `es`, `pt`. Change a few texts on top with another call: `setTranslations({ close: 'Esci' }, 'it')`.
+
+## Your own texts
 
 ```js
 import { setTranslations } from '@unframed/core';

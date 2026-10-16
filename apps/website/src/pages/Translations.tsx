@@ -1,36 +1,24 @@
 import { setTranslations, type TableColumn } from '@unframed/core';
 import { UfCombobox, UfDialog, UfButton, UfPagination, UfSelect, UfTable } from '@unframed/react';
 import { useState } from 'react';
+import de from '@unframed/core/locales/de';
+import fr from '@unframed/core/locales/fr';
+import it from '@unframed/core/locales/it';
 import { CodeBlock } from '../components/CodeBlock';
 
 // Registered once, like an app would at startup. They only apply inside the
 // demo below, where `lang` is set: the rest of the site stays English.
-setTranslations(
-  {
-    close: 'Chiudi',
-    showOptions: 'Mostra opzioni',
-    noResults: 'Nessun risultato',
-    previousPage: 'Pagina precedente',
-    nextPage: 'Pagina successiva',
-    page: 'Pagina {page}',
-    pagination: 'Paginazione',
-    noData: 'Nessun dato',
-  },
-  'it',
-);
-setTranslations(
-  {
-    close: 'Fermer',
-    showOptions: 'Afficher les options',
-    noResults: 'Aucun résultat',
-    previousPage: 'Page précédente',
-    nextPage: 'Page suivante',
-    page: 'Page {page}',
-    pagination: 'Pagination',
-    noData: 'Aucune donnée',
-  },
-  'fr',
-);
+setTranslations(it, 'it');
+setTranslations(fr, 'fr');
+setTranslations(de, 'de');
+
+const builtIn = [
+  ['Italian', 'it'],
+  ['French', 'fr'],
+  ['German', 'de'],
+  ['Spanish', 'es'],
+  ['Portuguese', 'pt'],
+];
 
 const keys: [string, string, string][] = [
   ['close', 'Close', 'Dialog: the close button'],
@@ -77,6 +65,7 @@ function Demo() {
           <option value="en">English</option>
           <option value="it">Italiano</option>
           <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
         </UfSelect>
         <UfCombobox label="City" placeholder="Type “xyz”" hint="Search for something that isn't there.">
           <option value="rome">Rome</option>
@@ -102,12 +91,57 @@ export function Translations() {
     <article>
       <h1>Translations</h1>
       <p className="lead">
-        Components have a few built-in texts, like a dialog's close button or "No results". They're in English; replace
-        them with <code>setTranslations()</code>, for one language or many.
+        Components have a few built-in texts, like a dialog's close button or "No results". They're in English; switch
+        them to a built-in language, or pass your own with <code>setTranslations()</code>.
       </p>
 
-      <h2>One language</h2>
-      <p>Call it once, when your app starts. Pass only what you want to change: the rest stays English.</p>
+      <h2>Built-in languages</h2>
+      <p>
+        Italian, French, German, Spanish and Portuguese come with the library. Each is its own file, so your bundle only
+        has the languages you import.
+      </p>
+      <CodeBlock
+        standalone
+        samples={[
+          {
+            label: 'JavaScript',
+            lang: 'javascript',
+            code: `import { setTranslations } from '@unframed/core';
+import it from '@unframed/core/locales/it';
+import fr from '@unframed/core/locales/fr';
+
+setTranslations(it, 'it');
+setTranslations(fr, 'fr');`,
+          },
+        ]}
+      />
+      <div className="api-table">
+        <table className="api-table__table">
+          <thead>
+            <tr>
+              <th scope="col" className="api-table__header">Language</th>
+              <th scope="col" className="api-table__header">Import</th>
+            </tr>
+          </thead>
+          <tbody>
+            {builtIn.map(([name, code]) => (
+              <tr key={code} className="api-table__row">
+                <td className="api-table__cell">{name}</td>
+                <td className="api-table__cell">
+                  <code>@unframed/core/locales/{code}</code>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        To change a few texts on top, call it again with just those: <code>{"setTranslations({ close: 'Esci' }, 'it')"}</code>.
+        Missing a language? Pass the texts yourself, as below.
+      </p>
+
+      <h2>Your own texts</h2>
+      <p>For other languages or your own wording: call it once, when your app starts, with only what you want to change. The rest stays English.</p>
       <CodeBlock
         standalone
         samples={[
@@ -170,7 +204,7 @@ document.documentElement.lang = 'fr';`,
       </ul>
 
       <h2>Try it</h2>
-      <p>Italian and French are registered for this demo; change the language, then type in the combobox.</p>
+      <p>Italian, French and German are registered for this demo; change the language, then type in the combobox.</p>
       <Demo />
 
       <h2>Every text</h2>

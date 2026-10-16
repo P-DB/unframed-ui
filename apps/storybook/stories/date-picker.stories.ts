@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { setTranslations } from '@unframed/core';
+import it from '@unframed/core/locales/it';
 import { controlsOf, spread } from '../.storybook/args';
 
 /** Today and a date some days away, as YYYY-MM-DD, so the stories stay current. */
@@ -12,18 +13,7 @@ const day = (offset = 0) => {
 const weekend = (iso: string) => [0, 6].includes(new Date(iso).getUTCDay());
 
 // For the Translated story; it only applies where lang="it".
-setTranslations(
-  {
-    chooseDate: 'Scegli la data',
-    previousMonth: 'Mese precedente',
-    nextMonth: 'Mese successivo',
-    invalidDate: 'Scrivi una data come {example}.',
-    dayPlaceholder: 'gg',
-    monthPlaceholder: 'mm',
-    yearPlaceholder: 'aaaa',
-  },
-  'it',
-);
+setTranslations(it, 'it');
 
 const meta: Meta = {
   title: 'Components/Date picker',
@@ -92,7 +82,7 @@ export const Translated: Story = {
   render: () => html`<div class="sb-stack" lang="it">
     <uf-date-picker label="Data di arrivo" required></uf-date-picker>
     <p class="sb-note" style="margin: 0">
-      <code>setTranslations({ chooseDate: 'Scegli la data', … }, 'it')</code> translates the button, the calendar's month
+      <code>setTranslations(it, 'it')</code>, with the built-in Italian, translates the button, the calendar's month
       buttons, the placeholder letters and the error messages. Type "domani" to see the error.
     </p>
   </div>`,

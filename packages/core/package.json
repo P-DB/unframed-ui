@@ -33,6 +33,10 @@
       "default": "./dist/index.js"
     },
     "./custom-elements.json": "./custom-elements.json",
+    "./locales/*": {
+      "types": "./dist/locales/*.d.ts",
+      "default": "./dist/locales/*.js"
+    },
     "./*": {
       "types": "./dist/components/*/*.d.ts",
       "default": "./dist/components/*/*.js"

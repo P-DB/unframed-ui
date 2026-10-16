@@ -26,7 +26,7 @@ Unframed {{version}}: accessible UI components as standard custom elements (Lit)
 - **Dialogs.** Open with `open` or `.show()`; any child with `data-dialog="close"` closes it; cancel a close in `uf-request-close` with `preventDefault()`.
 - **Toasts.** `import { toast } from '@unframed/core'` and call `toast('Saved', { variant: 'success' })`; no element needed.
 - **Theming.** Change colors and shapes with `--uf-*` custom properties (global tokens, then per-component ones like `--uf-button-radius`), then `::part()`. Don't style internals any other way, and don't re-implement a component that exists. See [references/theming.md](references/theming.md).
-- **Translations.** Built-in texts (dialog close button, "No results", pagination labels, a few error messages) are English. Translate them with `setTranslations({ close: 'Chiudi', page: 'Pagina {page}' }, 'it')` from `@unframed/core`, once at startup; components follow the nearest `lang` attribute. Don't add `aria-label`s to override them.
+- **Translations.** Built-in texts (dialog close button, "No results", pagination labels, a few error messages) are English. Italian, French, German, Spanish and Portuguese are built in: `import it from '@unframed/core/locales/it'; setTranslations(it, 'it')` (codes `it`, `fr`, `de`, `es`, `pt`), once at startup. For other languages, pass the texts yourself: `setTranslations({ close: 'Zamknij', page: 'Strona {page}' }, 'pl')`; components follow the nearest `lang` attribute. Don't add `aria-label`s to override them.
 - **Dark mode** follows the OS; force it with `data-uf-theme="dark"` (or `"light"`) on any element.
 
 ## Components
