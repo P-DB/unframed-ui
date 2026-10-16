@@ -1,5 +1,14 @@
 # @unframed/angular
 
+## 0.6.0
+
+### Patch Changes
+
+- Updated dependencies [68a7151]
+- Updated dependencies [9830033]
+- Updated dependencies [a5e9cab]
+  - @unframed/core@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes

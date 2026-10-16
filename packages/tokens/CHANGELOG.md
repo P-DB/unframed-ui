@@ -1,5 +1,15 @@
 # @unframed/tokens
 
+## 0.6.0
+
+### Minor Changes
+
+- a5e9cab: Popovers, menus, dropdowns, the combobox and date picker lists, and dialogs get an accent edge and glow in dark mode, like elevated cards, instead of a black shadow that barely shows. Two new theme tokens: `--uf-shadow-overlay` and `--uf-shadow-modal` (the usual soft shadows in light mode).
+
+### Patch Changes
+
+- a192b82: In light mode, danger buttons, error messages and danger toasts use a lighter red (`palette.danger.500`), so they no longer look brown on white. Dark mode is unchanged.
+
 ## 0.5.0
 
 ### Minor Changes
