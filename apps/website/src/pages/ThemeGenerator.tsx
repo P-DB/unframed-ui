@@ -155,8 +155,10 @@ function checks(theme: Theme) {
     { what: 'Links and accent text, light', fg: accent['600'], bg: surface.light, min: 4.5 },
     { what: 'Links and accent text, dark', fg: accent['300'], bg: surface.dark, min: 4.5 },
     { what: 'Focus ring, dark', fg: accent['400'], bg: surface.dark, min: 3 },
-    { what: 'Text on danger buttons', fg: '#ffffff', bg: danger['600'], min: 4.5 },
-    { what: 'Error messages, light', fg: danger['600'], bg: surface.light, min: 4.5 },
+    // Light mode uses a lighter step for danger, so it doesn't look brown on white.
+    { what: 'Text on danger buttons, light', fg: '#ffffff', bg: danger['500'], min: 4.5 },
+    { what: 'Text on danger buttons, dark', fg: '#ffffff', bg: danger['600'], min: 4.5 },
+    { what: 'Error messages, light', fg: danger['500'], bg: surface.light, min: 4.5 },
     { what: 'Error messages, dark', fg: danger['300'], bg: surface.dark, min: 4.5 },
   ].map((check) => ({ ...check, ratio: contrast(check.fg, check.bg) }));
 }

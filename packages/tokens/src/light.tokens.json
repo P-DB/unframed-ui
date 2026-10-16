@@ -66,16 +66,16 @@
       "$value": "{palette.neutral.100}"
     },
     "danger": {
-      "$value": "{palette.danger.600}"
+      "$value": "{palette.danger.500}"
     },
     "danger-hover": {
-      "$value": "{palette.danger.700}"
+      "$value": "{palette.danger.600}"
     },
     "danger-subtle": {
       "$value": "{palette.danger.50}"
     },
     "danger-text": {
-      "$value": "{palette.danger.600}"
+      "$value": "{palette.danger.500}"
     },
     "on-danger": {
       "$value": "{palette.neutral.0}"
@@ -141,10 +141,10 @@
       "$value": "{palette.signal.orange-ink}"
     },
     "toast-danger-bg": {
-      "$value": "{palette.danger.600}"
+      "$value": "{palette.danger.500}"
     },
     "toast-danger-border": {
-      "$value": "{palette.danger.600}"
+      "$value": "{palette.danger.500}"
     },
     "toast-danger-text": {
       "$value": "{palette.neutral.0}"
