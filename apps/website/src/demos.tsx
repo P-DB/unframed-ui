@@ -124,6 +124,170 @@ function PagedInvoices() {
 
 export const pages: Page[] = [
   {
+    slug: 'accordion',
+    title: 'Accordion',
+    tags: ['uf-accordion', 'uf-accordion-item'],
+    module: 'accordion',
+    examples: [
+      {
+        title: 'One open at a time',
+        description: 'Add `multiple` to let several items stay open.',
+        Preview: () => (
+          <div style={{ width: '100%' }}>
+            <UfAccordion>
+              <UfAccordionItem summary="What is Unframed?" open>
+                A library of web components that work in any framework, or none.
+              </UfAccordionItem>
+              <UfAccordionItem summary="Can I edit the components?">
+                Yes: copy their source with the CLI and change anything.
+              </UfAccordionItem>
+              <UfAccordionItem summary="Is it accessible?">
+                Every component follows the WAI-ARIA patterns and is tested with axe.
+              </UfAccordionItem>
+            </UfAccordion>
+          </div>
+        ),
+        html: code(`
+<uf-accordion>
+  <uf-accordion-item summary="What is Unframed?" open>
+    A library of web components that work in any framework, or none.
+  </uf-accordion-item>
+  <uf-accordion-item summary="Can I edit the components?">…</uf-accordion-item>
+</uf-accordion>`),
+        react: code(`
+<UfAccordion>
+  <UfAccordionItem summary="What is Unframed?" open>
+    A library of web components that work in any framework, or none.
+  </UfAccordionItem>
+  <UfAccordionItem summary="Can I edit the components?">…</UfAccordionItem>
+</UfAccordion>`),
+      },
+    ],
+  },
+  {
+    slug: 'avatar',
+    title: 'Avatar',
+    tags: ['uf-avatar'],
+    module: 'avatar',
+    examples: [
+      {
+        title: 'Image, initials or icon',
+        description: 'The image when it loads, the initials of `name` when it doesn\'t, a generic icon when there\'s neither.',
+        Preview: () => (
+          <>
+            <UfAvatar size="lg" name="John Smith" src={portrait} />
+            <UfAvatar size="lg" name="John Smith" />
+            <UfAvatar size="lg" />
+          </>
+        ),
+        html: code(`
+<uf-avatar name="John Smith" src="/photos/john.jpg"></uf-avatar>
+<uf-avatar name="John Smith"></uf-avatar>
+<uf-avatar></uf-avatar>`),
+        react: code(`
+<UfAvatar name="John Smith" src="/photos/john.jpg" />
+<UfAvatar name="John Smith" />
+<UfAvatar />`),
+      },
+      {
+        title: 'Sizes and shapes',
+        Preview: () => (
+          <>
+            {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+              <UfAvatar key={size} size={size} name="John Smith" />
+            ))}
+            <UfAvatar size="xl" shape="square" name="Unframed" initials="U" />
+          </>
+        ),
+        html: code(`
+<uf-avatar size="sm" name="John Smith"></uf-avatar>
+<uf-avatar size="xl" name="John Smith"></uf-avatar>
+<uf-avatar size="xl" shape="square" name="Unframed" initials="U"></uf-avatar>`),
+        react: code(`
+<UfAvatar size="sm" name="John Smith" />
+<UfAvatar size="xl" name="John Smith" />
+<UfAvatar size="xl" shape="square" name="Unframed" initials="U" />`),
+      },
+      {
+        title: 'Next to a name',
+        Preview: () => (
+          <span style={{ display: 'inline-flex', gap: '0.75rem', alignItems: 'center' }}>
+            <UfAvatar name="John Smith" decorative />
+            <strong>John Smith</strong>
+          </span>
+        ),
+        html: code(`
+<uf-avatar name="John Smith" decorative></uf-avatar>
+<strong>John Smith</strong>`),
+        react: code(`
+<UfAvatar name="John Smith" decorative />
+<strong>John Smith</strong>`),
+        notes: ['`name` is the accessible name. When the name is written next to the avatar, add `decorative` so screen readers don\'t read it twice.'],
+      },
+    ],
+  },
+  {
+    slug: 'badge',
+    title: 'Badge',
+    tags: ['uf-badge'],
+    module: 'badge',
+    examples: [
+      {
+        title: 'Variants',
+        description: 'Six colors by meaning, in three appearances: `soft` (the default), `solid` and `outline`.',
+        Preview: () => (
+          <div style={{ display: 'grid', gap: '0.75rem' }}>
+            {(['soft', 'solid', 'outline'] as const).map((appearance) => (
+              <div key={appearance} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                {(['neutral', 'accent', 'info', 'success', 'warning', 'danger'] as const).map((variant) => (
+                  <UfBadge key={variant} variant={variant} appearance={appearance}>
+                    {variant}
+                  </UfBadge>
+                ))}
+              </div>
+            ))}
+          </div>
+        ),
+        html: code(`
+<uf-badge>Draft</uf-badge>
+<uf-badge variant="success">Paid</uf-badge>
+<uf-badge variant="warning" appearance="solid">Expiring</uf-badge>
+<uf-badge variant="info" appearance="outline">Beta</uf-badge>`),
+        react: code(`
+<UfBadge>Draft</UfBadge>
+<UfBadge variant="success">Paid</UfBadge>
+<UfBadge variant="warning" appearance="solid">Expiring</UfBadge>
+<UfBadge variant="info" appearance="outline">Beta</UfBadge>`),
+      },
+      {
+        title: 'Dot, icon and size',
+        Preview: () => (
+          <>
+            <UfBadge dot variant="success">
+              Online
+            </UfBadge>
+            <UfBadge variant="success">
+              <UfIcon slot="prefix" name="check-circle" />
+              Verified
+            </UfBadge>
+            <UfBadge size="sm" variant="accent">
+              New
+            </UfBadge>
+          </>
+        ),
+        html: code(`
+<uf-badge dot variant="success">Online</uf-badge>
+<uf-badge variant="success"><uf-icon slot="prefix" name="check-circle"></uf-icon>Verified</uf-badge>
+<uf-badge size="sm" variant="accent">New</uf-badge>`),
+        react: code(`
+<UfBadge dot variant="success">Online</UfBadge>
+<UfBadge variant="success"><UfIcon slot="prefix" name="check-circle" />Verified</UfBadge>
+<UfBadge size="sm" variant="accent">New</UfBadge>`),
+        notes: ['Badges are read as plain text: write "3 unread" rather than "3", so the badge makes sense on its own.'],
+      },
+    ],
+  },
+  {
     slug: 'button',
     title: 'Button',
     tags: ['uf-button'],
@@ -192,119 +356,215 @@ export const pages: Page[] = [
     ],
   },
   {
-    slug: 'input',
-    title: 'Input',
-    tags: ['uf-input'],
-    module: 'input',
+    slug: 'card',
+    title: 'Card',
+    tags: ['uf-card'],
+    module: 'card',
     examples: [
       {
-        title: 'With label, hint and validation',
-        description: 'Errors appear after the user edits the field or tries to submit.',
-        stack: true,
+        title: 'Media, header, content and footer',
+        description: 'Every section is optional; empty ones take no space.',
         Preview: () => (
-          <form style={{ display: 'grid', gap: '1rem' }} noValidate onSubmit={(e) => {
-            e.preventDefault();
-            const fields = [...e.currentTarget.querySelectorAll<HTMLElement & { reportValidity(): boolean }>('uf-input')];
-            if (fields.map((f) => f.reportValidity()).every(Boolean)) toast('Subscribed', { variant: 'success' });
-          }}>
-            <UfInput name="email" type="email" label="Email" hint="We never share it." required>
-              <UfIcon slot="prefix" name="info" />
-            </UfInput>
-            <div>
-              <UfButton type="submit">Subscribe</UfButton>
+          <UfCard style={{ maxWidth: '22rem' }}>
+            <img slot="media" src={`${import.meta.env.BASE_URL}og-image.png`} alt="The Unframed logo" style={{ aspectRatio: '1200 / 630' }} />
+            <div slot="header">
+              <h4 style={{ margin: 0 }}>Unframed 0.2</h4>
+              <small>Released this week</small>
             </div>
-          </form>
+            A link button variant, new colors and smaller Angular bundles.
+            <UfButton slot="footer">Read more</UfButton>
+            <UfButton slot="footer" variant="ghost">
+              Dismiss
+            </UfButton>
+          </UfCard>
         ),
         html: code(`
-<form>
-  <uf-input name="email" type="email" label="Email" hint="We never share it." required>
-    <uf-icon slot="prefix" name="info"></uf-icon>
-  </uf-input>
-  <uf-button type="submit">Subscribe</uf-button>
-</form>`),
+<uf-card>
+  <img slot="media" src="/cover.png" alt="The Unframed logo" />
+  <div slot="header">
+    <h3>Unframed 0.2</h3>
+    <small>Released this week</small>
+  </div>
+  A link button variant, new colors and smaller Angular bundles.
+  <uf-button slot="footer">Read more</uf-button>
+  <uf-button slot="footer" variant="ghost">Dismiss</uf-button>
+</uf-card>`),
         react: code(`
-<form onSubmit={subscribe}>
-  <UfInput name="email" type="email" label="Email" hint="We never share it." required>
-    <UfIcon slot="prefix" name="info" />
-  </UfInput>
-  <UfButton type="submit">Subscribe</UfButton>
-</form>`),
+<UfCard>
+  <img slot="media" src="/cover.png" alt="The Unframed logo" />
+  <div slot="header">
+    <h3>Unframed 0.2</h3>
+    <small>Released this week</small>
+  </div>
+  A link button variant, new colors and smaller Angular bundles.
+  <UfButton slot="footer">Read more</UfButton>
+  <UfButton slot="footer" variant="ghost">Dismiss</UfButton>
+</UfCard>`),
+      },
+      {
+        title: 'Variants and orientation',
+        Preview: () => (
+          <>
+            {(['outline', 'elevated', 'filled'] as const).map((variant) => (
+              <UfCard key={variant} variant={variant} style={{ width: '10rem' }}>
+                <strong slot="header">{variant}</strong>A card.
+              </UfCard>
+            ))}
+          </>
+        ),
+        html: code(`
+<uf-card variant="elevated">…</uf-card>
+<uf-card variant="filled">…</uf-card>
+<uf-card orientation="horizontal">
+  <img slot="media" src="/cover.png" alt="" />
+  Media beside the content.
+</uf-card>`),
+        react: code(`
+<UfCard variant="elevated">…</UfCard>
+<UfCard variant="filled">…</UfCard>
+<UfCard orientation="horizontal">
+  <img slot="media" src="/cover.png" alt="" />
+  Media beside the content.
+</UfCard>`),
+      },
+    ],
+  },
+  {
+    slug: 'checkbox',
+    title: 'Checkbox',
+    tags: ['uf-checkbox', 'uf-checkbox-group'],
+    module: 'checkbox',
+    examples: [
+      {
+        title: 'States',
+        stack: true,
+        Preview: () => (
+          <>
+            <UfCheckbox checked hint="One email a month.">
+              Subscribe to the newsletter
+            </UfCheckbox>
+            <UfCheckbox indeterminate>Select all</UfCheckbox>
+            <UfCheckbox disabled>Disabled</UfCheckbox>
+          </>
+        ),
+        html: code(`
+<uf-checkbox checked hint="One email a month.">Subscribe to the newsletter</uf-checkbox>
+<uf-checkbox indeterminate>Select all</uf-checkbox>
+<uf-checkbox disabled>Disabled</uf-checkbox>`),
+        react: code(`
+<UfCheckbox checked hint="One email a month.">Subscribe to the newsletter</UfCheckbox>
+<UfCheckbox indeterminate>Select all</UfCheckbox>
+<UfCheckbox disabled>Disabled</UfCheckbox>`),
+      },
+      {
+        title: 'Select all',
+        description:
+          'Inside `<uf-checkbox-group>`, a checkbox with `select-all` checks or unchecks the others, and turns indeterminate when only some are checked. The group\'s `value` lists the checked values.',
+        stack: true,
+        Preview: () => {
+          const [toppings, setToppings] = useState<string[]>(['olives']);
+          return (
+            <>
+              <UfCheckboxGroup
+                label="Toppings"
+                value={toppings}
+                onChange={(e) => setToppings([...(e.currentTarget as HTMLElement & { value: string[] }).value])}
+              >
+                <UfCheckbox selectAll>All toppings</UfCheckbox>
+                <UfCheckbox name="topping" value="cheese">Cheese</UfCheckbox>
+                <UfCheckbox name="topping" value="olives">Olives</UfCheckbox>
+                <UfCheckbox name="topping" value="basil">Basil</UfCheckbox>
+              </UfCheckboxGroup>
+              <span style={{ color: 'var(--uf-color-text-muted)', fontSize: '0.875rem' }}>
+                Selected: {toppings.length ? toppings.join(', ') : 'none'}
+              </span>
+            </>
+          );
+        },
+        html: code(`
+<uf-checkbox-group label="Toppings">
+  <uf-checkbox select-all>All toppings</uf-checkbox>
+  <uf-checkbox name="topping" value="cheese">Cheese</uf-checkbox>
+  <uf-checkbox name="topping" value="olives" checked>Olives</uf-checkbox>
+  <uf-checkbox name="topping" value="basil">Basil</uf-checkbox>
+</uf-checkbox-group>`),
+        react: code(`
+const [toppings, setToppings] = useState(['olives']);
+
+<UfCheckboxGroup label="Toppings" value={toppings} onChange={(e) => setToppings([...e.currentTarget.value])}>
+  <UfCheckbox selectAll>All toppings</UfCheckbox>
+  <UfCheckbox value="cheese">Cheese</UfCheckbox>
+  <UfCheckbox value="olives">Olives</UfCheckbox>
+  <UfCheckbox value="basil">Basil</UfCheckbox>
+</UfCheckboxGroup>`),
         vue: code(`
 <script setup>
-const email = ref('');
+const toppings = ref(['olives']);
 </script>
 
 <template>
-  <form @submit.prevent="subscribe">
-    <UfInput v-model="email" name="email" type="email" label="Email" hint="We never share it." required>
-      <UfIcon slot="prefix" name="info" />
-    </UfInput>
-    <UfButton type="submit">Subscribe</UfButton>
-  </form>
+  <UfCheckboxGroup v-model="toppings" label="Toppings">
+    <UfCheckbox select-all>All toppings</UfCheckbox>
+    <UfCheckbox value="cheese">Cheese</UfCheckbox>
+    <UfCheckbox value="olives">Olives</UfCheckbox>
+    <UfCheckbox value="basil">Basil</UfCheckbox>
+  </UfCheckboxGroup>
 </template>`),
         angular: code(`
-<form (ngSubmit)="subscribe()">
-  <uf-input [(ngModel)]="email" name="email" type="email" label="Email" hint="We never share it." required>
-    <uf-icon slot="prefix" name="info" />
-  </uf-input>
-  <uf-button type="submit">Subscribe</uf-button>
-</form>`),
+<!-- toppings = new FormControl<string[]>(['olives']) -->
+<uf-checkbox-group [formControl]="toppings" label="Toppings">
+  <uf-checkbox select-all>All toppings</uf-checkbox>
+  <uf-checkbox value="cheese">Cheese</uf-checkbox>
+  <uf-checkbox value="olives">Olives</uf-checkbox>
+  <uf-checkbox value="basil">Basil</uf-checkbox>
+</uf-checkbox-group>`),
       },
-    ],
-  },
-  {
-    slug: 'textarea',
-    title: 'Textarea',
-    tags: ['uf-textarea'],
-    module: 'textarea',
-    examples: [
       {
-        title: 'Grows with its content',
+        title: 'Binding the indeterminate state',
+        description:
+          'A click clears `indeterminate`. To keep your own state in sync, use `v-model:indeterminate` in Vue, `[(indeterminate)]` in Angular, or read it in `onChange` in React.',
         stack: true,
-        Preview: () => <UfTextarea label="Bio" resize="auto" rows={2} maxlength={280} hint="Up to 280 characters." />,
-        html: code(`<uf-textarea label="Bio" resize="auto" rows="2" maxlength="280" hint="Up to 280 characters."></uf-textarea>`),
-        react: code(`<UfTextarea label="Bio" resize="auto" rows={2} maxlength={280} hint="Up to 280 characters." />`),
-      },
-    ],
-  },
-  {
-    slug: 'select',
-    title: 'Select',
-    tags: ['uf-select'],
-    module: 'select',
-    examples: [
-      {
-        title: 'Native options',
-        description: 'Built on the native `<select>`: write plain `<option>` and `<optgroup>` children.',
-        stack: true,
-        Preview: () => (
-          <UfSelect label="Country" placeholder="Choose a country">
-            <option value="it">Italy</option>
-            <option value="fr">France</option>
-            <optgroup label="Elsewhere">
-              <option value="jp">Japan</option>
-              <option value="us">United States</option>
-            </optgroup>
-          </UfSelect>
-        ),
-        html: code(`
-<uf-select label="Country" placeholder="Choose a country">
-  <option value="it">Italy</option>
-  <option value="fr">France</option>
-  <optgroup label="Elsewhere">
-    <option value="jp">Japan</option>
-    <option value="us">United States</option>
-  </optgroup>
-</uf-select>`),
+        Preview: () => {
+          const [checked, setChecked] = useState(false);
+          const [some, setSome] = useState(true);
+          return (
+            <>
+              <UfCheckbox
+                checked={checked}
+                indeterminate={some}
+                onChange={(e) => {
+                  const box = e.currentTarget as HTMLElement & { checked: boolean; indeterminate: boolean };
+                  setChecked(box.checked);
+                  setSome(box.indeterminate);
+                }}
+              >
+                Notify me
+              </UfCheckbox>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <UfButton size="sm" variant="secondary" onClick={() => setSome(true)}>
+                  Make indeterminate
+                </UfButton>
+              </div>
+            </>
+          );
+        },
+        html: code(`<uf-checkbox indeterminate>Notify me</uf-checkbox>`),
         react: code(`
-<UfSelect label="Country" placeholder="Choose a country">
-  <option value="it">Italy</option>
-  <option value="fr">France</option>
-  <optgroup label="Elsewhere">
-    <option value="jp">Japan</option>
-    <option value="us">United States</option>
-  </optgroup>
-</UfSelect>`),
+const [checked, setChecked] = useState(false);
+const [some, setSome] = useState(true);
+
+<UfCheckbox
+  checked={checked}
+  indeterminate={some}
+  onChange={(e) => {
+    setChecked(e.currentTarget.checked);
+    setSome(e.currentTarget.indeterminate);
+  }}
+>
+  Notify me
+</UfCheckbox>`),
+        vue: code(`<UfCheckbox v-model="checked" v-model:indeterminate="some">Notify me</UfCheckbox>`),
+        angular: code(`<uf-checkbox [(ngModel)]="checked" [(indeterminate)]="some">Notify me</uf-checkbox>`),
       },
     ],
   },
@@ -469,304 +729,6 @@ const [checkin, setCheckin] = useState('');
     ],
   },
   {
-    slug: 'checkbox',
-    title: 'Checkbox',
-    tags: ['uf-checkbox', 'uf-checkbox-group'],
-    module: 'checkbox',
-    examples: [
-      {
-        title: 'States',
-        stack: true,
-        Preview: () => (
-          <>
-            <UfCheckbox checked hint="One email a month.">
-              Subscribe to the newsletter
-            </UfCheckbox>
-            <UfCheckbox indeterminate>Select all</UfCheckbox>
-            <UfCheckbox disabled>Disabled</UfCheckbox>
-          </>
-        ),
-        html: code(`
-<uf-checkbox checked hint="One email a month.">Subscribe to the newsletter</uf-checkbox>
-<uf-checkbox indeterminate>Select all</uf-checkbox>
-<uf-checkbox disabled>Disabled</uf-checkbox>`),
-        react: code(`
-<UfCheckbox checked hint="One email a month.">Subscribe to the newsletter</UfCheckbox>
-<UfCheckbox indeterminate>Select all</UfCheckbox>
-<UfCheckbox disabled>Disabled</UfCheckbox>`),
-      },
-      {
-        title: 'Select all',
-        description:
-          'Inside `<uf-checkbox-group>`, a checkbox with `select-all` checks or unchecks the others, and turns indeterminate when only some are checked. The group\'s `value` lists the checked values.',
-        stack: true,
-        Preview: () => {
-          const [toppings, setToppings] = useState<string[]>(['olives']);
-          return (
-            <>
-              <UfCheckboxGroup
-                label="Toppings"
-                value={toppings}
-                onChange={(e) => setToppings([...(e.currentTarget as HTMLElement & { value: string[] }).value])}
-              >
-                <UfCheckbox selectAll>All toppings</UfCheckbox>
-                <UfCheckbox name="topping" value="cheese">Cheese</UfCheckbox>
-                <UfCheckbox name="topping" value="olives">Olives</UfCheckbox>
-                <UfCheckbox name="topping" value="basil">Basil</UfCheckbox>
-              </UfCheckboxGroup>
-              <span style={{ color: 'var(--uf-color-text-muted)', fontSize: '0.875rem' }}>
-                Selected: {toppings.length ? toppings.join(', ') : 'none'}
-              </span>
-            </>
-          );
-        },
-        html: code(`
-<uf-checkbox-group label="Toppings">
-  <uf-checkbox select-all>All toppings</uf-checkbox>
-  <uf-checkbox name="topping" value="cheese">Cheese</uf-checkbox>
-  <uf-checkbox name="topping" value="olives" checked>Olives</uf-checkbox>
-  <uf-checkbox name="topping" value="basil">Basil</uf-checkbox>
-</uf-checkbox-group>`),
-        react: code(`
-const [toppings, setToppings] = useState(['olives']);
-
-<UfCheckboxGroup label="Toppings" value={toppings} onChange={(e) => setToppings([...e.currentTarget.value])}>
-  <UfCheckbox selectAll>All toppings</UfCheckbox>
-  <UfCheckbox value="cheese">Cheese</UfCheckbox>
-  <UfCheckbox value="olives">Olives</UfCheckbox>
-  <UfCheckbox value="basil">Basil</UfCheckbox>
-</UfCheckboxGroup>`),
-        vue: code(`
-<script setup>
-const toppings = ref(['olives']);
-</script>
-
-<template>
-  <UfCheckboxGroup v-model="toppings" label="Toppings">
-    <UfCheckbox select-all>All toppings</UfCheckbox>
-    <UfCheckbox value="cheese">Cheese</UfCheckbox>
-    <UfCheckbox value="olives">Olives</UfCheckbox>
-    <UfCheckbox value="basil">Basil</UfCheckbox>
-  </UfCheckboxGroup>
-</template>`),
-        angular: code(`
-<!-- toppings = new FormControl<string[]>(['olives']) -->
-<uf-checkbox-group [formControl]="toppings" label="Toppings">
-  <uf-checkbox select-all>All toppings</uf-checkbox>
-  <uf-checkbox value="cheese">Cheese</uf-checkbox>
-  <uf-checkbox value="olives">Olives</uf-checkbox>
-  <uf-checkbox value="basil">Basil</uf-checkbox>
-</uf-checkbox-group>`),
-      },
-      {
-        title: 'Binding the indeterminate state',
-        description:
-          'A click clears `indeterminate`. To keep your own state in sync, use `v-model:indeterminate` in Vue, `[(indeterminate)]` in Angular, or read it in `onChange` in React.',
-        stack: true,
-        Preview: () => {
-          const [checked, setChecked] = useState(false);
-          const [some, setSome] = useState(true);
-          return (
-            <>
-              <UfCheckbox
-                checked={checked}
-                indeterminate={some}
-                onChange={(e) => {
-                  const box = e.currentTarget as HTMLElement & { checked: boolean; indeterminate: boolean };
-                  setChecked(box.checked);
-                  setSome(box.indeterminate);
-                }}
-              >
-                Notify me
-              </UfCheckbox>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <UfButton size="sm" variant="secondary" onClick={() => setSome(true)}>
-                  Make indeterminate
-                </UfButton>
-              </div>
-            </>
-          );
-        },
-        html: code(`<uf-checkbox indeterminate>Notify me</uf-checkbox>`),
-        react: code(`
-const [checked, setChecked] = useState(false);
-const [some, setSome] = useState(true);
-
-<UfCheckbox
-  checked={checked}
-  indeterminate={some}
-  onChange={(e) => {
-    setChecked(e.currentTarget.checked);
-    setSome(e.currentTarget.indeterminate);
-  }}
->
-  Notify me
-</UfCheckbox>`),
-        vue: code(`<UfCheckbox v-model="checked" v-model:indeterminate="some">Notify me</UfCheckbox>`),
-        angular: code(`<uf-checkbox [(ngModel)]="checked" [(indeterminate)]="some">Notify me</uf-checkbox>`),
-      },
-    ],
-  },
-  {
-    slug: 'switch',
-    title: 'Switch',
-    tags: ['uf-switch'],
-    module: 'switch',
-    examples: [
-      {
-        title: 'Settings that apply immediately',
-        stack: true,
-        Preview: () => {
-          const [on, setOn] = useState(true);
-          return (
-            <UfSwitch checked={on} onChange={(e) => setOn((e.target as HTMLInputElement).checked)}>
-              Notifications are {on ? 'on' : 'off'}
-            </UfSwitch>
-          );
-        },
-        html: code(`<uf-switch checked>Notifications</uf-switch>`),
-        react: code(`
-const [on, setOn] = useState(true);
-
-<UfSwitch checked={on} onChange={(e) => setOn(e.target.checked)}>
-  Notifications are {on ? 'on' : 'off'}
-</UfSwitch>`),
-        vue: code(`
-<UfSwitch v-model="on">Notifications are {{ on ? 'on' : 'off' }}</UfSwitch>`),
-        angular: code(`
-<uf-switch [(ngModel)]="on">Notifications are {{ on ? 'on' : 'off' }}</uf-switch>`),
-      },
-    ],
-  },
-  {
-    slug: 'radio-group',
-    title: 'Radio group',
-    tags: ['uf-radio-group', 'uf-radio'],
-    module: 'radio-group',
-    examples: [
-      {
-        title: 'Pick one',
-        description: 'Arrow keys move the selection; only the selected radio is in the tab order.',
-        Preview: () => (
-          <UfRadioGroup label="Plan" value="pro" orientation="horizontal">
-            <UfRadio value="free">Free</UfRadio>
-            <UfRadio value="pro">Pro</UfRadio>
-            <UfRadio value="team">Team</UfRadio>
-            <UfRadio value="enterprise" disabled>
-              Enterprise
-            </UfRadio>
-          </UfRadioGroup>
-        ),
-        html: code(`
-<uf-radio-group label="Plan" value="pro" orientation="horizontal">
-  <uf-radio value="free">Free</uf-radio>
-  <uf-radio value="pro">Pro</uf-radio>
-  <uf-radio value="team">Team</uf-radio>
-  <uf-radio value="enterprise" disabled>Enterprise</uf-radio>
-</uf-radio-group>`),
-        react: code(`
-<UfRadioGroup label="Plan" value="pro" orientation="horizontal">
-  <UfRadio value="free">Free</UfRadio>
-  <UfRadio value="pro">Pro</UfRadio>
-  <UfRadio value="team">Team</UfRadio>
-  <UfRadio value="enterprise" disabled>Enterprise</UfRadio>
-</UfRadioGroup>`),
-      },
-    ],
-  },
-  {
-    slug: 'tabs',
-    title: 'Tabs',
-    tags: ['uf-tabs', 'uf-tab', 'uf-tab-panel'],
-    module: 'tabs',
-    examples: [
-      {
-        title: 'Tabs and panels',
-        Preview: () => (
-          <div style={{ width: '100%' }}>
-            <UfTabs label="Project settings">
-              <UfTab panel="general">General</UfTab>
-              <UfTab panel="members">Members</UfTab>
-              <UfTab panel="billing">Billing</UfTab>
-              <UfTabPanel name="general">General settings for the project.</UfTabPanel>
-              <UfTabPanel name="members">Invite people and manage roles.</UfTabPanel>
-              <UfTabPanel name="billing">Plans, invoices and payment methods.</UfTabPanel>
-            </UfTabs>
-          </div>
-        ),
-        html: code(`
-<uf-tabs label="Project settings">
-  <uf-tab panel="general">General</uf-tab>
-  <uf-tab panel="members">Members</uf-tab>
-  <uf-tab-panel name="general">General settings for the project.</uf-tab-panel>
-  <uf-tab-panel name="members">Invite people and manage roles.</uf-tab-panel>
-</uf-tabs>`),
-        react: code(`
-<UfTabs label="Project settings" onUfTabChange={(e) => setTab(e.detail.name)}>
-  <UfTab panel="general">General</UfTab>
-  <UfTab panel="members">Members</UfTab>
-  <UfTabPanel name="general">General settings for the project.</UfTabPanel>
-  <UfTabPanel name="members">Invite people and manage roles.</UfTabPanel>
-</UfTabs>`),
-        vue: code(`
-<UfTabs label="Project settings" @uf-tab-change="(e) => (tab = e.detail.name)">
-  <UfTab panel="general">General</UfTab>
-  <UfTab panel="members">Members</UfTab>
-  <UfTabPanel name="general">General settings for the project.</UfTabPanel>
-  <UfTabPanel name="members">Invite people and manage roles.</UfTabPanel>
-</UfTabs>`),
-        angular: code(`
-<uf-tabs label="Project settings" (uf-tab-change)="tab = $event.detail.name">
-  <uf-tab panel="general">General</uf-tab>
-  <uf-tab panel="members">Members</uf-tab>
-  <uf-tab-panel name="general">General settings for the project.</uf-tab-panel>
-  <uf-tab-panel name="members">Invite people and manage roles.</uf-tab-panel>
-</uf-tabs>`),
-      },
-    ],
-  },
-  {
-    slug: 'accordion',
-    title: 'Accordion',
-    tags: ['uf-accordion', 'uf-accordion-item'],
-    module: 'accordion',
-    examples: [
-      {
-        title: 'One open at a time',
-        description: 'Add `multiple` to let several items stay open.',
-        Preview: () => (
-          <div style={{ width: '100%' }}>
-            <UfAccordion>
-              <UfAccordionItem summary="What is Unframed?" open>
-                A library of web components that work in any framework, or none.
-              </UfAccordionItem>
-              <UfAccordionItem summary="Can I edit the components?">
-                Yes: copy their source with the CLI and change anything.
-              </UfAccordionItem>
-              <UfAccordionItem summary="Is it accessible?">
-                Every component follows the WAI-ARIA patterns and is tested with axe.
-              </UfAccordionItem>
-            </UfAccordion>
-          </div>
-        ),
-        html: code(`
-<uf-accordion>
-  <uf-accordion-item summary="What is Unframed?" open>
-    A library of web components that work in any framework, or none.
-  </uf-accordion-item>
-  <uf-accordion-item summary="Can I edit the components?">…</uf-accordion-item>
-</uf-accordion>`),
-        react: code(`
-<UfAccordion>
-  <UfAccordionItem summary="What is Unframed?" open>
-    A library of web components that work in any framework, or none.
-  </UfAccordionItem>
-  <UfAccordionItem summary="Can I edit the components?">…</UfAccordionItem>
-</UfAccordion>`),
-      },
-    ],
-  },
-  {
     slug: 'dialog',
     title: 'Dialog',
     tags: ['uf-dialog'],
@@ -841,42 +803,6 @@ const dialog = ref();
     ],
   },
   {
-    slug: 'popover',
-    title: 'Popover',
-    tags: ['uf-popover'],
-    module: 'popover',
-    examples: [
-      {
-        title: 'Floating panel',
-        Preview: () => (
-          <UfPopover>
-            <UfButton slot="trigger" variant="outline">
-              Filters
-              <UfIcon slot="suffix" name="chevron-down" />
-            </UfButton>
-            <div style={{ display: 'grid', gap: '0.5rem', width: '14rem' }}>
-              <UfCheckbox checked>Open issues</UfCheckbox>
-              <UfCheckbox>Closed issues</UfCheckbox>
-              <UfSwitch>Only mine</UfSwitch>
-            </div>
-          </UfPopover>
-        ),
-        html: code(`
-<uf-popover>
-  <uf-button slot="trigger" variant="outline">Filters</uf-button>
-  <uf-checkbox checked>Open issues</uf-checkbox>
-  <uf-checkbox>Closed issues</uf-checkbox>
-</uf-popover>`),
-        react: code(`
-<UfPopover>
-  <UfButton slot="trigger" variant="outline">Filters</UfButton>
-  <UfCheckbox checked>Open issues</UfCheckbox>
-  <UfCheckbox>Closed issues</UfCheckbox>
-</UfPopover>`),
-      },
-    ],
-  },
-  {
     slug: 'dropdown',
     title: 'Dropdown menu',
     tags: ['uf-dropdown', 'uf-menu', 'uf-menu-item'],
@@ -947,75 +873,6 @@ const dialog = ref();
     <uf-menu-item value="pin" type="checkbox" checked>Pinned</uf-menu-item>
   </uf-menu>
 </uf-dropdown>`),
-      },
-    ],
-  },
-  {
-    slug: 'tooltip',
-    title: 'Tooltip',
-    tags: ['uf-tooltip'],
-    module: 'tooltip',
-    examples: [
-      {
-        title: 'On hover and focus',
-        Preview: () => (
-          <UfTooltip content="Saves without publishing">
-            <UfButton variant="outline">Save draft</UfButton>
-          </UfTooltip>
-        ),
-        html: code(`
-<uf-tooltip content="Saves without publishing">
-  <uf-button variant="outline">Save draft</uf-button>
-</uf-tooltip>`),
-        react: code(`
-<UfTooltip content="Saves without publishing">
-  <UfButton variant="outline">Save draft</UfButton>
-</UfTooltip>`),
-      },
-    ],
-  },
-  {
-    slug: 'toast',
-    title: 'Toast',
-    tags: ['uf-toaster'],
-    module: 'toast',
-    examples: [
-      {
-        title: 'Variants',
-        description: 'Call `toast()` from anywhere; the toaster is created on first use.',
-        Preview: () => (
-          <>
-            {(['neutral', 'info', 'success', 'warning', 'danger'] as ToastVariant[]).map((variant) => (
-              <UfButton key={variant} variant="outline" onClick={() => toast(`This is a ${variant} toast.`, { variant })}>
-                {variant}
-              </UfButton>
-            ))}
-          </>
-        ),
-        html: code(`
-<script type="module">
-  import { toast } from '@unframed/core/toast';
-  toast('Changes published.', { variant: 'success' });
-</script>`),
-        react: code(`
-import { toast } from '@unframed/core/toast';
-
-<UfButton onClick={() => toast('Changes published.', { variant: 'success' })}>Publish</UfButton>`),
-        vue: code(`
-<script setup>
-import { toast } from '@unframed/core/toast';
-</script>
-
-<template>
-  <UfButton @click="toast('Changes published.', { variant: 'success' })">Publish</UfButton>
-</template>`),
-        angular: code(`
-import { toast } from '@unframed/core/toast';
-
-// in your component
-publish() {
-  toast('Changes published.', { variant: 'success' });
-}`),
       },
     ],
   },
@@ -1106,199 +963,255 @@ registerIcons({
     ],
   },
   {
-    slug: 'badge',
-    title: 'Badge',
-    tags: ['uf-badge'],
-    module: 'badge',
+    slug: 'input',
+    title: 'Input',
+    tags: ['uf-input'],
+    module: 'input',
     examples: [
       {
-        title: 'Variants',
-        description: 'Six colors by meaning, in three appearances: `soft` (the default), `solid` and `outline`.',
+        title: 'With label, hint and validation',
+        description: 'Errors appear after the user edits the field or tries to submit.',
+        stack: true,
         Preview: () => (
-          <div style={{ display: 'grid', gap: '0.75rem' }}>
-            {(['soft', 'solid', 'outline'] as const).map((appearance) => (
-              <div key={appearance} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                {(['neutral', 'accent', 'info', 'success', 'warning', 'danger'] as const).map((variant) => (
-                  <UfBadge key={variant} variant={variant} appearance={appearance}>
-                    {variant}
-                  </UfBadge>
-                ))}
-              </div>
-            ))}
+          <form style={{ display: 'grid', gap: '1rem' }} noValidate onSubmit={(e) => {
+            e.preventDefault();
+            const fields = [...e.currentTarget.querySelectorAll<HTMLElement & { reportValidity(): boolean }>('uf-input')];
+            if (fields.map((f) => f.reportValidity()).every(Boolean)) toast('Subscribed', { variant: 'success' });
+          }}>
+            <UfInput name="email" type="email" label="Email" hint="We never share it." required>
+              <UfIcon slot="prefix" name="info" />
+            </UfInput>
+            <div>
+              <UfButton type="submit">Subscribe</UfButton>
+            </div>
+          </form>
+        ),
+        html: code(`
+<form>
+  <uf-input name="email" type="email" label="Email" hint="We never share it." required>
+    <uf-icon slot="prefix" name="info"></uf-icon>
+  </uf-input>
+  <uf-button type="submit">Subscribe</uf-button>
+</form>`),
+        react: code(`
+<form onSubmit={subscribe}>
+  <UfInput name="email" type="email" label="Email" hint="We never share it." required>
+    <UfIcon slot="prefix" name="info" />
+  </UfInput>
+  <UfButton type="submit">Subscribe</UfButton>
+</form>`),
+        vue: code(`
+<script setup>
+const email = ref('');
+</script>
+
+<template>
+  <form @submit.prevent="subscribe">
+    <UfInput v-model="email" name="email" type="email" label="Email" hint="We never share it." required>
+      <UfIcon slot="prefix" name="info" />
+    </UfInput>
+    <UfButton type="submit">Subscribe</UfButton>
+  </form>
+</template>`),
+        angular: code(`
+<form (ngSubmit)="subscribe()">
+  <uf-input [(ngModel)]="email" name="email" type="email" label="Email" hint="We never share it." required>
+    <uf-icon slot="prefix" name="info" />
+  </uf-input>
+  <uf-button type="submit">Subscribe</uf-button>
+</form>`),
+      },
+    ],
+  },
+  {
+    slug: 'pagination',
+    title: 'Pagination',
+    tags: ['uf-pagination'],
+    module: 'pagination',
+    examples: [
+      {
+        title: 'Pages',
+        description: 'Long ranges collapse around the current page; the number of buttons stays the same from page to page.',
+        Preview: () => {
+          const [page, setPage] = useState(6);
+          return <UfPagination pages={20} page={page} onUfPageChange={(event) => setPage(event.detail.page)} />;
+        },
+        html: code(`
+<uf-pagination pages="20" page="6"></uf-pagination>
+
+<script type="module">
+  document.querySelector('uf-pagination').addEventListener('uf-page-change', (event) => {
+    loadPage(event.detail.page);
+  });
+</script>`),
+        react: code(`
+const [page, setPage] = useState(6);
+
+<UfPagination pages={20} page={page} onUfPageChange={(event) => setPage(event.detail.page)} />`),
+        vue: code(`
+<UfPagination :pages="20" :page="page" @uf-page-change="page = $event.detail.page" />`),
+        angular: code(`
+<uf-pagination [pages]="20" [page]="page()" (uf-page-change)="page.set($event.detail.page)" />`),
+      },
+      {
+        title: 'Siblings and size',
+        Preview: () => (
+          <div style={{ display: 'grid', gap: '1rem' }}>
+            <UfPagination label="Two siblings" pages={30} page={15} siblings={2} />
+            <UfPagination label="Small" pages={30} page={15} size="sm" />
           </div>
         ),
         html: code(`
-<uf-badge>Draft</uf-badge>
-<uf-badge variant="success">Paid</uf-badge>
-<uf-badge variant="warning" appearance="solid">Expiring</uf-badge>
-<uf-badge variant="info" appearance="outline">Beta</uf-badge>`),
+<uf-pagination pages="30" page="15" siblings="2"></uf-pagination>
+<uf-pagination pages="30" page="15" size="sm"></uf-pagination>`),
         react: code(`
-<UfBadge>Draft</UfBadge>
-<UfBadge variant="success">Paid</UfBadge>
-<UfBadge variant="warning" appearance="solid">Expiring</UfBadge>
-<UfBadge variant="info" appearance="outline">Beta</UfBadge>`),
-      },
-      {
-        title: 'Dot, icon and size',
-        Preview: () => (
-          <>
-            <UfBadge dot variant="success">
-              Online
-            </UfBadge>
-            <UfBadge variant="success">
-              <UfIcon slot="prefix" name="check-circle" />
-              Verified
-            </UfBadge>
-            <UfBadge size="sm" variant="accent">
-              New
-            </UfBadge>
-          </>
-        ),
-        html: code(`
-<uf-badge dot variant="success">Online</uf-badge>
-<uf-badge variant="success"><uf-icon slot="prefix" name="check-circle"></uf-icon>Verified</uf-badge>
-<uf-badge size="sm" variant="accent">New</uf-badge>`),
-        react: code(`
-<UfBadge dot variant="success">Online</UfBadge>
-<UfBadge variant="success"><UfIcon slot="prefix" name="check-circle" />Verified</UfBadge>
-<UfBadge size="sm" variant="accent">New</UfBadge>`),
-        notes: ['Badges are read as plain text: write "3 unread" rather than "3", so the badge makes sense on its own.'],
+<UfPagination pages={30} page={15} siblings={2} />
+<UfPagination pages={30} page={15} size="sm" />`),
+        notes: ['Each pagination is a navigation landmark: when a page has more than one, give each a different `label`.'],
       },
     ],
   },
   {
-    slug: 'avatar',
-    title: 'Avatar',
-    tags: ['uf-avatar'],
-    module: 'avatar',
+    slug: 'popover',
+    title: 'Popover',
+    tags: ['uf-popover'],
+    module: 'popover',
     examples: [
       {
-        title: 'Image, initials or icon',
-        description: 'The image when it loads, the initials of `name` when it doesn\'t, a generic icon when there\'s neither.',
+        title: 'Floating panel',
         Preview: () => (
-          <>
-            <UfAvatar size="lg" name="John Smith" src={portrait} />
-            <UfAvatar size="lg" name="John Smith" />
-            <UfAvatar size="lg" />
-          </>
-        ),
-        html: code(`
-<uf-avatar name="John Smith" src="/photos/john.jpg"></uf-avatar>
-<uf-avatar name="John Smith"></uf-avatar>
-<uf-avatar></uf-avatar>`),
-        react: code(`
-<UfAvatar name="John Smith" src="/photos/john.jpg" />
-<UfAvatar name="John Smith" />
-<UfAvatar />`),
-      },
-      {
-        title: 'Sizes and shapes',
-        Preview: () => (
-          <>
-            {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
-              <UfAvatar key={size} size={size} name="John Smith" />
-            ))}
-            <UfAvatar size="xl" shape="square" name="Unframed" initials="U" />
-          </>
-        ),
-        html: code(`
-<uf-avatar size="sm" name="John Smith"></uf-avatar>
-<uf-avatar size="xl" name="John Smith"></uf-avatar>
-<uf-avatar size="xl" shape="square" name="Unframed" initials="U"></uf-avatar>`),
-        react: code(`
-<UfAvatar size="sm" name="John Smith" />
-<UfAvatar size="xl" name="John Smith" />
-<UfAvatar size="xl" shape="square" name="Unframed" initials="U" />`),
-      },
-      {
-        title: 'Next to a name',
-        Preview: () => (
-          <span style={{ display: 'inline-flex', gap: '0.75rem', alignItems: 'center' }}>
-            <UfAvatar name="John Smith" decorative />
-            <strong>John Smith</strong>
-          </span>
-        ),
-        html: code(`
-<uf-avatar name="John Smith" decorative></uf-avatar>
-<strong>John Smith</strong>`),
-        react: code(`
-<UfAvatar name="John Smith" decorative />
-<strong>John Smith</strong>`),
-        notes: ['`name` is the accessible name. When the name is written next to the avatar, add `decorative` so screen readers don\'t read it twice.'],
-      },
-    ],
-  },
-  {
-    slug: 'card',
-    title: 'Card',
-    tags: ['uf-card'],
-    module: 'card',
-    examples: [
-      {
-        title: 'Media, header, content and footer',
-        description: 'Every section is optional; empty ones take no space.',
-        Preview: () => (
-          <UfCard style={{ maxWidth: '22rem' }}>
-            <img slot="media" src={`${import.meta.env.BASE_URL}og-image.png`} alt="The Unframed logo" style={{ aspectRatio: '1200 / 630' }} />
-            <div slot="header">
-              <h4 style={{ margin: 0 }}>Unframed 0.2</h4>
-              <small>Released this week</small>
-            </div>
-            A link button variant, new colors and smaller Angular bundles.
-            <UfButton slot="footer">Read more</UfButton>
-            <UfButton slot="footer" variant="ghost">
-              Dismiss
+          <UfPopover>
+            <UfButton slot="trigger" variant="outline">
+              Filters
+              <UfIcon slot="suffix" name="chevron-down" />
             </UfButton>
-          </UfCard>
+            <div style={{ display: 'grid', gap: '0.5rem', width: '14rem' }}>
+              <UfCheckbox checked>Open issues</UfCheckbox>
+              <UfCheckbox>Closed issues</UfCheckbox>
+              <UfSwitch>Only mine</UfSwitch>
+            </div>
+          </UfPopover>
         ),
         html: code(`
-<uf-card>
-  <img slot="media" src="/cover.png" alt="The Unframed logo" />
-  <div slot="header">
-    <h3>Unframed 0.2</h3>
-    <small>Released this week</small>
-  </div>
-  A link button variant, new colors and smaller Angular bundles.
-  <uf-button slot="footer">Read more</uf-button>
-  <uf-button slot="footer" variant="ghost">Dismiss</uf-button>
-</uf-card>`),
+<uf-popover>
+  <uf-button slot="trigger" variant="outline">Filters</uf-button>
+  <uf-checkbox checked>Open issues</uf-checkbox>
+  <uf-checkbox>Closed issues</uf-checkbox>
+</uf-popover>`),
         react: code(`
-<UfCard>
-  <img slot="media" src="/cover.png" alt="The Unframed logo" />
-  <div slot="header">
-    <h3>Unframed 0.2</h3>
-    <small>Released this week</small>
-  </div>
-  A link button variant, new colors and smaller Angular bundles.
-  <UfButton slot="footer">Read more</UfButton>
-  <UfButton slot="footer" variant="ghost">Dismiss</UfButton>
-</UfCard>`),
+<UfPopover>
+  <UfButton slot="trigger" variant="outline">Filters</UfButton>
+  <UfCheckbox checked>Open issues</UfCheckbox>
+  <UfCheckbox>Closed issues</UfCheckbox>
+</UfPopover>`),
       },
+    ],
+  },
+  {
+    slug: 'radio-group',
+    title: 'Radio group',
+    tags: ['uf-radio-group', 'uf-radio'],
+    module: 'radio-group',
+    examples: [
       {
-        title: 'Variants and orientation',
+        title: 'Pick one',
+        description: 'Arrow keys move the selection; only the selected radio is in the tab order.',
         Preview: () => (
-          <>
-            {(['outline', 'elevated', 'filled'] as const).map((variant) => (
-              <UfCard key={variant} variant={variant} style={{ width: '10rem' }}>
-                <strong slot="header">{variant}</strong>A card.
-              </UfCard>
-            ))}
-          </>
+          <UfRadioGroup label="Plan" value="pro" orientation="horizontal">
+            <UfRadio value="free">Free</UfRadio>
+            <UfRadio value="pro">Pro</UfRadio>
+            <UfRadio value="team">Team</UfRadio>
+            <UfRadio value="enterprise" disabled>
+              Enterprise
+            </UfRadio>
+          </UfRadioGroup>
         ),
         html: code(`
-<uf-card variant="elevated">…</uf-card>
-<uf-card variant="filled">…</uf-card>
-<uf-card orientation="horizontal">
-  <img slot="media" src="/cover.png" alt="" />
-  Media beside the content.
-</uf-card>`),
+<uf-radio-group label="Plan" value="pro" orientation="horizontal">
+  <uf-radio value="free">Free</uf-radio>
+  <uf-radio value="pro">Pro</uf-radio>
+  <uf-radio value="team">Team</uf-radio>
+  <uf-radio value="enterprise" disabled>Enterprise</uf-radio>
+</uf-radio-group>`),
         react: code(`
-<UfCard variant="elevated">…</UfCard>
-<UfCard variant="filled">…</UfCard>
-<UfCard orientation="horizontal">
-  <img slot="media" src="/cover.png" alt="" />
-  Media beside the content.
-</UfCard>`),
+<UfRadioGroup label="Plan" value="pro" orientation="horizontal">
+  <UfRadio value="free">Free</UfRadio>
+  <UfRadio value="pro">Pro</UfRadio>
+  <UfRadio value="team">Team</UfRadio>
+  <UfRadio value="enterprise" disabled>Enterprise</UfRadio>
+</UfRadioGroup>`),
+      },
+    ],
+  },
+  {
+    slug: 'select',
+    title: 'Select',
+    tags: ['uf-select'],
+    module: 'select',
+    examples: [
+      {
+        title: 'Native options',
+        description: 'Built on the native `<select>`: write plain `<option>` and `<optgroup>` children.',
+        stack: true,
+        Preview: () => (
+          <UfSelect label="Country" placeholder="Choose a country">
+            <option value="it">Italy</option>
+            <option value="fr">France</option>
+            <optgroup label="Elsewhere">
+              <option value="jp">Japan</option>
+              <option value="us">United States</option>
+            </optgroup>
+          </UfSelect>
+        ),
+        html: code(`
+<uf-select label="Country" placeholder="Choose a country">
+  <option value="it">Italy</option>
+  <option value="fr">France</option>
+  <optgroup label="Elsewhere">
+    <option value="jp">Japan</option>
+    <option value="us">United States</option>
+  </optgroup>
+</uf-select>`),
+        react: code(`
+<UfSelect label="Country" placeholder="Choose a country">
+  <option value="it">Italy</option>
+  <option value="fr">France</option>
+  <optgroup label="Elsewhere">
+    <option value="jp">Japan</option>
+    <option value="us">United States</option>
+  </optgroup>
+</UfSelect>`),
+      },
+    ],
+  },
+  {
+    slug: 'switch',
+    title: 'Switch',
+    tags: ['uf-switch'],
+    module: 'switch',
+    examples: [
+      {
+        title: 'Settings that apply immediately',
+        stack: true,
+        Preview: () => {
+          const [on, setOn] = useState(true);
+          return (
+            <UfSwitch checked={on} onChange={(e) => setOn((e.target as HTMLInputElement).checked)}>
+              Notifications are {on ? 'on' : 'off'}
+            </UfSwitch>
+          );
+        },
+        html: code(`<uf-switch checked>Notifications</uf-switch>`),
+        react: code(`
+const [on, setOn] = useState(true);
+
+<UfSwitch checked={on} onChange={(e) => setOn(e.target.checked)}>
+  Notifications are {on ? 'on' : 'off'}
+</UfSwitch>`),
+        vue: code(`
+<UfSwitch v-model="on">Notifications are {{ on ? 'on' : 'off' }}</UfSwitch>`),
+        angular: code(`
+<uf-switch [(ngModel)]="on">Notifications are {{ on ? 'on' : 'off' }}</uf-switch>`),
       },
     ],
   },
@@ -1410,50 +1323,137 @@ const pageSize = 8;
     ],
   },
   {
-    slug: 'pagination',
-    title: 'Pagination',
-    tags: ['uf-pagination'],
-    module: 'pagination',
+    slug: 'tabs',
+    title: 'Tabs',
+    tags: ['uf-tabs', 'uf-tab', 'uf-tab-panel'],
+    module: 'tabs',
     examples: [
       {
-        title: 'Pages',
-        description: 'Long ranges collapse around the current page; the number of buttons stays the same from page to page.',
-        Preview: () => {
-          const [page, setPage] = useState(6);
-          return <UfPagination pages={20} page={page} onUfPageChange={(event) => setPage(event.detail.page)} />;
-        },
-        html: code(`
-<uf-pagination pages="20" page="6"></uf-pagination>
-
-<script type="module">
-  document.querySelector('uf-pagination').addEventListener('uf-page-change', (event) => {
-    loadPage(event.detail.page);
-  });
-</script>`),
-        react: code(`
-const [page, setPage] = useState(6);
-
-<UfPagination pages={20} page={page} onUfPageChange={(event) => setPage(event.detail.page)} />`),
-        vue: code(`
-<UfPagination :pages="20" :page="page" @uf-page-change="page = $event.detail.page" />`),
-        angular: code(`
-<uf-pagination [pages]="20" [page]="page()" (uf-page-change)="page.set($event.detail.page)" />`),
-      },
-      {
-        title: 'Siblings and size',
+        title: 'Tabs and panels',
         Preview: () => (
-          <div style={{ display: 'grid', gap: '1rem' }}>
-            <UfPagination label="Two siblings" pages={30} page={15} siblings={2} />
-            <UfPagination label="Small" pages={30} page={15} size="sm" />
+          <div style={{ width: '100%' }}>
+            <UfTabs label="Project settings">
+              <UfTab panel="general">General</UfTab>
+              <UfTab panel="members">Members</UfTab>
+              <UfTab panel="billing">Billing</UfTab>
+              <UfTabPanel name="general">General settings for the project.</UfTabPanel>
+              <UfTabPanel name="members">Invite people and manage roles.</UfTabPanel>
+              <UfTabPanel name="billing">Plans, invoices and payment methods.</UfTabPanel>
+            </UfTabs>
           </div>
         ),
         html: code(`
-<uf-pagination pages="30" page="15" siblings="2"></uf-pagination>
-<uf-pagination pages="30" page="15" size="sm"></uf-pagination>`),
+<uf-tabs label="Project settings">
+  <uf-tab panel="general">General</uf-tab>
+  <uf-tab panel="members">Members</uf-tab>
+  <uf-tab-panel name="general">General settings for the project.</uf-tab-panel>
+  <uf-tab-panel name="members">Invite people and manage roles.</uf-tab-panel>
+</uf-tabs>`),
         react: code(`
-<UfPagination pages={30} page={15} siblings={2} />
-<UfPagination pages={30} page={15} size="sm" />`),
-        notes: ['Each pagination is a navigation landmark: when a page has more than one, give each a different `label`.'],
+<UfTabs label="Project settings" onUfTabChange={(e) => setTab(e.detail.name)}>
+  <UfTab panel="general">General</UfTab>
+  <UfTab panel="members">Members</UfTab>
+  <UfTabPanel name="general">General settings for the project.</UfTabPanel>
+  <UfTabPanel name="members">Invite people and manage roles.</UfTabPanel>
+</UfTabs>`),
+        vue: code(`
+<UfTabs label="Project settings" @uf-tab-change="(e) => (tab = e.detail.name)">
+  <UfTab panel="general">General</UfTab>
+  <UfTab panel="members">Members</UfTab>
+  <UfTabPanel name="general">General settings for the project.</UfTabPanel>
+  <UfTabPanel name="members">Invite people and manage roles.</UfTabPanel>
+</UfTabs>`),
+        angular: code(`
+<uf-tabs label="Project settings" (uf-tab-change)="tab = $event.detail.name">
+  <uf-tab panel="general">General</uf-tab>
+  <uf-tab panel="members">Members</uf-tab>
+  <uf-tab-panel name="general">General settings for the project.</uf-tab-panel>
+  <uf-tab-panel name="members">Invite people and manage roles.</uf-tab-panel>
+</uf-tabs>`),
+      },
+    ],
+  },
+  {
+    slug: 'textarea',
+    title: 'Textarea',
+    tags: ['uf-textarea'],
+    module: 'textarea',
+    examples: [
+      {
+        title: 'Grows with its content',
+        stack: true,
+        Preview: () => <UfTextarea label="Bio" resize="auto" rows={2} maxlength={280} hint="Up to 280 characters." />,
+        html: code(`<uf-textarea label="Bio" resize="auto" rows="2" maxlength="280" hint="Up to 280 characters."></uf-textarea>`),
+        react: code(`<UfTextarea label="Bio" resize="auto" rows={2} maxlength={280} hint="Up to 280 characters." />`),
+      },
+    ],
+  },
+  {
+    slug: 'toast',
+    title: 'Toast',
+    tags: ['uf-toaster'],
+    module: 'toast',
+    examples: [
+      {
+        title: 'Variants',
+        description: 'Call `toast()` from anywhere; the toaster is created on first use.',
+        Preview: () => (
+          <>
+            {(['neutral', 'info', 'success', 'warning', 'danger'] as ToastVariant[]).map((variant) => (
+              <UfButton key={variant} variant="outline" onClick={() => toast(`This is a ${variant} toast.`, { variant })}>
+                {variant}
+              </UfButton>
+            ))}
+          </>
+        ),
+        html: code(`
+<script type="module">
+  import { toast } from '@unframed/core/toast';
+  toast('Changes published.', { variant: 'success' });
+</script>`),
+        react: code(`
+import { toast } from '@unframed/core/toast';
+
+<UfButton onClick={() => toast('Changes published.', { variant: 'success' })}>Publish</UfButton>`),
+        vue: code(`
+<script setup>
+import { toast } from '@unframed/core/toast';
+</script>
+
+<template>
+  <UfButton @click="toast('Changes published.', { variant: 'success' })">Publish</UfButton>
+</template>`),
+        angular: code(`
+import { toast } from '@unframed/core/toast';
+
+// in your component
+publish() {
+  toast('Changes published.', { variant: 'success' });
+}`),
+      },
+    ],
+  },
+  {
+    slug: 'tooltip',
+    title: 'Tooltip',
+    tags: ['uf-tooltip'],
+    module: 'tooltip',
+    examples: [
+      {
+        title: 'On hover and focus',
+        Preview: () => (
+          <UfTooltip content="Saves without publishing">
+            <UfButton variant="outline">Save draft</UfButton>
+          </UfTooltip>
+        ),
+        html: code(`
+<uf-tooltip content="Saves without publishing">
+  <uf-button variant="outline">Save draft</uf-button>
+</uf-tooltip>`),
+        react: code(`
+<UfTooltip content="Saves without publishing">
+  <UfButton variant="outline">Save draft</UfButton>
+</UfTooltip>`),
       },
     ],
   },
