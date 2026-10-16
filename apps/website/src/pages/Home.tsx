@@ -1,10 +1,11 @@
 import { toast } from '@unframed/core';
-import { UfButton, UfCheckbox, UfCombobox, UfIcon, UfInput, UfSwitch } from '@unframed/react';
-import { Link, useNavigate } from 'react-router';
+import { UfButton, UfCard, UfCheckbox, UfCombobox, UfIcon, UfInput, UfSwitch } from '@unframed/react';
+import { useNavigate } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
+import { ComponentCards } from '../components/LinkCards';
+import { LogoMark } from '../components/Logo';
 import { storybookUrl } from '../links';
 import { pages } from '../demos';
-import { getElement } from '../manifest';
 
 const features = [
   {
@@ -18,9 +19,36 @@ const features = [
     text: 'Install from npm for updates, or copy a component into your project with one command and change anything.',
   },
   {
-    icon: 'info',
-    title: 'Accessible and form-ready',
-    text: 'WAI-ARIA patterns, keyboard support, axe-tested. Every control submits, resets and validates like a native one.',
+    icon: 'check',
+    title: 'Form-ready',
+    text: 'Every control submits, resets and validates like a native one, inside a plain <form>.',
+  },
+];
+
+const accessibility = [
+  {
+    title: 'Keyboard first',
+    text: 'Each widget follows its WAI-ARIA pattern: arrow keys in tabs, menus, radios and the calendar, Escape to close, and focus back where it was.',
+  },
+  {
+    title: 'Made for screen readers',
+    text: 'Real labels and roles, errors and hints linked to their field, and live announcements for search results and toasts.',
+  },
+  {
+    title: 'Tested with axe',
+    text: "Every component's tests run axe-core in a real browser, including popups and dialogs while open.",
+  },
+  {
+    title: 'Readable contrast',
+    text: 'The default colors meet WCAG AA contrast in light and dark mode, and the theme generator checks yours.',
+  },
+  {
+    title: 'Visible focus',
+    text: 'A clear focus ring on every control, shown for the keyboard and never removed.',
+  },
+  {
+    title: 'Less motion on request',
+    text: 'Animations turn off for people who ask their system to reduce motion.',
   },
 ];
 
@@ -30,11 +58,19 @@ export function Home() {
   return (
     <>
       <section className="hero">
+        <div className="hero__brand">
+          <LogoMark size={44} className="hero__logo" />
+          Unframed
+        </div>
         <h1 className="hero__title">
           UI components that <em className="hero__highlight">don’t care</em> about your framework.
         </h1>
         <p className="lead lead--hero">
           Unframed is a library of accessible, themeable web components. Use them anywhere, and own them when you want to.
+        </p>
+        <p className="hero__a11y">
+          <UfIcon name="check-circle" /> Accessible by default: keyboard, screen readers and WCAG AA contrast, tested in every
+          component.
         </p>
         <div className="hero__actions">
           <UfButton size="lg" onClick={() => navigate('/docs/getting-started')}>
@@ -53,13 +89,38 @@ export function Home() {
       <section className="section">
         <div className="features">
           {features.map((f) => (
-            <div key={f.title} className="feature">
-              <UfIcon className="feature__icon" name={f.icon} />
-              <h3 className="feature__title">{f.title}</h3>
+            <UfCard key={f.title} variant="elevated" className="feature">
+              <div slot="header">
+                <UfIcon className="feature__icon" name={f.icon} />
+                <h3 className="feature__title">{f.title}</h3>
+              </div>
               <p className="feature__text">{f.text}</p>
-            </div>
+            </UfCard>
           ))}
         </div>
+      </section>
+
+      <section className="section accessibility" aria-labelledby="accessibility-title">
+        <h2 id="accessibility-title" className="section__title">
+          Accessible by default
+        </h2>
+        <p className="accessibility__lead">
+          Accessibility isn't an option you turn on. It's built into every component, so what you ship works for
+          everyone, without extra ARIA in your code.
+        </p>
+        <ul className="accessibility__list">
+          {accessibility.map((item) => (
+            <li key={item.title} className="accessibility__item">
+              <UfCard variant="outline" className="accessibility__card">
+                <div slot="header" className="accessibility__header">
+                  <UfIcon className="accessibility__icon" name="check" />
+                  <h3 className="accessibility__title">{item.title}</h3>
+                </div>
+                <p className="accessibility__text">{item.text}</p>
+              </UfCard>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="section">
@@ -126,14 +187,7 @@ export function Home() {
 
       <section className="section">
         <h2 className="section__title">{pages.length} components, and counting</h2>
-        <div className="card-grid">
-          {pages.map((page) => (
-            <Link key={page.slug} to={`/components/${page.slug}`} className="card">
-              <strong className="card__title">{page.title}</strong>
-              <span className="card__text">{getElement(page.tags[0])?.summary}</span>
-            </Link>
-          ))}
-        </div>
+        <ComponentCards />
       </section>
     </>
   );

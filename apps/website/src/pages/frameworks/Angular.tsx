@@ -1,5 +1,5 @@
-import { Link } from 'react-router';
 import { CodeBlock } from '../../components/CodeBlock';
+import { NextSteps } from '../../components/LinkCards';
 import { angular } from './snippets';
 
 export function AngularGuide() {
@@ -72,9 +72,8 @@ export function AngularGuide() {
       </p>
       <CodeBlock standalone samples={[{ label: 'help.component.ts', lang: 'angular-ts', code: angular.methods }]} />
 
-      <p>
-        Next: <Link to="/components">browse the components</Link> or <Link to="/docs/theming">change the look</Link>.
-      </p>
+      <h2>Next</h2>
+      <NextSteps />
     </article>
   );
 }

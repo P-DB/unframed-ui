@@ -1,5 +1,5 @@
-import { Link } from 'react-router';
 import { CodeBlock } from '../../components/CodeBlock';
+import { NextSteps } from '../../components/LinkCards';
 import { react } from './snippets';
 
 export function ReactGuide() {
@@ -54,9 +54,8 @@ export function ReactGuide() {
         <code>import '@unframed/core'</code>. The wrappers add the types and the camelCase event handlers.
       </p>
 
-      <p>
-        Next: <Link to="/components">browse the components</Link> or <Link to="/docs/theming">change the look</Link>.
-      </p>
+      <h2>Next</h2>
+      <NextSteps />
     </article>
   );
 }

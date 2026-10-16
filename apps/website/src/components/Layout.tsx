@@ -2,6 +2,7 @@ import { UfButton, UfIcon, UfTooltip } from '@unframed/react';
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, ScrollRestoration, useLocation, useOutletContext } from 'react-router';
 import { pages } from '../demos';
+import { LogoMark } from './Logo';
 
 export type Theme = 'light' | 'dark';
 
@@ -52,11 +53,7 @@ export function Layout() {
       <header className="site-header" data-uf-theme="dark">
         <div className="site-header__inner">
           <NavLink to="/" className="site-header__logo">
-            <span className="site-header__logo-mark">
-              <svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true">
-                <path d="M9 8v10a7 7 0 0 0 14 0V8" fill="none" stroke="currentColor" strokeWidth="3.5" />
-              </svg>
-            </span>
+            <LogoMark className="site-header__logo-mark" />
             Unframed
           </NavLink>
           <nav className="site-header__nav" aria-label="Main">

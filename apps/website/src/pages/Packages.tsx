@@ -1,6 +1,5 @@
-import { UfIcon } from '@unframed/react';
 import { CodeBlock } from '../components/CodeBlock';
-import { LinkButton } from '../components/LinkButton';
+import { FrameworkCards } from '../components/LinkCards';
 
 interface Package {
   name: string;
@@ -70,13 +69,6 @@ const packages: Package[] = [
   },
 ];
 
-const guides = [
-  ['/docs/frameworks/html', 'HTML & JavaScript'],
-  ['/docs/frameworks/react', 'React'],
-  ['/docs/frameworks/vue', 'Vue'],
-  ['/docs/frameworks/angular', 'Angular'],
-];
-
 export function Packages() {
   return (
     <article>
@@ -87,23 +79,48 @@ export function Packages() {
       </p>
 
       <h2>How they fit together</h2>
-      <div className="package-map" role="img" aria-label="Package structure: react, vue and angular build on core, which builds on tokens. The CLI is separate.">
-        <div className="package-map__row">
-          <div className="package-map__box">@unframed/react</div>
-          <div className="package-map__box">@unframed/vue</div>
-          <div className="package-map__box">@unframed/angular</div>
-        </div>
-        <div className="package-map__arrow" aria-hidden="true">↓ wrap</div>
-        <div className="package-map__row">
-          <div className="package-map__box package-map__box--core">@unframed/core</div>
-        </div>
-        <div className="package-map__arrow" aria-hidden="true">↓ styled by</div>
-        <div className="package-map__row">
-          <div className="package-map__box">@unframed/tokens</div>
-        </div>
-        <div className="package-map__aside">
-          <div className="package-map__box package-map__box--tool">@unframed/cli</div>
-          <span className="package-map__note">copies the source of core and tokens into your project</span>
+      <div className="stack">
+        <ol className="stack__layers">
+          <li className="stack__layer">
+            <span className="stack__label">Framework</span>
+            <div className="stack__row">
+              {[
+                ['@unframed/react', 'Typed props, onUfHide'],
+                ['@unframed/vue', 'v-model, typed events'],
+                ['@unframed/angular', 'ngModel, reactive forms'],
+              ].map(([name, adds]) => (
+                <div key={name} className="stack__box">
+                  <code className="stack__name">{name}</code>
+                  <span className="stack__text">{adds}</span>
+                </div>
+              ))}
+              <div className="stack__box stack__box--skip">
+                <span className="stack__name">HTML, Svelte, Astro…</span>
+                <span className="stack__text">Skip this layer: use core directly</span>
+              </div>
+            </div>
+          </li>
+          <li className="stack__layer">
+            <span className="stack__label">Components</span>
+            <div className="stack__box stack__box--core">
+              <code className="stack__name">@unframed/core</code>
+              <span className="stack__text">The custom elements, built with Lit: behaviour, accessibility and forms</span>
+            </div>
+          </li>
+          <li className="stack__layer">
+            <span className="stack__label">Design tokens</span>
+            <div className="stack__box">
+              <code className="stack__name">@unframed/tokens</code>
+              <span className="stack__text">Colors, sizes and type as CSS custom properties, light and dark</span>
+            </div>
+          </li>
+        </ol>
+        <div className="stack__layer stack__layer--aside">
+          <span className="stack__label">Or copy</span>
+          <div className="stack__tool">
+            <code className="stack__name">@unframed/cli</code>
+            <span className="stack__text">Copies the source of core and tokens into your project, instead of installing them</span>
+          </div>
         </div>
       </div>
       <p>
@@ -167,14 +184,7 @@ export function Packages() {
 
       <h2>Guides</h2>
       <p>Everything you need to set up Unframed, framework by framework:</p>
-      <div className="packages__guides">
-        {guides.map(([to, title]) => (
-          <LinkButton key={to} to={to} variant="outline">
-            {title}
-            <UfIcon slot="suffix" name="chevron-right" />
-          </LinkButton>
-        ))}
-      </div>
+      <FrameworkCards />
     </article>
   );
 }

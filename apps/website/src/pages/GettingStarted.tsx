@@ -1,12 +1,6 @@
 import { Link } from 'react-router';
+import { FrameworkCards } from '../components/LinkCards';
 import { CodeBlock } from '../components/CodeBlock';
-
-const frameworks = [
-  ['/docs/frameworks/html', 'HTML & JavaScript', 'Plain HTML, Svelte, Solid, Astro… or straight from a CDN.'],
-  ['/docs/frameworks/react', 'React', 'Typed components and camelCase event handlers.'],
-  ['/docs/frameworks/vue', 'Vue', 'Typed components with v-model on every form control.'],
-  ['/docs/frameworks/angular', 'Angular', 'Standalone components and Angular forms support.'],
-];
 
 export function GettingStarted() {
   return (
@@ -69,14 +63,7 @@ npx @unframed/cli diff dialog      # compare your copy with upstream`,
         React, Vue and Angular have their own packages, with typed props, their event syntax and form bindings. Each
         guide has everything you need to set it up:
       </p>
-      <div className="card-grid">
-        {frameworks.map(([to, title, text]) => (
-          <Link key={to} to={to} className="card">
-            <strong className="card__title">{title}</strong>
-            <span className="card__text">{text}</span>
-          </Link>
-        ))}
-      </div>
+      <FrameworkCards />
       <p>
         Not sure which packages you need? See <Link to="/docs/packages">Packages</Link>.
       </p>

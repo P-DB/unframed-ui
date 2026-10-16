@@ -1,5 +1,5 @@
-import { Link } from 'react-router';
 import { CodeBlock } from '../../components/CodeBlock';
+import { NextSteps } from '../../components/LinkCards';
 import { html } from './snippets';
 
 export function HtmlGuide() {
@@ -59,9 +59,8 @@ export function HtmlGuide() {
       </p>
       <CodeBlock standalone samples={[{ label: 'TypeScript', lang: 'typescript', code: html.types }]} />
 
-      <p>
-        Next: <Link to="/components">browse the components</Link> or <Link to="/docs/theming">change the look</Link>.
-      </p>
+      <h2>Next</h2>
+      <NextSteps />
     </article>
   );
 }

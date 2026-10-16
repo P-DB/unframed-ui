@@ -1,5 +1,5 @@
-import { Link } from 'react-router';
 import { CodeBlock } from '../../components/CodeBlock';
+import { NextSteps } from '../../components/LinkCards';
 import { vue } from './snippets';
 
 export function VueGuide() {
@@ -55,9 +55,8 @@ export function VueGuide() {
       </p>
       <CodeBlock standalone samples={[{ label: 'vite.config.ts', lang: 'typescript', code: vue.plainTags }]} />
 
-      <p>
-        Next: <Link to="/components">browse the components</Link> or <Link to="/docs/theming">change the look</Link>.
-      </p>
+      <h2>Next</h2>
+      <NextSteps />
     </article>
   );
 }
