@@ -141,8 +141,11 @@ export const controlBoxStyles = css`
     box-shadow: inset 0 0 0 1px var(--uf-color-danger-text);
   }
 
+  /* Grey instead of faded: a faded field still looks like one you can type in. */
   .box.disabled {
-    opacity: 0.5;
+    border-color: var(--uf-color-border);
+    background: var(--uf-color-neutral-fill);
+    color: var(--uf-color-text-muted);
     cursor: not-allowed;
   }
 

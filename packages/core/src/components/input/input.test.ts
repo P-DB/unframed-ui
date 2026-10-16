@@ -26,6 +26,15 @@ describe('uf-input', () => {
     await userEvent.unhover(box);
   });
 
+  it('is grey when disabled, not faded', async () => {
+    const el = await fixture<UfInput>('<uf-input label="Name" disabled></uf-input><uf-input label="Name"></uf-input>');
+    const [disabled, enabled] = [...document.querySelectorAll('uf-input')].map((e) => getComputedStyle(e.shadowRoot!.querySelector('.box')!));
+    expect(disabled.opacity).toBe('1');
+    expect(disabled.backgroundColor).not.toBe(enabled.backgroundColor);
+    expect(disabled.color).not.toBe(enabled.color);
+    expect(el.disabled).toBe(true);
+  });
+
   it('takes its initial value from the value attribute', async () => {
     const el = await fixture<UfInput>('<uf-input value="hello"></uf-input>');
     expect(el.value).toBe('hello');
