@@ -1,5 +1,12 @@
 # @unframed/core
 
+## 0.6.1
+
+### Patch Changes
+
+- e69bcb5: Disabled checkboxes, switches and radios are grey, with muted labels, instead of faded, like disabled fields.
+- @unframed/tokens@0.6.1
+
 ## 0.6.0
 
 ### Minor Changes

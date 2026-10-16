@@ -1,5 +1,12 @@
 # @unframed/react
 
+## 0.6.1
+
+### Patch Changes
+
+- Updated dependencies [e69bcb5]
+  - @unframed/core@0.6.1
+
 ## 0.6.0
 
 ### Patch Changes
