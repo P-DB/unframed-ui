@@ -70,6 +70,21 @@ export class UfCheckbox extends ToggleControl {
         background: var(--uf-checkbox-indeterminate-bg, var(--uf-checkbox-checked-bg, var(--uf-color-accent)));
       }
 
+      .disabled .native {
+        border-color: var(--uf-color-border);
+        background: var(--uf-color-neutral-fill);
+      }
+
+      .disabled .native:checked,
+      .disabled .native:indeterminate {
+        border-color: transparent;
+        background: var(--uf-color-text-muted);
+      }
+
+      .disabled .icon {
+        color: var(--uf-color-surface);
+      }
+
       .invalid .native {
         border-color: var(--uf-color-danger-text);
         box-shadow: inset 0 0 0 1px var(--uf-color-danger-text);

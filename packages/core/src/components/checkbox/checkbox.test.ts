@@ -16,6 +16,15 @@ describe('uf-checkbox', () => {
     expect(native(el).labels).toHaveLength(1);
   });
 
+  it('is grey when disabled, not faded', async () => {
+    const el = await fixture<UfCheckbox>('<div><uf-checkbox disabled>Off</uf-checkbox><uf-checkbox>On</uf-checkbox></div>');
+    const [disabled, enabled] = [...el.querySelectorAll('uf-checkbox')];
+    const style = (box: UfCheckbox) => getComputedStyle(box.shadowRoot!.querySelector('.root')!);
+    expect(style(disabled).opacity).toBe('1');
+    expect(style(disabled).color).not.toBe(style(enabled).color);
+    expect(getComputedStyle(native(disabled)).backgroundColor).not.toBe(getComputedStyle(native(enabled)).backgroundColor);
+  });
+
   it('toggles on click and emits change', async () => {
     const el = await fixture<UfCheckbox>('<uf-checkbox>Opt in</uf-checkbox>');
     const onChange = vi.fn();

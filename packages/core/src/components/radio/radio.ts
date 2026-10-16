@@ -36,9 +36,10 @@ export class UfRadio extends LitElement {
         outline: none;
       }
 
+      /* Grey instead of faded, like disabled fields. */
       :host([disabled]),
       :host([data-group-disabled]) {
-        opacity: 0.5;
+        color: var(--uf-color-text-muted);
         cursor: not-allowed;
       }
 
@@ -60,6 +61,17 @@ export class UfRadio extends LitElement {
 
       :host([checked]) .control {
         border: calc(var(--_size) * 0.3) solid var(--uf-radio-checked-color, var(--uf-color-accent-strong));
+      }
+
+      :host([disabled]) .control,
+      :host([data-group-disabled]) .control {
+        border-color: var(--uf-color-border);
+        background: var(--uf-color-neutral-fill);
+      }
+
+      :host([disabled][checked]) .control,
+      :host([data-group-disabled][checked]) .control {
+        border-color: var(--uf-color-text-muted);
       }
 
       :host([data-invalid]) .control {

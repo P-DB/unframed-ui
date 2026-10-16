@@ -17,8 +17,9 @@ export const toggleStyles = css`
     line-height: 1.4;
   }
 
+  /* Grey instead of faded, like disabled fields. */
   .root.disabled {
-    opacity: 0.5;
+    color: var(--uf-color-text-muted);
     cursor: not-allowed;
   }
 

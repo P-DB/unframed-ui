@@ -17,6 +17,13 @@ describe('uf-switch', () => {
     expect(native(el).labels).toHaveLength(1);
   });
 
+  it('is grey when disabled, not faded', async () => {
+    const el = await fixture<UfSwitch>('<div><uf-switch disabled checked>Off</uf-switch><uf-switch checked>On</uf-switch></div>');
+    const [disabled, enabled] = [...el.querySelectorAll('uf-switch')];
+    expect(getComputedStyle(disabled.shadowRoot!.querySelector('.root')!).opacity).toBe('1');
+    expect(getComputedStyle(native(disabled)).backgroundColor).not.toBe(getComputedStyle(native(enabled)).backgroundColor);
+  });
+
   it('toggles and emits change', async () => {
     const el = await fixture<UfSwitch>('<uf-switch>Wi-Fi</uf-switch>');
     const onChange = vi.fn();

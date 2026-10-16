@@ -27,6 +27,13 @@ afterEach(() => {
 });
 
 describe('uf-radio-group', () => {
+  it('greys out disabled radios instead of fading them', async () => {
+    const group = await fixture<UfRadioGroup>('<uf-radio-group label="Size"><uf-radio value="s" disabled>S</uf-radio><uf-radio value="m">M</uf-radio></uf-radio-group>');
+    const [disabled, enabled] = [...group.querySelectorAll('uf-radio')];
+    expect(getComputedStyle(disabled).opacity).toBe('1');
+    expect(getComputedStyle(disabled).color).not.toBe(getComputedStyle(enabled).color);
+  });
+
   it('selects the radio matching the value attribute', async () => {
     const { group, radios } = await setup('value="pro"');
     expect(group.value).toBe('pro');
