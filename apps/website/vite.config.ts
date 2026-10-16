@@ -13,6 +13,7 @@ export default defineConfig({
     alias: [
       { find: /^@unframed\/core$/, replacement: `${packages}/core/src/index.ts` },
       { find: /^@unframed\/core\/([\w-]+)$/, replacement: `${packages}/core/src/components/$1/$1.ts` },
+      { find: /^@unframed\/core\/locales\/([\w-]+)$/, replacement: `${packages}/core/src/locales/$1.ts` },
       { find: /^@unframed\/react$/, replacement: `${packages}/react/src/index.ts` },
     ],
   },

@@ -12,6 +12,7 @@ const config: StorybookConfig = {
     const alias = [
       { find: /^@unframed\/core$/, replacement: `${coreSrc}/index.ts` },
       { find: /^@unframed\/core\/([\w-]+)$/, replacement: `${coreSrc}/components/$1/$1.ts` },
+      { find: /^@unframed\/core\/locales\/([\w-]+)$/, replacement: `${coreSrc}/locales/$1.ts` },
     ];
     viteConfig.resolve ??= {};
     viteConfig.resolve.alias = [...(Array.isArray(viteConfig.resolve.alias) ? viteConfig.resolve.alias : []), ...alias];
