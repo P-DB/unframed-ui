@@ -1,5 +1,19 @@
 # @unframed/core
 
+## 0.6.0
+
+### Minor Changes
+
+- 68a7151: Built-in translations for Italian, French, German, Spanish and Portuguese, one file per language: `import it from '@unframed/core/locales/it'; setTranslations(it, 'it')`.
+- a5e9cab: Popovers, menus, dropdowns, the combobox and date picker lists, and dialogs get an accent edge and glow in dark mode, like elevated cards, instead of a black shadow that barely shows. Two new theme tokens: `--uf-shadow-overlay` and `--uf-shadow-modal` (the usual soft shadows in light mode).
+
+### Patch Changes
+
+- 9830033: Disabled inputs, textareas, selects, comboboxes and date pickers are grey, with muted text, instead of faded, so they no longer look like fields you can type in.
+- Updated dependencies [a192b82]
+- Updated dependencies [a5e9cab]
+  - @unframed/tokens@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes
