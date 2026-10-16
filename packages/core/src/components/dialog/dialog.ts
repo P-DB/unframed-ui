@@ -92,7 +92,7 @@ export class UfDialog extends LitElement {
         color: var(--uf-color-text);
         font-family: var(--uf-font-family-sans);
         font-size: var(--uf-font-size-md);
-        box-shadow: var(--uf-shadow-lg);
+        box-shadow: var(--uf-shadow-modal);
         overflow: hidden;
       }
 

@@ -44,7 +44,7 @@ export class UfPopover extends LitElement {
         color: var(--uf-color-text);
         font-family: var(--uf-font-family-sans);
         font-size: var(--uf-font-size-md);
-        box-shadow: var(--uf-shadow-md);
+        box-shadow: var(--uf-shadow-overlay);
         opacity: 0;
         transition:
           opacity var(--uf-duration-fast) ease,

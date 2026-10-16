@@ -155,6 +155,14 @@
     "raised": {
       "$description": "A raised surface, like an elevated card. Shadows barely show on dark backgrounds, so it is a faint accent edge and an accent glow.",
       "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 30%, transparent), 0 12px 32px -8px color-mix(in srgb, var(--uf-palette-accent-600) 55%, transparent)"
+    },
+    "overlay": {
+      "$description": "A surface over the page, like a popover, menu or list. Shadows barely show on dark backgrounds, so it is a faint accent edge and an accent glow.",
+      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 25%, transparent), 0 8px 24px -6px color-mix(in srgb, var(--uf-palette-accent-600) 50%, transparent)"
+    },
+    "modal": {
+      "$description": "A dialog: like overlay, with a wider glow.",
+      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 30%, transparent), 0 24px 64px -12px color-mix(in srgb, var(--uf-palette-accent-600) 60%, transparent)"
     }
   }
 }

@@ -37,6 +37,17 @@ describe('uf-popover', () => {
     expect(panel(el).matches(':popover-open')).toBe(false);
   });
 
+  it('glows with the accent color in dark mode, where black shadows barely show', async () => {
+    const shadow = async (theme: string) => {
+      const el = await fixture<UfPopover>(`<uf-popover data-uf-theme="${theme}"><button slot="trigger">Open</button>Hi</uf-popover>`);
+      el.show();
+      await nextFrame();
+      return getComputedStyle(panel(el)).boxShadow;
+    };
+    expect(await shadow('light')).toContain('rgba(0, 0, 0');
+    expect(await shadow('dark')).not.toContain('rgba(0, 0, 0');
+  });
+
   it('positions the panel below the trigger', async () => {
     const el = await fixture<UfPopover>(markup, 'uf-popover');
     el.show();

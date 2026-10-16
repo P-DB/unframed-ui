@@ -109,7 +109,7 @@ export class UfDatePicker extends FormControl {
         border-radius: var(--uf-radius-md);
         background: var(--uf-color-surface-overlay);
         color: var(--uf-color-text);
-        box-shadow: var(--uf-shadow-md);
+        box-shadow: var(--uf-shadow-overlay);
       }
     `,
   ];
