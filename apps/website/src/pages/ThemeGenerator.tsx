@@ -18,6 +18,7 @@ import {
 import type { CSSProperties } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
+import { useSiteTheme } from '../components/Layout';
 import { contrast, generatePalette, parseHex, STEPS, type Palette } from '../theme/color';
 
 // Only string tokens are read here (colors, radii, font stacks); font weights are numbers.
@@ -98,7 +99,6 @@ function themeVariables(theme: Theme): Record<string, string> {
 function Preview({ mode, vars }: { mode: 'light' | 'dark'; vars: Record<string, string> }) {
   return (
     <div className="theme-generator__preview" data-uf-theme={mode} style={vars as CSSProperties}>
-      <div className="theme-generator__preview-label">{mode === 'light' ? 'Light' : 'Dark'}</div>
       <div className="theme-generator__row">
         <UfButton>Primary</UfButton>
         <UfButton variant="secondary">Secondary</UfButton>
@@ -187,6 +187,7 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
 
 export function ThemeGenerator() {
   const [theme, set] = useTheme();
+  const mode = useSiteTheme();
   const vars = themeVariables(theme);
   const results = checks(theme);
   const failing = results.filter((r) => r.ratio < r.min).length;
@@ -242,8 +243,10 @@ export function ThemeGenerator() {
         </form>
 
         <div className="theme-generator__previews">
-          <Preview mode="light" vars={vars} />
-          <Preview mode="dark" vars={vars} />
+          <Preview mode={mode} vars={vars} />
+          <p className="theme-generator__note">
+            {mode === 'dark' ? 'Dark' : 'Light'} mode, like the site: switch the site's theme in the header to see the other one.
+          </p>
         </div>
       </div>
 

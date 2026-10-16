@@ -1,9 +1,12 @@
 import { UfButton, UfIcon, UfTooltip } from '@unframed/react';
 import { useEffect, useState } from 'react';
-import { NavLink, Outlet, ScrollRestoration, useLocation } from 'react-router';
+import { NavLink, Outlet, ScrollRestoration, useLocation, useOutletContext } from 'react-router';
 import { pages } from '../demos';
 
-type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark';
+
+/** The site's current light or dark mode, for pages that render previews in it. */
+export const useSiteTheme = () => useOutletContext<Theme>();
 
 /** BEM classes for NavLinks, with the --active modifier on the current page. */
 const sidebarLink = ({ isActive }: { isActive: boolean }) => `sidebar__link${isActive ? ' sidebar__link--active' : ''}`;
@@ -98,12 +101,12 @@ export function Layout() {
             ))}
           </aside>
           <main className="docs-layout__content">
-            <Outlet />
+            <Outlet context={theme} />
           </main>
         </div>
       ) : (
         <main>
-          <Outlet />
+          <Outlet context={theme} />
         </main>
       )}
 
