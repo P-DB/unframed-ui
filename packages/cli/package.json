@@ -1,6 +1,6 @@
 {
   "name": "@unframed/cli",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Copy Unframed web components into your project, and own the code.",
   "license": "MIT",
   "author": "Patrizio Di Bartolomeo",
