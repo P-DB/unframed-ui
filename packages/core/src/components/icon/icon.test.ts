@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { fixture } from '../../test-utils.js';
+import { axeViolations, fixture } from '../../test-utils.js';
 import { registerIcons } from './icon.js';
 import type { UfIcon } from './icon.js';
 
@@ -27,5 +27,10 @@ describe('uf-icon', () => {
     registerIcons({ dot: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></svg>' });
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector('circle')).not.toBeNull();
+  });
+
+  it('has no axe violations, decorative or labelled', async () => {
+    await fixture('<main><uf-icon name="check"></uf-icon><uf-icon name="alert-triangle" label="Warning"></uf-icon></main>', 'uf-icon');
+    expect(await axeViolations()).toEqual([]);
   });
 });
