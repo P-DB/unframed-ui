@@ -1,5 +1,7 @@
 # @unframed/react
 
+[![npm](https://img.shields.io/npm/v/@unframed/react?color=6930c3)](https://www.npmjs.com/package/@unframed/react)
+
 Typed React components for [Unframed](https://p-db.github.io/unframed-ui/) web components, generated from their manifest.
 
 ```bash

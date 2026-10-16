@@ -1,5 +1,10 @@
 # Unframed
 
+[![npm](https://img.shields.io/npm/v/@unframed/core?label=npm&color=6930c3)](https://www.npmjs.com/org/unframed)
+[![CI](https://github.com/P-DB/unframed-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/P-DB/unframed-ui/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/npm/l/@unframed/core?color=6930c3)](LICENSE)
+[![Docs](https://img.shields.io/badge/docs-p--db.github.io-6930c3)](https://p-db.github.io/unframed-ui/)
+
 **UI components that don't care about your framework.**
 
 Unframed is a library of accessible, themeable web components built with [Lit](https://lit.dev). They work in React, Vue, Angular, Svelte, Astro, plain HTML, or anything else that renders the DOM.
@@ -8,14 +13,14 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 
 ## Packages
 
-| Package | Description |
-|---|---|
-| [`@unframed/core`](packages/core) | The web components (`<uf-button>`, …) |
-| [`@unframed/tokens`](packages/tokens) | Design tokens as CSS custom properties (light + dark) |
-| [`@unframed/react`](packages/react) | Typed React wrappers, generated from the components' manifest |
-| [`@unframed/vue`](packages/vue) | Vue components with `v-model` and typed template props, generated from the manifest |
-| [`@unframed/angular`](packages/angular) | Angular standalone components and form directives (`ngModel`, `formControl`), generated from the manifest |
-| [`@unframed/cli`](packages/cli) | Copies components into your project so you own the code |
+| Package | Version | Description |
+|---|---|---|
+| [`@unframed/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@unframed/core?label=&color=6930c3)](https://www.npmjs.com/package/@unframed/core) | The web components (`<uf-button>`, …) |
+| [`@unframed/tokens`](packages/tokens) | [![npm](https://img.shields.io/npm/v/@unframed/tokens?label=&color=6930c3)](https://www.npmjs.com/package/@unframed/tokens) | Design tokens as CSS custom properties (light + dark) |
+| [`@unframed/react`](packages/react) | [![npm](https://img.shields.io/npm/v/@unframed/react?label=&color=6930c3)](https://www.npmjs.com/package/@unframed/react) | Typed React wrappers, generated from the components' manifest |
+| [`@unframed/vue`](packages/vue) | [![npm](https://img.shields.io/npm/v/@unframed/vue?label=&color=6930c3)](https://www.npmjs.com/package/@unframed/vue) | Vue components with `v-model` and typed template props, generated from the manifest |
+| [`@unframed/angular`](packages/angular) | [![npm](https://img.shields.io/npm/v/@unframed/angular?label=&color=6930c3)](https://www.npmjs.com/package/@unframed/angular) | Angular standalone components and form directives (`ngModel`, `formControl`), generated from the manifest |
+| [`@unframed/cli`](packages/cli) | [![npm](https://img.shields.io/npm/v/@unframed/cli?label=&color=6930c3)](https://www.npmjs.com/package/@unframed/cli) | Copies components into your project so you own the code |
 
 ## Components
 

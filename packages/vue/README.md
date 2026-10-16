@@ -1,5 +1,7 @@
 # @unframed/vue
 
+[![npm](https://img.shields.io/npm/v/@unframed/vue?color=6930c3)](https://www.npmjs.com/package/@unframed/vue)
+
 Vue components for [Unframed](https://p-db.github.io/unframed-ui/) web components, with `v-model` on every form control and typed props and events in templates.
 
 ```bash

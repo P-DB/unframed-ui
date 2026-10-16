@@ -1,5 +1,7 @@
 # @unframed/tokens
 
+[![npm](https://img.shields.io/npm/v/@unframed/tokens?color=6930c3)](https://www.npmjs.com/package/@unframed/tokens)
+
 Design tokens for [Unframed](https://p-db.github.io/unframed-ui/): colors, spacing, radii and type as CSS custom properties, with light and dark themes.
 
 ```bash

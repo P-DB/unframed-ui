@@ -1,5 +1,7 @@
 # @unframed/core
 
+[![npm](https://img.shields.io/npm/v/@unframed/core?color=6930c3)](https://www.npmjs.com/package/@unframed/core)
+
 Accessible, themeable web components built with Lit. They work in React, Vue, Angular, Svelte, Astro or plain HTML.
 
 ```bash

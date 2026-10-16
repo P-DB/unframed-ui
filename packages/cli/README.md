@@ -1,5 +1,7 @@
 # @unframed/cli
 
+[![npm](https://img.shields.io/npm/v/@unframed/cli?color=6930c3)](https://www.npmjs.com/package/@unframed/cli)
+
 Copy [Unframed](https://p-db.github.io/unframed-ui/) components into your project, and own the code.
 
 ```bash

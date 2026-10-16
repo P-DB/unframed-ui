@@ -1,5 +1,7 @@
 # @unframed/angular
 
+[![npm](https://img.shields.io/npm/v/@unframed/angular?color=6930c3)](https://www.npmjs.com/package/@unframed/angular)
+
 Angular standalone components and form directives for [Unframed](https://p-db.github.io/unframed-ui/) web components. `ngModel`, `formControl` and `formControlName` work with every form control; no `CUSTOM_ELEMENTS_SCHEMA` needed.
 
 ```bash
