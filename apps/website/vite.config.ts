@@ -17,5 +17,19 @@ export default defineConfig({
       { find: /^@unframed\/react$/, replacement: `${packages}/react/src/index.ts` },
     ],
   },
+  build: {
+    rolldownOptions: {
+      output: {
+        // Libraries change less often than the docs: in their own files, browsers keep them cached across deploys.
+        codeSplitting: {
+          groups: [
+            { name: 'react', test: /node_modules[\\/](react|react-dom|react-router|scheduler)[\\/]/ },
+            { name: 'lit', test: /node_modules[\\/](lit|lit-html|lit-element|@lit)[\\/]/ },
+            { name: 'unframed', test: /packages[\\/](core|react)[\\/]/ },
+          ],
+        },
+      },
+    },
+  },
   server: { port: Number(process.env.PORT) || 5190 },
 });

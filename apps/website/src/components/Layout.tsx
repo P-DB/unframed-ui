@@ -1,5 +1,5 @@
 import { UfButton, UfIcon, UfTooltip } from '@unframed/react';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { NavLink, Outlet, ScrollRestoration, useLocation, useOutletContext } from 'react-router';
 import { pages } from '../demos';
 import { LogoMark } from './Logo';
@@ -98,12 +98,16 @@ export function Layout() {
             ))}
           </aside>
           <main className="docs-layout__content">
-            <Outlet context={theme} />
+            <Suspense fallback={null}>
+              <Outlet context={theme} />
+            </Suspense>
           </main>
         </div>
       ) : (
         <main>
-          <Outlet context={theme} />
+          <Suspense fallback={null}>
+            <Outlet context={theme} />
+          </Suspense>
         </main>
       )}
 

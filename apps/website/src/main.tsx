@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+import { lazy, StrictMode, type ComponentType } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
@@ -6,20 +6,25 @@ import '@unframed/tokens/tokens.css';
 import '@unframed/core';
 import './styles.css';
 import { Layout } from './components/Layout';
-import { ComponentPage } from './pages/ComponentPage';
-import { ComponentsIndex } from './pages/ComponentsIndex';
-import { AiAssistants } from './pages/AiAssistants';
-import { AngularGuide } from './pages/frameworks/Angular';
-import { HtmlGuide } from './pages/frameworks/Html';
-import { ReactGuide } from './pages/frameworks/React';
-import { VueGuide } from './pages/frameworks/Vue';
-import { GettingStarted } from './pages/GettingStarted';
 import { Home } from './pages/Home';
-import { NotFound } from './pages/NotFound';
-import { Packages } from './pages/Packages';
-import { ThemeGenerator } from './pages/ThemeGenerator';
-import { Theming } from './pages/Theming';
-import { Translations } from './pages/Translations';
+
+// Every page but the home page loads when it's first opened, so the first visit downloads less.
+const page = <T extends string>(load: () => Promise<Record<T, ComponentType>>, name: T) =>
+  lazy(() => load().then((module) => ({ default: module[name] })));
+
+const ComponentPage = page(() => import('./pages/ComponentPage'), 'ComponentPage');
+const ComponentsIndex = page(() => import('./pages/ComponentsIndex'), 'ComponentsIndex');
+const AiAssistants = page(() => import('./pages/AiAssistants'), 'AiAssistants');
+const AngularGuide = page(() => import('./pages/frameworks/Angular'), 'AngularGuide');
+const HtmlGuide = page(() => import('./pages/frameworks/Html'), 'HtmlGuide');
+const ReactGuide = page(() => import('./pages/frameworks/React'), 'ReactGuide');
+const VueGuide = page(() => import('./pages/frameworks/Vue'), 'VueGuide');
+const GettingStarted = page(() => import('./pages/GettingStarted'), 'GettingStarted');
+const NotFound = page(() => import('./pages/NotFound'), 'NotFound');
+const Packages = page(() => import('./pages/Packages'), 'Packages');
+const ThemeGenerator = page(() => import('./pages/ThemeGenerator'), 'ThemeGenerator');
+const Theming = page(() => import('./pages/Theming'), 'Theming');
+const Translations = page(() => import('./pages/Translations'), 'Translations');
 
 const router = createBrowserRouter([
   {
