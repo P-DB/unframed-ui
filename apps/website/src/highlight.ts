@@ -52,9 +52,23 @@ const theme: ThemeRegistration = {
   ],
 };
 
+/** Each grammar in its own chunk, loaded the first time a code block needs it. */
+const grammars: Record<Lang, () => Promise<{ default: Parameters<HighlighterCore['loadLanguage']>[0] }>> = {
+  html: () => import('shiki/langs/html.mjs'),
+  tsx: () => import('shiki/langs/tsx.mjs'),
+  vue: () => import('shiki/langs/vue.mjs'),
+  'angular-html': () => import('shiki/langs/angular-html.mjs'),
+  'angular-ts': () => import('shiki/langs/angular-ts.mjs'),
+  typescript: () => import('shiki/langs/typescript.mjs'),
+  javascript: () => import('shiki/langs/javascript.mjs'),
+  css: () => import('shiki/langs/css.mjs'),
+  bash: () => import('shiki/langs/bash.mjs'),
+};
+const loading = new Map<Lang, Promise<void>>();
+
 /**
- * Loads Shiki on first use, in its own chunk, with only the grammars the docs
- * need and the JavaScript regex engine (no WebAssembly).
+ * Loads Shiki on first use, in its own chunk, with the JavaScript regex engine
+ * (no WebAssembly). Grammars come later, one by one, as pages need them.
  */
 function load(): Promise<HighlighterCore> {
   highlighter ??= (async () => {
@@ -62,21 +76,7 @@ function load(): Promise<HighlighterCore> {
       import('shiki/core'),
       import('shiki/engine/javascript'),
     ]);
-    return createHighlighterCore({
-      themes: [theme],
-      langs: [
-        import('shiki/langs/html.mjs'),
-        import('shiki/langs/tsx.mjs'),
-        import('shiki/langs/vue.mjs'),
-        import('shiki/langs/angular-html.mjs'),
-        import('shiki/langs/angular-ts.mjs'),
-        import('shiki/langs/typescript.mjs'),
-        import('shiki/langs/javascript.mjs'),
-        import('shiki/langs/css.mjs'),
-        import('shiki/langs/bash.mjs'),
-      ],
-      engine: createJavaScriptRegexEngine(),
-    });
+    return createHighlighterCore({ themes: [theme], langs: [], engine: createJavaScriptRegexEngine() });
   })();
   return highlighter;
 }
@@ -84,6 +84,8 @@ function load(): Promise<HighlighterCore> {
 /** Splits code into colored tokens, one array per line. */
 export async function tokenize(code: string, lang: Lang): Promise<ThemedToken[][]> {
   const h = await load();
+  if (!loading.has(lang)) loading.set(lang, grammars[lang]().then((grammar) => h.loadLanguage(grammar.default)));
+  await loading.get(lang);
   return h.codeToTokens(code, { lang, theme: 'unframed' }).tokens;
 }
 
