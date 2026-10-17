@@ -45,6 +45,22 @@
         "apps/storybook/dist"
       ],
       "port": 6007
+    },
+    {
+      "name": "website-build",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "exec",
+        "-w",
+        "@unframed/website",
+        "--",
+        "vite",
+        "preview",
+        "--port",
+        "5191",
+        "--strictPort"
+      ],
+      "port": 5191
     }
   ]
 }
