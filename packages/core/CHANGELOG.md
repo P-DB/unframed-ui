@@ -1,5 +1,13 @@
 # @unframed/core
 
+## 0.7.0
+
+### Patch Changes
+
+- 2f168c9: `toast()` does nothing when called on the server instead of throwing, and every build checks that all modules import on a server. `uf-tabs` no longer renders twice to pick its first tab (Lit's "change-in-update" warning in development).
+- Updated dependencies [18903e9]
+  - @unframed/tokens@0.7.0
+
 ## 0.6.1
 
 ### Patch Changes

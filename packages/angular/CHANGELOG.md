@@ -1,5 +1,16 @@
 # @unframed/angular
 
+## 0.7.0
+
+### Minor Changes
+
+- df798dd: Angular SSR: bound inputs and form values (`[disabled]`, `formControl`, `ngModel`) are written as attributes in the server-rendered HTML, so components start in the right state before hydration.
+
+### Patch Changes
+
+- Updated dependencies [2f168c9]
+  - @unframed/core@0.7.0
+
 ## 0.6.1
 
 ### Patch Changes
