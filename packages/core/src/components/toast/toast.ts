@@ -364,11 +364,14 @@ export class UfToaster extends LitElement {
 defineElement('uf-toaster', UfToaster);
 
 /**
- * Shows a toast. Creates a `<uf-toaster>` on first use.
+ * Shows a toast. Creates a `<uf-toaster>` on first use. Does nothing on the
+ * server, when rendering with SSR.
  *
  * @example toast('Saved', { variant: 'success' })
  */
 export function toast(message: string, options?: ToastOptions): ToastHandle {
+  // On the server (SSR) there is no page to show it on: do nothing.
+  if (typeof document === 'undefined') return { dismiss() {} };
   let toaster = document.querySelector('uf-toaster');
   if (toaster) return toaster.add(message, options);
 

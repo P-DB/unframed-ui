@@ -101,17 +101,29 @@ export class UfTabs extends LitElement {
     if (tab && !tab.disabled) this.#activate(tab);
   }
 
+  // Picks the active tab before rendering: setting it after (in updated) would
+  // render twice, which Lit warns about in development.
+  override willUpdate(): void {
+    this.#activeTab();
+  }
+
   override updated(): void {
     this.#sync();
+  }
+
+  /** The tab to show: the one for `active`, or the first enabled one. Keeps `active` in step. */
+  #activeTab() {
+    const enabled = this.#tabs.filter((t) => !t.disabled);
+    const activeTab = enabled.find((t) => t.panel === this.active) ?? enabled[0];
+    if (activeTab && this.active !== activeTab.panel) this.active = activeTab.panel;
+    return activeTab;
   }
 
   /** Wires up roles, ids and visibility on the light-DOM tabs and panels. */
   #sync(): void {
     const tabs = this.#tabs;
     const panels = this.#panels;
-    const enabled = tabs.filter((t) => !t.disabled);
-    const activeTab = enabled.find((t) => t.panel === this.active) ?? enabled[0];
-    if (activeTab && this.active !== activeTab.panel) this.active = activeTab.panel;
+    const activeTab = this.#activeTab();
 
     tabs.forEach((tab, i) => {
       tab.slot = 'nav';

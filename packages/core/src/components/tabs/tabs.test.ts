@@ -34,6 +34,14 @@ afterEach(() => {
 });
 
 describe('uf-tabs', () => {
+  it('renders once to pick its first tab, without a Lit "change-in-update" warning', async () => {
+    const warn = vi.spyOn(console, 'warn');
+    await fixture(`<uf-tabs><uf-tab panel="a">A</uf-tab><uf-tab panel="b">B</uf-tab><uf-tab-panel name="a">1</uf-tab-panel><uf-tab-panel name="b">2</uf-tab-panel></uf-tabs>`);
+    await new Promise((resolve) => setTimeout(resolve));
+    expect(warn.mock.calls.flat().join(' ')).not.toContain('change-in-update');
+    warn.mockRestore();
+  });
+
   it('selects the first tab by default and links tabs to panels', async () => {
     const { tabs, tab, panel } = await setup();
     expect(tabs.active).toBe('general');
