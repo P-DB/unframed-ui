@@ -2,4 +2,5 @@
 // formControlName) for every Unframed form control. The directives are also
 // re-exported by each component's entry point, e.g. @unframed/angular/input.
 export { UfValueAccessor } from './value-accessor';
+export { onServer, reflectOnServer } from './server';
 export * from './accessors';

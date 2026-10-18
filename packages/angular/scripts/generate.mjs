@@ -55,11 +55,17 @@ for (const el of elements) {
   }
   const inputs = [...fields].filter(([name]) => /^[a-zA-Z_$][\w$]*$/.test(name) && !readonly.has(name) && name !== 'form' && name !== 'validity');
 
+  // The attribute each input writes when rendering on the server. \`value\` and
+  // \`checked\` use the attributes of their defaults (defaultValue, defaultChecked).
+  const attributeOf = (field) =>
+    (el.attributes ?? []).find((a) => (a.fieldName ?? a.name) === field)?.name ?? (el.attributes ?? []).find((a) => a.name === field)?.name;
+
   const inputLines = inputs.map(([name, { type, description }]) => {
+    const attribute = attributeOf(name);
     const transform = /^boolean\b/.test(type) ? ', { transform: booleanAttribute }' : /^number\b/.test(type) ? ', { transform: numberAttribute }' : '';
     const setterType = transform.includes('boolean') ? `${classType}['${name}'] | ''` : transform.includes('number') ? `${classType}['${name}'] | string` : `${classType}['${name}']`;
     return `${doc(description)}  @Input(${transform ? transform.slice(2) : ''}) set ${name}(value: ${setterType}) {
-    this.el.${name} = value as ${classType}['${name}'];
+    this.el.${name} = value as ${classType}['${name}'];${attribute ? `\n    if (this.#server) reflectOnServer(this.el, '${attribute}', value);` : ''}
   }
   get ${name}(): ${classType}['${name}'] {
     return this.el.${name};
@@ -90,6 +96,7 @@ for (const el of elements) {
 export class ${el.name} {
   /** The underlying \`<${el.tagName}>\` element, for its methods. */
   readonly el: ${classType} = inject<ElementRef<${classType}>>(ElementRef).nativeElement;
+  readonly #server = onServer();
 
 ${[...inputLines, ...outputLines].join('\n\n')}
 ${listen.length ? `\n  constructor() {\n${listen.join('\n')}\n  }\n` : ''}}
@@ -157,6 +164,7 @@ for (const [folder, entry] of [...entries].sort(([a], [b]) => a.localeCompare(b)
     `${header}// @unframed/angular/${folder}: loads only @unframed/core/${folder}.
 import { booleanAttribute, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, inject, Input, numberAttribute, Output } from '@angular/core';
 import type { ${[...entry.typeImports].join(', ')} } from '@unframed/core';
+import { onServer, reflectOnServer } from '@unframed/angular/forms';
 import '@unframed/core/${folder}';
 ${accessorNames.length ? `\n// The form directives for these components, so one import gives you both.\nexport { ${accessorNames.join(', ')} } from '@unframed/angular/forms';\n` : ''}
 ${entry.components.join('\n')}`,
