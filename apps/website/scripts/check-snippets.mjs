@@ -42,7 +42,11 @@ write('html/types.ts', `${s.html.types}\nexport { dialog, input };`);
 write('react/main.ts', `${s.react.setup}\nexport {};`);
 write('react/Signup.tsx', s.react.app);
 write('react/Help.tsx', s.react.ref);
-write('tsconfig.json', JSON.stringify({ ...base, compilerOptions: { ...base.compilerOptions, jsx: 'react-jsx' }, include: ['html', 'react'] }, null, 2));
+// Server-side rendering guide: the Next.js App Router files.
+write('next/layout.tsx', s.ssr.nextLayout);
+write('next/page.tsx', s.ssr.nextPage);
+write('next/signup.tsx', s.ssr.nextClient);
+write('tsconfig.json', JSON.stringify({ ...base, compilerOptions: { ...base.compilerOptions, jsx: 'react-jsx' }, include: ['html', 'react', 'next'] }, null, 2));
 run('HTML & React (tsc)', path(new URL('node_modules/.bin/tsc', repo)), ['-p', 'tsconfig.json']);
 
 // --- Vue: vue-tsc ------------------------------------------------------------

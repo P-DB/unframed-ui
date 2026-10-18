@@ -263,3 +263,52 @@ export class HelpComponent {
   readonly dialog = viewChild.required(UfDialog);
 }`,
 };
+
+export const ssr = {
+  nextLayout: `// app/layout.tsx: load the tokens once
+import '@unframed/tokens/tokens.css';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}`,
+  nextPage: `// app/page.tsx: a server component. The Unframed components are client
+// components already, so you can use them here.
+import { UfButton, UfCard } from '@unframed/react';
+import { Signup } from './signup';
+
+export default function Home() {
+  return (
+    <UfCard variant="elevated">
+      <h1 slot="header">Join us</h1>
+      <Signup />
+      <UfButton slot="footer" variant="link" href="/pricing">See pricing</UfButton>
+    </UfCard>
+  );
+}`,
+  nextClient: `// app/signup.tsx: event handlers and state need a client component.
+'use client';
+
+import { useState } from 'react';
+import type { UfInput as UfInputElement } from '@unframed/core';
+import { UfButton, UfInput } from '@unframed/react';
+
+export function Signup() {
+  const [email, setEmail] = useState('');
+  return (
+    <form action="/signup">
+      <UfInput name="email" type="email" label="Email" required value={email} onInput={(event) => setEmail((event.target as UfInputElement).value)} />
+      <UfButton type="submit" disabled={!email}>Sign up</UfButton>
+    </form>
+  );
+}`,
+  nuxtConfig: `// nuxt.config.ts: load the tokens once
+export default defineNuxtConfig({
+  css: ['@unframed/tokens/tokens.css'],
+});`,
+  angularStyles: `/* src/styles.css: load the tokens once */
+@import '@unframed/tokens/tokens.css';`,
+};

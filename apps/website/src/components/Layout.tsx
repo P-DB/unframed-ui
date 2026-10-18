@@ -87,6 +87,7 @@ export function Layout() {
             <NavLink to="/docs/frameworks/react" className={sidebarLink}>React</NavLink>
             <NavLink to="/docs/frameworks/vue" className={sidebarLink}>Vue</NavLink>
             <NavLink to="/docs/frameworks/angular" className={sidebarLink}>Angular</NavLink>
+            <NavLink to="/docs/ssr" className={sidebarLink}>Server-side rendering</NavLink>
             <h4 className="sidebar__heading">Components</h4>
             <NavLink to="/components" end className={sidebarLink}>
               Overview

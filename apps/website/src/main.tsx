@@ -25,6 +25,7 @@ const Packages = page(() => import('./pages/Packages'), 'Packages');
 const ThemeGenerator = page(() => import('./pages/ThemeGenerator'), 'ThemeGenerator');
 const Theming = page(() => import('./pages/Theming'), 'Theming');
 const Translations = page(() => import('./pages/Translations'), 'Translations');
+const Ssr = page(() => import('./pages/Ssr'), 'Ssr');
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { path: 'docs/frameworks/react', element: <ReactGuide /> },
       { path: 'docs/frameworks/vue', element: <VueGuide /> },
       { path: 'docs/frameworks/angular', element: <AngularGuide /> },
+      { path: 'docs/ssr', element: <Ssr /> },
       { path: 'docs/theming', element: <Theming /> },
       { path: 'docs/theme-generator', element: <ThemeGenerator /> },
       { path: 'docs/translations', element: <Translations /> },
