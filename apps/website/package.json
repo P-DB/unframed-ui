@@ -8,6 +8,7 @@
     "prebuild": "npm run predev",
     "build": "vite build",
     "typecheck": "tsc -p tsconfig.json",
+    "test": "node scripts/check-snippets.mjs",
     "og-image": "node scripts/og-image.mjs"
   },
   "dependencies": {

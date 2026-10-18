@@ -13,6 +13,8 @@ packages/cli/skill/
 apps/website/public/llms.txt
 apps/website/public/llms-full.txt
 apps/website/public/llms/
+# Guide snippets written out for type-checking (apps/website/scripts/check-snippets.mjs)
+apps/website/.snippets/
 packages/cli/.tmp/
 packages/vue/src/generated/
 packages/angular/src/lib/generated/

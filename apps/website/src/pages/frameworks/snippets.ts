@@ -1,5 +1,10 @@
 // Code shown on the framework guides. Kept apart from the pages so the examples
-// can be copied into a real project and type-checked when the APIs change.
+// can be copied into a real project and type-checked when the APIs change
+// (scripts/check-snippets.mjs runs in CI).
+import core from '../../../../../packages/core/package.json' with { type: 'json' };
+
+/** The CDN examples pin the current minor version: 0.x minors can break. */
+const minor = core.version.split('.').slice(0, 2).join('.');
 
 export const html = {
   install: 'npm install @unframed/core @unframed/tokens',
@@ -13,8 +18,8 @@ import '@unframed/core/dialog';
   cdn: `<!doctype html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unframed/tokens@0.2/dist/tokens.css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@unframed/core@0.2/+esm"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unframed/tokens@${minor}/dist/tokens.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@unframed/core@${minor}/+esm"></script>
   </head>
   <body>
     <uf-button variant="primary">It works</uf-button>
