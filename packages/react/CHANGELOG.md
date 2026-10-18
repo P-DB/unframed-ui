@@ -1,5 +1,16 @@
 # @unframed/react
 
+## 0.7.0
+
+### Minor Changes
+
+- 5b6a0c3: Server-side rendering: every component is a client component (`'use client'`), so it can be used in Next.js server components, and server-rendered HTML now includes the components' attributes (`variant`, `label`, `value`, `checked`, `disabled`…), so each element starts in the right state before React hydrates. Tabs no longer show every panel on server-rendered pages.
+
+### Patch Changes
+
+- Updated dependencies [2f168c9]
+  - @unframed/core@0.7.0
+
 ## 0.6.1
 
 ### Patch Changes

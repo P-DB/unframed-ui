@@ -1,6 +1,6 @@
 {
   "name": "@unframed/angular",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Angular components and form integration for Unframed web components.",
   "license": "MIT",
   "author": "Patrizio Di Bartolomeo",
@@ -42,7 +42,7 @@
     "test": "npm run build && vitest run && node test/types/check.mjs"
   },
   "dependencies": {
-    "@unframed/core": "0.6.1"
+    "@unframed/core": "0.7.0"
   },
   "peerDependencies": {
     "@angular/core": ">=20.0.0",
