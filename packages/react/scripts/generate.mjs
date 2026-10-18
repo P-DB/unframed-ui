@@ -36,17 +36,34 @@ for (const el of elements) {
   ];
   const typeImport = detailTypes.length ? `import type { ${detailTypes.join(', ')} } from '@unframed/core';\n` : '';
 
-  const source = `${header}import * as React from 'react';
+  // Every property and its attribute, so server rendering can write the attributes.
+  const fields = (el.members ?? []).filter((m) => m.kind === 'field' && !m.readonly);
+  // `value` and `checked` have no attribute of their own: their attributes set the
+  // defaults (defaultValue, defaultChecked), which is what a server render needs.
+  const attributeOf = (field) =>
+    (el.attributes ?? []).find((a) => a.fieldName === field)?.name ??
+    (el.attributes ?? []).find((a) => a.name === field)?.name ??
+    null;
+  const serverAttributes = fields.map((f) => `    ${f.name}: ${JSON.stringify(attributeOf(f.name))},`).join('\n');
+
+  // 'use client': the wrappers use hooks, so in React Server Components (the
+  // Next.js App Router) each one is a client component, usable from server ones.
+  const source = `'use client';\n${header}import * as React from 'react';
 import { createComponent${events.length ? ', type EventName' : ''} } from '@lit/react';
 import { ${el.name} as ${el.name}Element } from '${coreImportPath(el.modulePath)}';
-${typeImport}
-${el.summary ? `/** ${el.summary} */\n` : ''}export const ${el.name} = createComponent({
-  tagName: '${el.tagName}',
-  elementClass: ${el.name}Element,
-  react: React,
-  displayName: '${el.name}',
-  events: {${eventTypes.length ? `\n${eventTypes.join('\n')}\n  ` : ''}},
-});
+${typeImport}import { withServerAttributes } from '../server-attributes.js';
+
+${el.summary ? `/** ${el.summary} */\n` : ''}export const ${el.name} = withServerAttributes(
+  createComponent({
+    tagName: '${el.tagName}',
+    elementClass: ${el.name}Element,
+    react: React,
+    displayName: '${el.name}',
+    events: {${eventTypes.length ? `\n${eventTypes.map((e) => `  ${e}`).join('\n')}\n    ` : ''}},
+  }),
+  '${el.tagName}',
+  {${serverAttributes ? `\n${serverAttributes}\n` : ''}},
+);
 `;
   await writeFile(new URL(`${el.tagName}.ts`, outDir), source);
 }
