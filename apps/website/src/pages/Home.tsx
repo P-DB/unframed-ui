@@ -59,7 +59,7 @@ export function Home() {
     <>
       <section className="hero">
         <div className="hero__brand">
-          <LogoMark size={44} className="hero__logo" />
+          <LogoMark className="hero__logo" />
           Unframed
         </div>
         <h1 className="hero__title">

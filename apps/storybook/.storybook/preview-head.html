@@ -69,22 +69,25 @@
     color: #fff;
   }
 
+  /* The word's capitals are as tall as the mark's box, and sit on its bottom edge. */
   .intro__brand {
     display: flex;
-    align-items: center;
-    gap: 0.625rem;
+    align-items: baseline;
+    gap: 0.35em;
     margin-bottom: 2rem;
     font-weight: 700;
-    font-size: 1.0625rem;
+    font-size: 1.5rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
   }
 
   .intro__logo {
-    display: inline-grid;
-    place-items: center;
-    width: 2rem;
-    height: 2rem;
-    background: #fff;
-    color: #6930c3;
+    flex: none;
+    position: relative;
+    top: calc(0.94em / 32);
+    width: 0.94em;
+    height: 0.94em;
+    color: #fff;
   }
 
   .intro__title {
