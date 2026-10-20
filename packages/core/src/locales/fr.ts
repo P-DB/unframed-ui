@@ -33,6 +33,9 @@ const fr: Translations = {
   dayPlaceholder: 'jj',
   monthPlaceholder: 'mm',
   yearPlaceholder: 'aaaa',
+  progress: 'Progression',
+  loading: 'Chargement',
+  breadcrumb: "Fil d'Ariane",
 };
 
 export default fr;

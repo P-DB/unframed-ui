@@ -6,6 +6,8 @@ export type { AvatarShape, AvatarSize } from './components/avatar/avatar.js';
 export { UfBadge } from './components/badge/badge.js';
 export type { BadgeAppearance, BadgeSize, BadgeVariant } from './components/badge/badge.js';
 
+export { UfBreadcrumbItem, UfBreadcrumbs } from './components/breadcrumbs/breadcrumbs.js';
+
 export { UfButton } from './components/button/button.js';
 export type { ButtonSize, ButtonType, ButtonVariant } from './components/button/button.js';
 
@@ -24,6 +26,9 @@ export { UfDatePicker } from './components/date-picker/date-picker.js';
 export { UfDialog } from './components/dialog/dialog.js';
 export type { DialogCloseSource, DialogRequestCloseDetail } from './components/dialog/dialog.js';
 
+export { UfDrawer } from './components/drawer/drawer.js';
+export type { DrawerPlacement } from './components/drawer/drawer.js';
+
 export { UfDropdown } from './components/dropdown/dropdown.js';
 
 export { UfIcon, registerIcons } from './components/icon/icon.js';
@@ -39,10 +44,18 @@ export type { PageChangeDetail, PaginationSize } from './components/pagination/p
 
 export { UfPopover } from './components/popover/popover.js';
 
+export { UfProgress } from './components/progress/progress.js';
+export type { ProgressSize, ProgressVariant } from './components/progress/progress.js';
+
 export { UfRadio } from './components/radio/radio.js';
 export { UfRadioGroup } from './components/radio-group/radio-group.js';
 
 export { UfSelect } from './components/select/select.js';
+
+export { UfSlider } from './components/slider/slider.js';
+
+export { UfSpinner } from './components/spinner/spinner.js';
+export type { SpinnerSize } from './components/spinner/spinner.js';
 
 export { UfSwitch } from './components/switch/switch.js';
 

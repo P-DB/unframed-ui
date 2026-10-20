@@ -50,10 +50,11 @@ const darkTokens = flatten(dark);
 
 // Every Unframed tag. @unframed/core's tests check that none is missing.
 const tags = [
-  'uf-accordion', 'uf-accordion-item', 'uf-avatar', 'uf-badge', 'uf-button', 'uf-calendar', 'uf-card',
-  'uf-checkbox', 'uf-checkbox-group', 'uf-combobox', 'uf-date-picker', 'uf-dialog', 'uf-dropdown', 'uf-icon',
-  'uf-input', 'uf-menu', 'uf-menu-item', 'uf-pagination', 'uf-popover', 'uf-radio', 'uf-radio-group', 'uf-select',
-  'uf-switch', 'uf-tab', 'uf-tab-panel', 'uf-table', 'uf-tabs', 'uf-textarea', 'uf-toaster', 'uf-tooltip',
+  'uf-accordion', 'uf-accordion-item', 'uf-avatar', 'uf-badge', 'uf-breadcrumb-item', 'uf-breadcrumbs', 'uf-button',
+  'uf-calendar', 'uf-card', 'uf-checkbox', 'uf-checkbox-group', 'uf-combobox', 'uf-date-picker', 'uf-dialog',
+  'uf-drawer', 'uf-dropdown', 'uf-icon', 'uf-input', 'uf-menu', 'uf-menu-item', 'uf-pagination', 'uf-popover',
+  'uf-progress', 'uf-radio', 'uf-radio-group', 'uf-select', 'uf-slider', 'uf-spinner', 'uf-switch', 'uf-tab',
+  'uf-tab-panel', 'uf-table', 'uf-tabs', 'uf-textarea', 'uf-toaster', 'uf-tooltip',
 ];
 
 // Server-rendered pages (Next.js, Nuxt, Angular SSR) show the HTML before the
@@ -65,7 +66,7 @@ const undefinedComponents = `/* Before the components load: no flash of raw cont
   visibility: hidden;
 }
 
-:where(uf-dialog, uf-toaster, uf-tab-panel):not(:defined),
+:where(uf-dialog, uf-drawer, uf-toaster, uf-tab-panel):not(:defined),
 :where(uf-dropdown, uf-popover):not(:defined) > :not([slot]),
 :where(uf-select, uf-combobox):not(:defined) > :where(option, optgroup),
 uf-accordion-item:not(:defined):not([open]) > :not([slot]) {

@@ -33,6 +33,9 @@ const it: Translations = {
   dayPlaceholder: 'gg',
   monthPlaceholder: 'mm',
   yearPlaceholder: 'aaaa',
+  progress: 'Avanzamento',
+  loading: 'Caricamento',
+  breadcrumb: 'Percorso',
 };
 
 export default it;

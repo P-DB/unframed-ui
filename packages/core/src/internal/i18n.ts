@@ -50,6 +50,12 @@ export interface Translations {
   dayPlaceholder: string;
   monthPlaceholder: string;
   yearPlaceholder: string;
+  /** Progress: the bar's accessible name, unless `label` is set. */
+  progress: string;
+  /** Spinner: its accessible name, unless `label` is set. */
+  loading: string;
+  /** Breadcrumbs: the navigation's accessible name, unless `label` is set. */
+  breadcrumb: string;
 }
 
 const english: Translations = {
@@ -78,6 +84,9 @@ const english: Translations = {
   dayPlaceholder: 'dd',
   monthPlaceholder: 'mm',
   yearPlaceholder: 'yyyy',
+  progress: 'Progress',
+  loading: 'Loading',
+  breadcrumb: 'Breadcrumb',
 };
 
 /** Registered translations by lowercase language code; '' applies to every language. */

@@ -33,6 +33,9 @@ const de: Translations = {
   dayPlaceholder: 'TT',
   monthPlaceholder: 'MM',
   yearPlaceholder: 'JJJJ',
+  progress: 'Fortschritt',
+  loading: 'Wird geladen',
+  breadcrumb: 'Pfadnavigation',
 };
 
 export default de;

@@ -17,6 +17,8 @@ export interface FieldParts {
   error: string;
   required: boolean;
   control: TemplateResult;
+  /** Shown at the end of the label's row, e.g. a slider's value. Not part of the label's text. */
+  labelEnd?: TemplateResult;
 }
 
 /** ids for `aria-describedby` on the native control. */
@@ -36,10 +38,13 @@ export function renderField(parts: FieldParts): TemplateResult {
   const hasHint = Boolean(parts.hint) || parts.hasHintSlot;
   return html`
     <div class=${classMap({ field: true, invalid: Boolean(parts.error) })} part="field">
-      <label for=${parts.controlId} class="field-label" part="form-label" ?hidden=${!hasLabel}>
-        <slot name="label">${parts.label}</slot>
-        ${parts.required ? html`<span class="required" aria-hidden="true">*</span>` : nothing}
-      </label>
+      <div class="field-label-row" ?hidden=${!hasLabel && !parts.labelEnd}>
+        <label for=${parts.controlId} class="field-label" part="form-label" ?hidden=${!hasLabel}>
+          <slot name="label">${parts.label}</slot>
+          ${parts.required ? html`<span class="required" aria-hidden="true">*</span>` : nothing}
+        </label>
+        ${parts.labelEnd ?? nothing}
+      </div>
       ${parts.control}
       <div id=${parts.hintId} class="field-hint" part="hint" ?hidden=${!hasHint}>
         <slot name="hint">${parts.hint}</slot>
@@ -59,6 +64,13 @@ export const fieldStyles = css`
     flex-direction: column;
     gap: var(--uf-space-1);
     font-family: var(--uf-font-family-sans);
+  }
+
+  .field-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--uf-space-2);
   }
 
   .field-label {
