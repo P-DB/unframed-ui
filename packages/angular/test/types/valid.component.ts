@@ -11,6 +11,7 @@ import { UfSwitch as EntrySwitch, UfCheckedValueAccessor } from '@unframed/angul
   template: `
     <uf-input [(ngModel)]="email" type="email" label="Email" required />
     <uf-checkbox [(ngModel)]="agree">Agree</uf-checkbox>
+    <uf-slider [(ngModel)]="volume" label="Volume" min="0" [max]="100" show-value />
     <uf-checkbox-group [formControl]="toppings" label="Toppings">
       <uf-checkbox select-all [(indeterminate)]="some">All</uf-checkbox>
       <uf-checkbox value="cheese">Cheese</uf-checkbox>
@@ -28,6 +29,7 @@ import { UfSwitch as EntrySwitch, UfCheckedValueAccessor } from '@unframed/angul
 export class ValidComponent {
   email = '';
   agree = false;
+  volume = 40;
   some = false;
   toppings = new FormControl<string[]>([]);
   country = new FormControl('it');

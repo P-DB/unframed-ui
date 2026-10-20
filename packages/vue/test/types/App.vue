@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { UfButton, UfCheckbox, UfCheckboxGroup, UfDialog, UfInput, UfTabs, UfTab, UfTabPanel } from '../../src/index.js';
+import { UfButton, UfCheckbox, UfCheckboxGroup, UfDialog, UfInput, UfSlider, UfTabs, UfTab, UfTabPanel } from '../../src/index.js';
 
 const email = ref('');
 const agree = ref(false);
+const volume = ref(40);
 const some = ref(true);
 const toppings = ref<string[]>([]);
 const tab = ref('');
@@ -17,6 +18,7 @@ function open() {
 <template>
   <UfInput v-model="email" type="email" label="Email" required />
   <UfCheckbox v-model="agree">Agree</UfCheckbox>
+  <UfSlider v-model="volume" label="Volume" :min="0" :max="100" show-value />
   <UfCheckboxGroup v-model="toppings" label="Toppings">
     <UfCheckbox v-model:indeterminate="some" select-all>All</UfCheckbox>
   </UfCheckboxGroup>

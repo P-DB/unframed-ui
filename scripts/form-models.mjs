@@ -16,6 +16,7 @@ export const formModels = {
   'uf-checkbox': { prop: 'checked', event: 'change', type: 'boolean', synced: ['indeterminate'] },
   'uf-checkbox-group': { prop: 'value', event: 'change', type: 'string[]' },
   'uf-switch': { prop: 'checked', event: 'change', type: 'boolean' },
+  'uf-slider': { prop: 'value', event: 'input', type: 'number' },
 };
 
 /** Custom elements from @unframed/core's manifest, with the module they live in. */
