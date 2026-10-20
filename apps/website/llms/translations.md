@@ -62,5 +62,8 @@ document.documentElement.lang = 'fr'; // components update
 | `dateTooLate` | Choose {date} or earlier. | Date picker, after `max`; must contain `{date}` |
 | `dateUnavailable` | This date is not available. | Date picker, ruled out by `isDateDisabled` |
 | `dayPlaceholder`, `monthPlaceholder`, `yearPlaceholder` | dd, mm, yyyy | Date picker placeholder, in the language's date order |
+| `progress` | Progress | Progress bar, unless `label` is set |
+| `loading` | Loading | Spinner, unless `label` is set |
+| `breadcrumb` | Breadcrumb | Breadcrumbs navigation, unless `label` is set |
 
 Month and weekday names, date formats and the first day of the week come from the browser (Intl), for the nearest `lang`.

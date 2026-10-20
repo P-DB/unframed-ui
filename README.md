@@ -48,6 +48,11 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | Card | `<uf-card>` | Media, header, content and footer slots; empty ones take no space |
 | Table | `<uf-table>` | Native `<table>` from `columns` and `rows`, sorting, custom cells, sticky header |
 | Pagination | `<uf-pagination>` | Collapsing page ranges, keyboard friendly, pairs with the table |
+| Slider | `<uf-slider>` | Native range input, label and hint, `v-model` and `ngModel` as a number |
+| Progress | `<uf-progress>` | Value or indeterminate, percentage, colors by meaning |
+| Spinner | `<uf-spinner>` | Announced as "Loading", 3 sizes, slows down for reduced motion |
+| Breadcrumbs | `<uf-breadcrumbs>` + `<uf-breadcrumb-item>` | Navigation landmark, current page marked, custom separators |
+| Drawer | `<uf-drawer>` | A modal panel from any edge, with everything the dialog does |
 
 Built-in texts (a dialog's close button, "No results"…) can be translated with `setTranslations()`, for one language or several, following the page's `lang`.
 

@@ -46,6 +46,9 @@ const keys: [string, string, string][] = [
   ['dayPlaceholder', 'dd', 'Date picker: placeholder letters for the day'],
   ['monthPlaceholder', 'mm', 'Date picker: placeholder letters for the month'],
   ['yearPlaceholder', 'yyyy', 'Date picker: placeholder letters for the year'],
+  ['progress', 'Progress', 'Progress: the bar\'s name, unless `label` is set'],
+  ['loading', 'Loading', 'Spinner: its name, unless `label` is set'],
+  ['breadcrumb', 'Breadcrumb', 'Breadcrumbs: the navigation, unless `label` is set'],
 ];
 
 const columns: TableColumn[] = [

@@ -4,6 +4,8 @@ import {
   UfAccordionItem,
   UfAvatar,
   UfBadge,
+  UfBreadcrumbItem,
+  UfBreadcrumbs,
   UfButton,
   UfCalendar,
   UfCard,
@@ -12,6 +14,7 @@ import {
   UfCombobox,
   UfDatePicker,
   UfDialog,
+  UfDrawer,
   UfDropdown,
   UfIcon,
   UfInput,
@@ -19,9 +22,12 @@ import {
   UfMenuItem,
   UfPagination,
   UfPopover,
+  UfProgress,
   UfRadio,
   UfRadioGroup,
   UfSelect,
+  UfSlider,
+  UfSpinner,
   UfSwitch,
   UfTab,
   UfTable,
@@ -284,6 +290,74 @@ export const pages: Page[] = [
 <UfBadge variant="success"><UfIcon slot="prefix" name="check-circle" />Verified</UfBadge>
 <UfBadge size="sm" variant="accent">New</UfBadge>`),
         notes: ['Badges are read as plain text: write "3 unread" rather than "3", so the badge makes sense on its own.'],
+      },
+    ],
+  },
+  {
+    slug: 'breadcrumbs',
+    title: 'Breadcrumbs',
+    tags: ['uf-breadcrumbs', 'uf-breadcrumb-item'],
+    module: 'breadcrumbs',
+    examples: [
+      {
+        title: 'Basic',
+        description: 'The last item is the current page: it is not a link, and screen readers announce it as the current page.',
+        Preview: () => (
+          <UfBreadcrumbs>
+            <UfBreadcrumbItem href="#">Home</UfBreadcrumbItem>
+            <UfBreadcrumbItem href="#">Docs</UfBreadcrumbItem>
+            <UfBreadcrumbItem href="#">Theming</UfBreadcrumbItem>
+          </UfBreadcrumbs>
+        ),
+        html: code(`
+<uf-breadcrumbs>
+  <uf-breadcrumb-item href="/">Home</uf-breadcrumb-item>
+  <uf-breadcrumb-item href="/docs">Docs</uf-breadcrumb-item>
+  <uf-breadcrumb-item>Theming</uf-breadcrumb-item>
+</uf-breadcrumbs>`),
+        react: code(`
+<UfBreadcrumbs>
+  <UfBreadcrumbItem href="/">Home</UfBreadcrumbItem>
+  <UfBreadcrumbItem href="/docs">Docs</UfBreadcrumbItem>
+  <UfBreadcrumbItem>Theming</UfBreadcrumbItem>
+</UfBreadcrumbs>`),
+        notes: [
+          'It is a navigation landmark named "Breadcrumb" (translatable), or `label`. Name it differently if a page has two.',
+          'Separators are hidden from screen readers, which announce the trail as a list.',
+        ],
+      },
+      {
+        title: 'Custom separator and an icon',
+        description: 'Put any element in the `separator` slot: it is copied between the items.',
+        Preview: () => (
+          <UfBreadcrumbs>
+            <span slot="separator">/</span>
+            <UfBreadcrumbItem href="#">
+              <UfIcon slot="prefix" name="user" />
+              John Smith
+            </UfBreadcrumbItem>
+            <UfBreadcrumbItem href="#">Projects</UfBreadcrumbItem>
+            <UfBreadcrumbItem>Website redesign</UfBreadcrumbItem>
+          </UfBreadcrumbs>
+        ),
+        html: code(`
+<uf-breadcrumbs>
+  <span slot="separator">/</span>
+  <uf-breadcrumb-item href="/people/john-smith">
+    <uf-icon slot="prefix" name="user"></uf-icon>John Smith
+  </uf-breadcrumb-item>
+  <uf-breadcrumb-item href="/people/john-smith/projects">Projects</uf-breadcrumb-item>
+  <uf-breadcrumb-item>Website redesign</uf-breadcrumb-item>
+</uf-breadcrumbs>`),
+        react: code(`
+<UfBreadcrumbs>
+  <span slot="separator">/</span>
+  <UfBreadcrumbItem href="/people/john-smith">
+    <UfIcon slot="prefix" name="user" />John Smith
+  </UfBreadcrumbItem>
+  <UfBreadcrumbItem href="/people/john-smith/projects">Projects</UfBreadcrumbItem>
+  <UfBreadcrumbItem>Website redesign</UfBreadcrumbItem>
+</UfBreadcrumbs>`),
       },
     ],
   },
@@ -803,6 +877,107 @@ const dialog = ref();
     ],
   },
   {
+    slug: 'drawer',
+    title: 'Drawer',
+    tags: ['uf-drawer'],
+    module: 'drawer',
+    examples: [
+      {
+        title: 'Filters',
+        description: 'A modal panel from the end edge. Escape, the close button and any element with `data-dialog="close"` close it.',
+        Preview: () => {
+          const [open, setOpen] = useState(false);
+          return (
+            <>
+              <UfButton variant="outline" onClick={() => setOpen(true)}>
+                Filters
+              </UfButton>
+              <UfDrawer label="Filters" open={open} lightDismiss onUfHide={() => setOpen(false)}>
+                <div style={{ display: 'grid', gap: '1rem' }}>
+                  <UfCheckboxGroup label="Status">
+                    <UfCheckbox value="open">Open</UfCheckbox>
+                    <UfCheckbox value="closed">Closed</UfCheckbox>
+                  </UfCheckboxGroup>
+                  <UfSlider label="Maximum price" max={500} step={10} value={250} showValue />
+                </div>
+                <UfButton slot="footer" variant="ghost" data-dialog="close">
+                  Cancel
+                </UfButton>
+                <UfButton slot="footer" data-dialog="close">
+                  Apply
+                </UfButton>
+              </UfDrawer>
+            </>
+          );
+        },
+        html: code(`
+<uf-button variant="outline" onclick="this.nextElementSibling.show()">Filters</uf-button>
+<uf-drawer label="Filters" light-dismiss>
+  <uf-checkbox-group label="Status">
+    <uf-checkbox value="open">Open</uf-checkbox>
+    <uf-checkbox value="closed">Closed</uf-checkbox>
+  </uf-checkbox-group>
+  <uf-button slot="footer" variant="ghost" data-dialog="close">Cancel</uf-button>
+  <uf-button slot="footer" data-dialog="close">Apply</uf-button>
+</uf-drawer>`),
+        react: code(`
+const [open, setOpen] = useState(false);
+
+<UfButton variant="outline" onClick={() => setOpen(true)}>Filters</UfButton>
+<UfDrawer label="Filters" open={open} lightDismiss onUfHide={() => setOpen(false)}>
+  …
+  <UfButton slot="footer" data-dialog="close">Apply</UfButton>
+</UfDrawer>`),
+        vue: code(`
+<script setup>
+const drawer = ref();
+</script>
+
+<template>
+  <UfButton variant="outline" @click="drawer.el.show()">Filters</UfButton>
+  <UfDrawer ref="drawer" label="Filters" light-dismiss>
+    …
+    <UfButton slot="footer" data-dialog="close">Apply</UfButton>
+  </UfDrawer>
+</template>`),
+        angular: code(`
+<uf-button variant="outline" (click)="drawer.el.show()">Filters</uf-button>
+<uf-drawer #drawer label="Filters" light-dismiss>
+  …
+  <uf-button slot="footer" data-dialog="close">Apply</uf-button>
+</uf-drawer>`),
+        notes: ['It is a modal dialog: focus stays inside, the page behind is inert and does not scroll, and focus returns to the button on close.'],
+      },
+      {
+        title: 'Placement',
+        description: '`start`, `end` (the default), `top` or `bottom`. Start and end follow the page direction. `--uf-drawer-size` sets the width, or the height for top and bottom.',
+        Preview: () => {
+          const [placement, setPlacement] = useState<'start' | 'end' | 'top' | 'bottom' | null>(null);
+          return (
+            <>
+              {(['start', 'end', 'top', 'bottom'] as const).map((p) => (
+                <UfButton key={p} variant="outline" onClick={() => setPlacement(p)}>
+                  {p}
+                </UfButton>
+              ))}
+              <UfDrawer label={`Placement: ${placement}`} placement={placement ?? 'end'} open={placement !== null} lightDismiss onUfHide={() => setPlacement(null)}>
+                Slides in from the {placement} edge.
+              </UfDrawer>
+            </>
+          );
+        },
+        html: code(`
+<uf-drawer label="Menu" placement="start">…</uf-drawer>
+<uf-drawer label="Cart" placement="end" style="--uf-drawer-size: 28rem">…</uf-drawer>
+<uf-drawer label="Cookies" placement="bottom">…</uf-drawer>`),
+        react: code(`
+<UfDrawer label="Menu" placement="start">…</UfDrawer>
+<UfDrawer label="Cart" placement="end" style={{ '--uf-drawer-size': '28rem' }}>…</UfDrawer>
+<UfDrawer label="Cookies" placement="bottom">…</UfDrawer>`),
+      },
+    ],
+  },
+  {
     slug: 'dropdown',
     title: 'Dropdown menu',
     tags: ['uf-dropdown', 'uf-menu', 'uf-menu-item'],
@@ -1108,6 +1283,43 @@ const [page, setPage] = useState(6);
     ],
   },
   {
+    slug: 'progress',
+    title: 'Progress',
+    tags: ['uf-progress'],
+    module: 'progress',
+    examples: [
+      {
+        title: 'Value',
+        description: '`value` out of `max` (100 by default). `show-value` adds the percentage.',
+        stack: true,
+        Preview: () => (
+          <>
+            <UfProgress label="Uploading report.pdf" value={45} showValue />
+            <UfProgress label="Storage" value={92} variant="warning" showValue />
+            <UfProgress label="Profile complete" value={5} max={5} variant="success" size="sm" />
+          </>
+        ),
+        html: code(`
+<uf-progress label="Uploading report.pdf" value="45" show-value></uf-progress>
+<uf-progress label="Storage" value="92" variant="warning" show-value></uf-progress>
+<uf-progress label="Profile complete" value="5" max="5" variant="success" size="sm"></uf-progress>`),
+        react: code(`
+<UfProgress label="Uploading report.pdf" value={45} showValue />
+<UfProgress label="Storage" value={92} variant="warning" showValue />
+<UfProgress label="Profile complete" value={5} max={5} variant="success" size="sm" />`),
+        notes: ['Screen readers announce it as a progress bar with its label and percentage. Without a `label`, it is named "Progress" (translatable).'],
+      },
+      {
+        title: 'Indeterminate',
+        description: 'Leave out `value` when the length of the work is not known.',
+        stack: true,
+        Preview: () => <UfProgress label="Preparing your export" />,
+        html: code(`<uf-progress label="Preparing your export"></uf-progress>`),
+        react: code(`<UfProgress label="Preparing your export" />`),
+      },
+    ],
+  },
+  {
     slug: 'radio-group',
     title: 'Radio group',
     tags: ['uf-radio-group', 'uf-radio'],
@@ -1181,6 +1393,115 @@ const [page, setPage] = useState(6);
     <option value="us">United States</option>
   </optgroup>
 </UfSelect>`),
+      },
+    ],
+  },
+  {
+    slug: 'slider',
+    title: 'Slider',
+    tags: ['uf-slider'],
+    module: 'slider',
+    examples: [
+      {
+        title: 'Basic',
+        description: 'A native range input underneath: arrow keys, Page Up/Down, Home and End, touch, and screen readers work as everywhere.',
+        stack: true,
+        Preview: () => {
+          const [volume, setVolume] = useState(40);
+          return (
+            <UfSlider
+              label="Volume"
+              hint="Applies to every device"
+              value={volume}
+              showValue
+              onInput={(event) => setVolume((event.target as HTMLInputElement & { value: number }).value)}
+            />
+          );
+        },
+        html: code(`<uf-slider name="volume" label="Volume" hint="Applies to every device" value="40" show-value></uf-slider>`),
+        react: code(`
+const [volume, setVolume] = useState(40);
+
+<UfSlider
+  label="Volume"
+  value={volume}
+  showValue
+  onInput={(event) => setVolume((event.target as UfSliderElement).value)}
+/>`),
+        vue: code(`
+<script setup>
+const volume = ref(40);
+</script>
+
+<template>
+  <UfSlider v-model="volume" label="Volume" show-value />
+</template>`),
+        angular: code(`<uf-slider [(ngModel)]="volume" label="Volume" show-value />`),
+        notes: ['The value is a number. It submits with its form, and `input` fires while dragging, `change` when the user lets go.'],
+      },
+      {
+        title: 'Range and step',
+        description: '`min`, `max` and `step`. The value always lands on a step within the range.',
+        stack: true,
+        Preview: () => (
+          <>
+            <UfSlider label="Maximum price (€)" min={0} max={500} step={10} value={250} showValue />
+            <UfSlider label="Rating" min={1} max={5} value={4} showValue disabled />
+          </>
+        ),
+        html: code(`
+<uf-slider label="Maximum price (€)" min="0" max="500" step="10" value="250" show-value></uf-slider>
+<uf-slider label="Rating" min="1" max="5" value="4" show-value disabled></uf-slider>`),
+        react: code(`
+<UfSlider label="Maximum price (€)" min={0} max={500} step={10} value={250} showValue />
+<UfSlider label="Rating" min={1} max={5} value={4} showValue disabled />`),
+      },
+    ],
+  },
+  {
+    slug: 'spinner',
+    title: 'Spinner',
+    tags: ['uf-spinner'],
+    module: 'spinner',
+    examples: [
+      {
+        title: 'Sizes',
+        description: '`sm`, `md` (the default) or `lg`, or any size with `--uf-spinner-size`.',
+        Preview: () => (
+          <>
+            <UfSpinner size="sm" />
+            <UfSpinner />
+            <UfSpinner size="lg" />
+            <UfSpinner style={{ '--uf-spinner-size': '3.5rem' } as React.CSSProperties} />
+          </>
+        ),
+        html: code(`
+<uf-spinner size="sm"></uf-spinner>
+<uf-spinner></uf-spinner>
+<uf-spinner size="lg"></uf-spinner>
+<uf-spinner style="--uf-spinner-size: 3.5rem"></uf-spinner>`),
+        react: code(`
+<UfSpinner size="sm" />
+<UfSpinner />
+<UfSpinner size="lg" />
+<UfSpinner style={{ '--uf-spinner-size': '3.5rem' }} />`),
+      },
+      {
+        title: 'Label and color',
+        description: 'Screen readers announce "Loading" (translatable), or `label`. Colors come from the theme, or `--uf-spinner-indicator-color`.',
+        Preview: () => (
+          <>
+            <UfSpinner label="Loading John Smith's orders" />
+            <UfSpinner label="Saving" style={{ '--uf-spinner-indicator-color': 'var(--uf-color-success)' } as React.CSSProperties} />
+          </>
+        ),
+        html: code(`
+<uf-spinner label="Loading John Smith's orders"></uf-spinner>
+<uf-spinner label="Saving" style="--uf-spinner-indicator-color: var(--uf-color-success)"></uf-spinner>`),
+        react: code(`
+<UfSpinner label="Loading John Smith's orders" />
+<UfSpinner label="Saving" style={{ '--uf-spinner-indicator-color': 'var(--uf-color-success)' }} />`),
+        notes: ['For a button that is busy, use the button\'s `loading` instead: it keeps the button focusable and its label for screen readers.'],
       },
     ],
   },
