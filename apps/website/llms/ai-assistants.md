@@ -4,7 +4,18 @@
 
 An Agent Skill (agentskills.io format, read by Claude Code and many other assistants) that teaches an assistant to write Unframed code: which package to import from in each framework, every component's attributes, events, slots, parts and examples, the patterns that are easy to get wrong, and theming with tokens. It's generated from the same sources as the docs, so it matches the installed version.
 
-## Set it up
+## In Claude Code: install the plugin
+
+The skill is also a Claude Code plugin, in this repository's marketplace. It works in every project, and updates with each Unframed release:
+
+```
+/plugin marketplace add P-DB/unframed-ui
+/plugin install unframed@unframed
+```
+
+From a shell: `claude plugin marketplace add P-DB/unframed-ui`, then `claude plugin install unframed@unframed`. Start a new session afterwards. For a project pinned to an older Unframed version, use the project skill below, which matches the installed version.
+
+## In your project: any assistant
 
 1. From the project root (needs `@unframed/cli` 0.3.0 or later):
 

@@ -17,5 +17,9 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run build
+      # The Claude Code plugin (plugins/unframed) is a committed copy of the
+      # generated skill: the build regenerates it, so any change means it's stale.
+      - name: Check the Claude Code plugin is up to date
+        run: git diff --exit-code -- plugins/ || (echo "::error::plugins/unframed is out of date. Run 'npm run skill -w @unframed/cli' and commit the result." && exit 1)
       - run: npm run typecheck
       - run: npm test

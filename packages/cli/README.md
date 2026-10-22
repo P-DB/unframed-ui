@@ -25,6 +25,8 @@ npx @unframed/cli skill --dir .agents/skills     # any assistant that reads Agen
 
 Installs an [Agent Skill](https://agentskills.io): a `SKILL.md` with the rules for using Unframed, plus references with every component's API and examples, for this exact version. Run it again after upgrading.
 
+In Claude Code you can install the same skill as a plugin instead, kept up to date with each release: `/plugin marketplace add P-DB/unframed-ui`, then `/plugin install unframed@unframed`.
+
 **[Documentation](https://p-db.github.io/unframed-ui/)** · **[Storybook](https://p-db.github.io/unframed-ui/storybook/)** · **[GitHub](https://github.com/P-DB/unframed-ui)**
 
 MIT licensed. Status: 0.x, APIs may change before 1.0.

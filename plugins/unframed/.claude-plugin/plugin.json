@@ -1,0 +1,22 @@
+{
+  "name": "unframed",
+  "displayName": "Unframed",
+  "description": "Teaches Claude the Unframed web components (React, Vue, Angular and plain HTML): every tag, attribute, event and slot, framework setup, forms, theming and translations.",
+  "author": {
+    "name": "Patrizio Di Bartolomeo",
+    "url": "https://p-db.github.io/"
+  },
+  "homepage": "https://p-db.github.io/unframed-ui/docs/ai-assistants",
+  "repository": "https://github.com/P-DB/unframed-ui",
+  "license": "MIT",
+  "keywords": [
+    "web-components",
+    "ui",
+    "design-system",
+    "react",
+    "vue",
+    "angular",
+    "lit"
+  ],
+  "version": "0.8.0"
+}

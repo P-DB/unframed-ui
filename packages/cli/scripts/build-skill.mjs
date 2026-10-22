@@ -4,7 +4,10 @@
 //   references/frameworks.md    setup and usage for HTML, React, Vue and Angular
 //   references/theming.md       tokens, custom properties, parts, dark mode
 // Generated from the same sources as the website, so it matches this version.
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+// Also copied into plugins/unframed/ at the repository root: the Claude Code
+// plugin that /plugin installs from this repository's marketplace. That copy is
+// committed, and CI checks it is up to date.
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { componentMarkdown, componentPages, coreVersion, elementsByTag, frameworkGuides, pageImports } from '../../../scripts/docs-markdown.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -34,4 +37,11 @@ await writeFile(new URL('SKILL.md', out), skill);
 await writeFile(new URL('references/components.md', out), components);
 await writeFile(new URL('references/frameworks.md', out), frameworks);
 await writeFile(new URL('references/theming.md', out), theming);
-console.log(`skill: SKILL.md and 3 references for ${pages.length} components`);
+const plugin = new URL('../../plugins/unframed/skills/unframed/', root);
+await rm(plugin, { recursive: true, force: true });
+await cp(out, plugin, { recursive: true });
+// The plugin's version follows the library's: Claude Code updates installed plugins when it changes.
+const manifestUrl = new URL('../../plugins/unframed/.claude-plugin/plugin.json', root);
+const manifest = JSON.parse(await readFile(manifestUrl, 'utf8'));
+await writeFile(manifestUrl, `${JSON.stringify({ ...manifest, version }, null, 2)}\n`);
+console.log(`skill: SKILL.md and 3 references for ${pages.length} components, also in plugins/unframed/`);

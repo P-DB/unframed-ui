@@ -1,0 +1,15 @@
+{
+  "name": "unframed",
+  "description": "The Unframed agent skill: accessible, framework-agnostic web components, used the right way.",
+  "owner": {
+    "name": "Patrizio Di Bartolomeo",
+    "url": "https://p-db.github.io/"
+  },
+  "plugins": [
+    {
+      "name": "unframed",
+      "source": "./plugins/unframed",
+      "description": "Teaches Claude the Unframed components: every tag, attribute, event and slot, framework setup and theming."
+    }
+  ]
+}

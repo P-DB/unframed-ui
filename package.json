@@ -20,6 +20,7 @@
     "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "changeset": "changeset",
+    "version-packages": "changeset version && npm run build -w @unframed/tokens && npm run analyze -w @unframed/core && npm run skill -w @unframed/cli",
     "release": "npm run build && changeset publish",
     "storybook": "npm run storybook -w @unframed/storybook",
     "website": "npm run dev -w @unframed/website"

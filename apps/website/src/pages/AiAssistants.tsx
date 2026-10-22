@@ -39,7 +39,25 @@ export function AiAssistants() {
       </ul>
       <p>It's generated from the same sources as these docs, so it always matches the version you install.</p>
 
-      <h2>Set it up</h2>
+      <h2>In Claude Code: install the plugin</h2>
+      <p>
+        The skill is also a Claude Code plugin, in this repository's marketplace. Add the marketplace once, then install
+        the plugin: it works in every project, and Claude Code updates it with each Unframed release.
+      </p>
+      <CodeBlock
+        standalone
+        samples={[
+          { label: 'Claude Code', lang: 'bash', code: '/plugin marketplace add P-DB/unframed-ui\n/plugin install unframed@unframed' },
+          { label: 'Terminal', lang: 'bash', code: 'claude plugin marketplace add P-DB/unframed-ui\nclaude plugin install unframed@unframed' },
+        ]}
+      />
+      <p>
+        Start a new session afterwards. The skill is the same as the one below; the plugin just keeps it up to date for
+        you. If your project pins an older Unframed version, use the project skill instead, which matches the version
+        you install.
+      </p>
+
+      <h2>In your project: any assistant</h2>
       <ol>
         <li>
           <p>From your project's root, install the skill. It needs <code>@unframed/cli</code> 0.3.0 or later.</p>
