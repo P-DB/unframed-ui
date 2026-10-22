@@ -1,6 +1,6 @@
 import { toast } from '@unframed/core';
-import { UfButton } from '@unframed/react';
-import { useEffect, useId, useState, type KeyboardEvent } from 'react';
+import { UfButton, UfTab, UfTabPanel, UfTabs } from '@unframed/react';
+import { useEffect, useState } from 'react';
 import type { ThemedToken } from 'shiki/core';
 import { guessLang, tokenize, type Lang } from '../highlight';
 
@@ -11,11 +11,12 @@ export interface CodeSample {
   lang?: Lang;
 }
 
-/** Highlighted code. Shows plain text until the highlighter has loaded. */
-function Code({ code, lang }: { code: string; lang: Lang }) {
+/** Highlighted code. Shows plain text until the highlighter has loaded, or while `highlight` is off. */
+function Code({ code, lang, highlight }: { code: string; lang: Lang; highlight: boolean }) {
   const [tokens, setTokens] = useState<ThemedToken[][] | null>(null);
 
   useEffect(() => {
+    if (!highlight) return;
     let current = true;
     setTokens(null);
     tokenize(code, lang)
@@ -26,7 +27,7 @@ function Code({ code, lang }: { code: string; lang: Lang }) {
     return () => {
       current = false;
     };
-  }, [code, lang]);
+  }, [code, lang, highlight]);
 
   if (!tokens) return <code>{code}</code>;
   return (
@@ -52,10 +53,11 @@ function Code({ code, lang }: { code: string; lang: Lang }) {
   );
 }
 
-/** Code with optional tabs (e.g. HTML / React) and a copy button. */
+/** Code with tabs (e.g. HTML / React), drawn by `<uf-tabs>`, and a copy button. */
 export function CodeBlock({ samples, standalone = false }: { samples: CodeSample[]; standalone?: boolean }) {
   const [active, setActive] = useState(0);
-  const id = useId();
+  // Samples shown at least once: highlighted, and kept highlighted when you switch back.
+  const [seen, setSeen] = useState(() => new Set([0]));
   const sample = samples[active];
 
   const copy = async () => {
@@ -67,43 +69,40 @@ export function CodeBlock({ samples, standalone = false }: { samples: CodeSample
     }
   };
 
-  // Tabs pattern: arrow keys move between languages.
-  const onKeyDown = (event: KeyboardEvent) => {
-    const step = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
-    if (!step) return;
-    event.preventDefault();
-    const next = (active + step + samples.length) % samples.length;
-    setActive(next);
-    document.getElementById(`${id}-tab-${next}`)?.focus();
-  };
-
   return (
     <div className={`code-block${standalone ? ' code-block--standalone' : ''}`}>
-      {/* The tab list holds only tabs; Copy sits beside it in the same bar. */}
-      <div className="code-block__bar">
-        <div className="code-block__tabs" role="tablist" aria-label="Code language" onKeyDown={onKeyDown}>
-          {samples.map((s, i) => (
-            <button
-              key={s.label}
-              id={`${id}-tab-${i}`}
-              className={`code-block__tab${i === active ? ' code-block__tab--active' : ''}`}
-              role="tab"
-              aria-selected={i === active}
-              aria-controls={`${id}-panel`}
-              tabIndex={i === active ? 0 : -1}
-              onClick={() => setActive(i)}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-        <UfButton className="code-block__copy" variant="ghost" size="sm" onClick={copy}>
-          Copy
-        </UfButton>
-      </div>
-      <pre id={`${id}-panel`} className="code-block__panel" role="tabpanel" aria-labelledby={`${id}-tab-${active}`} tabIndex={0}>
-        <Code code={sample.code} lang={sample.lang ?? guessLang(sample.label, sample.code)} />
-      </pre>
+      <UfTabs
+        className="code-block__tabs"
+        label="Code language"
+        active={`code-${active}`}
+        onUfTabChange={(event) => {
+          const index = Number(event.detail.name.replace('code-', ''));
+          setActive(index);
+          setSeen((previous) => new Set(previous).add(index));
+        }}
+      >
+        {samples.map((s, i) => (
+          <UfTab key={s.label} panel={`code-${i}`}>
+            {s.label}
+          </UfTab>
+        ))}
+        {samples.map((s, i) => (
+          <UfTabPanel key={s.label} name={`code-${i}`}>
+            {/*
+              Every panel holds its code, so the one a tab shows is never empty for a frame
+              (that made the page jump). Only samples you open are highlighted, so a page
+              loads only the grammars it shows.
+            */}
+            <pre className="code-block__panel">
+              <Code code={s.code} lang={s.lang ?? guessLang(s.label, s.code)} highlight={seen.has(i)} />
+            </pre>
+          </UfTabPanel>
+        ))}
+      </UfTabs>
+      {/* Beside the tab list, not in it: a tab list holds only tabs. */}
+      <UfButton className="code-block__copy" variant="ghost" size="sm" onClick={copy}>
+        Copy
+      </UfButton>
     </div>
   );
 }

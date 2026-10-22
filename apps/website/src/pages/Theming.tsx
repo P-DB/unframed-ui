@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
+import { code, DocTable } from '../components/DocTable';
 
 export function Theming() {
   return (
@@ -97,45 +98,16 @@ uf-input:state(user-invalid)::part(box) {
       </p>
 
       <h3>Custom properties or parts?</h3>
-      <div className="api-table">
-        <table className="api-table__table">
-          <thead>
-            <tr>
-              <th scope="col" className="api-table__header"></th>
-              <th scope="col" className="api-table__header">Custom properties</th>
-              <th scope="col" className="api-table__header">
-                <code>::part()</code>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="api-table__row">
-              <td className="api-table__cell">Example</td>
-              <td className="api-table__cell">
-                <code>--uf-button-radius: 999px</code>
-              </td>
-              <td className="api-table__cell">
-                <code>uf-button::part(base) {'{ … }'}</code>
-              </td>
-            </tr>
-            <tr className="api-table__row">
-              <td className="api-table__cell">What you can change</td>
-              <td className="api-table__cell">What the component exposes as a property</td>
-              <td className="api-table__cell">Any CSS property of that element</td>
-            </tr>
-            <tr className="api-table__row">
-              <td className="api-table__cell">Scope</td>
-              <td className="api-table__cell">Inherited: set once on a page section or globally</td>
-              <td className="api-table__cell">Per selector</td>
-            </tr>
-            <tr className="api-table__row">
-              <td className="api-table__cell">Use it for</td>
-              <td className="api-table__cell">Colors, sizes, radius: the usual tweaks</td>
-              <td className="api-table__cell">Anything the properties don't cover</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <DocTable
+        label="Custom properties or parts?"
+        columns={[['aspect', 'Aspect', '22%'], ['props', 'Custom properties'], ['parts', '::part()']]}
+        rows={[
+          { aspect: 'Example', props: code('--uf-button-radius: 999px'), parts: code('uf-button::part(base) { … }') },
+          { aspect: 'What you can change', props: 'What the component exposes as a property', parts: 'Any CSS property of that element' },
+          { aspect: 'Scope', props: 'Inherited: set once on a page section or globally', parts: 'Per selector' },
+          { aspect: 'Use it for', props: 'Colors, sizes, radius: the usual tweaks', parts: "Anything the properties don't cover" },
+        ]}
+      />
       <p>
         Start with tokens and custom properties. Use <code>::part()</code> when you need more, before reaching for{' '}
         <code>npx @unframed/cli add</code> to copy and own the source.

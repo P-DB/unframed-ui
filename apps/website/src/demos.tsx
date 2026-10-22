@@ -101,7 +101,7 @@ const teamColumns: TableColumn[] = [
   { key: 'role', label: 'Role' },
   { key: 'commits', label: 'Commits', sortable: true, align: 'end' },
 ];
-const invoices = Array.from({ length: 42 }, (_, i) => ({
+const invoices = Array.from({ length: 32 }, (_, i) => ({
   id: `INV-${1001 + i}`,
   customer: ['Acme', 'Globex', 'Initech', 'Hooli', 'Wonka', 'Stark'][(i * 5) % 6],
   status: (['Paid', 'Paid', 'Pending', 'Overdue'] as const)[(i * 3) % 4],

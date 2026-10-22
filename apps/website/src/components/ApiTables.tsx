@@ -1,51 +1,23 @@
-import type { ReactNode } from 'react';
 import { getElement, type ElementDoc } from '../manifest';
+import { code, DocTable, rich, type Cell } from './DocTable';
 
-/** Renders `backticks` in manifest descriptions as code. */
-function Text({ children }: { children?: string }) {
-  if (!children) return null;
-  return (
-    <>
-      {children.split(/(`[^`]+`)/).map((part, i) =>
-        part.startsWith('`') ? <code key={i}>{part.slice(1, -1)}</code> : part,
-      )}
-    </>
-  );
-}
-
-function Table({ title, head, rows }: { title: string; head: string[]; rows: ReactNode[][] }) {
+function Table({ title, head, rows }: { title: string; head: string[]; rows: Cell[][] }) {
   if (!rows.length) return null;
   return (
     <>
       <h3>{title}</h3>
-      <div className="api-table">
-        <table className="api-table__table">
-          <thead>
-            <tr>
-              {head.map((h) => (
-                <th key={h} scope="col" className="api-table__header">
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((cells, i) => (
-              <tr key={i} className="api-table__row">
-                {cells.map((cell, j) => (
-                  <td key={j} className="api-table__cell">{cell}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <DocTable
+        label={title}
+        columns={head.map((h, i) => [`c${i}`, h, i === 0 ? '30%' : undefined])}
+        rows={rows.map((cells) => Object.fromEntries(cells.map((c, i) => [`c${i}`, c])))}
+      />
     </>
   );
 }
 
-const name = (n: string) => <code className="api-table__name">{n}</code>;
-const type = (t?: { text: string }) => (t ? <span className="api-table__type">{t.text}</span> : null);
+const name = (n: string) => code(n);
+const type = (t?: { text: string }) => (t ? t.text : null);
+const Text = ({ children }: { children?: string }) => rich(children);
 
 export function ApiTables({ tag, heading = true }: { tag: string; heading?: boolean }) {
   const el: ElementDoc | undefined = getElement(tag);
@@ -63,42 +35,42 @@ export function ApiTables({ tag, heading = true }: { tag: string; heading?: bool
       <Table
         title="Attributes"
         head={['Name', 'Description', 'Type', 'Default']}
-        rows={attributes.map((a) => [name(a.name), <Text>{a.description}</Text>, type(a.type), a.default ? <code>{a.default}</code> : null])}
+        rows={attributes.map((a) => [name(a.name), Text({ children: a.description }), type(a.type), a.default ? code(a.default) : null])}
       />
       <Table
         title="Properties"
         head={['Name', 'Description', 'Type']}
-        rows={properties.map((p) => [name(p.name), <Text>{p.description}</Text>, type(p.type)])}
+        rows={properties.map((p) => [name(p.name), Text({ children: p.description }), type(p.type)])}
       />
       <Table
         title="Methods"
         head={['Name', 'Description']}
-        rows={methods.map((m) => [name(`${m.name}(${(m.parameters ?? []).map((p) => p.name).join(', ')})`), <Text>{m.description}</Text>])}
+        rows={methods.map((m) => [name(`${m.name}(${(m.parameters ?? []).map((p) => p.name).join(', ')})`), Text({ children: m.description })])}
       />
       <Table
         title="Events"
         head={['Name', 'Description', 'Type']}
-        rows={(el.events ?? []).map((e) => [name(e.name), <Text>{e.description}</Text>, type(e.type)])}
+        rows={(el.events ?? []).map((e) => [name(e.name), Text({ children: e.description }), type(e.type)])}
       />
       <Table
         title="Slots"
         head={['Name', 'Description']}
-        rows={(el.slots ?? []).map((s) => [name(s.name || '(default)'), <Text>{s.description}</Text>])}
+        rows={(el.slots ?? []).map((s) => [name(s.name || '(default)'), Text({ children: s.description })])}
       />
       <Table
         title="CSS parts"
         head={['Name', 'Description']}
-        rows={(el.cssParts ?? []).map((p) => [name(`::part(${p.name})`), <Text>{p.description}</Text>])}
+        rows={(el.cssParts ?? []).map((p) => [name(`::part(${p.name})`), Text({ children: p.description })])}
       />
       <Table
         title="CSS custom properties"
         head={['Name', 'Description']}
-        rows={(el.cssProperties ?? []).map((p) => [name(p.name), <Text>{p.description}</Text>])}
+        rows={(el.cssProperties ?? []).map((p) => [name(p.name), Text({ children: p.description })])}
       />
       <Table
         title="Custom states"
         head={['Name', 'Description']}
-        rows={(el.cssStates ?? []).map((s) => [name(`:state(${s.name})`), <Text>{s.description}</Text>])}
+        rows={(el.cssStates ?? []).map((s) => [name(`:state(${s.name})`), Text({ children: s.description })])}
       />
     </section>
   );

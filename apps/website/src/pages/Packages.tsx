@@ -1,5 +1,6 @@
 import { CodeBlock } from '../components/CodeBlock';
 import { FrameworkCards } from '../components/LinkCards';
+import { code, DocTable } from '../components/DocTable';
 
 interface Package {
   name: string;
@@ -159,26 +160,11 @@ export function Packages() {
             <dt className="package-facts__term">Depends on</dt>
             <dd className="package-facts__value">{pkg.dependsOn}</dd>
           </dl>
-          <div className="api-table">
-            <table className="api-table__table">
-              <thead>
-                <tr>
-                  <th scope="col" className="api-table__header">Import</th>
-                  <th scope="col" className="api-table__header">What you get</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pkg.entries.map(([entry, description]) => (
-                  <tr key={entry} className="api-table__row">
-                    <td className="api-table__cell">
-                      <code className="api-table__name">{entry}</code>
-                    </td>
-                    <td className="api-table__cell">{description}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DocTable
+            label={`${pkg.name} entry points`}
+            columns={[['entry', 'Import', '40%'], ['description', 'What you get']]}
+            rows={pkg.entries.map(([entry, description]) => ({ entry: code(entry), description }))}
+          />
         </section>
       ))}
 

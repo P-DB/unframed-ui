@@ -10,6 +10,7 @@ import {
   UfRadio,
   UfRadioGroup,
   UfSelect,
+  UfSlider,
   UfSwitch,
   UfTab,
   UfTabPanel,
@@ -18,6 +19,7 @@ import {
 import type { CSSProperties } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
+import { cell, code, DocTable, element } from '../components/DocTable';
 import { useSiteTheme } from '../components/Layout';
 import { contrast, generatePalette, parseHex, STEPS, type Palette } from '../theme/color';
 
@@ -146,6 +148,12 @@ function Preview({ mode, vars }: { mode: 'light' | 'dark'; vars: Record<string, 
   );
 }
 
+/** "Aa" in a pair of colors, to see a contrast check. */
+function sample(fg: string, bg: string): HTMLElement {
+  const span = element('span', { style: `display: inline-block; padding: 0 0.4em; border: 1px solid var(--uf-color-border); color: ${fg}; background: ${bg}; font-weight: 600` }, 'Aa');
+  return span;
+}
+
 /** Contrast checks for the text and indicators that use the theme's colors. */
 function checks(theme: Theme) {
   const accent = generatePalette(theme.accent, defaultAccent);
@@ -218,18 +226,22 @@ export function ThemeGenerator() {
           </div>
           <ColorField label="Danger" value={theme.danger} onChange={(danger) => set({ danger })} />
 
-          <label className="theme-generator__range">
-            <span>
-              Buttons and fields corners <output>{theme.control}px</output>
-            </span>
-            <input type="range" min={0} max={24} value={theme.control} onChange={(e) => set({ control: Number(e.target.value) })} />
-          </label>
-          <label className="theme-generator__range">
-            <span>
-              Cards and menus corners <output>{theme.surface}px</output>
-            </span>
-            <input type="range" min={0} max={24} value={theme.surface} onChange={(e) => set({ surface: Number(e.target.value) })} />
-          </label>
+          <UfSlider
+            label="Buttons and fields corners (px)"
+            min={0}
+            max={24}
+            value={theme.control}
+            showValue
+            onInput={(event) => set({ control: (event.target as HTMLElement & { value: number }).value })}
+          />
+          <UfSlider
+            label="Cards and menus corners (px)"
+            min={0}
+            max={24}
+            value={theme.surface}
+            showValue
+            onInput={(event) => set({ surface: (event.target as HTMLElement & { value: number }).value })}
+          />
 
           <UfSelect label="Font" value={theme.font} hint="Load web fonts in your app; these stacks use fonts already on most devices." onChange={(event) => set({ font: (event.target as HTMLSelectElement).value })}>
             {fonts.map(([name]) => (
@@ -258,35 +270,19 @@ export function ThemeGenerator() {
           ? `${failing} check${failing > 1 ? 's' : ''} below the WCAG minimum: try a darker or more saturated color.`
           : 'Every check meets the WCAG minimum.'}
       </p>
-      <div className="api-table">
-        <table className="api-table__table">
-          <thead>
-            <tr>
-              <th scope="col" className="api-table__header">Where</th>
-              <th scope="col" className="api-table__header">Colors</th>
-              <th scope="col" className="api-table__header">Ratio</th>
-            </tr>
-          </thead>
-          <tbody>
-            {results.map((r) => (
-              <tr key={r.what} className="api-table__row">
-                <td className="api-table__cell">{r.what}</td>
-                <td className="api-table__cell">
-                  <span className="theme-generator__sample" style={{ color: r.fg, background: r.bg }}>
-                    Aa
-                  </span>{' '}
-                  <code>{r.fg}</code> on <code>{r.bg}</code>
-                </td>
-                <td className="api-table__cell">
-                  <UfBadge variant={r.ratio >= r.min ? 'success' : 'danger'}>
-                    {r.ratio.toFixed(2)}:1 {r.ratio >= r.min ? 'passes' : `needs ${r.min}:1`}
-                  </UfBadge>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <DocTable
+        label="Contrast"
+        columns={[['what', 'Where', '34%'], ['colors', 'Colors'], ['ratio', 'Ratio', '28%']]}
+        rows={results.map((r) => ({
+          what: r.what,
+          colors: cell(sample(r.fg, r.bg), ' ', code(r.fg), ' on ', code(r.bg)),
+          ratio: element(
+            'uf-badge',
+            { variant: r.ratio >= r.min ? 'success' : 'danger' },
+            `${r.ratio.toFixed(2)}:1 ${r.ratio >= r.min ? 'passes' : `needs ${r.min}:1`}`,
+          ),
+        }))}
+      />
 
       <h2>Your theme</h2>
       <p>

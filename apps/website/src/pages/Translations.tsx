@@ -5,6 +5,7 @@ import de from '@unframed/core/locales/de';
 import fr from '@unframed/core/locales/fr';
 import it from '@unframed/core/locales/it';
 import { CodeBlock } from '../components/CodeBlock';
+import { code, DocTable, rich } from '../components/DocTable';
 
 // Registered once, like an app would at startup. They only apply inside the
 // demo below, where `lang` is set: the rest of the site stays English.
@@ -68,8 +69,6 @@ const columns: TableColumn[] = [
   { key: 'city', label: 'City' },
 ];
 
-/** Renders `backticks` as code. */
-const inline = (text: string) => text.split(/(`[^`]+`)/).map((part, i) => (part.startsWith('`') ? <code key={i}>{part.slice(1, -1)}</code> : part));
 
 function Demo() {
   const [lang, setLang] = useState('it');
@@ -130,26 +129,11 @@ setTranslations(fr, 'fr');`,
           },
         ]}
       />
-      <div className="api-table">
-        <table className="api-table__table">
-          <thead>
-            <tr>
-              <th scope="col" className="api-table__header">Language</th>
-              <th scope="col" className="api-table__header">Import</th>
-            </tr>
-          </thead>
-          <tbody>
-            {builtIn.map(([name, code]) => (
-              <tr key={code} className="api-table__row">
-                <td className="api-table__cell">{name}</td>
-                <td className="api-table__cell">
-                  <code>@unframed/core/locales/{code}</code>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <DocTable
+        label="Built-in languages"
+        columns={[['language', 'Language', '30%'], ['path', 'Import']]}
+        rows={builtIn.map(([language, lang]) => ({ language, path: code(`@unframed/core/locales/${lang}`) }))}
+      />
       <p>
         To change a few texts on top, call it again with just those: <code>{"setTranslations({ close: 'Esci' }, 'it')"}</code>.
         Missing a language? Pass the texts yourself, as below.
@@ -229,28 +213,11 @@ document.documentElement.lang = 'fr';`,
         <code>label</code> attributes and the table's <code>empty</code> slot still win over translations, for one
         element.
       </p>
-      <div className="api-table">
-        <table className="api-table__table">
-          <thead>
-            <tr>
-              <th scope="col" className="api-table__header">Key</th>
-              <th scope="col" className="api-table__header">English</th>
-              <th scope="col" className="api-table__header">Where</th>
-            </tr>
-          </thead>
-          <tbody>
-            {keys.map(([key, english, where]) => (
-              <tr key={key} className="api-table__row">
-                <td className="api-table__cell">
-                  <code className="api-table__name">{key}</code>
-                </td>
-                <td className="api-table__cell">{english}</td>
-                <td className="api-table__cell">{inline(where)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <DocTable
+        label="Every text"
+        columns={[['key', 'Key', '24%'], ['english', 'English', '30%'], ['where', 'Where']]}
+        rows={keys.map(([key, english, where]) => ({ key: code(key), english, where: rich(where) }))}
+      />
       <p>
         Error messages for native checks, like a required input or an invalid email, come from the browser, in the
         user's language already. Month and weekday names, date formats and the first day of the week come from the

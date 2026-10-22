@@ -200,17 +200,17 @@ h3 {
   font-size: 0.9375rem;
 }
 
+.sidebar__section + .sidebar__section {
+  margin-top: 1.5rem;
+}
+
 .sidebar__heading {
-  margin: 1.5rem 0 0.5rem;
-  color: var(--uf-color-text-muted);
+  margin: 0 0 0.5rem;
+  color: var(--uf-color-accent-strong);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.sidebar__heading:first-child {
-  margin-top: 0;
 }
 
 .sidebar__link {
@@ -231,6 +231,59 @@ h3 {
   font-weight: 500;
 }
 
+/* The docs navigation on phones: a Menu button opening a drawer. Hidden on wide screens. */
+.docs-menu {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--uf-color-border);
+}
+
+.docs-menu__current {
+  color: var(--uf-color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* Narrower than the screen, so the page stays in sight behind it. */
+.docs-menu__drawer {
+  --uf-drawer-size: min(18rem, 85vw);
+}
+
+.docs-menu__nav {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.docs-menu__section {
+  display: grid;
+}
+
+.docs-menu__heading {
+  margin: 0 0 0.25rem;
+  padding: 0 0.75rem;
+  color: var(--uf-color-accent-strong);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.docs-menu__link {
+  display: block;
+}
+
+.docs-menu__link::part(base) {
+  justify-content: flex-start;
+  font-weight: 400;
+}
+
+.docs-menu__link--active::part(base) {
+  background: var(--uf-color-accent-tint);
+  color: var(--uf-color-on-accent-tint);
+  font-weight: 500;
+}
+
 @media (max-width: 800px) {
   .docs-layout {
     grid-template-columns: minmax(0, 1fr);
@@ -243,23 +296,13 @@ h3 {
     max-height: none;
   }
 
-  /* On phones the sidebar becomes a horizontal strip of links. */
-  .sidebar {
-    display: flex;
-    gap: 0.25rem;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--uf-color-border);
-  }
-
-  .sidebar__heading {
+  /* On phones the sidebar gives way to a Menu button and drawer (MobileMenu). */
+  .docs-layout__sidebar {
     display: none;
   }
 
-  .sidebar__link {
-    flex: none;
-    border: 0;
-    padding: 0.25rem 0.5rem;
+  .docs-menu {
+    display: flex;
   }
 
   .site-header__nav {
@@ -457,7 +500,6 @@ h3 {
   font-size: 0.9375rem;
 }
 
-/* Packages page: how the packages build on each other */
 /* Packages page: the packages as layers, each building on the one below */
 .stack {
   display: grid;
@@ -579,7 +621,6 @@ h3 {
   }
 }
 
-/* Links to the framework guides, at the end of the Packages page */
 /* Theme generator: settings beside a light and a dark preview */
 .theme-generator__layout {
   display: grid;
@@ -617,22 +658,6 @@ h3 {
   grid-template-columns: repeat(11, 1fr);
   height: 1.25rem;
   margin-top: -0.5rem;
-}
-
-.theme-generator__range {
-  display: grid;
-  gap: 0.25rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.theme-generator__range output {
-  color: var(--uf-color-text-muted);
-  font-weight: 400;
-}
-
-.theme-generator__range input {
-  accent-color: var(--uf-color-accent);
 }
 
 .theme-generator__previews {
@@ -676,13 +701,6 @@ h3 {
   align-items: center;
 }
 
-.theme-generator__sample {
-  display: inline-block;
-  padding: 0.125rem 0.375rem;
-  border: 1px solid var(--uf-color-border);
-  font-weight: 600;
-}
-
 @media (max-width: 60rem) {
   .theme-generator__layout {
     grid-template-columns: 1fr;
@@ -713,6 +731,7 @@ h3 {
 
 /* Code with language tabs and a copy button */
 .code-block {
+  position: relative;
   border-top: 1px solid var(--uf-color-border);
 }
 
@@ -720,44 +739,31 @@ h3 {
   border: 1px solid var(--uf-color-border);
 }
 
-.code-block__bar {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.375rem 0.5rem;
+/* The tab bar: compact tabs on a raised background, with room for Copy at the end. */
+.code-block__tabs::part(tablist) {
+  min-height: 2.75rem;
+  padding: 0 4.5rem 0 0.5rem;
   border-bottom: 1px solid var(--uf-color-border);
   background: var(--uf-color-surface-raised);
 }
 
-.code-block__tabs {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.25rem;
+.code-block__tabs::part(panels) {
+  padding: 0;
 }
 
-.code-block__tab {
-  padding: 0.25rem 0.625rem;
-  border: 0;
-  background: transparent;
-  color: var(--uf-color-text-muted);
-  font: inherit;
+.code-block uf-tab {
+  padding: 0.5rem 0.625rem;
   font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
 }
 
-.code-block__tab--active {
-  background: var(--uf-color-accent-tint);
-  color: var(--uf-color-on-accent-tint);
-}
-
-.code-block__tab:focus-visible {
-  outline: 2px solid var(--uf-color-focus-ring);
+.code-block uf-tab-panel {
+  --uf-tab-panel-padding: 0;
 }
 
 .code-block__copy {
-  margin-inline-start: auto;
+  position: absolute;
+  top: 0.375rem;
+  right: 0.5rem;
 }
 
 .code-block__panel {
@@ -794,48 +800,6 @@ h3 {
   margin-top: 0.375rem;
 }
 
-/* API reference tables */
-.api-table {
-  overflow-x: auto;
-  border: 1px solid var(--uf-color-border);
-}
-
-.api-table__table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.875rem;
-}
-
-.api-table__row + .api-table__row {
-  border-top: 1px solid var(--uf-color-border);
-}
-
-.api-table__header,
-.api-table__cell {
-  padding: 0.625rem 0.875rem;
-  text-align: start;
-  vertical-align: top;
-}
-
-.api-table__header {
-  border-bottom: 1px solid var(--uf-color-border);
-  background: var(--uf-color-surface-raised);
-  color: var(--uf-color-text-muted);
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.api-table__name {
-  color: var(--uf-color-accent-strong);
-  white-space: nowrap;
-}
-
-.api-table__type {
-  color: var(--uf-color-text-muted);
-  font-family: var(--uf-font-family-mono);
-  font-size: 0.8125rem;
-}
-
 /* Site footer */
 .site-footer {
   border-top: 1px solid var(--uf-color-border);
@@ -844,7 +808,17 @@ h3 {
 }
 
 .site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
+}
+
+.site-footer__credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
 }
