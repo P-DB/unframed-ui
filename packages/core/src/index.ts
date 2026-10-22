@@ -23,6 +23,8 @@ export { UfCombobox } from './components/combobox/combobox.js';
 
 export { UfDatePicker } from './components/date-picker/date-picker.js';
 
+export { UfDateRangePicker } from './components/date-range-picker/date-range-picker.js';
+
 export { UfDialog } from './components/dialog/dialog.js';
 export type { DialogCloseSource, DialogRequestCloseDetail } from './components/dialog/dialog.js';
 
@@ -30,6 +32,8 @@ export { UfDrawer } from './components/drawer/drawer.js';
 export type { DrawerPlacement } from './components/drawer/drawer.js';
 
 export { UfDropdown } from './components/dropdown/dropdown.js';
+
+export { UfFileUpload } from './components/file-upload/file-upload.js';
 
 export { UfIcon, registerIcons } from './components/icon/icon.js';
 

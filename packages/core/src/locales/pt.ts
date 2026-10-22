@@ -36,6 +36,18 @@ const pt: Translations = {
   progress: 'Progresso',
   loading: 'Carregando',
   breadcrumb: 'Trilha de navegação',
+  chooseFiles: 'Escolher arquivos',
+  chooseFile: 'Escolher um arquivo',
+  dropFiles: 'ou arraste-os para cá',
+  dropFile: 'ou arraste-o para cá',
+  removeFile: 'Remover {name}',
+  fileTooLarge: '{name} é maior que {size}.',
+  fileTypeRejected: '{name} não é um tipo de arquivo aceito.',
+  chooseDates: 'Escolher datas',
+  startDate: 'Data de início',
+  endDate: 'Data de término',
+  rangeIncomplete: 'Insira uma data de início e uma de término.',
+  endBeforeStart: 'A data de término não pode ser anterior à de início.',
 };
 
 export default pt;

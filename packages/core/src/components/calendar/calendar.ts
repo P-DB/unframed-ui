@@ -13,13 +13,17 @@ import { uniqueId } from '../../internal/slot.js';
  * of the week, Enter or Space selects. Month and weekday names, and the first
  * day of the week, follow the nearest `lang` attribute.
  *
+ * With `range`, it picks a start and an end date instead: the first pick sets
+ * `start`, the second `end` (swapped if it's earlier), with the days between
+ * highlighted as the pointer or keyboard moves.
+ *
  * Use it inline, e.g. for a booking page. For a form field, use
- * `<uf-date-picker>`, which opens one in a popup.
+ * `<uf-date-picker>` or `<uf-date-range-picker>`, which open one in a popup.
  *
  * @summary Shows a month to pick a date from.
  * @tag uf-calendar
  *
- * @event change - The user picked a date. Read it from `value`.
+ * @event change - The user picked a date (read `value`), or, with `range`, completed a range (read `start` and `end`).
  *
  * @csspart base - The calendar.
  * @csspart header - The month title and the previous and next buttons.
@@ -30,6 +34,9 @@ import { uniqueId } from '../../internal/slot.js';
  * @csspart day - Every day.
  * @csspart selected - The selected day.
  * @csspart today - Today.
+ * @csspart range-start - With `range`, the start date.
+ * @csspart range-end - With `range`, the end date.
+ * @csspart in-range - With `range`, a day between the start and the end.
  *
  * @cssprop --uf-calendar-day-size - Width and height of a day.
  */
@@ -147,6 +154,23 @@ export class UfCalendar extends LitElement {
         font-weight: var(--uf-font-weight-semibold);
       }
 
+      /* Range: the days between the ends tinted, the ends filled. */
+      td.in-range,
+      td.in-range:hover {
+        border-radius: 0;
+        background: var(--uf-color-accent-tint);
+        color: var(--uf-color-on-accent-tint);
+      }
+
+      td.range-start,
+      td.range-end,
+      td.range-start:hover,
+      td.range-end:hover {
+        background: var(--uf-color-accent);
+        color: var(--uf-color-on-accent);
+        font-weight: var(--uf-font-weight-semibold);
+      }
+
       td[aria-disabled='true'] {
         color: var(--uf-color-text-muted);
         text-decoration: line-through;
@@ -162,6 +186,9 @@ export class UfCalendar extends LitElement {
     max: {},
     firstDayOfWeek: { type: Number, attribute: 'first-day-of-week' },
     isDateDisabled: { attribute: false },
+    range: { type: Boolean, reflect: true },
+    start: {},
+    end: {},
   };
 
   /** The selected date, as `YYYY-MM-DD`, or an empty string. */
@@ -174,6 +201,12 @@ export class UfCalendar extends LitElement {
   declare firstDayOfWeek: number | undefined;
   /** Rules out dates, e.g. weekends: called with each date as `YYYY-MM-DD`, returns true to disable it. */
   declare isDateDisabled: ((date: string) => boolean) | undefined;
+  /** Picks a range, from `start` to `end`, instead of one date. */
+  declare range: boolean;
+  /** With `range`, the first date of the range, as `YYYY-MM-DD`, or an empty string. */
+  declare start: string;
+  /** With `range`, the last date of the range, as `YYYY-MM-DD`, or an empty string. */
+  declare end: string;
 
   readonly #translator = new Translator(this);
   readonly #id = uniqueId('uf-calendar');
@@ -182,15 +215,21 @@ export class UfCalendar extends LitElement {
   /** Focus the focused day after the next render (keyboard navigation). */
   #moveFocus = false;
 
+  /** With `range`, the day under the pointer or keyboard while the end is being picked. */
+  #preview: Date | null = null;
+
   constructor() {
     super();
     this.value = '';
+    this.range = false;
+    this.start = '';
+    this.end = '';
   }
 
   override willUpdate(changed: PropertyValues<this>): void {
     // Show the selected date's month when the value changes from outside.
-    if (changed.has('value') || changed.has('min') || changed.has('max')) {
-      const selected = parseIso(this.value);
+    if (changed.has('value') || changed.has('start') || changed.has('min') || changed.has('max')) {
+      const selected = parseIso(this.range ? this.start : this.value);
       this.#focused = clamp(selected ?? this.#focused, parseIso(this.min), parseIso(this.max));
     }
   }
@@ -227,9 +266,33 @@ export class UfCalendar extends LitElement {
     if (this.#isDisabled(date)) return;
     this.#focused = date;
     const iso = toIso(date);
+    if (this.range) {
+      this.#selectInRange(iso);
+      return;
+    }
     if (iso === this.value) return;
     this.value = iso;
     this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+  }
+
+  /** First pick: the start. Second pick: the end, swapped with the start if earlier. */
+  #selectInRange(iso: string): void {
+    if (!this.start || this.end) {
+      this.start = iso;
+      this.end = '';
+      this.#preview = null;
+      return;
+    }
+    [this.start, this.end] = iso < this.start ? [iso, this.start] : [this.start, iso];
+    this.#preview = null;
+    this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+  }
+
+  /** While the end is being picked, the day the range would end on. */
+  #setPreview(date: Date | null): void {
+    if (!this.range || !this.start || this.end) return;
+    this.#preview = date;
+    this.requestUpdate();
   }
 
   #onKeyDown = (event: KeyboardEvent): void => {
@@ -249,6 +312,7 @@ export class UfCalendar extends LitElement {
     if (moves[event.key]) {
       event.preventDefault();
       this.#moveTo(moves[event.key](), true);
+      this.#setPreview(this.#focused);
     } else if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.#select(date);
@@ -272,6 +336,9 @@ export class UfCalendar extends LitElement {
     const today = todayIso();
     const titleId = `${this.#id}-title`;
     const long = formatter(lang, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    // The range shown: start to end, or start to the previewed day while the end is picked.
+    let [from, to] = [this.start, this.end || (this.#preview ? toIso(this.#preview) : '')];
+    if (from && to && to < from) [from, to] = [to, from];
 
     return html`<div class="base" part="base">
       <div class="header" part="header">
@@ -313,13 +380,31 @@ export class UfCalendar extends LitElement {
             (week) => html`<tr>
               ${days.slice(week * 7, week * 7 + 7).map((day) => {
                 const iso = toIso(day);
-                const selected = iso === this.value;
+                const isStart = this.range && Boolean(from) && iso === from;
+                const isEnd = this.range && Boolean(to) && iso === to;
+                const between = this.range && Boolean(from && to) && iso > from && iso < to;
+                const selected = this.range ? isStart || isEnd || (between && Boolean(this.end)) : iso === this.value;
                 const isToday = iso === today;
                 const disabled = this.#isDisabled(day);
-                const parts = ['day', selected ? 'selected' : '', isToday ? 'today' : ''].filter(Boolean).join(' ');
+                const parts = [
+                  'day',
+                  selected && !this.range ? 'selected' : '',
+                  isToday ? 'today' : '',
+                  isStart ? 'range-start' : '',
+                  isEnd ? 'range-end' : '',
+                  between ? 'in-range' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ');
                 return html`<td
                   part=${parts}
-                  class=${classMap({ outside: day.getUTCMonth() !== month.getUTCMonth(), today: isToday })}
+                  class=${classMap({
+                    outside: day.getUTCMonth() !== month.getUTCMonth(),
+                    today: isToday,
+                    'range-start': isStart,
+                    'range-end': isEnd,
+                    'in-range': between,
+                  })}
                   data-date=${iso}
                   tabindex=${iso === toIso(this.#focused) ? 0 : -1}
                   aria-label=${long.format(day)}
@@ -327,6 +412,7 @@ export class UfCalendar extends LitElement {
                   aria-disabled=${disabled ? 'true' : nothing}
                   aria-current=${isToday ? 'date' : nothing}
                   @click=${() => this.#select(day)}
+                  @pointerenter=${() => this.#setPreview(day)}
                   @focus=${() => {
                     if (toIso(this.#focused) !== iso) this.#moveTo(day, false);
                   }}

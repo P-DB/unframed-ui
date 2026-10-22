@@ -36,6 +36,18 @@ const fr: Translations = {
   progress: 'Progression',
   loading: 'Chargement',
   breadcrumb: "Fil d'Ariane",
+  chooseFiles: 'Choisir des fichiers',
+  chooseFile: 'Choisir un fichier',
+  dropFiles: 'ou glissez-les ici',
+  dropFile: 'ou glissez-le ici',
+  removeFile: 'Retirer {name}',
+  fileTooLarge: '{name} dépasse {size}.',
+  fileTypeRejected: "{name} n'est pas un type de fichier accepté.",
+  chooseDates: 'Choisir les dates',
+  startDate: 'Date de début',
+  endDate: 'Date de fin',
+  rangeIncomplete: 'Saisissez une date de début et une date de fin.',
+  endBeforeStart: 'La date de fin ne peut pas précéder la date de début.',
 };
 
 export default fr;

@@ -266,6 +266,11 @@ export class UfDatePicker extends FormControl {
 
   #onToggle = (event: ToggleEvent): void => {
     this.#toggling = false;
+    // Closed (or reopened) from code before the browser finished: catch up now.
+    if ((event.newState === 'open') !== this.open) {
+      this.#syncPopup();
+      return;
+    }
     if (event.newState === 'open') {
       this.#startPositioning();
       this.#calendar?.updateComplete.then(() => this.#calendar?.focus());

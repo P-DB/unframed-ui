@@ -127,4 +127,54 @@ describe('uf-calendar', () => {
     await el.updateComplete;
     expect(focused(el)).toBe('2026-10-13');
   });
+
+  describe('range', () => {
+    it('picks a start, then an end, and fires change once the range is complete', async () => {
+      const el = await fixture<UfCalendar>('<uf-calendar lang="en-US" range></uf-calendar>');
+      el.min = '2026-10-01';
+      await el.updateComplete;
+      const onChange = vi.fn();
+      el.addEventListener('change', onChange);
+      cell(el, '2026-10-05').click();
+      await el.updateComplete;
+      expect([el.start, el.end]).toEqual(['2026-10-05', '']);
+      expect(onChange).not.toHaveBeenCalled();
+      cell(el, '2026-10-09').click();
+      await el.updateComplete;
+      expect([el.start, el.end]).toEqual(['2026-10-05', '2026-10-09']);
+      expect(onChange).toHaveBeenCalledOnce();
+    });
+
+    it('swaps the dates when the end is picked before the start', async () => {
+      const el = await fixture<UfCalendar>('<uf-calendar lang="en-US" range start="2026-10-12"></uf-calendar>');
+      cell(el, '2026-10-04').click();
+      await el.updateComplete;
+      expect([el.start, el.end]).toEqual(['2026-10-04', '2026-10-12']);
+    });
+
+    it('marks the ends and the days between, and selects them', async () => {
+      const el = await fixture<UfCalendar>('<uf-calendar lang="en-US" range start="2026-10-05" end="2026-10-08"></uf-calendar>');
+      expect(cell(el, '2026-10-05').getAttribute('part')).toContain('range-start');
+      expect(cell(el, '2026-10-06').getAttribute('part')).toContain('in-range');
+      expect(cell(el, '2026-10-08').getAttribute('part')).toContain('range-end');
+      expect(['04', '05', '06', '07', '08', '09'].map((d) => cell(el, `2026-10-${d}`).getAttribute('aria-selected'))).toEqual(['false', 'true', 'true', 'true', 'true', 'false']);
+    });
+
+    it('previews the range while the end is picked with the keyboard, and picks it with Enter', async () => {
+      const el = await fixture<UfCalendar>('<uf-calendar lang="en-US" range></uf-calendar>');
+      el.start = '2026-10-05';
+      await el.updateComplete;
+      await key(el, 'ArrowRight');
+      await key(el, 'ArrowRight');
+      expect(cell(el, '2026-10-06').getAttribute('part')).toContain('in-range');
+      expect(cell(el, '2026-10-07').getAttribute('part')).toContain('range-end');
+      await key(el, 'Enter');
+      expect([el.start, el.end]).toEqual(['2026-10-05', '2026-10-07']);
+    });
+
+    it('has no axe violations with a range', async () => {
+      await fixture('<main><uf-calendar lang="en-US" range start="2026-10-05" end="2026-10-12"></uf-calendar></main>');
+      expect(await axeViolations()).toEqual([]);
+    });
+  });
 });

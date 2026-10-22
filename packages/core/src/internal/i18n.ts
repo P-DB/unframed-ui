@@ -56,6 +56,30 @@ export interface Translations {
   loading: string;
   /** Breadcrumbs: the navigation's accessible name, unless `label` is set. */
   breadcrumb: string;
+  /** File upload: the button, with `multiple`. */
+  chooseFiles: string;
+  /** File upload: the button, for one file. */
+  chooseFile: string;
+  /** File upload: next to the button, with `multiple`. */
+  dropFiles: string;
+  /** File upload: next to the button, for one file. */
+  dropFile: string;
+  /** File upload: a file's remove button. Must contain `{name}`. */
+  removeFile: `${string}{name}${string}`;
+  /** File upload: a file over `max-size`. Must contain `{name}`, then `{size}`. */
+  fileTooLarge: `${string}{name}${string}{size}${string}`;
+  /** File upload: a file `accept` rules out. Must contain `{name}`. */
+  fileTypeRejected: `${string}{name}${string}`;
+  /** Date range picker: the calendar button's accessible name, and the popup's without a `label`. */
+  chooseDates: string;
+  /** Date range picker: the start input's accessible name, after the label. */
+  startDate: string;
+  /** Date range picker: the end input's accessible name, after the label. */
+  endDate: string;
+  /** Date range picker: error when only one of the two dates is set. */
+  rangeIncomplete: string;
+  /** Date range picker: error when the end date is before the start date. */
+  endBeforeStart: string;
 }
 
 const english: Translations = {
@@ -87,6 +111,18 @@ const english: Translations = {
   progress: 'Progress',
   loading: 'Loading',
   breadcrumb: 'Breadcrumb',
+  chooseFiles: 'Choose files',
+  chooseFile: 'Choose a file',
+  dropFiles: 'or drag them here',
+  dropFile: 'or drag it here',
+  removeFile: 'Remove {name}',
+  fileTooLarge: '{name} is larger than {size}.',
+  fileTypeRejected: "{name} isn't an accepted file type.",
+  chooseDates: 'Choose dates',
+  startDate: 'Start date',
+  endDate: 'End date',
+  rangeIncomplete: 'Enter both a start and an end date.',
+  endBeforeStart: "The end date can't be before the start date.",
 };
 
 /** Registered translations by lowercase language code; '' applies to every language. */

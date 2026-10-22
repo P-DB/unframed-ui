@@ -36,6 +36,18 @@ const it: Translations = {
   progress: 'Avanzamento',
   loading: 'Caricamento',
   breadcrumb: 'Percorso',
+  chooseFiles: 'Scegli i file',
+  chooseFile: 'Scegli un file',
+  dropFiles: 'o trascinali qui',
+  dropFile: 'o trascinalo qui',
+  removeFile: 'Rimuovi {name}',
+  fileTooLarge: '{name} supera {size}.',
+  fileTypeRejected: '{name} non è un tipo di file accettato.',
+  chooseDates: 'Scegli le date',
+  startDate: 'Data di inizio',
+  endDate: 'Data di fine',
+  rangeIncomplete: 'Inserisci sia la data di inizio sia quella di fine.',
+  endBeforeStart: 'La data di fine non può essere prima di quella di inizio.',
 };
 
 export default it;
