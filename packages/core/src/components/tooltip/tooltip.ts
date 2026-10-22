@@ -18,6 +18,7 @@ import { autoUpdate, positionFloating, type Placement } from '../../internal/pos
  * @cssprop --uf-tooltip-bg - Background color.
  * @cssprop --uf-tooltip-color - Text color.
  * @cssprop --uf-tooltip-max-width - Maximum width.
+ * @cssprop --uf-tooltip-radius - Corner radius. Square by default.
  */
 export class UfTooltip extends LitElement {
   static override styles = css`
@@ -32,7 +33,7 @@ export class UfTooltip extends LitElement {
       max-width: var(--uf-tooltip-max-width, 18rem);
       padding: var(--uf-space-1) var(--uf-space-2);
       border: 0;
-      border-radius: var(--uf-radius-sm);
+      border-radius: var(--uf-tooltip-radius, 0);
       background: var(--uf-tooltip-bg, var(--uf-color-text));
       color: var(--uf-tooltip-color, var(--uf-color-surface));
       font-family: var(--uf-font-family-sans);
