@@ -1,6 +1,6 @@
 {
   "name": "@unframed/react",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Typed React wrappers for Unframed web components.",
   "license": "MIT",
   "author": "Patrizio Di Bartolomeo",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@lit/react": "^1.0.8",
-    "@unframed/core": "0.8.0"
+    "@unframed/core": "0.9.0"
   },
   "peerDependencies": {
     "react": ">=18"
