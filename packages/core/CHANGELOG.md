@@ -1,5 +1,26 @@
 # @unframed/core
 
+## 0.9.0
+
+### Minor Changes
+
+- cfc8621: Two new components:
+  
+  - `<uf-file-upload>`: choose files with a button or by dragging them onto a drop zone; `accept` and `max-size` refuse files with a clear message; submits like a native file input. `v-model` in Vue binds the files, and Angular gets `UfFilesValueAccessor` for `ngModel` and `formControl`.
+  - `<uf-date-range-picker>`: type or pick a start and an end date; the value is an ISO 8601 interval, `YYYY-MM-DD/YYYY-MM-DD`, with `start` and `end` for the two dates. `<uf-calendar range>` picks a range inline.
+  
+  New built-in icons `upload` and `file`, and new translatable texts for both components, in every built-in language. The date picker no longer stays open when it's closed from code while still opening.
+  
+  The Unframed skill is also a Claude Code plugin: `/plugin marketplace add P-DB/unframed-ui`, then `/plugin install unframed@unframed`.
+
+### Patch Changes
+
+- 8023897: `<uf-drawer>` rounds the corners on its open side, like cards and tables (`--uf-radius-md`); the side against the screen edge stays square. Change it with `--uf-drawer-radius`.
+- 1a13a33: Tooltips have square corners, like the rest of the controls. Round them with `--uf-tooltip-radius`.
+- e5e2a12: `<uf-table>`: in flex and grid layouts it now shrinks to the space available and scrolls sideways, instead of making the page wider than the screen on phones. `<code>` elements in cells (from a column's `format`) are styled like inline code, e.g. for API reference tables.
+- Updated dependencies [cfc8621]
+  - @unframed/tokens@0.9.0
+
 ## 0.8.0
 
 ### Minor Changes
