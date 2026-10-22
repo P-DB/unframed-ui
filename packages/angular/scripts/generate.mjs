@@ -116,8 +116,9 @@ const accessorNames = {
   'checked:change:boolean': 'UfCheckedValueAccessor',
   'value:change:string[]': 'UfArrayValueAccessor',
   'value:input:number': 'UfNumberValueAccessor',
+  'files:change:File[]': 'UfFilesValueAccessor',
 };
-const emptyValues = { string: "''", boolean: 'false', 'string[]': '[]', number: '0' };
+const emptyValues = { string: "''", boolean: 'false', 'string[]': '[]', number: '0', 'File[]': '[]' };
 
 const accessors = [...groups.entries()].map(([key, { prop, event, type, tags }]) => {
   const name = accessorNames[key];

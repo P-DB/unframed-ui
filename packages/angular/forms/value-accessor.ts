@@ -14,7 +14,7 @@ export abstract class UfValueAccessor<T> implements ControlValueAccessor {
   protected readonly el = inject<ElementRef<FormElement>>(ElementRef).nativeElement;
   readonly #server = onServer();
   /** Element property that holds the value. */
-  protected abstract readonly prop: 'value' | 'checked';
+  protected abstract readonly prop: 'value' | 'checked' | 'files';
   /** Value written when the form control is reset to null. */
   protected abstract readonly empty: T;
 

@@ -10,6 +10,7 @@ export const formModels = {
   'uf-select': { prop: 'value', event: 'change', type: 'string' },
   'uf-combobox': { prop: 'value', event: 'change', type: 'string' },
   'uf-date-picker': { prop: 'value', event: 'change', type: 'string' },
+  'uf-date-range-picker': { prop: 'value', event: 'change', type: 'string' },
   'uf-radio-group': { prop: 'value', event: 'change', type: 'string' },
   // `synced`: other properties the user can change, kept in sync with the framework too
   // (a click clears `indeterminate`). Vue: v-model:indeterminate, Angular: [(indeterminate)].
@@ -17,6 +18,7 @@ export const formModels = {
   'uf-checkbox-group': { prop: 'value', event: 'change', type: 'string[]' },
   'uf-switch': { prop: 'checked', event: 'change', type: 'boolean' },
   'uf-slider': { prop: 'value', event: 'input', type: 'number' },
+  'uf-file-upload': { prop: 'files', event: 'change', type: 'File[]' },
 };
 
 /** Custom elements from @unframed/core's manifest, with the module they live in. */
