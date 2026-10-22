@@ -13,9 +13,11 @@ import {
   UfCheckboxGroup,
   UfCombobox,
   UfDatePicker,
+  UfDateRangePicker,
   UfDialog,
   UfDrawer,
   UfDropdown,
+  UfFileUpload,
   UfIcon,
   UfInput,
   UfMenu,
@@ -65,6 +67,14 @@ export interface Page {
 }
 
 const code = (s: string) => s.trim();
+
+/** The local date `offset` days from today, as YYYY-MM-DD, so date examples stay current. */
+const isoDay = (offset = 0) => {
+  const date = new Date();
+  date.setDate(date.getDate() + offset);
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString().slice(0, 10);
+};
+const weekend = (iso: string) => [0, 6].includes(new Date(iso).getUTCDay());
 
 // Registered once, at startup, like an app would: used by the Icon page's "Your own icons" example.
 registerIcons({
@@ -803,6 +813,98 @@ const [checkin, setCheckin] = useState('');
     ],
   },
   {
+    slug: 'date-range-picker',
+    title: 'Date range picker',
+    tags: ['uf-date-range-picker', 'uf-calendar'],
+    module: 'date-range-picker',
+    examples: [
+      {
+        title: 'Basic',
+        description: 'Type the two dates, or pick them in the calendar: the first click sets the start, the second the end.',
+        stack: true,
+        Preview: () => {
+          const [stay, setStay] = useState('');
+          return (
+            <>
+              <UfDateRangePicker
+                name="stay"
+                label="Stay"
+                hint="Check-in from 3 pm"
+                value={stay}
+                onChange={(event) => setStay((event.target as HTMLElement & { value: string }).value)}
+              />
+              <span style={{ color: 'var(--uf-color-text-muted)', fontSize: '0.875rem' }}>Value: {stay || '(empty)'}</span>
+            </>
+          );
+        },
+        html: code(`<uf-date-range-picker name="stay" label="Stay" hint="Check-in from 3 pm"></uf-date-range-picker>`),
+        react: code(`
+const [stay, setStay] = useState('');
+
+<UfDateRangePicker
+  name="stay"
+  label="Stay"
+  value={stay}
+  onChange={(event) => setStay((event.target as UfDateRangePickerElement).value)}
+/>`),
+        vue: code(`
+<script setup>
+const stay = ref('');
+</script>
+
+<template>
+  <UfDateRangePicker v-model="stay" name="stay" label="Stay" />
+</template>`),
+        angular: code(`<uf-date-range-picker [(ngModel)]="stay" name="stay" label="Stay" />`),
+        notes: [
+          'The value is an ISO 8601 interval, `2026-10-14/2026-10-18`, the same in every language; `start` and `end` hold the two dates.',
+          'The format, month names and first day of the week follow the nearest `lang`.',
+        ],
+      },
+      {
+        title: 'Limits and validation',
+        description: '`min`, `max` and `isDateDisabled`, as in the date picker. A missing or reversed date gets its own message.',
+        stack: true,
+        Preview: () => (
+          <form
+            style={{ display: 'grid', gap: '0.75rem' }}
+            onSubmit={(event) => {
+              event.preventDefault();
+              toast('Dates saved', { variant: 'success' });
+            }}
+          >
+            <UfDateRangePicker name="leave" label="Leave" hint="Weekdays, within the next 90 days" required min={isoDay(0)} max={isoDay(90)} isDateDisabled={weekend} />
+            <div>
+              <UfButton type="submit">Request leave</UfButton>
+            </div>
+          </form>
+        ),
+        html: code(`
+<uf-date-range-picker name="leave" label="Leave" required min="2026-10-20" max="2027-01-18"></uf-date-range-picker>
+<script>
+  // A function, so it's set as a property.
+  document.querySelector('uf-date-range-picker').isDateDisabled = (iso) => [0, 6].includes(new Date(iso).getUTCDay());
+</script>`),
+        react: code(`
+<UfDateRangePicker
+  name="leave"
+  label="Leave"
+  required
+  min="2026-10-20"
+  max="2027-01-18"
+  isDateDisabled={(iso) => [0, 6].includes(new Date(iso).getUTCDay())}
+/>`),
+      },
+      {
+        title: 'Calendar on its own',
+        description: '`<uf-calendar range>` picks a range inline, e.g. on a booking page. `change` fires when both dates are picked.',
+        Preview: () => <UfCalendar range start={isoDay(2)} end={isoDay(6)} />,
+        html: code(`<uf-calendar range start="2026-10-22" end="2026-10-26"></uf-calendar>`),
+        react: code(`<UfCalendar range start="2026-10-22" end="2026-10-26" onChange={(event) => …} />`),
+      },
+    ],
+  },
+  {
     slug: 'dialog',
     title: 'Dialog',
     tags: ['uf-dialog'],
@@ -1052,6 +1154,92 @@ const drawer = ref();
     ],
   },
   {
+    slug: 'file-upload',
+    title: 'File upload',
+    tags: ['uf-file-upload'],
+    module: 'file-upload',
+    examples: [
+      {
+        title: 'Basic',
+        description: 'A button and a drop zone. The chosen files are listed with their size and a remove button.',
+        stack: true,
+        Preview: () => {
+          const [files, setFiles] = useState<File[]>([]);
+          return (
+            <>
+              <UfFileUpload
+                name="attachments"
+                label="Attachments"
+                hint="PDF or images, up to 5 MB each"
+                multiple
+                accept=".pdf, image/*"
+                maxSize={5_000_000}
+                onChange={(event) => setFiles([...(event.target as HTMLElement & { files: File[] }).files])}
+              />
+              <span style={{ color: 'var(--uf-color-text-muted)', fontSize: '0.875rem' }}>
+                {files.length ? `${files.length} file${files.length > 1 ? 's' : ''} chosen` : 'No files yet'}
+              </span>
+            </>
+          );
+        },
+        html: code(`<uf-file-upload name="attachments" label="Attachments" hint="PDF or images, up to 5 MB each" multiple accept=".pdf, image/*" max-size="5000000"></uf-file-upload>`),
+        react: code(`
+const [files, setFiles] = useState<File[]>([]);
+
+<UfFileUpload
+  name="attachments"
+  label="Attachments"
+  multiple
+  accept=".pdf, image/*"
+  maxSize={5_000_000}
+  onChange={(event) => setFiles((event.target as UfFileUploadElement).files)}
+/>`),
+        vue: code(`
+<script setup>
+const files = ref([]);
+</script>
+
+<template>
+  <UfFileUpload v-model="files" name="attachments" label="Attachments" multiple accept=".pdf, image/*" :max-size="5000000" />
+</template>`),
+        angular: code(`<uf-file-upload [(ngModel)]="files" name="attachments" label="Attachments" multiple accept=".pdf, image/*" max-size="5000000" />`),
+        notes: [
+          'Files that `accept` rules out, or larger than `max-size` (in bytes), are refused, with a message saying why.',
+          'It submits with its form like a native file input: `new FormData(form).getAll("attachments")` returns the files.',
+        ],
+      },
+      {
+        title: 'One file, required',
+        description: 'Without `multiple`, a new pick replaces the file. `required` makes the form ask for one.',
+        stack: true,
+        Preview: () => (
+          <form
+            style={{ display: 'grid', gap: '0.75rem' }}
+            onSubmit={(event) => {
+              event.preventDefault();
+              toast('CV sent', { variant: 'success' });
+            }}
+          >
+            <UfFileUpload name="cv" label="Your CV" accept=".pdf" required />
+            <div>
+              <UfButton type="submit">Apply</UfButton>
+            </div>
+          </form>
+        ),
+        html: code(`
+<form>
+  <uf-file-upload name="cv" label="Your CV" accept=".pdf" required></uf-file-upload>
+  <uf-button type="submit">Apply</uf-button>
+</form>`),
+        react: code(`
+<form onSubmit={apply}>
+  <UfFileUpload name="cv" label="Your CV" accept=".pdf" required />
+  <UfButton type="submit">Apply</UfButton>
+</form>`),
+      },
+    ],
+  },
+  {
     slug: 'icon',
     title: 'Icon',
     tags: ['uf-icon'],
@@ -1062,7 +1250,7 @@ const drawer = ref();
         description: 'Icons are decorative unless you give them a `label`. Add your own with `registerIcons()`.',
         Preview: () => (
           <>
-            {['check', 'x', 'plus', 'search', 'info', 'check-circle', 'alert-triangle', 'alert-circle', 'chevron-down', 'sun', 'moon'].map(
+            {['check', 'x', 'plus', 'search', 'info', 'check-circle', 'alert-triangle', 'alert-circle', 'chevron-down', 'sun', 'moon', 'calendar', 'user', 'upload', 'file'].map(
               (name) => (
                 <UfIcon key={name} name={name} style={{ '--uf-icon-size': '1.5rem' } as React.CSSProperties} />
               ),

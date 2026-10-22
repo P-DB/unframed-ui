@@ -33,6 +33,7 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | Select | `<uf-select>` | Wraps the native `<select>`: write plain `<option>` children |
 | Combobox | `<uf-combobox>` | Searchable, fully styled list; same `<option>` children as select |
 | Date picker | `<uf-date-picker>` + `<uf-calendar>` | Type or pick a date; format, month names and first weekday follow `lang`; value is `YYYY-MM-DD` |
+| Date range picker | `<uf-date-range-picker>` | Type or pick a start and an end date; value is an ISO interval, `YYYY-MM-DD/YYYY-MM-DD`; `<uf-calendar range>` inline |
 | Checkbox | `<uf-checkbox>` | Indeterminate state |
 | Switch | `<uf-switch>` | `role="switch"` |
 | Radio group | `<uf-radio-group>` + `<uf-radio>` | Arrow-key navigation, roving focus |
@@ -53,6 +54,7 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | Spinner | `<uf-spinner>` | Announced as "Loading", 3 sizes, slows down for reduced motion |
 | Breadcrumbs | `<uf-breadcrumbs>` + `<uf-breadcrumb-item>` | Navigation landmark, current page marked, custom separators |
 | Drawer | `<uf-drawer>` | A modal panel from any edge, with everything the dialog does |
+| File upload | `<uf-file-upload>` | Button and drop zone, `accept` and `max-size` with clear refusals, submits like a native file input |
 
 Built-in texts (a dialog's close button, "No results"…) can be translated with `setTranslations()`, for one language or several, following the page's `lang`.
 

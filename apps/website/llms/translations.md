@@ -65,5 +65,14 @@ document.documentElement.lang = 'fr'; // components update
 | `progress` | Progress | Progress bar, unless `label` is set |
 | `loading` | Loading | Spinner, unless `label` is set |
 | `breadcrumb` | Breadcrumb | Breadcrumbs navigation, unless `label` is set |
+| `chooseFiles`, `chooseFile` | Choose files, Choose a file | File upload button, with and without `multiple` |
+| `dropFiles`, `dropFile` | or drag them here, or drag it here | File upload, next to the button |
+| `removeFile` | Remove {name} | File upload: a file's remove button |
+| `fileTooLarge` | {name} is larger than {size}. | File upload: a file over `max-size` |
+| `fileTypeRejected` | {name} isn't an accepted file type. | File upload: a file `accept` rules out |
+| `chooseDates` | Choose dates | Date range picker: calendar button |
+| `startDate`, `endDate` | Start date, End date | Date range picker: the inputs' names, after the label |
+| `rangeIncomplete` | Enter both a start and an end date. | Date range picker: only one date set |
+| `endBeforeStart` | The end date can't be before the start date. | Date range picker: reversed range |
 
 Month and weekday names, date formats and the first day of the week come from the browser (Intl), for the nearest `lang`.

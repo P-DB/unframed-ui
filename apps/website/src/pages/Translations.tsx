@@ -49,6 +49,18 @@ const keys: [string, string, string][] = [
   ['progress', 'Progress', 'Progress: the bar\'s name, unless `label` is set'],
   ['loading', 'Loading', 'Spinner: its name, unless `label` is set'],
   ['breadcrumb', 'Breadcrumb', 'Breadcrumbs: the navigation, unless `label` is set'],
+  ['chooseFiles', 'Choose files', 'File upload: the button, with `multiple`'],
+  ['chooseFile', 'Choose a file', 'File upload: the button, for one file'],
+  ['dropFiles', 'or drag them here', 'File upload: next to the button, with `multiple`'],
+  ['dropFile', 'or drag it here', 'File upload: next to the button, for one file'],
+  ['removeFile', 'Remove {name}', 'File upload: a file\'s remove button; must contain `{name}`'],
+  ['fileTooLarge', '{name} is larger than {size}.', 'File upload: a file over `max-size`; must contain `{name}`, then `{size}`'],
+  ['fileTypeRejected', "{name} isn't an accepted file type.", 'File upload: a file `accept` rules out; must contain `{name}`'],
+  ['chooseDates', 'Choose dates', "Date range picker: the calendar button, and the popup's name without a `label`"],
+  ['startDate', 'Start date', "Date range picker: the start input's name, after the label"],
+  ['endDate', 'End date', "Date range picker: the end input's name, after the label"],
+  ['rangeIncomplete', 'Enter both a start and an end date.', 'Date range picker: only one of the two dates is set'],
+  ['endBeforeStart', "The end date can't be before the start date.", 'Date range picker: the end is before the start'],
 ];
 
 const columns: TableColumn[] = [
