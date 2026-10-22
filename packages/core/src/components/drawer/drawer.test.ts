@@ -56,6 +56,20 @@ describe('uf-drawer', () => {
     expect(Math.round(box(bottom).width)).toBe(window.innerWidth);
   });
 
+  it('rounds the corners on its open side only', async () => {
+    const end = await fixture<UfDrawer>(markup('open'));
+    await end.updateComplete;
+    const style = getComputedStyle(native(end));
+    expect(style.borderTopLeftRadius).not.toBe('0px');
+    expect(style.borderTopRightRadius).toBe('0px');
+    end.hide();
+    await hidden(end);
+    const start = await fixture<UfDrawer>(markup('open placement="start"'));
+    await start.updateComplete;
+    expect(getComputedStyle(native(start)).borderTopRightRadius).not.toBe('0px');
+    expect(getComputedStyle(native(start)).borderTopLeftRadius).toBe('0px');
+  });
+
   it('starts on the left edge in right-to-left pages', async () => {
     const el = await fixture<UfDrawer>(`<div dir="rtl">${markup('open')}</div>`, 'uf-drawer');
     await el.updateComplete;

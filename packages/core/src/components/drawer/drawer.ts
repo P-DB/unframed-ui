@@ -30,6 +30,7 @@ export type DrawerPlacement = 'start' | 'end' | 'top' | 'bottom';
  * @csspart footer - The footer.
  *
  * @cssprop --uf-drawer-size - Width of a side drawer, or height of a top or bottom one. Defaults to `24rem`.
+ * @cssprop --uf-drawer-radius - Corner radius of the corners on the open side; the side against the screen edge stays square.
  * @cssprop --uf-dialog-bg - Background of the drawer.
  * @cssprop --uf-dialog-padding - Padding of header, body and footer.
  * @cssprop --uf-dialog-backdrop - Backdrop color.
@@ -40,6 +41,7 @@ export class UfDrawer extends UfDialog {
     css`
       dialog {
         --_size: min(var(--uf-drawer-size, 24rem), 100vw);
+        --_radius: var(--uf-drawer-radius, var(--uf-radius-md));
         --_from: 100% 0;
         position: fixed;
         inset: 0 0 0 auto;
@@ -49,13 +51,14 @@ export class UfDrawer extends UfDialog {
         max-height: 100dvh;
         margin: 0;
         border-width: 0 0 0 1px;
-        border-radius: 0;
+        border-radius: var(--_radius) 0 0 var(--_radius);
       }
 
       :host([placement='start']) dialog {
         --_from: -100% 0;
         inset: 0 auto 0 0;
         border-width: 0 1px 0 0;
+        border-radius: 0 var(--_radius) var(--_radius) 0;
       }
 
       /* Right-to-left pages: start is on the right, end on the left. */
@@ -63,12 +66,14 @@ export class UfDrawer extends UfDialog {
         --_from: -100% 0;
         inset: 0 auto 0 0;
         border-width: 0 1px 0 0;
+        border-radius: 0 var(--_radius) var(--_radius) 0;
       }
 
       :host(:dir(rtl)[placement='start']) dialog {
         --_from: 100% 0;
         inset: 0 0 0 auto;
         border-width: 0 0 0 1px;
+        border-radius: var(--_radius) 0 0 var(--_radius);
       }
 
       :host([placement='top']) dialog,
@@ -82,12 +87,14 @@ export class UfDrawer extends UfDialog {
         --_from: 0 -100%;
         inset: 0 0 auto 0;
         border-width: 0 0 1px 0;
+        border-radius: 0 0 var(--_radius) var(--_radius);
       }
 
       :host([placement='bottom']) dialog {
         --_from: 0 100%;
         inset: auto 0 0 0;
         border-width: 1px 0 0 0;
+        border-radius: var(--_radius) var(--_radius) 0 0;
       }
 
       dialog[open] {
