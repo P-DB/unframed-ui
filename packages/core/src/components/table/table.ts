@@ -83,6 +83,8 @@ export class UfTable extends LitElement {
     css`
       :host {
         display: block;
+        /* In flex and grid layouts, shrink to the space there is and scroll, instead of overflowing the page. */
+        min-width: 0;
         --_pad-y: var(--uf-space-3);
         --_pad-x: var(--uf-space-4);
         --_border: var(--uf-table-border-color, var(--uf-color-border));
@@ -124,6 +126,15 @@ export class UfTable extends LitElement {
 
       tbody tr:last-child td {
         border-bottom: 0;
+      }
+
+      /* Code in cells from \`format\`, e.g. an API reference: like inline code in text. */
+      td code {
+        padding: 0.1em 0.35em;
+        border-radius: var(--uf-radius-sm);
+        background: var(--uf-color-surface-hover);
+        font-family: var(--uf-font-family-mono);
+        font-size: 0.875em;
       }
 
       th {

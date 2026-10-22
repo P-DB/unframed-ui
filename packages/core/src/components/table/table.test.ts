@@ -33,6 +33,17 @@ afterEach(() => {
 });
 
 describe('uf-table', () => {
+  it('scrolls inside a narrow flex layout instead of overflowing it', async () => {
+    const box = await fixture<HTMLElement>('<div style="display: flex; width: 200px"><uf-table label="Wide" style="flex: 1"></uf-table></div>', 'div');
+    const el = box.querySelector('uf-table')!;
+    el.columns = ['a', 'b', 'c', 'd'].map((key) => ({ key, label: `Column ${key}` }));
+    el.rows = [{ a: 'Wide content', b: 'that needs', c: 'more room', d: 'than 200px' }];
+    await el.updateComplete;
+    const base = el.shadowRoot!.querySelector('.base')!;
+    expect(el.getBoundingClientRect().width).toBeLessThanOrEqual(200);
+    expect(base.scrollWidth).toBeGreaterThan(base.clientWidth);
+  });
+
   it('renders a native table with headers and cells', async () => {
     const el = await table();
     expect(headers(el)).toEqual(['Name', 'Role', 'Age']);
