@@ -282,7 +282,7 @@ import { Signup } from './signup';
 
 export default function Home() {
   return (
-    <UfCard variant="elevated">
+    <UfCard appearance="elevated">
       <h1 slot="header">Join us</h1>
       <Signup />
       <UfButton slot="footer" variant="link" href="/pricing">See pricing</UfButton>

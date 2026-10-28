@@ -89,7 +89,7 @@ export function Home() {
       <section className="section">
         <div className="features">
           {features.map((f) => (
-            <UfCard key={f.title} variant="elevated" className="feature">
+            <UfCard key={f.title} appearance="elevated" className="feature">
               <div slot="header">
                 <UfIcon className="feature__icon" name={f.icon} />
                 <h3 className="feature__title">{f.title}</h3>
@@ -111,7 +111,7 @@ export function Home() {
         <ul className="accessibility__list">
           {accessibility.map((item) => (
             <li key={item.title} className="accessibility__item">
-              <UfCard variant="outline" className="accessibility__card">
+              <UfCard appearance="outline" className="accessibility__card">
                 <div slot="header" className="accessibility__header">
                   <UfIcon className="accessibility__icon" name="check" />
                   <h3 className="accessibility__title">{item.title}</h3>

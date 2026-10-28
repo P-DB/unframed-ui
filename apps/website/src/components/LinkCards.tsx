@@ -7,7 +7,7 @@ import { getElement } from '../manifest';
 export function LinkCard({ to, title, text }: { to: string; title: string; text?: string }) {
   return (
     <Link to={to} className="link-card">
-      <UfCard variant="filled" className="link-card__card">
+      <UfCard appearance="filled" className="link-card__card">
         <strong className="link-card__title">{title}</strong>
         <span className="link-card__text">{text}</span>
       </UfCard>

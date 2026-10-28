@@ -74,7 +74,7 @@ export function CodeBlock({ samples, standalone = false }: { samples: CodeSample
       <UfTabs
         className="code-block__tabs"
         label="Code language"
-        active={`code-${active}`}
+        value={`code-${active}`}
         onUfTabChange={(event) => {
           const index = Number(event.detail.name.replace('code-', ''));
           setActive(index);

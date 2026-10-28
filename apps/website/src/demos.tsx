@@ -486,26 +486,26 @@ export const pages: Page[] = [
 </UfCard>`),
       },
       {
-        title: 'Variants and orientation',
+        title: 'Appearance and orientation',
         Preview: () => (
           <>
-            {(['outline', 'elevated', 'filled'] as const).map((variant) => (
-              <UfCard key={variant} variant={variant} style={{ width: '10rem' }}>
-                <strong slot="header">{variant}</strong>A card.
+            {(['outline', 'elevated', 'filled'] as const).map((appearance) => (
+              <UfCard key={appearance} appearance={appearance} style={{ width: '10rem' }}>
+                <strong slot="header">{appearance}</strong>A card.
               </UfCard>
             ))}
           </>
         ),
         html: code(`
-<uf-card variant="elevated">…</uf-card>
-<uf-card variant="filled">…</uf-card>
+<uf-card appearance="elevated">…</uf-card>
+<uf-card appearance="filled">…</uf-card>
 <uf-card orientation="horizontal">
   <img slot="media" src="/cover.png" alt="" />
   Media beside the content.
 </uf-card>`),
         react: code(`
-<UfCard variant="elevated">…</UfCard>
-<UfCard variant="filled">…</UfCard>
+<UfCard appearance="elevated">…</UfCard>
+<UfCard appearance="filled">…</UfCard>
 <UfCard orientation="horizontal">
   <img slot="media" src="/cover.png" alt="" />
   Media beside the content.
