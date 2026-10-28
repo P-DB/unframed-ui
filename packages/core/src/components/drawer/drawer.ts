@@ -52,6 +52,8 @@ export class UfDrawer extends UfDialog {
         margin: 0;
         border-width: 0 0 0 1px;
         border-radius: var(--_radius) 0 0 var(--_radius);
+        /* Even on every side: the dialog's shadow falls downward, too far below a top drawer and off screen for a bottom one. */
+        box-shadow: var(--uf-shadow-drawer);
       }
 
       :host([placement='start']) dialog {
