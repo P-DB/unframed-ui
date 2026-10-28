@@ -6,7 +6,7 @@ const meta: Meta = {
   title: 'Components/Checkbox',
   component: 'uf-checkbox',
   subcomponents: { CheckboxGroup: 'uf-checkbox-group' },
-  args: { text: 'Subscribe to the newsletter', hint: 'One email a month.', name: 'newsletter' },
+  args: { text: 'Subscribe to the newsletter', hint: 'One email a month.', name: 'newsletter', size: 'md' },
   argTypes: { text: storyArg('the label (default slot).') },
   render: (a) => html`<uf-checkbox ${spread(a)}>${a.text}</uf-checkbox>`,
 };
@@ -14,6 +14,14 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+export const Sizes: Story = {
+  render: () => html`<div class="sb-stack">
+    <uf-checkbox size="sm" checked>Small</uf-checkbox>
+    <uf-checkbox size="md" checked>Medium</uf-checkbox>
+    <uf-checkbox size="lg" checked>Large</uf-checkbox>
+  </div>`,
+};
 
 export const States: Story = {
   render: () => html`<div class="sb-grid">

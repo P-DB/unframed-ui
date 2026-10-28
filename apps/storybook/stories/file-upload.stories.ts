@@ -13,13 +13,21 @@ const names = (el: Upload) => (el.files.length ? el.files.map((f) => f.name).joi
 const meta: Meta = {
   title: 'Components/File upload',
   component: 'uf-file-upload',
-  args: { label: 'Attachments', hint: 'PDF or images, up to 5 MB each', name: 'attachments', multiple: true, accept: '.pdf, image/*', 'max-size': 5000000, required: false, disabled: false },
+  args: { label: 'Attachments', hint: 'PDF or images, up to 5 MB each', name: 'attachments', multiple: true, accept: '.pdf, image/*', 'max-size': 5000000, size: 'md', required: false, disabled: false },
   render: (a) => html`<div class="sb-stack"><uf-file-upload ${spread(a)}></uf-file-upload></div>`,
 };
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+export const Sizes: Story = {
+  render: () => html`<div class="sb-stack">
+    <uf-file-upload label="Small" size="sm"></uf-file-upload>
+    <uf-file-upload label="Medium" size="md"></uf-file-upload>
+    <uf-file-upload label="Large" size="lg"></uf-file-upload>
+  </div>`,
+};
 
 export const SingleFile: Story = {
   name: 'One file',

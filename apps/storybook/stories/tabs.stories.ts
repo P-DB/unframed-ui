@@ -20,7 +20,7 @@ const meta: Meta = {
   args: { label: 'Project settings', activation: 'auto', orientation: 'horizontal' },
   argTypes: {
     // The tabs are children; offer their panel names.
-    active: { control: 'inline-radio', options: ['general', 'members', 'billing'] },
+    value: { control: 'inline-radio', options: ['general', 'members', 'billing'] },
   },
   render: (a) => html`<uf-tabs ${spread(a)}>${tabs}</uf-tabs>`,
 };
@@ -40,9 +40,9 @@ export const ManualActivation: Story = {
     <p class="sb-note">Arrow keys only move focus; Enter or Space selects the focused tab. Use it when showing a panel is slow.</p>`,
 };
 
-export const ActiveTab: Story = {
-  name: 'Preselected tab (active)',
-  args: { active: 'billing' },
+export const PreselectedTab: Story = {
+  name: 'Preselected tab',
+  args: { value: 'billing' },
 };
 
 export const RichTabs: Story = {

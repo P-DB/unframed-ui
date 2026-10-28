@@ -10,6 +10,7 @@ const toasterOf = (e: Event) => (e.currentTarget as Element).closest('.sb-toast'
 
 const messages: Record<ToastVariant, string> = {
   neutral: 'Draft saved.',
+  accent: 'You were invited to Acme.',
   info: 'A new version is available.',
   success: 'Changes published.',
   warning: 'Your trial ends in 3 days.',
@@ -28,7 +29,7 @@ const meta: Meta = {
   argTypes: {
     message: storyArg('the first argument of `toast(message, options)`.'),
     options: storyArg(
-      'the second argument of `toast(message, options)`: `title` (string), `variant` (`neutral`, `info`, `success`, `warning`, `danger`), `duration` (ms, `0` keeps it open) and `closable` (boolean).',
+      'the second argument of `toast(message, options)`: `title` (string), `variant` (`neutral`, `accent`, `info`, `success`, `warning`, `danger`), `duration` (ms, `0` keeps it open) and `closable` (boolean).',
       { type: 'object' },
     ),
   },

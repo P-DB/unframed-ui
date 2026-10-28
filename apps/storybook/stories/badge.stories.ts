@@ -33,6 +33,7 @@ export const Sizes: Story = {
   render: () => html`<div class="sb-row">
     <uf-badge size="sm" variant="accent">Small</uf-badge>
     <uf-badge size="md" variant="accent">Medium</uf-badge>
+    <uf-badge size="lg" variant="accent">Large</uf-badge>
   </div>`,
 };
 

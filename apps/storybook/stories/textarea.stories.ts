@@ -5,7 +5,7 @@ import { spread } from '../.storybook/args';
 const meta: Meta = {
   title: 'Components/Textarea',
   component: 'uf-textarea',
-  args: { label: 'Bio', hint: 'Up to 280 characters.', placeholder: 'Tell us about yourself', rows: 4, resize: 'vertical', maxlength: 280 },
+  args: { label: 'Bio', hint: 'Up to 280 characters.', placeholder: 'Tell us about yourself', rows: 4, resize: 'vertical', size: 'md', maxlength: 280 },
   render: (a) => html`<div class="sb-stack"><uf-textarea ${spread(a)}></uf-textarea></div>`,
 };
 export default meta;

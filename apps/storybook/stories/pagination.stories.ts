@@ -40,6 +40,10 @@ export const Small: Story = {
   args: { size: 'sm' },
 };
 
+export const Large: Story = {
+  args: { size: 'lg' },
+};
+
 export const ChangeEvent: Story = {
   name: 'Listening for changes',
   render: () => html`<uf-pagination

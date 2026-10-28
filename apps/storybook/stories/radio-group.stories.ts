@@ -13,7 +13,7 @@ const meta: Meta = {
   title: 'Components/Radio group',
   component: 'uf-radio-group',
   subcomponents: { Radio: 'uf-radio' },
-  args: { label: 'Plan', hint: 'You can change it later.', value: 'pro', name: 'plan', orientation: 'vertical' },
+  args: { label: 'Plan', hint: 'You can change it later.', value: 'pro', name: 'plan', orientation: 'vertical', size: 'md' },
   argTypes: {
     // The options are <uf-radio> children; offer their values.
     value: { control: 'inline-radio', options: ['', 'free', 'pro', 'team'] },
@@ -24,6 +24,17 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+export const Sizes: Story = {
+  render: () => html`<div class="sb-stack">
+    ${(['sm', 'md', 'lg'] as const).map(
+      (size) => html`<uf-radio-group label="Size ${size}" size=${size} value="a" orientation="horizontal">
+        <uf-radio value="a">Monthly</uf-radio>
+        <uf-radio value="b">Yearly</uf-radio>
+      </uf-radio-group>`,
+    )}
+  </div>`,
+};
 
 export const Horizontal: Story = {
   args: { orientation: 'horizontal' },
@@ -78,7 +89,7 @@ export const Validation: Story = {
 };
 
 export const Customized: Story = {
-  render: () => html`<uf-radio-group label="Custom properties on uf-radio" value="b" style="--uf-radio-size: 1.5rem; --uf-radio-checked-color: #0f766e">
+  render: () => html`<uf-radio-group label="Custom properties on uf-radio" value="b" style="--uf-radio-size: 1.5rem; --uf-radio-checked-bg: #0f766e">
     <uf-radio value="a">Larger</uf-radio>
     <uf-radio value="b">Teal when checked</uf-radio>
   </uf-radio-group>`,

@@ -5,13 +5,21 @@ import { spread } from '../.storybook/args';
 const meta: Meta = {
   title: 'Components/Slider',
   component: 'uf-slider',
-  args: { label: 'Volume', hint: 'Applies to every device', name: 'volume', value: 40, min: 0, max: 100, step: 1, 'show-value': true, disabled: false },
+  args: { label: 'Volume', hint: 'Applies to every device', name: 'volume', value: 40, min: 0, max: 100, step: 1, 'show-value': true, size: 'md', disabled: false },
   render: (a) => html`<div class="sb-stack"><uf-slider ${spread(a)}></uf-slider></div>`,
 };
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+export const Sizes: Story = {
+  render: () => html`<div class="sb-stack">
+    <uf-slider label="Small" size="sm" value="40"></uf-slider>
+    <uf-slider label="Medium" size="md" value="40"></uf-slider>
+    <uf-slider label="Large" size="lg" value="40"></uf-slider>
+  </div>`,
+};
 
 export const RangeAndStep: Story = {
   name: 'Range and step',
@@ -61,5 +69,5 @@ export const InAForm: Story = {
 };
 
 export const Customized: Story = {
-  args: { label: 'Custom properties', '--uf-slider-fill-color': '#0f766e', '--uf-slider-track-height': '0.75rem', '--uf-slider-thumb-size': '1.5rem' },
+  args: { label: 'Custom properties', '--uf-slider-indicator-color': '#0f766e', '--uf-slider-track-height': '0.75rem', '--uf-slider-thumb-size': '1.5rem' },
 };

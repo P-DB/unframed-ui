@@ -18,7 +18,7 @@ const content = html`
 const meta: Meta = {
   title: 'Components/Card',
   component: 'uf-card',
-  args: { variant: 'outline', orientation: 'vertical' },
+  args: { appearance: 'outline', orientation: 'vertical' },
   render: (a) => html`<div style="max-width: 22rem"><uf-card ${spread(a)}>${content}</uf-card></div>`,
 };
 export default meta;
@@ -26,12 +26,12 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const Variants: Story = {
+export const Appearances: Story = {
   render: () => html`<div class="sb-grid">
     ${['outline', 'elevated', 'filled'].map(
-      (variant) => html`<uf-card variant=${variant}>
-        <h3 slot="header" style="margin: 0">${variant}</h3>
-        variant="${variant}"
+      (appearance) => html`<uf-card appearance=${appearance}>
+        <h3 slot="header" style="margin: 0">${appearance}</h3>
+        appearance="${appearance}"
       </uf-card>`,
     )}
   </div>`,
@@ -64,7 +64,7 @@ export const Stat: Story = {
       ['Orders', '1,284', '+3%', 'success'],
       ['Refunds', '23', '+9%', 'danger'],
     ].map(
-      ([label, value, change, variant]) => html`<uf-card variant="filled">
+      ([label, value, change, variant]) => html`<uf-card appearance="filled">
         <div class="sb-note" style="margin: 0">${label}</div>
         <div style="display: flex; gap: 0.5rem; align-items: baseline; margin-top: 0.25rem">
           <strong style="font-size: 1.75rem">${value}</strong>

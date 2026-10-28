@@ -5,7 +5,7 @@ import { spread, storyArg } from '../.storybook/args';
 const meta: Meta = {
   title: 'Components/Switch',
   component: 'uf-switch',
-  args: { text: 'Notifications', hint: 'Get notified about new comments.', name: 'notifications' },
+  args: { text: 'Notifications', hint: 'Get notified about new comments.', name: 'notifications', size: 'md' },
   argTypes: { text: storyArg('the label (default slot).') },
   render: (a) => html`<uf-switch ${spread(a)}>${a.text}</uf-switch>`,
 };
@@ -13,6 +13,14 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+export const Sizes: Story = {
+  render: () => html`<div class="sb-stack">
+    <uf-switch size="sm" checked>Small</uf-switch>
+    <uf-switch size="md" checked>Medium</uf-switch>
+    <uf-switch size="lg" checked>Large</uf-switch>
+  </div>`,
+};
 
 export const States: Story = {
   render: () => html`<div class="sb-grid">

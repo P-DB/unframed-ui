@@ -47,21 +47,23 @@ const aliases: Record<string, string[]> = {
   AvatarShape: ['circle', 'square'],
   BadgeVariant: ['neutral', 'accent', 'info', 'success', 'warning', 'danger'],
   BadgeAppearance: ['soft', 'solid', 'outline'],
-  BadgeSize: ['sm', 'md'],
+  BadgeSize: ['sm', 'md', 'lg'],
   ButtonVariant: ['primary', 'secondary', 'outline', 'ghost', 'danger', 'link'],
   ButtonSize: ['sm', 'md', 'lg'],
   ButtonType: ['button', 'submit', 'reset'],
-  CardVariant: ['outline', 'elevated', 'filled'],
+  CardAppearance: ['outline', 'elevated', 'filled'],
   CardOrientation: ['vertical', 'horizontal'],
   FieldSize: ['sm', 'md', 'lg'],
-  PaginationSize: ['sm', 'md'],
+  PaginationSize: ['sm', 'md', 'lg'],
+  ProgressSize: ['sm', 'md', 'lg'],
+  ProgressVariant: ['accent', 'success', 'warning', 'danger'],
   SortDirection: ['ascending', 'descending'],
   TableDensity: ['comfortable', 'compact'],
   InputType: ['text', 'email', 'password', 'search', 'tel', 'url', 'number', 'date', 'time'],
   TextareaResize: ['none', 'vertical', 'auto'],
   Placement: placements,
   ToasterPlacement: ['top-start', 'top-center', 'top-end', 'bottom-start', 'bottom-center', 'bottom-end'],
-  ToastVariant: ['neutral', 'info', 'success', 'warning', 'danger'],
+  ToastVariant: ['neutral', 'accent', 'info', 'success', 'warning', 'danger'],
   BuiltInIconName: Object.keys(icons),
   // The full AutoFill type has hundreds of values: offer the common ones.
   AutoFill: ['off', 'on', 'name', 'email', 'username', 'current-password', 'new-password', 'one-time-code', 'tel', 'street-address', 'postal-code', 'country', 'bday'],
@@ -149,9 +151,11 @@ export function extractArgTypes(tag: unknown): ArgTypes {
       table: { type: summary(type), defaultValue: summary(field.default) },
     };
     if (field.attribute) {
+      const control = controlFor(type);
       argTypes[field.attribute] = {
         ...common,
-        control: controlFor(type),
+        // Sizes are a select everywhere, so they look the same in every story.
+        control: field.attribute === 'size' && control && 'options' in control ? ({ ...control, type: 'select' } as never) : control,
         table: { ...common.table, category: 'attributes' },
       };
     } else {
@@ -209,6 +213,12 @@ export function extractArgTypes(tag: unknown): ArgTypes {
       control: noControl,
       table: { category: 'css shadow parts' },
     };
+  }
+
+  // Storybook reads a control's choices from `options` on the arg type, not on the control.
+  for (const argType of Object.values(argTypes)) {
+    const control = argType.control as { options?: unknown[] } | undefined;
+    if (control && typeof control === 'object' && control.options) argType.options ??= control.options;
   }
 
   return argTypes;

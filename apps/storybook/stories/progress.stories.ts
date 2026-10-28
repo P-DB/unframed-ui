@@ -29,6 +29,7 @@ export const Sizes: Story = {
   render: () => html`<div class="sb-stack">
     <uf-progress label="Small" size="sm" value="60"></uf-progress>
     <uf-progress label="Medium" size="md" value="60"></uf-progress>
+    <uf-progress label="Large" size="lg" value="60"></uf-progress>
   </div>`,
 };
 
