@@ -13,6 +13,9 @@ import { autoUpdate, positionFloating, type Placement } from '../../internal/pos
  *
  * @slot - The element the tooltip describes.
  *
+ * @event uf-show - The tooltip opened.
+ * @event uf-hide - The tooltip closed.
+ *
  * @csspart body - The tooltip bubble.
  *
  * @cssprop --uf-tooltip-bg - Background color.
@@ -139,10 +142,12 @@ export class UfTooltip extends LitElement {
     if (this.open && trigger && !body.matches(':popover-open')) {
       body.showPopover();
       this.#cleanup = autoUpdate(trigger, body, () => positionFloating(trigger, body, this.placement, 6));
+      this.dispatchEvent(new Event('uf-show'));
     } else if (!this.open && body.matches(':popover-open')) {
       body.hidePopover();
       this.#cleanup?.();
       this.#cleanup = undefined;
+      this.dispatchEvent(new Event('uf-hide'));
     }
   }
 

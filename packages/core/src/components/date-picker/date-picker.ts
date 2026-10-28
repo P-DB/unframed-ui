@@ -274,13 +274,13 @@ export class UfDatePicker extends FormControl {
     if (event.newState === 'open') {
       this.#startPositioning();
       this.#calendar?.updateComplete.then(() => this.#calendar?.focus());
-      this.dispatchEvent(new Event('uf-show', { bubbles: true, composed: true }));
+      this.dispatchEvent(new Event('uf-show'));
     } else {
       this.#cleanup?.();
       this.#cleanup = undefined;
       if (this.#focusWasInside) this.#input?.focus();
       this.#focusWasInside = false;
-      this.dispatchEvent(new Event('uf-hide', { bubbles: true, composed: true }));
+      this.dispatchEvent(new Event('uf-hide'));
     }
   };
 

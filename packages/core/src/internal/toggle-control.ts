@@ -1,4 +1,5 @@
 import type { PropertyDeclarations, PropertyValues } from 'lit';
+import type { FieldSize } from './field.js';
 import { FormControl } from './form-control.js';
 
 /**
@@ -10,6 +11,7 @@ export abstract class ToggleControl extends FormControl {
     checked: { type: Boolean, attribute: false },
     defaultChecked: { type: Boolean, attribute: 'checked' },
     value: {},
+    size: { reflect: true },
   };
 
   /** Whether the control is on. */
@@ -18,12 +20,15 @@ export abstract class ToggleControl extends FormControl {
   declare defaultChecked: boolean;
   /** Value submitted with the form when checked. */
   declare value: string;
+  /** Size of the control and its label: `sm`, `md` or `lg`. */
+  declare size: FieldSize;
 
   constructor() {
     super();
     this.checked = false;
     this.defaultChecked = false;
     this.value = 'on';
+    this.size = 'md';
   }
 
   protected get nativeInput(): HTMLInputElement | null {

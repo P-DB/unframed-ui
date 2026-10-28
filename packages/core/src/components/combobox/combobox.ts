@@ -50,6 +50,9 @@ interface Row {
  * @csspart error - The validation message.
  *
  * @cssprop --uf-combobox-max-height - Maximum height of the list before it scrolls.
+ * @cssprop --uf-field-bg - Background of the box.
+ * @cssprop --uf-field-border-color - Border color of the box.
+ * @cssprop --uf-field-radius - Corner radius of the box.
  *
  * @cssstate user-invalid - The value is invalid and the user has interacted with the field.
  */
@@ -306,12 +309,12 @@ export class UfCombobox extends FormControl {
         listbox.style.minWidth = `${box.offsetWidth}px`;
         positionFloating(box, listbox, 'bottom-start', 4);
       });
-      this.dispatchEvent(new Event('uf-show', { bubbles: true, composed: true }));
+      this.dispatchEvent(new Event('uf-show'));
     } else if (!this.open && listbox.matches(':popover-open')) {
       listbox.hidePopover();
       this.#cleanup?.();
       this.#cleanup = undefined;
-      this.dispatchEvent(new Event('uf-hide', { bubbles: true, composed: true }));
+      this.dispatchEvent(new Event('uf-hide'));
     }
   }
 

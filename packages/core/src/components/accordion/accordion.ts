@@ -35,7 +35,8 @@ export class UfAccordion extends LitElement {
   constructor() {
     super();
     this.multiple = false;
-    this.addEventListener('uf-show', this.#onShow);
+    // uf-show doesn't bubble, but it still passes through ancestors while capturing.
+    this.addEventListener('uf-show', this.#onShow, { capture: true });
     this.addEventListener('keydown', this.#onKeyDown);
   }
 

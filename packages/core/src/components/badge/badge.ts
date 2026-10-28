@@ -4,7 +4,7 @@ import { hostStyles } from '../../internal/shared.styles.js';
 
 export type BadgeVariant = 'neutral' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
 export type BadgeAppearance = 'soft' | 'solid' | 'outline';
-export type BadgeSize = 'sm' | 'md';
+export type BadgeSize = 'sm' | 'md' | 'lg';
 
 /**
  * A short label for a status, a category or a count. It's plain text for
@@ -58,6 +58,12 @@ export class UfBadge extends LitElement {
         min-height: 1.25rem;
         padding: 0 var(--uf-space-1);
         font-size: 0.75rem;
+      }
+
+      :host([size='lg']) .base {
+        min-height: 1.75rem;
+        padding: 0 var(--uf-space-3);
+        font-size: var(--uf-font-size-md);
       }
 
       .dot {
@@ -145,7 +151,7 @@ export class UfBadge extends LitElement {
   declare variant: BadgeVariant;
   /** `soft` (tinted background), `solid` (bold background) or `outline` (border only). */
   declare appearance: BadgeAppearance;
-  /** Size: `sm` or `md`. */
+  /** Size: `sm`, `md` or `lg`. */
   declare size: BadgeSize;
   /** Shows a status dot before the text. */
   declare dot: boolean;

@@ -14,7 +14,7 @@ export type { ButtonSize, ButtonType, ButtonVariant } from './components/button/
 export { UfCalendar } from './components/calendar/calendar.js';
 
 export { UfCard } from './components/card/card.js';
-export type { CardOrientation, CardVariant } from './components/card/card.js';
+export type { CardOrientation, CardAppearance } from './components/card/card.js';
 
 export { UfCheckbox } from './components/checkbox/checkbox.js';
 export { UfCheckboxGroup } from './components/checkbox-group/checkbox-group.js';

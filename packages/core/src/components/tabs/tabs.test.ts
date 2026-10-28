@@ -44,7 +44,7 @@ describe('uf-tabs', () => {
 
   it('selects the first tab by default and links tabs to panels', async () => {
     const { tabs, tab, panel } = await setup();
-    expect(tabs.active).toBe('general');
+    expect(tabs.value).toBe('general');
     expect(tab[0].getAttribute('role')).toBe('tab');
     expect(tab[0].getAttribute('aria-selected')).toBe('true');
     expect(tab[0].getAttribute('aria-controls')).toBe(panel[0].id);
@@ -53,7 +53,7 @@ describe('uf-tabs', () => {
   });
 
   it('honours the active attribute', async () => {
-    const { panel } = await setup('active="billing"');
+    const { panel } = await setup('value="billing"');
     expect(panel.map((p) => p.hidden)).toEqual([true, false, true, true]);
   });
 
@@ -63,22 +63,22 @@ describe('uf-tabs', () => {
     tabs.addEventListener('uf-tab-change', onChange);
     tab[1].click();
     await tabs.updateComplete;
-    expect(tabs.active).toBe('billing');
+    expect(tabs.value).toBe('billing');
     expect(onChange.mock.calls[0][0].detail).toEqual({ name: 'billing' });
   });
 
   it('moves with arrow keys, skipping disabled tabs, with Home and End', async () => {
-    const { tabs, tab } = await setup('active="billing"');
+    const { tabs, tab } = await setup('value="billing"');
     press(tab[1], 'ArrowRight');
     await tabs.updateComplete;
-    expect(tabs.active).toBe('team');
+    expect(tabs.value).toBe('team');
     expect(document.activeElement).toBe(tab[3]);
     press(tab[3], 'Home');
     await tabs.updateComplete;
-    expect(tabs.active).toBe('general');
+    expect(tabs.value).toBe('general');
     press(tab[0], 'ArrowLeft');
     await tabs.updateComplete;
-    expect(tabs.active).toBe('team');
+    expect(tabs.value).toBe('team');
   });
 
   it('with manual activation, arrows only move focus', async () => {
@@ -86,10 +86,10 @@ describe('uf-tabs', () => {
     press(tab[0], 'ArrowRight');
     await tabs.updateComplete;
     expect(document.activeElement).toBe(tab[1]);
-    expect(tabs.active).toBe('general');
+    expect(tabs.value).toBe('general');
     press(tab[1], 'Enter');
     await tabs.updateComplete;
-    expect(tabs.active).toBe('billing');
+    expect(tabs.value).toBe('billing');
   });
 
   it('keeps only the selected tab in the tab order', async () => {

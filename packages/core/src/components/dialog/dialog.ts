@@ -308,7 +308,7 @@ export class UfDialog extends LitElement {
       if (dialog.open) return;
       dialog.showModal();
       this.#setScrollLock(true);
-      this.dispatchEvent(new Event('uf-show', { bubbles: true, composed: true }));
+      this.dispatchEvent(new Event('uf-show'));
     } else if (dialog.open) {
       void this.#animateClose(dialog);
     }
@@ -328,7 +328,7 @@ export class UfDialog extends LitElement {
     dialog.classList.remove('closing');
     dialog.close();
     this.#setScrollLock(false);
-    this.dispatchEvent(new Event('uf-hide', { bubbles: true, composed: true }));
+    this.dispatchEvent(new Event('uf-hide'));
   }
 
   #onCancel = (event: Event): void => {
@@ -341,7 +341,7 @@ export class UfDialog extends LitElement {
     this.#setScrollLock(false);
     if (!this.open) return;
     this.open = false;
-    this.dispatchEvent(new Event('uf-hide', { bubbles: true, composed: true }));
+    this.dispatchEvent(new Event('uf-hide'));
   };
 
   #onDialogClick = (event: MouseEvent): void => {

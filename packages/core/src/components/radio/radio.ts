@@ -15,7 +15,7 @@ import { hostStyles } from '../../internal/shared.styles.js';
  * @csspart label - The label text.
  *
  * @cssprop --uf-radio-size - Size of the circle.
- * @cssprop --uf-radio-checked-color - Color of the circle when checked.
+ * @cssprop --uf-radio-checked-bg - Color of the circle when checked.
  *
  * @cssstate checked - The radio is selected.
  */
@@ -24,7 +24,7 @@ export class UfRadio extends LitElement {
     hostStyles,
     css`
       :host {
-        --_size: var(--uf-radio-size, 1.125rem);
+        --_size: var(--uf-radio-size, var(--_circle, 1.125rem));
         display: flex;
         align-items: flex-start;
         gap: var(--uf-space-2);
@@ -34,6 +34,17 @@ export class UfRadio extends LitElement {
         color: var(--uf-color-text);
         cursor: pointer;
         outline: none;
+      }
+
+      /* The group's size. */
+      :host([data-group-size='sm']) {
+        --_circle: 1rem;
+        font-size: var(--uf-font-size-sm);
+      }
+
+      :host([data-group-size='lg']) {
+        --_circle: 1.25rem;
+        font-size: var(--uf-font-size-lg);
       }
 
       /* Grey instead of faded, like disabled fields. */
@@ -60,7 +71,7 @@ export class UfRadio extends LitElement {
       }
 
       :host([checked]) .control {
-        border: calc(var(--_size) * 0.3) solid var(--uf-radio-checked-color, var(--uf-color-accent-strong));
+        border: calc(var(--_size) * 0.3) solid var(--uf-radio-checked-bg, var(--uf-color-accent-strong));
       }
 
       :host([disabled]) .control,

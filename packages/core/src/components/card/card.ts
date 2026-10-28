@@ -4,7 +4,7 @@ import { defineElement } from '../../internal/define.js';
 import { hostStyles } from '../../internal/shared.styles.js';
 import { HasSlotController } from '../../internal/slot.js';
 
-export type CardVariant = 'outline' | 'elevated' | 'filled';
+export type CardAppearance = 'outline' | 'elevated' | 'filled';
 export type CardOrientation = 'vertical' | 'horizontal';
 
 /**
@@ -58,12 +58,12 @@ export class UfCard extends LitElement {
       }
 
       /* A shadow in light mode, an accent glow in dark mode (--uf-shadow-raised). */
-      :host([variant='elevated']) .base {
+      :host([appearance='elevated']) .base {
         border-color: var(--uf-card-border-color, transparent);
         box-shadow: var(--uf-card-shadow, var(--uf-shadow-raised));
       }
 
-      :host([variant='filled']) .base {
+      :host([appearance='filled']) .base {
         border-color: var(--uf-card-border-color, transparent);
         background: var(--uf-card-bg, var(--uf-color-surface-hover));
       }
@@ -132,12 +132,12 @@ export class UfCard extends LitElement {
   ];
 
   static override properties: PropertyDeclarations = {
-    variant: { reflect: true },
+    appearance: { reflect: true },
     orientation: { reflect: true },
   };
 
   /** `outline` (a border), `elevated` (a shadow, or an accent glow in dark mode) or `filled` (a tinted background). */
-  declare variant: CardVariant;
+  declare appearance: CardAppearance;
   /** `vertical`, or `horizontal` to put the media beside the content. */
   declare orientation: CardOrientation;
 
@@ -145,7 +145,7 @@ export class UfCard extends LitElement {
 
   constructor() {
     super();
-    this.variant = 'outline';
+    this.appearance = 'outline';
     this.orientation = 'vertical';
   }
 

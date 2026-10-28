@@ -2,7 +2,7 @@ import { css, html, type PropertyDeclarations, type PropertyValues } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
 import { defineElement } from '../../internal/define.js';
-import { describedBy, fieldStyles, renderField } from '../../internal/field.js';
+import { describedBy, fieldStyles, renderField, type FieldSize } from '../../internal/field.js';
 import { FormControl } from '../../internal/form-control.js';
 import { focusRing, hostStyles } from '../../internal/shared.styles.js';
 import { HasSlotController, uniqueId } from '../../internal/slot.js';
@@ -30,7 +30,7 @@ import { HasSlotController, uniqueId } from '../../internal/slot.js';
  *
  * @cssprop --uf-slider-track-height - Height of the track.
  * @cssprop --uf-slider-track-color - Color of the track's empty part.
- * @cssprop --uf-slider-fill-color - Color of the track up to the handle.
+ * @cssprop --uf-slider-indicator-color - Color of the track up to the handle.
  * @cssprop --uf-slider-thumb-size - Diameter of the handle.
  */
 export class UfSlider extends FormControl {
@@ -39,10 +39,20 @@ export class UfSlider extends FormControl {
     fieldStyles,
     css`
       :host {
-        --_track: var(--uf-slider-track-height, 0.375rem);
-        --_thumb: var(--uf-slider-thumb-size, 1.125rem);
-        --_fill-color: var(--uf-slider-fill-color, var(--uf-color-accent));
+        --_track: var(--uf-slider-track-height, var(--_track-size, 0.375rem));
+        --_thumb: var(--uf-slider-thumb-size, var(--_thumb-size, 1.125rem));
+        --_fill-color: var(--uf-slider-indicator-color, var(--uf-color-accent));
         --_track-color: var(--uf-slider-track-color, var(--uf-color-surface-hover));
+      }
+
+      :host([size='sm']) {
+        --_track-size: 0.25rem;
+        --_thumb-size: 1rem;
+      }
+
+      :host([size='lg']) {
+        --_track-size: 0.5rem;
+        --_thumb-size: 1.375rem;
       }
 
       .value {
@@ -134,6 +144,7 @@ export class UfSlider extends FormControl {
     label: {},
     hint: {},
     showValue: { type: Boolean, attribute: 'show-value' },
+    size: { reflect: true },
   };
 
   /** Current value. */
@@ -152,6 +163,8 @@ export class UfSlider extends FormControl {
   declare hint: string | undefined;
   /** Shows the current value next to the label. */
   declare showValue: boolean;
+  /** Size of the track and handle: `sm`, `md` or `lg`. */
+  declare size: FieldSize;
 
   readonly #slots = new HasSlotController(this, 'label', 'hint');
   readonly #id = uniqueId('uf-slider');
@@ -162,6 +175,7 @@ export class UfSlider extends FormControl {
     this.max = 100;
     this.step = 1;
     this.showValue = false;
+    this.size = 'md';
     // Not a number yet: the first update puts it in the middle of min and max.
     this.value = Number.NaN;
   }

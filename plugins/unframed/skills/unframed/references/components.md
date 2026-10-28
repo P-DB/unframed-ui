@@ -207,7 +207,7 @@ Six colors by meaning, in three appearances: `soft` (the default), `solid` and `
 |---|---|---|---|---|
 | `variant` |  | `BadgeVariant` | `'neutral'` | Color, by meaning: `neutral`, `accent`, `info`, `success`, `warning` or `danger`. |
 | `appearance` |  | `BadgeAppearance` | `'soft'` | `soft` (tinted background), `solid` (bold background) or `outline` (border only). |
-| `size` |  | `BadgeSize` | `'md'` | Size: `sm` or `md`. |
+| `size` |  | `BadgeSize` | `'md'` | Size: `sm`, `md` or `lg`. |
 | `dot` |  | `boolean` | `false` | Shows a status dot before the text. |
 
 #### Slots
@@ -434,11 +434,11 @@ Every section is optional; empty ones take no space.
 </uf-card>
 ```
 
-### Variants and orientation
+### Appearance and orientation
 
 ```html
-<uf-card variant="elevated">…</uf-card>
-<uf-card variant="filled">…</uf-card>
+<uf-card appearance="elevated">…</uf-card>
+<uf-card appearance="filled">…</uf-card>
 <uf-card orientation="horizontal">
   <img slot="media" src="/cover.png" alt="" />
   Media beside the content.
@@ -451,7 +451,7 @@ Every section is optional; empty ones take no space.
 
 | Attribute | Property | Type | Default | Description |
 |---|---|---|---|---|
-| `variant` |  | `CardVariant` | `'outline'` | `outline` (a border), `elevated` (a shadow, or an accent glow in dark mode) or `filled` (a tinted background). |
+| `appearance` |  | `CardAppearance` | `'outline'` | `outline` (a border), `elevated` (a shadow, or an accent glow in dark mode) or `filled` (a tinted background). |
 | `orientation` |  | `CardOrientation` | `'vertical'` | `vertical`, or `horizontal` to put the media beside the content. |
 
 #### Slots
@@ -526,6 +526,7 @@ Tags: `<uf-checkbox>`, `<uf-checkbox-group>`. Import: `import '@unframed/core/ch
 | `hint` |  | `string \| undefined` |  | Help text below the label. |
 | `checked` | `defaultChecked` | `boolean` | `false` | Initial state, restored on form reset. Set with the `checked` attribute. |
 | `value` |  | `string` | `'on'` | Value submitted with the form when checked. |
+| `size` |  | `FieldSize` | `'md'` | Size of the control and its label: `sm`, `md` or `lg`. |
 | `name` |  | `string` | `''` | Name submitted with the form. |
 | `disabled` |  | `boolean` | `false` | Disables the control. |
 | `required` |  | `boolean` | `false` | Makes the control required for form submission. |
@@ -598,12 +599,6 @@ Tags: `<uf-checkbox>`, `<uf-checkbox-group>`. Import: `import '@unframed/core/ch
 | Property | Type | Description |
 |---|---|---|
 | `value` | `string[]` | The values of the checked checkboxes (other than "select all"). |
-
-#### Methods
-
-| Method | Description |
-|---|---|
-| `sync()` | Updates "select all" to match the other checkboxes. Called automatically on user changes; call it after changing `checked` on a checkbox from code. |
 
 #### Events
 
@@ -732,6 +727,9 @@ Type to filter, arrow keys to move, Enter to pick.
 | Property | Description |
 |---|---|
 | `--uf-combobox-max-height` | Maximum height of the list before it scrolls. |
+| `--uf-field-bg` | Background of the box. |
+| `--uf-field-border-color` | Border color of the box. |
+| `--uf-field-radius` | Corner radius of the box. |
 
 ## Date picker
 
@@ -1442,6 +1440,7 @@ Without `multiple`, a new pick replaces the file. `required` makes the form ask 
 | `accept` |  | `string \| undefined` |  | Accepted files, as in a native file input: extensions (`.pdf`), MIME types (`image/png`) or wildcards (`image/*`), comma-separated. |
 | `multiple` |  | `boolean` | `false` | Lets users choose more than one file. |
 | `max-size` | `maxSize` | `number \| undefined` |  | Largest accepted file, in bytes, e.g. `5000000` for 5 MB. |
+| `size` |  | `FieldSize` | `'md'` | Size of the drop zone: `sm`, `md` or `lg`. |
 | `name` |  | `string` | `''` | Name submitted with the form. |
 | `disabled` |  | `boolean` | `false` | Disables the control. |
 | `required` |  | `boolean` | `false` | Makes the control required for form submission. |
@@ -1703,7 +1702,7 @@ Long ranges collapse around the current page; the number of buttons stays the sa
 | `pages` |  | `number` | `1` | How many pages there are. |
 | `siblings` |  | `number` | `1` | How many pages to show on each side of the current one. |
 | `label` |  | `string \| undefined` |  | Accessible name of the navigation, e.g. "Search results pages". Defaults to "Pagination", or its translation. |
-| `size` |  | `PaginationSize` | `'md'` | Size: `sm` or `md`. |
+| `size` |  | `PaginationSize` | `'md'` | Size: `sm`, `md` or `lg`. |
 
 #### Events
 
@@ -1832,7 +1831,7 @@ Leave out `value` when the length of the work is not known.
 | `label` |  | `string \| undefined` |  | Visible label, also the bar's accessible name. Without one, it's named "Progress". |
 | `show-value` | `showValue` | `boolean` | `false` | Shows the percentage next to the label. |
 | `variant` |  | `ProgressVariant` | `'accent'` | Color, by meaning: `accent`, `success`, `warning` or `danger`. |
-| `size` |  | `ProgressSize` | `'md'` | Height of the bar: `sm` or `md`. |
+| `size` |  | `ProgressSize` | `'md'` | Height of the bar: `sm`, `md` or `lg`. |
 
 #### Slots
 
@@ -1889,6 +1888,7 @@ Arrow keys move the selection; only the selected radio is in the tab order.
 | `label` |  | `string \| undefined` |  | Visible group label. |
 | `hint` |  | `string \| undefined` |  | Help text below the options. |
 | `orientation` |  | `'vertical' \| 'horizontal'` | `'vertical'` | Lays the options out in a column or a row. |
+| `size` |  | `FieldSize` | `'md'` | Size of the radios and their labels: `sm`, `md` or `lg`. |
 | `name` |  | `string` | `''` | Name submitted with the form. |
 | `disabled` |  | `boolean` | `false` | Disables the control. |
 | `required` |  | `boolean` | `false` | Makes the control required for form submission. |
@@ -1965,7 +1965,7 @@ Arrow keys move the selection; only the selected radio is in the tab order.
 | Property | Description |
 |---|---|
 | `--uf-radio-size` | Size of the circle. |
-| `--uf-radio-checked-color` | Color of the circle when checked. |
+| `--uf-radio-checked-bg` | Color of the circle when checked. |
 
 ## Select
 
@@ -2100,6 +2100,7 @@ A native range input underneath: arrow keys, Page Up/Down, Home and End, touch, 
 | `label` |  | `string \| undefined` |  | Visible label, also the slider's accessible name. |
 | `hint` |  | `string \| undefined` |  | Help text below the slider. |
 | `show-value` | `showValue` | `boolean` | `false` | Shows the current value next to the label. |
+| `size` |  | `FieldSize` | `'md'` | Size of the track and handle: `sm`, `md` or `lg`. |
 | `name` |  | `string` | `''` | Name submitted with the form. |
 | `disabled` |  | `boolean` | `false` | Disables the control. |
 | `required` |  | `boolean` | `false` | Makes the control required for form submission. |
@@ -2153,7 +2154,7 @@ A native range input underneath: arrow keys, Page Up/Down, Home and End, touch, 
 |---|---|
 | `--uf-slider-track-height` | Height of the track. |
 | `--uf-slider-track-color` | Color of the track's empty part. |
-| `--uf-slider-fill-color` | Color of the track up to the handle. |
+| `--uf-slider-indicator-color` | Color of the track up to the handle. |
 | `--uf-slider-thumb-size` | Diameter of the handle. |
 
 ## Spinner
@@ -2230,6 +2231,7 @@ Tags: `<uf-switch>`. Import: `import '@unframed/core/switch';` (or `npx @unframe
 | `hint` |  | `string \| undefined` |  | Help text below the label. |
 | `checked` | `defaultChecked` | `boolean` | `false` | Initial state, restored on form reset. Set with the `checked` attribute. |
 | `value` |  | `string` | `'on'` | Value submitted with the form when checked. |
+| `size` |  | `FieldSize` | `'md'` | Size of the control and its label: `sm`, `md` or `lg`. |
 | `name` |  | `string` | `''` | Name submitted with the form. |
 | `disabled` |  | `boolean` | `false` | Disables the control. |
 | `required` |  | `boolean` | `false` | Makes the control required for form submission. |
@@ -2421,7 +2423,7 @@ Tags: `<uf-tabs>`, `<uf-tab>`, `<uf-tab-panel>`. Import: `import '@unframed/core
 
 | Attribute | Property | Type | Default | Description |
 |---|---|---|---|---|
-| `active` |  | `string` | `''` | Name of the selected panel. Defaults to the first enabled tab. |
+| `value` |  | `string` | `''` | Name of the selected panel. Defaults to the first enabled tab. |
 | `activation` |  | `'auto' \| 'manual'` | `'auto'` | `auto` selects a tab as soon as it gets focus; `manual` waits for Enter or Space. |
 | `orientation` |  | `'horizontal' \| 'vertical'` | `'horizontal'` | Lays the tab list out horizontally or vertically. |
 | `label` |  | `string \| undefined` |  | Accessible name for the tab list. |
@@ -2671,6 +2673,13 @@ Tags: `<uf-tooltip>`. Import: `import '@unframed/core/tooltip';` (or `npx @unfra
 |---|---|
 | `show()` | Shows the tooltip, unless it's disabled. |
 | `hide()` | Hides the tooltip. |
+
+#### Events
+
+| Event | Type | Description |
+|---|---|---|
+| `uf-show` | `Event` | The tooltip opened. |
+| `uf-hide` | `Event` | The tooltip closed. |
 
 #### Slots
 

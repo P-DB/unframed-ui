@@ -43,9 +43,21 @@ export class UfSwitch extends ToggleControl {
     toggleStyles,
     css`
       :host {
-        --_control-width: var(--uf-switch-width, 2.25rem);
-        --_control-height: var(--uf-switch-height, 1.25rem);
+        --_track-width: 2.25rem;
+        --_track-height: 1.25rem;
+        --_control-width: var(--uf-switch-width, var(--_track-width));
+        --_control-height: var(--uf-switch-height, var(--_track-height));
         --_thumb: calc(var(--_control-height) - 4px);
+      }
+
+      :host([size='sm']) {
+        --_track-width: 1.875rem;
+        --_track-height: 1rem;
+      }
+
+      :host([size='lg']) {
+        --_track-width: 2.75rem;
+        --_track-height: 1.5rem;
       }
 
       .native {

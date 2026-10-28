@@ -5,7 +5,7 @@ import { defineElement } from '../../internal/define.js';
 import { Translator } from '../../internal/i18n.js';
 import { iconSvg, icons } from '../../internal/icons.js';
 
-export type ToastVariant = 'neutral' | 'info' | 'success' | 'warning' | 'danger';
+export type ToastVariant = 'neutral' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
 export type ToasterPlacement = 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
 
 export interface ToastOptions {
@@ -39,6 +39,7 @@ interface Timer {
 
 const variantIcons = {
   neutral: null,
+  accent: null,
   info: icons.info,
   success: icons['check-circle'],
   warning: icons['alert-triangle'],
@@ -137,6 +138,11 @@ export class UfToaster extends LitElement {
         translate ${EXIT_MS}ms ease;
     }
 
+    .accent {
+      --_bg: var(--uf-color-toast-accent-bg);
+      --_border: var(--uf-color-toast-accent-border);
+      --_text: var(--uf-color-toast-accent-text);
+    }
     .info {
       --_bg: var(--uf-color-toast-info-bg);
       --_border: var(--uf-color-toast-info-border);

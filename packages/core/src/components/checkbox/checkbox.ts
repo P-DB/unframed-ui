@@ -5,6 +5,7 @@ import { live } from 'lit/directives/live.js';
 import { defineElement } from '../../internal/define.js';
 import { describedBy } from '../../internal/field.js';
 import { iconSvg, icons } from '../../internal/icons.js';
+import { syncSelectAll, type SelectAllHost } from '../../internal/select-all.js';
 import { hostStyles } from '../../internal/shared.styles.js';
 import { HasSlotController, uniqueId } from '../../internal/slot.js';
 import { ToggleControl } from '../../internal/toggle-control.js';
@@ -44,8 +45,17 @@ export class UfCheckbox extends ToggleControl {
     toggleStyles,
     css`
       :host {
-        --_control-width: var(--uf-checkbox-size, 1.125rem);
-        --_control-height: var(--uf-checkbox-size, 1.125rem);
+        --_box: 1.125rem;
+        --_control-width: var(--uf-checkbox-size, var(--_box));
+        --_control-height: var(--uf-checkbox-size, var(--_box));
+      }
+
+      :host([size='sm']) {
+        --_box: 1rem;
+      }
+
+      :host([size='lg']) {
+        --_box: 1.25rem;
       }
 
       .native {
@@ -134,9 +144,17 @@ export class UfCheckbox extends ToggleControl {
     this.selectAll = false;
   }
 
+  /** The `checked` state the group last heard about. */
+  #reportedChecked?: boolean;
+
   override updated(): void {
     super.updated();
     this.internals.states?.[this.indeterminate ? 'add' : 'delete']('indeterminate');
+    // Checking a box from code updates "select all" too, like a click does.
+    if (!this.selectAll && this.checked !== this.#reportedChecked) {
+      this.#reportedChecked = this.checked;
+      this.closest<SelectAllHost>('uf-checkbox-group')?.[syncSelectAll]?.();
+    }
   }
 
   #onChange = (event: Event): void => {

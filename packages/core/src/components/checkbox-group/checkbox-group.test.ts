@@ -52,6 +52,17 @@ describe('uf-checkbox-group', () => {
     expect(all.indeterminate).toBe(false);
   });
 
+  it('updates "select all" when a checkbox is checked from code', async () => {
+    const { all, options } = await setup();
+    options[0].checked = true;
+    await options[0].updateComplete;
+    expect(all.indeterminate).toBe(true);
+    for (const option of options) option.checked = true;
+    await Promise.all(options.map((o) => o.updateComplete));
+    expect(all.checked).toBe(true);
+    expect(all.indeterminate).toBe(false);
+  });
+
   it('checks and unchecks every option from "select all"', async () => {
     const { all, options, click } = await setup();
     await click(options[1]);

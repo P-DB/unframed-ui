@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import '@unframed/tokens/tokens.css';
 import { axeViolations, fixture, press, settle } from '../../test-utils.js';
 import '../button/button.js';
@@ -60,6 +60,20 @@ describe('uf-tooltip', () => {
     el.dispatchEvent(new PointerEvent('pointerleave'));
     await el.updateComplete;
     expect(el.open).toBe(false);
+  });
+
+  it('emits uf-show and uf-hide', async () => {
+    const el = await fixture<UfTooltip>(markup, 'uf-tooltip');
+    const onShow = vi.fn();
+    const onHide = vi.fn();
+    el.addEventListener('uf-show', onShow);
+    el.addEventListener('uf-hide', onHide);
+    el.show();
+    await el.updateComplete;
+    el.hide();
+    await el.updateComplete;
+    expect(onShow).toHaveBeenCalledOnce();
+    expect(onHide).toHaveBeenCalledOnce();
   });
 
   it('stays hidden when disabled', async () => {

@@ -61,14 +61,14 @@ export class UfTabs extends LitElement {
   `;
 
   static override properties: PropertyDeclarations = {
-    active: { reflect: true },
+    value: { reflect: true },
     activation: { reflect: true },
     orientation: { reflect: true },
     label: {},
   };
 
   /** Name of the selected panel. Defaults to the first enabled tab. */
-  declare active: string;
+  declare value: string;
   /** `auto` selects a tab as soon as it gets focus; `manual` waits for Enter or Space. */
   declare activation: 'auto' | 'manual';
   /** Lays the tab list out horizontally or vertically. */
@@ -80,7 +80,7 @@ export class UfTabs extends LitElement {
 
   constructor() {
     super();
-    this.active = '';
+    this.value = '';
     this.activation = 'auto';
     this.orientation = 'horizontal';
     this.addEventListener('click', this.#onClick);
@@ -111,11 +111,11 @@ export class UfTabs extends LitElement {
     this.#sync();
   }
 
-  /** The tab to show: the one for `active`, or the first enabled one. Keeps `active` in step. */
+  /** The tab to show: the one for `value`, or the first enabled one. Keeps `value` in step. */
   #activeTab() {
     const enabled = this.#tabs.filter((t) => !t.disabled);
-    const activeTab = enabled.find((t) => t.panel === this.active) ?? enabled[0];
-    if (activeTab && this.active !== activeTab.panel) this.active = activeTab.panel;
+    const activeTab = enabled.find((t) => t.panel === this.value) ?? enabled[0];
+    if (activeTab && this.value !== activeTab.panel) this.value = activeTab.panel;
     return activeTab;
   }
 
@@ -150,8 +150,8 @@ export class UfTabs extends LitElement {
 
   #activate(tab: UfTab): void {
     tab.focus();
-    if (tab.panel === this.active) return;
-    this.active = tab.panel;
+    if (tab.panel === this.value) return;
+    this.value = tab.panel;
     this.dispatchEvent(
       new CustomEvent<TabChangeDetail>('uf-tab-change', {
         bubbles: true,

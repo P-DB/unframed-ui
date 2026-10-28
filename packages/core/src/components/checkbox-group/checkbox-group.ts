@@ -4,6 +4,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { defineElement } from '../../internal/define.js';
 import { fieldStyles } from '../../internal/field.js';
 import { hostStyles } from '../../internal/shared.styles.js';
+import { syncSelectAll } from '../../internal/select-all.js';
 import { HasSlotController, uniqueId } from '../../internal/slot.js';
 import '../checkbox/checkbox.js';
 import type { UfCheckbox } from '../checkbox/checkbox.js';
@@ -96,17 +97,26 @@ export class UfCheckboxGroup extends LitElement {
 
   set value(values: string[]) {
     const wanted = new Set(values ?? []);
-    for (const option of this.#options) option.checked = wanted.has(option.value);
-    this.sync();
+    this.#updateOptions((option) => wanted.has(option.value));
   }
 
-  /**
-   * Updates "select all" to match the other checkboxes. Called automatically on
-   * user changes; call it after changing `checked` on a checkbox from code.
-   */
-  sync(): void {
+  /** True while the group checks options itself, so they don't each update "select all" halfway. */
+  #updatingOptions = false;
+
+  #updateOptions(checked: (option: UfCheckbox) => boolean): void {
+    this.#updatingOptions = true;
+    try {
+      for (const option of this.#options) option.checked = checked(option);
+    } finally {
+      this.#updatingOptions = false;
+    }
+    this[syncSelectAll]();
+  }
+
+  /** Updates "select all" to match the other checkboxes. The checkboxes call it when they change. @internal */
+  [syncSelectAll](): void {
     const selectAll = this.#selectAll;
-    if (!selectAll) return;
+    if (!selectAll || this.#updatingOptions) return;
     const options = this.#options;
     const checked = options.filter((c) => c.checked).length;
     selectAll.checked = checked > 0 && checked === options.length;
@@ -117,10 +127,12 @@ export class UfCheckboxGroup extends LitElement {
     const target = event.target as UfCheckbox;
     if (target.localName !== 'uf-checkbox' || !this.contains(target)) return;
     if (target.selectAll) {
+      const checked = target.checked;
       // Disabled checkboxes keep their state, like any control the user can't change.
-      for (const option of this.#options) if (!option.disabled) option.checked = target.checked;
+      this.#updateOptions((option) => (option.disabled ? option.checked : checked));
+    } else {
+      this[syncSelectAll]();
     }
-    this.sync();
   };
 
   override render() {
@@ -143,7 +155,7 @@ export class UfCheckboxGroup extends LitElement {
         <div class="options" part="options">
           <slot
             @slotchange=${() => {
-              this.sync();
+              this[syncSelectAll]();
               this.requestUpdate();
             }}
           ></slot>

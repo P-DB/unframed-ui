@@ -65,10 +65,10 @@ describe('uf-accordion', () => {
 
   it('does not announce items that start open', async () => {
     const onShow = vi.fn();
-    document.addEventListener('uf-show', onShow);
+    document.addEventListener('uf-show', onShow, { capture: true });
     await setup();
     await new Promise((r) => setTimeout(r, 30));
-    document.removeEventListener('uf-show', onShow);
+    document.removeEventListener('uf-show', onShow, { capture: true });
     expect(onShow).not.toHaveBeenCalled();
   });
 

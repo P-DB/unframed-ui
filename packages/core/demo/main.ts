@@ -48,6 +48,7 @@ document.addEventListener('uf-select', (event) => {
 
 const messages: Record<ToastVariant, string> = {
   neutral: 'Draft saved.',
+  accent: 'You were invited to Acme.',
   info: 'A new version is available.',
   success: 'Changes published.',
   warning: 'Your trial ends in 3 days.',

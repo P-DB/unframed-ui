@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import '@unframed/tokens/tokens.css';
 import { axeViolations, fixture } from '../../test-utils.js';
 import '../button/button.js';
+import '../popover/popover.js';
 import './dialog.js';
 import type { UfDialog } from './dialog.js';
 
@@ -108,6 +109,27 @@ describe('uf-dialog', () => {
     expect(part('dialog').left).toBe(before.dialog.left);
     expect(part('body').width).toBe(before.body.width);
     expect(part('footer').top - part('dialog').top).toBe(before.footer.top - before.dialog.top);
+  });
+
+  it("doesn't announce the show and hide of popups inside it", async () => {
+    const el = await fixture<UfDialog>(`
+      <uf-dialog label="Share" open>
+        <uf-popover><uf-button slot="trigger">More</uf-button><p>Options</p></uf-popover>
+      </uf-dialog>`);
+    const onToggle = vi.fn();
+    el.addEventListener('uf-show', onToggle);
+    el.addEventListener('uf-hide', onToggle);
+    const popover = el.querySelector('uf-popover')!;
+    const onPopoverHide = vi.fn();
+    popover.addEventListener('uf-hide', onPopoverHide);
+    popover.show();
+    await popover.updateComplete;
+    popover.hide();
+    // The panel's toggle event, which announces uf-hide, is async.
+    await new Promise((r) => setTimeout(r, 20));
+    expect(onPopoverHide).toHaveBeenCalledOnce();
+    expect(el.open).toBe(true);
+    expect(onToggle).not.toHaveBeenCalled();
   });
 
   it('can be reopened during the exit animation', async () => {

@@ -9,6 +9,14 @@ export const toggleStyles = css`
     color: var(--uf-color-text);
   }
 
+  :host([size='sm']) {
+    font-size: var(--uf-font-size-sm);
+  }
+
+  :host([size='lg']) {
+    font-size: var(--uf-font-size-lg);
+  }
+
   .root {
     display: inline-flex;
     align-items: flex-start;

@@ -6,7 +6,7 @@ import { hostStyles } from '../../internal/shared.styles.js';
 import { HasSlotController, uniqueId } from '../../internal/slot.js';
 
 export type ProgressVariant = 'accent' | 'success' | 'warning' | 'danger';
-export type ProgressSize = 'sm' | 'md';
+export type ProgressSize = 'sm' | 'md' | 'lg';
 
 /**
  * A bar that shows how far a task has got. Without a `value` it's
@@ -41,6 +41,10 @@ export class UfProgress extends LitElement {
 
       :host([size='sm']) {
         --_height: var(--uf-progress-height, 0.25rem);
+      }
+
+      :host([size='lg']) {
+        --_height: var(--uf-progress-height, 0.75rem);
       }
 
       :host([variant='success']) {
@@ -141,7 +145,7 @@ export class UfProgress extends LitElement {
   declare showValue: boolean;
   /** Color, by meaning: `accent`, `success`, `warning` or `danger`. */
   declare variant: ProgressVariant;
-  /** Height of the bar: `sm` or `md`. */
+  /** Height of the bar: `sm`, `md` or `lg`. */
   declare size: ProgressSize;
 
   readonly #slots = new HasSlotController(this, 'label');

@@ -147,7 +147,7 @@ export class UfPopover extends LitElement {
     if (this.open && !panel.matches(':popover-open')) {
       panel.showPopover();
       if (trigger) this.#cleanup = autoUpdate(trigger, panel, () => positionFloating(trigger, panel, this.placement, this.distance));
-      this.dispatchEvent(new Event('uf-show', { bubbles: true, composed: true }));
+      this.dispatchEvent(new Event('uf-show'));
       this.afterShow();
     } else if (!this.open && panel.matches(':popover-open')) {
       panel.hidePopover();
@@ -168,7 +168,7 @@ export class UfPopover extends LitElement {
       // Focus would otherwise fall back to <body>.
       if (this.#restoreFocus) this.trigger?.focus();
       this.#restoreFocus = false;
-      this.dispatchEvent(new Event('uf-hide', { bubbles: true, composed: true }));
+      this.dispatchEvent(new Event('uf-hide'));
     }
   };
 

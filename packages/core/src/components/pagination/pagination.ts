@@ -6,7 +6,7 @@ import { Translator } from '../../internal/i18n.js';
 import { iconSvg, icons } from '../../internal/icons.js';
 import { focusRing, hostStyles } from '../../internal/shared.styles.js';
 
-export type PaginationSize = 'sm' | 'md';
+export type PaginationSize = 'sm' | 'md' | 'lg';
 
 export interface PageChangeDetail {
   /** The new page, from 1. */
@@ -68,6 +68,11 @@ export class UfPagination extends LitElement {
         --_size: var(--uf-size-control-sm);
       }
 
+      :host([size='lg']) {
+        --_size: var(--uf-size-control-lg);
+        --_font-size: var(--uf-font-size-md);
+      }
+
       .list {
         display: flex;
         flex-wrap: wrap;
@@ -77,7 +82,7 @@ export class UfPagination extends LitElement {
         padding: 0;
         list-style: none;
         font-family: var(--uf-font-family-sans);
-        font-size: var(--uf-font-size-sm);
+        font-size: var(--_font-size, var(--uf-font-size-sm));
       }
 
       .button {
@@ -148,7 +153,7 @@ export class UfPagination extends LitElement {
   declare siblings: number;
   /** Accessible name of the navigation, e.g. "Search results pages". Defaults to "Pagination", or its translation. */
   declare label: string | undefined;
-  /** Size: `sm` or `md`. */
+  /** Size: `sm`, `md` or `lg`. */
   declare size: PaginationSize;
 
   readonly #translator = new Translator(this);

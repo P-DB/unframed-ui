@@ -2,7 +2,7 @@ import { css, html, nothing, type PropertyDeclarations, type PropertyValues } fr
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { defineElement } from '../../internal/define.js';
-import { describedBy, fieldStyles, renderField } from '../../internal/field.js';
+import { describedBy, fieldStyles, renderField, type FieldSize } from '../../internal/field.js';
 import { FormControl } from '../../internal/form-control.js';
 import { iconSvg, icons } from '../../internal/icons.js';
 import { focusRing, hostStyles } from '../../internal/shared.styles.js';
@@ -83,22 +83,33 @@ export class UfFileUpload extends FormControl {
         flex-direction: column;
         align-items: center;
         gap: var(--uf-space-2);
-        padding: var(--uf-space-5) var(--uf-space-4);
+        padding: var(--_padding, var(--uf-space-5) var(--uf-space-4));
         border: 1px solid var(--uf-file-upload-border-color, var(--uf-color-border-strong));
         /* Like the fields: square by default, following the theme's control radius. */
         border-radius: var(--uf-file-upload-radius, var(--uf-radius-control));
         background: var(--uf-file-upload-bg, transparent);
         color: var(--uf-color-text-muted);
-        font-size: var(--uf-font-size-sm);
+        font-size: var(--_font-size, var(--uf-font-size-sm));
         text-align: center;
         transition:
           border-color var(--uf-duration-fast) ease,
           background-color var(--uf-duration-fast) ease;
       }
 
+      :host([size='sm']) {
+        --_padding: var(--uf-space-3) var(--uf-space-4);
+        --_icon: 1.25rem;
+      }
+
+      :host([size='lg']) {
+        --_padding: var(--uf-space-6) var(--uf-space-5);
+        --_icon: 2.25rem;
+        --_font-size: var(--uf-font-size-md);
+      }
+
       .dropzone > .icon {
-        width: 1.75rem;
-        height: 1.75rem;
+        width: var(--_icon, 1.75rem);
+        height: var(--_icon, 1.75rem);
         color: var(--uf-color-text-muted);
       }
 
@@ -250,6 +261,7 @@ export class UfFileUpload extends FormControl {
     accept: {},
     multiple: { type: Boolean, reflect: true },
     maxSize: { type: Number, attribute: 'max-size' },
+    size: { reflect: true },
   };
 
   /** The chosen files. Set it to `[]` to clear them. */
@@ -264,6 +276,8 @@ export class UfFileUpload extends FormControl {
   declare multiple: boolean;
   /** Largest accepted file, in bytes, e.g. `5000000` for 5 MB. */
   declare maxSize: number | undefined;
+  /** Size of the drop zone: `sm`, `md` or `lg`. */
+  declare size: FieldSize;
 
   readonly #slots = new HasSlotController(this, 'label', 'hint');
   readonly #id = uniqueId('uf-file-upload');
@@ -274,6 +288,7 @@ export class UfFileUpload extends FormControl {
     super();
     this.files = [];
     this.multiple = false;
+    this.size = 'md';
   }
 
   get #input(): HTMLInputElement | null {

@@ -184,7 +184,7 @@ export class UfAccordionItem extends LitElement {
     this.open = open;
     if (open === this.#reported) return;
     this.#reported = open;
-    this.dispatchEvent(new Event(open ? 'uf-show' : 'uf-hide', { bubbles: true, composed: true }));
+    this.dispatchEvent(new Event(open ? 'uf-show' : 'uf-hide'));
   };
 
   override render() {

@@ -2,7 +2,7 @@ import { css, html, nothing, type PropertyDeclarations, type PropertyValues } fr
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { defineElement } from '../../internal/define.js';
-import { describedBy, fieldStyles } from '../../internal/field.js';
+import { describedBy, fieldStyles, type FieldSize } from '../../internal/field.js';
 import { FormControl } from '../../internal/form-control.js';
 import { hostStyles } from '../../internal/shared.styles.js';
 import { HasSlotController, uniqueId } from '../../internal/slot.js';
@@ -59,6 +59,7 @@ export class UfRadioGroup extends FormControl {
     label: {},
     hint: {},
     orientation: { reflect: true },
+    size: { reflect: true },
   };
 
   /** The selected radio's value, or an empty string. */
@@ -71,6 +72,8 @@ export class UfRadioGroup extends FormControl {
   declare hint: string | undefined;
   /** Lays the options out in a column or a row. */
   declare orientation: 'vertical' | 'horizontal';
+  /** Size of the radios and their labels: `sm`, `md` or `lg`. */
+  declare size: FieldSize;
 
   readonly #slots = new HasSlotController(this, 'label', 'hint');
   readonly #id = uniqueId('uf-radio-group');
@@ -80,6 +83,7 @@ export class UfRadioGroup extends FormControl {
     this.value = '';
     this.defaultValue = '';
     this.orientation = 'vertical';
+    this.size = 'md';
     this.addEventListener('click', this.#onClick);
     this.addEventListener('keydown', this.#onKeyDown);
   }
@@ -103,7 +107,7 @@ export class UfRadioGroup extends FormControl {
     this.syncFormState();
   }
 
-  /** Reflects the group's value, disabled state and roving tabindex onto the radios. */
+  /** Reflects the group's value, disabled state, size and roving tabindex onto the radios. */
   #syncRadios(): void {
     const radios = this.#radios;
     const enabled = radios.filter((r) => this.#isEnabled(r));
@@ -113,6 +117,7 @@ export class UfRadioGroup extends FormControl {
       radio.checked = radio.value === this.value;
       radio.tabIndex = radio === focusable ? 0 : -1;
       radio.toggleAttribute('data-group-disabled', this.isDisabled);
+      radio.setAttribute('data-group-size', this.size);
       radio.toggleAttribute('data-invalid', invalid);
       radio.requestUpdate();
     }
