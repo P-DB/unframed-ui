@@ -37,6 +37,9 @@ export class UfAccordionItem extends LitElement {
         color: var(--uf-color-text);
         /* Lets block-size animate to and from auto, where supported. */
         interpolate-size: allow-keywords;
+        /* Gets going right away and glides to a stop: responsive, but smooth. */
+        --_duration: var(--uf-duration-base);
+        --_easing: cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       summary {
@@ -75,7 +78,7 @@ export class UfAccordionItem extends LitElement {
         width: 1.125rem;
         height: 1.125rem;
         color: var(--uf-color-text-muted);
-        transition: rotate var(--uf-duration-base) ease;
+        transition: rotate var(--_duration) var(--_easing);
       }
 
       details[open] .icon {
@@ -86,14 +89,21 @@ export class UfAccordionItem extends LitElement {
         padding: 0 var(--_padding) var(--uf-space-4);
         line-height: 1.5;
         color: var(--uf-color-text-muted);
+        opacity: 0;
+        transition: opacity var(--_duration) var(--_easing);
+      }
+
+      /* The content fades in as the panel opens, instead of appearing all at once. */
+      details[open] .content {
+        opacity: 1;
       }
 
       details::details-content {
         block-size: 0;
         overflow: clip;
         transition:
-          block-size var(--uf-duration-base) ease,
-          content-visibility var(--uf-duration-base) allow-discrete;
+          block-size var(--_duration) var(--_easing),
+          content-visibility var(--_duration) allow-discrete;
       }
 
       details[open]::details-content {
@@ -112,7 +122,8 @@ export class UfAccordionItem extends LitElement {
 
       @media (prefers-reduced-motion: reduce) {
         details::details-content,
-        .icon {
+        .icon,
+        .content {
           transition: none;
         }
       }
