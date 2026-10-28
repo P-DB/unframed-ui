@@ -113,6 +113,15 @@
     "toast-neutral-text": {
       "$value": "{palette.neutral.0}"
     },
+    "toast-accent-bg": {
+      "$value": "{palette.accent.600}"
+    },
+    "toast-accent-border": {
+      "$value": "{palette.accent.600}"
+    },
+    "toast-accent-text": {
+      "$value": "{palette.neutral.0}"
+    },
     "toast-info-bg": {
       "$value": "{palette.signal.blue}"
     },
@@ -163,6 +172,10 @@
     "modal": {
       "$description": "A dialog: like overlay, with a wider glow.",
       "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 30%, transparent), 0 24px 64px -12px color-mix(in srgb, var(--uf-palette-accent-600) 60%, transparent)"
+    },
+    "drawer": {
+      "$description": "A drawer: like modal, with the glow even on every side, so it shows from whichever edge the drawer comes in.",
+      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 30%, transparent), 0 0 48px -8px color-mix(in srgb, var(--uf-palette-accent-600) 55%, transparent)"
     }
   }
 }

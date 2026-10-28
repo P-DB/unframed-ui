@@ -113,6 +113,15 @@
     "toast-neutral-text": {
       "$value": "{palette.neutral.0}"
     },
+    "toast-accent-bg": {
+      "$value": "{palette.accent.600}"
+    },
+    "toast-accent-border": {
+      "$value": "{palette.accent.600}"
+    },
+    "toast-accent-text": {
+      "$value": "{palette.neutral.0}"
+    },
     "toast-info-bg": {
       "$value": "{palette.signal.blue}"
     },
@@ -163,6 +172,10 @@
     "modal": {
       "$description": "A dialog: a deeper shadow.",
       "$value": "{shadow.lg}"
+    },
+    "drawer": {
+      "$description": "A drawer: as deep as a dialog's, but even on every side, so it shows from whichever edge the drawer comes in.",
+      "$value": "0 0 40px rgb(0 0 0 / 0.16), 0 0 12px rgb(0 0 0 / 0.08)"
     }
   }
 }
