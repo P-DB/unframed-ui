@@ -113,19 +113,24 @@ export class UfButton extends LitElement {
     return this.getAttribute(name) ?? undefined;
   }
 
-  // slotchange doesn't fire for a slot that starts empty, so check after the first render too.
-  override firstUpdated(): void {
-    this.#onLabelChange();
+  /**
+   * Whether the default slot gets text or elements, read from the children so it's
+   * known before rendering: checking the slot after a render would render twice.
+   */
+  #hasLabel(): boolean {
+    return [...this.childNodes].some((node) => {
+      if (node instanceof HTMLSlotElement && !node.slot) return node.assignedNodes({ flatten: true }).some((n) => n.nodeType === Node.ELEMENT_NODE || n.textContent?.trim());
+      if (node.nodeType === Node.ELEMENT_NODE) return !(node as Element).slot;
+      return node.nodeType === Node.TEXT_NODE && Boolean(node.textContent?.trim());
+    });
+  }
+
+  override willUpdate(): void {
+    this.#iconOnly = !this.#hasLabel();
   }
 
   #onLabelChange = (): void => {
-    const slot = this.renderRoot.querySelector<HTMLSlotElement>('.label slot');
-    const nodes = slot?.assignedNodes({ flatten: true }) ?? [];
-    const iconOnly = !nodes.some((n) => n.nodeType === Node.ELEMENT_NODE || n.textContent?.trim());
-    if (iconOnly !== this.#iconOnly) {
-      this.#iconOnly = iconOnly;
-      this.requestUpdate();
-    }
+    if (this.#iconOnly === this.#hasLabel()) this.requestUpdate();
   };
 
   /** The form this button belongs to, if any. */

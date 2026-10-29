@@ -19,6 +19,31 @@ afterEach(() => {
 });
 
 describe('uf-button', () => {
+  it('is icon-only without text, and follows label changes', async () => {
+    const iconOnly = (el: UfButton) => inner(el).classList.contains('icon-only');
+    const text = await fixture<UfButton>('<uf-button><svg slot="prefix"></svg>Save</uf-button>');
+    expect(iconOnly(text)).toBe(false);
+
+    const icon = await fixture<UfButton>('<uf-button label="Close"><svg slot="prefix"></svg></uf-button>');
+    expect(iconOnly(icon)).toBe(true);
+    icon.append('Close');
+    await new Promise((r) => setTimeout(r));
+    await icon.updateComplete;
+    expect(iconOnly(icon)).toBe(false);
+    icon.lastChild!.remove();
+    await new Promise((r) => setTimeout(r));
+    await icon.updateComplete;
+    expect(iconOnly(icon)).toBe(true);
+  });
+
+  it('renders an icon-only button once, without a second update', async () => {
+    const update = vi.spyOn(customElements.get('uf-button')!.prototype as UfButton & { update(): void }, 'update');
+    await fixture<UfButton>('<uf-button label="Add"><svg slot="prefix"></svg></uf-button>');
+    await new Promise((r) => setTimeout(r));
+    expect(update).toHaveBeenCalledOnce();
+    update.mockRestore();
+  });
+
   it('renders a native button with sensible defaults', async () => {
     const el = await fixture<UfButton>('<uf-button>Save</uf-button>');
     expect(inner(el).tagName).toBe('BUTTON');
