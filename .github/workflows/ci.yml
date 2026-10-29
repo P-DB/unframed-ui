@@ -15,7 +15,8 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      # Core tests run in all three engines (packages/core/vitest.config.ts).
+      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run build
       # The Claude Code plugin (plugins/unframed) is a committed copy of the
       # generated skill: the build regenerates it, so any change means it's stale.

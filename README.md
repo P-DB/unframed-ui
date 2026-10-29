@@ -189,7 +189,7 @@ Dark mode follows `prefers-color-scheme` automatically. Force a theme with `data
 - Each component lives in `packages/core/src/components/<name>/` with `<name>.ts`, `<name>.styles.ts` and `<name>.test.ts`.
 - Components document their API with JSDoc (`@tag`, `@slot`, `@csspart`, `@cssprop`, `@event`). The build turns that into `custom-elements.json`, which drives IDE autocomplete, the React wrappers and (soon) the docs.
 - Form controls are form-associated through `ElementInternals`.
-- Every component has an axe accessibility test.
+- Every component has an axe accessibility test, and the tests run in Chromium, Firefox and WebKit.
 
 ## Apps
 
@@ -204,12 +204,12 @@ Both read the component sources directly, so edits show up without rebuilding. A
 
 ```bash
 npm install
-npx playwright install chromium   # once, for browser tests
+npx playwright install chromium firefox webkit   # once, for browser tests
 npm run dev        # playground at http://localhost:5180
 npm run storybook  # Storybook at http://localhost:6006
 npm run website    # docs site at http://localhost:5190
 npm run build      # tokens → core (+ manifest) → react wrappers
-npm test           # Vitest browser mode in headless Chromium
+npm test           # Vitest browser mode: core in headless Chromium, Firefox and WebKit
 npm run changeset  # describe a change for the next release
 ```
 
