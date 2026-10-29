@@ -18,6 +18,8 @@ export const formModels = {
   'uf-checkbox-group': { prop: 'value', event: 'change', type: 'string[]' },
   'uf-switch': { prop: 'checked', event: 'change', type: 'boolean' },
   'uf-slider': { prop: 'value', event: 'input', type: 'number' },
+  // `null` while the field is empty.
+  'uf-number-input': { prop: 'value', event: 'input', type: 'number | null' },
   'uf-file-upload': { prop: 'files', event: 'change', type: 'File[]' },
 };
 

@@ -92,6 +92,23 @@ describe('@unframed/angular', () => {
     expect(el.value).toBe('set@b.co');
   });
 
+  it('works with ngModel on the number input, as a number or null', async () => {
+    const { instance, update } = await mount(`<uf-number-input [(ngModel)]="guests" label="Guests" />`, { guests: 2 as number | null });
+    const el = $<HTMLElement & { value: number | null; stepUp(): void }>('uf-number-input');
+    expect(el.value).toBe(2);
+
+    el.stepUp();
+    await settle();
+    expect(instance.guests).toBe(3);
+
+    type(el, '');
+    await settle();
+    expect(instance.guests).toBeNull();
+
+    await update({ guests: 7 });
+    expect(el.value).toBe(7);
+  });
+
   it('works with ngModel on checkboxes (checked)', async () => {
     const { instance } = await mount(`<uf-checkbox [(ngModel)]="agree">Agree</uf-checkbox>`, { agree: false });
     $('uf-checkbox').shadowRoot!.querySelector('input')!.click();

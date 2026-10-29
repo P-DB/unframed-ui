@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createApp, nextTick, ref, type App } from 'vue';
 import '@unframed/tokens/tokens.css';
-import { UfButton, UfCheckbox, UfCheckboxGroup, UfCombobox, UfDialog, UfInput, UfPagination, UfSelect, UfSwitch, UfTab, UfTabPanel, UfTable, UfTabs, UnframedVue } from '../src/index.js';
+import { UfButton, UfCheckbox, UfCheckboxGroup, UfCombobox, UfDialog, UfInput, UfNumberInput, UfPagination, UfSelect, UfSwitch, UfTab, UfTabPanel, UfTable, UfTabs, UnframedVue } from '../src/index.js';
 
 let app: App | undefined;
 let host: HTMLElement;
@@ -60,6 +60,21 @@ describe('@unframed/vue', () => {
     email.value = 'set@b.co';
     await settle();
     expect(el.value).toBe('set@b.co');
+  });
+
+  it('supports v-model on the number input, as a number or null', async () => {
+    const guests = ref<number | null>(2);
+    await mount(`<UfNumberInput v-model="guests" label="Guests" />`, () => ({ guests }), { UfNumberInput });
+    const el = host.querySelector('uf-number-input') as HTMLElement & { value: number | null; stepUp(): void };
+    expect(el.value).toBe(2);
+
+    el.stepUp();
+    await settle();
+    expect(guests.value).toBe(3);
+
+    type(el, '');
+    await settle();
+    expect(guests.value).toBeNull();
   });
 
   it('supports v-model on checkboxes and switches (checked)', async () => {
