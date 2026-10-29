@@ -15,6 +15,7 @@ afterEach(() => {
  */
 const controls: { tag: string; markup: string; prop: string; value: unknown; submitted: string }[] = [
   { tag: 'uf-input', markup: '<uf-input name="f" required></uf-input>', prop: 'value', value: 'John', submitted: 'John' },
+  { tag: 'uf-number-input', markup: '<uf-number-input name="f" required></uf-number-input>', prop: 'value', value: 3, submitted: '3' },
   { tag: 'uf-textarea', markup: '<uf-textarea name="f" required></uf-textarea>', prop: 'value', value: 'Hi', submitted: 'Hi' },
   {
     tag: 'uf-select',
@@ -90,5 +91,50 @@ describe('form controls set from code', () => {
     expect(el.checkValidity()).toBe(false);
     el.required = false;
     expect(el.checkValidity()).toBe(true);
+  });
+});
+
+describe('invalid form controls', () => {
+  for (const { tag, markup } of controls) {
+    it(`${tag}: shows its error inline, without the browser's bubble, and takes focus`, async () => {
+      const form = await fixture<HTMLFormElement>(`<form>${markup}</form>`);
+      const el = form.querySelector<Control & { reportValidity(): boolean }>(tag)!;
+      let cancelled = false;
+      el.addEventListener('invalid', (event) => queueMicrotask(() => (cancelled = event.defaultPrevented)));
+      expect(el.reportValidity()).toBe(false);
+      await Promise.resolve();
+      expect(cancelled).toBe(true);
+      expect(el.matches(':state(user-invalid)')).toBe(true);
+      // On the control, or inside it: a radio group focuses one of its radios.
+      expect(el.contains(document.activeElement)).toBe(true);
+    });
+  }
+
+  it('focuses the first invalid control when a submission is blocked', async () => {
+    const form = await fixture<HTMLFormElement>(`
+      <form>
+        <uf-input name="a" value="ok" required></uf-input>
+        <uf-input name="b" required></uf-input>
+        <uf-input name="c" required></uf-input>
+        <uf-button type="submit">Send</uf-button>
+      </form>`);
+    const [, second, third] = form.querySelectorAll<Control>('uf-input');
+    form.querySelector('uf-button')!.click();
+    expect(document.activeElement).toBe(second);
+    expect(second.matches(':state(user-invalid)')).toBe(true);
+    expect(third.matches(':state(user-invalid)')).toBe(true);
+
+    // The next submission focuses the first invalid control again.
+    (document.activeElement as HTMLElement).blur();
+    await new Promise((r) => setTimeout(r));
+    form.requestSubmit();
+    expect(document.activeElement).toBe(second);
+  });
+
+  it("doesn't show errors or move focus for checkValidity()", async () => {
+    const el = await fixture<Control>('<uf-input required></uf-input>');
+    expect(el.checkValidity()).toBe(false);
+    expect(el.matches(':state(user-invalid)')).toBe(false);
+    expect(document.activeElement).not.toBe(el);
   });
 });

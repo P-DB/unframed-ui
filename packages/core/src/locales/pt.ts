@@ -48,6 +48,8 @@ const pt: Translations = {
   endDate: 'Data de término',
   rangeIncomplete: 'Insira uma data de início e uma de término.',
   endBeforeStart: 'A data de término não pode ser anterior à de início.',
+  decrease: 'Diminuir',
+  increase: 'Aumentar',
 };
 
 export default pt;

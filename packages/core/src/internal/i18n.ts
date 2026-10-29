@@ -80,6 +80,10 @@ export interface Translations {
   rangeIncomplete: string;
   /** Date range picker: error when the end date is before the start date. */
   endBeforeStart: string;
+  /** Number input: the minus button's accessible name. */
+  decrease: string;
+  /** Number input: the plus button's accessible name. */
+  increase: string;
 }
 
 const english: Translations = {
@@ -123,6 +127,8 @@ const english: Translations = {
   endDate: 'End date',
   rangeIncomplete: 'Enter both a start and an end date.',
   endBeforeStart: "The end date can't be before the start date.",
+  decrease: 'Decrease',
+  increase: 'Increase',
 };
 
 /** Registered translations by lowercase language code; '' applies to every language. */

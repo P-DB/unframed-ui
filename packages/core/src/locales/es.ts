@@ -48,6 +48,8 @@ const es: Translations = {
   endDate: 'Fecha de fin',
   rangeIncomplete: 'Introduce una fecha de inicio y una de fin.',
   endBeforeStart: 'La fecha de fin no puede ser anterior a la de inicio.',
+  decrease: 'Disminuir',
+  increase: 'Aumentar',
 };
 
 export default es;

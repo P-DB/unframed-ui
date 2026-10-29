@@ -31,6 +31,9 @@ export { UfDateRangePicker } from './components/date-range-picker/date-range-pic
 export { UfDialog } from './components/dialog/dialog.js';
 export type { DialogCloseSource, DialogRequestCloseDetail } from './components/dialog/dialog.js';
 
+export { UfDivider } from './components/divider/divider.js';
+export type { DividerOrientation } from './components/divider/divider.js';
+
 export { UfDrawer } from './components/drawer/drawer.js';
 export type { DrawerPlacement } from './components/drawer/drawer.js';
 
@@ -46,6 +49,8 @@ export type { FieldSize, InputType } from './components/input/input.js';
 export { UfMenu, UfMenuItem } from './components/menu/menu.js';
 export type { MenuSelectDetail } from './components/menu/menu.js';
 
+export { UfNumberInput } from './components/number-input/number-input.js';
+
 export { UfPagination } from './components/pagination/pagination.js';
 export type { PageChangeDetail, PaginationSize } from './components/pagination/pagination.js';
 
@@ -58,6 +63,9 @@ export { UfRadio } from './components/radio/radio.js';
 export { UfRadioGroup } from './components/radio-group/radio-group.js';
 
 export { UfSelect } from './components/select/select.js';
+
+export { UfSkeleton } from './components/skeleton/skeleton.js';
+export type { SkeletonShape } from './components/skeleton/skeleton.js';
 
 export { UfSlider } from './components/slider/slider.js';
 

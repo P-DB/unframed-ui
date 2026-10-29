@@ -48,6 +48,8 @@ const de: Translations = {
   endDate: 'Enddatum',
   rangeIncomplete: 'Geben Sie ein Start- und ein Enddatum ein.',
   endBeforeStart: 'Das Enddatum darf nicht vor dem Startdatum liegen.',
+  decrease: 'Verringern',
+  increase: 'Erhöhen',
 };
 
 export default de;
