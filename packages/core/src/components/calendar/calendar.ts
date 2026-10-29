@@ -385,6 +385,7 @@ export class UfCalendar extends LitElement {
                 const between = this.range && Boolean(from && to) && iso > from && iso < to;
                 const selected = this.range ? isStart || isEnd || (between && Boolean(this.end)) : iso === this.value;
                 const isToday = iso === today;
+                const outside = day.getUTCMonth() !== month.getUTCMonth();
                 const disabled = this.#isDisabled(day);
                 const parts = [
                   'day',
@@ -399,7 +400,7 @@ export class UfCalendar extends LitElement {
                 return html`<td
                   part=${parts}
                   class=${classMap({
-                    outside: day.getUTCMonth() !== month.getUTCMonth(),
+                    outside,
                     today: isToday,
                     'range-start': isStart,
                     'range-end': isEnd,
@@ -414,7 +415,9 @@ export class UfCalendar extends LitElement {
                   @click=${() => this.#select(day)}
                   @pointerenter=${() => this.#setPreview(day)}
                   @focus=${() => {
-                    if (toIso(this.#focused) !== iso) this.#moveTo(day, false);
+                    // A day of another month is focused by the pointer, just before its click: moving
+                    // to its month now would re-render the grid, and the click would land on another day.
+                    if (!outside && toIso(this.#focused) !== iso) this.#moveTo(day, false);
                   }}
                 >
                   ${day.getUTCDate()}

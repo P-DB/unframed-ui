@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { userEvent } from 'vitest/browser';
 import '@unframed/tokens/tokens.css';
 import { axeViolations, fixture, press } from '../../test-utils.js';
 import './calendar.js';
@@ -56,6 +57,20 @@ describe('uf-calendar', () => {
     expect(onChange).toHaveBeenCalledOnce();
     cell(el, '2026-10-20').click();
     expect(onChange).toHaveBeenCalledOnce();
+  });
+
+  it("selects the clicked day of the next or previous month, and shows that month", async () => {
+    const el = await fixture<UfCalendar>('<uf-calendar lang="en-US" value="2026-11-12"></uf-calendar>');
+    // A real click: the pointer focuses the cell first, which used to move the grid under it.
+    await userEvent.click(cell(el, '2026-12-03'));
+    await el.updateComplete;
+    expect(el.value).toBe('2026-12-03');
+    expect(title(el)).toBe('December 2026');
+
+    await userEvent.click(cell(el, '2026-11-30'));
+    await el.updateComplete;
+    expect(el.value).toBe('2026-11-30');
+    expect(title(el)).toBe('November 2026');
   });
 
   it('moves with the keyboard: days, weeks, week ends, months and years', async () => {
