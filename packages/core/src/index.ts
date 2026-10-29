@@ -1,5 +1,8 @@
 export { UfAccordion, UfAccordionItem } from './components/accordion/accordion.js';
 
+export { UfAlert } from './components/alert/alert.js';
+export type { AlertVariant } from './components/alert/alert.js';
+
 export { UfAvatar } from './components/avatar/avatar.js';
 export type { AvatarShape, AvatarSize } from './components/avatar/avatar.js';
 

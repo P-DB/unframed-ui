@@ -2,7 +2,7 @@ import type { ReactiveController, ReactiveControllerHost } from 'lit';
 
 /** Every built-in text, by key. `{page}` is replaced with the page number. */
 export interface Translations {
-  /** Dialog: the close button's accessible name. */
+  /** Dialog and alert: the close button's accessible name. */
   close: string;
   /** Toast: the dismiss button's accessible name. */
   dismiss: string;
