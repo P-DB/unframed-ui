@@ -1,5 +1,22 @@
 # @unframed/vue
 
+## 0.12.0
+
+### Minor Changes
+
+- 5163e46: Three new components:
+  
+  - `<uf-divider>`: a horizontal or vertical separator, with an optional label like "or".
+  - `<uf-skeleton>`: a placeholder for content that's loading, as lines of text, a block or a circle, with a shimmer that stops for reduced motion. It's hidden from screen readers: mark the loading region with `aria-busy="true"`.
+  - `<uf-number-input>`: a number field with minus and plus buttons, `min`, `max` and `step`, and `stepUp()`/`stepDown()`. Its value is a number, or `null` while empty: `v-model` in Vue, and `ngModel`/`formControl` in Angular with the new `UfOptionalNumberValueAccessor`. New translatable texts `decrease` and `increase`, in every built-in language.
+
+### Patch Changes
+
+- Updated dependencies [69320d1]
+- Updated dependencies [5163e46]
+- Updated dependencies [fcfe53f]
+  - @unframed/core@0.12.0
+
 ## 0.11.0
 
 ### Minor Changes
