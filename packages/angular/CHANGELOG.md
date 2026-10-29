@@ -1,5 +1,18 @@
 # @unframed/angular
 
+## 0.11.0
+
+### Minor Changes
+
+- 2e09890: New `<uf-alert>`: a message in the page, like "Your trial ends in 3 days". Six variants by meaning (`info` by default), each with its icon; a `heading`, `actions` below the message, and `closable` for a close button that hides it (`hide()`, `show()`, `uf-hide`, `uf-show`). `warning` and `danger` alerts are announced right away, the others politely.
+
+### Patch Changes
+
+- Updated dependencies [2e09890]
+- Updated dependencies [ad59a0b]
+- Updated dependencies [f79c00c]
+  - @unframed/core@0.11.0
+
 ## 0.10.0
 
 ### Minor Changes
