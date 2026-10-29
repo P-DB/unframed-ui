@@ -27,6 +27,7 @@ const navSections: { heading: string; links: NavEntry[] }[] = [
       { to: '/docs/theme-generator', label: 'Theme generator' },
       { to: '/docs/translations', label: 'Translations' },
       { to: '/docs/ai-assistants', label: 'AI assistants' },
+      { to: '/docs/stability', label: 'Stability' },
     ],
   },
   {

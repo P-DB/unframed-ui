@@ -39,6 +39,11 @@ export function ReactGuide() {
           native validation and <code>FormData</code> work, controlled or not.
         </li>
         <li>
+          <strong>Controlled or not</strong>: like React's own inputs, <code>value</code> and <code>checked</code> are set
+          again on every render, so keep them in state and update it in <code>onInput</code> or <code>onChange</code>. For
+          just a starting value the user can change, use <code>defaultValue</code> or <code>defaultChecked</code>.
+        </li>
+        <li>
           <strong>Toasts and icons</strong>: <code>toast()</code> and <code>registerIcons()</code> come from{' '}
           <code>@unframed/core</code>.
         </li>

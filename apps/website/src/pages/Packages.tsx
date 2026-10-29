@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
 import { FrameworkCards } from '../components/LinkCards';
 import { code, DocTable } from '../components/DocTable';
@@ -142,7 +143,8 @@ export function Packages() {
       />
       <p>
         All packages are released together with the same version number. While the version starts with <code>0.</code>,
-        a minor release (0.2 → 0.3) may include breaking changes, listed in the changelog.
+        a minor release (0.2 → 0.3) may include breaking changes, listed in the changelog. See{' '}
+        <NavLink to="/docs/stability">Stability</NavLink> for what counts as one.
       </p>
 
       <h2>The packages</h2>

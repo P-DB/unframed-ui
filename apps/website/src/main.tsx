@@ -22,6 +22,7 @@ const VueGuide = page(() => import('./pages/frameworks/Vue'), 'VueGuide');
 const GettingStarted = page(() => import('./pages/GettingStarted'), 'GettingStarted');
 const NotFound = page(() => import('./pages/NotFound'), 'NotFound');
 const Packages = page(() => import('./pages/Packages'), 'Packages');
+const Stability = page(() => import('./pages/Stability'), 'Stability');
 const ThemeGenerator = page(() => import('./pages/ThemeGenerator'), 'ThemeGenerator');
 const Theming = page(() => import('./pages/Theming'), 'Theming');
 const Translations = page(() => import('./pages/Translations'), 'Translations');
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: 'docs/getting-started', element: <GettingStarted /> },
       { path: 'docs/packages', element: <Packages /> },
+      { path: 'docs/stability', element: <Stability /> },
       { path: 'docs/ai-assistants', element: <AiAssistants /> },
       { path: 'docs/frameworks/html', element: <HtmlGuide /> },
       { path: 'docs/frameworks/react', element: <ReactGuide /> },

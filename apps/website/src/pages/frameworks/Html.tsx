@@ -21,8 +21,8 @@ export function HtmlGuide() {
       <h2>3. Use the components</h2>
       <p>
         A sign-up form with validation, a dialog and a toast. Form controls join the surrounding{' '}
-        <code>&lt;form&gt;</code> like native ones: <code>required</code>, <code>FormData</code>, reset and the
-        browser's validation messages all work.
+        <code>&lt;form&gt;</code> like native ones: <code>required</code>, <code>FormData</code> and reset all work,
+        and validation errors show under the field, with focus on the first one.
       </p>
       <CodeBlock
         standalone

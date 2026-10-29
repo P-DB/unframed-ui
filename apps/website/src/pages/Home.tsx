@@ -29,6 +29,19 @@ function useFramework(): string {
   return still ? 'any framework' : frameworks[index];
 }
 
+/**
+ * The rotating framework name, in a component of its own: it re-renders every
+ * 2.2 seconds, and re-rendering the page would reset the showcase's fields.
+ */
+function FrameworkName() {
+  const framework = useFramework();
+  return (
+    <span key={framework} className="hero__framework">
+      {framework}
+    </span>
+  );
+}
+
 /** Two weeks from today, as YYYY-MM-DD, so the example date stays current. */
 const dueDate = new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10);
 
@@ -103,8 +116,6 @@ function Greeting() {
         const name = form.querySelector<Field>('[name="name"]')!;
         const joke = form.querySelector<HTMLElement & { checked: boolean }>('[name="joke"]')!.checked;
         name.setCustomValidity(name.value.trim() ? '' : 'Tell us your name first');
-        // The field shows the error itself: no browser bubble on top of it.
-        name.addEventListener('invalid', (event) => event.preventDefault(), { once: true });
         if (!name.reportValidity()) return;
         const message = joke ? `Have a great day. ${jokes[Math.floor(Math.random() * jokes.length)]}` : 'Have a great day.';
         // Long enough to read the joke: the default 5 seconds is short for two sentences.
@@ -118,7 +129,7 @@ function Greeting() {
         placeholder="John Smith"
         onInput={(e) => (e.currentTarget as unknown as Field).setCustomValidity('')}
       />
-      <UfSwitch name="joke" checked>
+      <UfSwitch name="joke" defaultChecked>
         Add a joke
       </UfSwitch>
       <UfButton type="submit">Greet me</UfButton>
@@ -128,7 +139,6 @@ function Greeting() {
 
 export function Home() {
   const navigate = useNavigate();
-  const framework = useFramework();
 
   return (
     <>
@@ -146,9 +156,7 @@ export function Home() {
             <span aria-hidden="true">
               UI components for
               <br />
-              <span key={framework} className="hero__framework">
-                {framework}
-              </span>
+              <FrameworkName />
             </span>
           </h1>
           <p className="lead lead--hero">
@@ -200,7 +208,7 @@ export function Home() {
             <UfProgress label="Monthly budget" value={72} showValue size="sm" />
           </UfCard>
           <UfCard appearance="elevated" className="showcase__item showcase__date">
-            <UfDatePicker label="Due date" value={dueDate} />
+            <UfDatePicker label="Due date" defaultValue={dueDate} />
           </UfCard>
           <UfAlert variant="success" heading="Changes saved" className="showcase__item showcase__alert">
             Invoice sent to John Smith.
@@ -264,7 +272,7 @@ export function Home() {
               <option value="America/New_York">New York</option>
               <option value="Asia/Tokyo">Tokyo</option>
             </UfCombobox>
-            <UfSwitch name="updates" checked>
+            <UfSwitch name="updates" defaultChecked>
               Product updates
             </UfSwitch>
             <UfCheckbox name="terms" required>
