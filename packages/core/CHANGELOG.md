@@ -1,5 +1,22 @@
 # @unframed/core
 
+## 0.12.0
+
+### Minor Changes
+
+- 5163e46: Three new components:
+  
+  - `<uf-divider>`: a horizontal or vertical separator, with an optional label like "or".
+  - `<uf-skeleton>`: a placeholder for content that's loading, as lines of text, a block or a circle, with a shimmer that stops for reduced motion. It's hidden from screen readers: mark the loading region with `aria-busy="true"`.
+  - `<uf-number-input>`: a number field with minus and plus buttons, `min`, `max` and `step`, and `stepUp()`/`stepDown()`. Its value is a number, or `null` while empty: `v-model` in Vue, and `ngModel`/`formControl` in Angular with the new `UfOptionalNumberValueAccessor`. New translatable texts `decrease` and `increase`, in every built-in language.
+
+### Patch Changes
+
+- 69320d1: `<uf-calendar>` and the date pickers: clicking a day of the previous or next month selects that day. The pointer focused it first, which moved the grid to its month before the click landed, so another day was picked.
+- fcfe53f: Form controls show their validation error only inline: a blocked submission or `reportValidity()` no longer opens the browser's bubble on top of it, which repeated the message. The first invalid control of a submission still gets focus, as with native fields.
+- Updated dependencies [5163e46]
+  - @unframed/tokens@0.12.0
+
 ## 0.11.0
 
 ### Minor Changes
