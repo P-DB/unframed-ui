@@ -1,11 +1,36 @@
 import { toast } from '@unframed/core';
-import { UfButton, UfCard, UfCheckbox, UfCombobox, UfIcon, UfInput, UfSwitch } from '@unframed/react';
+import { UfAlert, UfAvatar, UfBadge, UfButton, UfCard, UfCheckbox, UfCombobox, UfDatePicker, UfIcon, UfInput, UfProgress, UfSwitch } from '@unframed/react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
 import { ComponentCards } from '../components/LinkCards';
-import { LogoMark } from '../components/Logo';
 import { storybookUrl } from '../links';
-import { pages } from '../demos';
+import { version } from '../../../../packages/core/package.json';
+
+const frameworks = ['React', 'Vue', 'Angular', 'Svelte', 'plain HTML'];
+const changelog = 'https://github.com/P-DB/unframed-ui/blob/main/packages/core/CHANGELOG.md';
+const checks = ['WCAG AA contrast', 'Keyboard', 'Screen readers', 'Tested with axe'];
+
+/** Cycles through the framework names, or stays on "any framework" for people who asked for less motion. */
+function useFramework(): string {
+  const [index, setIndex] = useState(0);
+  const [still, setStill] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const onChange = () => setStill(query.matches);
+    query.addEventListener('change', onChange);
+    if (still) return () => query.removeEventListener('change', onChange);
+    const timer = window.setInterval(() => setIndex((i) => (i + 1) % frameworks.length), 2200);
+    return () => {
+      window.clearInterval(timer);
+      query.removeEventListener('change', onChange);
+    };
+  }, [still]);
+  return still ? 'any framework' : frameworks[index];
+}
+
+/** Two weeks from today, as YYYY-MM-DD, so the example date stays current. */
+const dueDate = new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10);
 
 const features = [
   {
@@ -52,37 +77,134 @@ const accessibility = [
   },
 ];
 
+type Field = HTMLElement & { value: string; setCustomValidity(message: string): void; reportValidity(): boolean };
+
+const jokes = [
+  "I'd tell you a joke about z-index, but it would end up behind everything.",
+  'No divs were harmed in the making of this toast.',
+  "This toast doesn't care about your framework. It barely cares about breakfast.",
+  'Why did the button see a therapist? Too many issues with its borders.',
+  'Fun fact: this toast is fully accessible. Your inbox, sadly, is not.',
+  'A CSS selector walks into a bar. The bar is now red.',
+];
+
+/**
+ * The showcase's greeting form. The name is only checked on submit, with a short
+ * message, and the error clears as you type. The switch adds a joke to the toast.
+ */
+function Greeting() {
+  return (
+    <form
+      className="showcase__stack"
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const name = form.querySelector<Field>('[name="name"]')!;
+        const joke = form.querySelector<HTMLElement & { checked: boolean }>('[name="joke"]')!.checked;
+        name.setCustomValidity(name.value.trim() ? '' : 'Tell us your name first');
+        // The field shows the error itself: no browser bubble on top of it.
+        name.addEventListener('invalid', (event) => event.preventDefault(), { once: true });
+        if (!name.reportValidity()) return;
+        const message = joke ? `Have a great day. ${jokes[Math.floor(Math.random() * jokes.length)]}` : 'Have a great day.';
+        // Long enough to read the joke: the default 5 seconds is short for two sentences.
+        toast(message, { variant: 'accent', title: `Hi, ${name.value.trim()}! 👋`, duration: 10000 });
+      }}
+    >
+      <UfInput
+        name="name"
+        label="Your name"
+        autocomplete="name"
+        placeholder="John Smith"
+        onInput={(e) => (e.currentTarget as unknown as Field).setCustomValidity('')}
+      />
+      <UfSwitch name="joke" checked>
+        Add a joke
+      </UfSwitch>
+      <UfButton type="submit">Greet me</UfButton>
+    </form>
+  );
+}
+
 export function Home() {
   const navigate = useNavigate();
+  const framework = useFramework();
 
   return (
     <>
       <section className="hero">
-        <div className="hero__brand">
-          <LogoMark className="hero__logo" />
-          Unframed
-        </div>
-        <h1 className="hero__title">
-          UI components that <em className="hero__highlight">don’t care</em> about your framework.
-        </h1>
-        <p className="lead lead--hero">
-          Unframed is a library of accessible, themeable web components. Use them anywhere, and own them when you want to.
-        </p>
-        <p className="hero__a11y">
-          <UfIcon name="check-circle" /> Accessible by default: keyboard, screen readers and WCAG AA contrast, tested in every
-          component.
-        </p>
-        <div className="hero__actions">
-          <UfButton size="lg" onClick={() => navigate('/docs/getting-started')}>
-            Get started
-          </UfButton>
-          <UfButton size="lg" variant="outline" onClick={() => navigate('/components')}>
-            Browse components
-          </UfButton>
-          <UfButton size="lg" variant="outline" href={storybookUrl} target="_blank">
-            Open Storybook
+        <div className="hero__text">
+          <a className="hero__eyebrow" href={changelog} target="_blank" rel="noreferrer">
+            <UfBadge variant="accent" size="sm">
+              v{version}
+            </UfBadge>
+            What's new in Unframed
+            <UfIcon name="chevron-right" />
+          </a>
+          <h1 className="hero__title">
+            <span className="visually-hidden">UI components for React, Vue, Angular, Svelte and plain HTML.</span>
+            <span aria-hidden="true">
+              UI components for
+              <br />
+              <span key={framework} className="hero__framework">
+                {framework}
+              </span>
+            </span>
+          </h1>
+          <p className="lead lead--hero">
+            Accessible, themeable web components that don’t care about your framework. Use them anywhere, and own the
+            code when you want to.
+          </p>
+          <div className="hero__actions">
+            <UfButton size="lg" onClick={() => navigate('/docs/getting-started')}>
+              Get started
+            </UfButton>
+            <UfButton size="lg" variant="outline" href={storybookUrl} target="_blank">
+              Open Storybook
+              <UfIcon slot="suffix" name="chevron-right" />
+            </UfButton>
+          </div>
+          <UfButton variant="link" className="hero__browse" onClick={() => navigate('/components')}>
+            Browse all components
             <UfIcon slot="suffix" name="chevron-right" />
           </UfButton>
+          <ul className="hero__checks" aria-label="Accessible by default">
+            {checks.map((check) => (
+              <li key={check}>
+                <UfIcon name="check" />
+                {check}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Real components, spilling out of a frame like the logo's piece out of its box. */}
+        <div className="showcase" aria-label="A few Unframed components" role="group">
+          <div className="showcase__frame" aria-hidden="true" />
+          <UfBadge variant="accent" className="showcase__frame-label" aria-hidden="true">
+            &lt;your-app&gt;
+          </UfBadge>
+          <UfCard appearance="elevated" className="showcase__item showcase__signup">
+            <strong slot="header">How’s your day going?</strong>
+            <Greeting />
+          </UfCard>
+          <UfCard appearance="elevated" className="showcase__item showcase__invoice">
+            <div className="showcase__row">
+              <UfAvatar name="John Smith" size="sm" />
+              <span className="showcase__name">
+                <strong>INV-1042</strong>
+                <span>John Smith</span>
+              </span>
+              <UfBadge variant="success">Paid</UfBadge>
+            </div>
+            <UfProgress label="Monthly budget" value={72} showValue size="sm" />
+          </UfCard>
+          <UfCard appearance="elevated" className="showcase__item showcase__date">
+            <UfDatePicker label="Due date" value={dueDate} />
+          </UfCard>
+          <UfAlert variant="success" heading="Changes saved" className="showcase__item showcase__alert">
+            Invoice sent to John Smith.
+          </UfAlert>
         </div>
       </section>
 
@@ -125,7 +247,7 @@ export function Home() {
 
       <section className="section">
         <h2 className="section__title">Try it</h2>
-        <div className="demo">
+        <div className="demo demo--split">
           <form
             className="demo__preview demo__preview--stack"
             noValidate
@@ -186,7 +308,7 @@ export function Home() {
       </section>
 
       <section className="section">
-        <h2 className="section__title">{pages.length} components, and counting</h2>
+        <h2 className="section__title">All components</h2>
         <ComponentCards />
       </section>
     </>

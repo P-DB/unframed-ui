@@ -144,18 +144,20 @@ export function Layout() {
     <>
       <header className="site-header" data-uf-theme="dark">
         <div className="site-header__inner">
-          <NavLink to="/" className="site-header__logo">
-            <LogoMark className="site-header__logo-mark" />
-            Unframed
-          </NavLink>
-          <nav className="site-header__nav" aria-label="Main">
-            <NavLink to="/docs/getting-started" className={headerLink}>
-              Docs
+          <div className="site-header__start">
+            <NavLink to="/" className="site-header__logo">
+              <LogoMark className="site-header__logo-mark" />
+              Unframed
             </NavLink>
-            <NavLink to="/components" className={headerLink}>
-              Components
-            </NavLink>
-          </nav>
+            <nav className="site-header__nav" aria-label="Main">
+              <NavLink to="/docs/getting-started" className={headerLink}>
+                Docs
+              </NavLink>
+              <NavLink to="/components" className={headerLink}>
+                Components
+              </NavLink>
+            </nav>
+          </div>
           <UfTooltip content={`Switch to ${next} theme`} placement="bottom">
             <UfButton variant="ghost" size="sm" label={`Switch to ${next} theme`} onClick={() => setTheme(next)}>
               <UfIcon slot="prefix" name={theme === 'dark' ? 'sun' : 'moon'} />
@@ -195,7 +197,19 @@ export function Layout() {
 
       <footer className="site-footer">
         <div className="site-footer__inner">
-          <span>Unframed is MIT licensed. Built with Lit.</span>
+          <span className="site-footer__about">
+            <NavLink to="/" className="site-footer__brand">
+              <LogoMark className="site-footer__brand-mark" />
+              Unframed
+            </NavLink>
+            <span>
+              MIT licensed. Built with{' '}
+              <UfButton variant="link" size="sm" href="https://lit.dev/" target="_blank">
+                Lit
+              </UfButton>
+              .
+            </span>
+          </span>
           <span className="site-footer__credit">
             Made by{' '}
             <UfButton variant="link" size="sm" href="https://p-db.github.io/" target="_blank">
