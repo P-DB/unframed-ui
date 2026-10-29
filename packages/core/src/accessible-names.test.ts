@@ -1,5 +1,5 @@
 import { afterEach, expect, it } from 'vitest';
-import { cdp } from 'vitest/browser';
+import { cdp, server } from 'vitest/browser';
 import { fixture } from './test-utils.js';
 import './index.js';
 
@@ -53,8 +53,9 @@ afterEach(() => {
 });
 
 // E.g. a language switch: the label attribute changes after the first render.
+// Reads the browser's own accessibility tree, which only Chromium exposes (through CDP).
 for (const [tag, markup, role] of cases) {
-  it(`${tag}: the accessible name follows the label attribute after the first render`, async () => {
+  it.runIf(server.browser === 'chromium')(`${tag}: the accessible name follows the label attribute after the first render`, async () => {
     const el = await fixture<HTMLElement & { updateComplete: Promise<unknown> }>(markup, tag);
     expect(await accessibleNames(role)).toContain('Email');
     el.setAttribute('label', 'E-Mail');
