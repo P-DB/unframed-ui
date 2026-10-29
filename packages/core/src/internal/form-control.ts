@@ -9,6 +9,9 @@ import { Translator } from './i18n.js';
  *
  * Subclasses implement `syncFormState()` and call it whenever their value changes.
  */
+/** Forms (or lone controls) that already focused their first invalid control in this submission. */
+const focusedForInvalid = new WeakSet<HTMLElement>();
+
 export abstract class FormControl extends LitElement {
   static formAssociated = true;
   static override shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
@@ -40,11 +43,27 @@ export abstract class FormControl extends LitElement {
     this.name = '';
     this.disabled = false;
     this.required = false;
-    // Fired by the form when submission is blocked by this control.
-    this.addEventListener('invalid', () => {
-      if (!this.#checking) this.markInteracted();
-    });
+    // Fired by the form when submission is blocked by this control, and by reportValidity().
+    this.addEventListener('invalid', this.#onInvalid);
   }
+
+  /**
+   * Shows the error inline instead of the browser's bubble, which would repeat it.
+   * Cancelling the event also stops the browser from focusing the field, so the
+   * first invalid control of a submission is focused here instead.
+   */
+  #onInvalid = (event: Event): void => {
+    if (this.#checking) return;
+    event.preventDefault();
+    this.markInteracted();
+    const group = this.internals.form ?? this;
+    if (focusedForInvalid.has(group)) return;
+    focusedForInvalid.add(group);
+    // A submission fires `invalid` on every invalid control in one task: only the first gets focus.
+    // Cleared after the task, not in a microtask: those run between the events of a user's submit.
+    setTimeout(() => focusedForInvalid.delete(group));
+    this.focus();
+  };
 
   /** True while an update runs, so changes made during it don't start a nested one. */
   #updating = false;
