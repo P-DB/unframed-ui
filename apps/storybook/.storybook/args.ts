@@ -54,6 +54,8 @@ const aliases: Record<string, string[]> = {
   ButtonType: ['button', 'submit', 'reset'],
   CardAppearance: ['outline', 'elevated', 'filled'],
   CardOrientation: ['vertical', 'horizontal'],
+  DividerOrientation: ['horizontal', 'vertical'],
+  SkeletonShape: ['text', 'rect', 'circle'],
   FieldSize: ['sm', 'md', 'lg'],
   PaginationSize: ['sm', 'md', 'lg'],
   ProgressSize: ['sm', 'md', 'lg'],

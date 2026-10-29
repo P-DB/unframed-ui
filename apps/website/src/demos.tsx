@@ -16,11 +16,13 @@ import {
   UfDatePicker,
   UfDateRangePicker,
   UfDialog,
+  UfDivider,
   UfDrawer,
   UfDropdown,
   UfFileUpload,
   UfIcon,
   UfInput,
+  UfNumberInput,
   UfMenu,
   UfMenuItem,
   UfPagination,
@@ -29,6 +31,7 @@ import {
   UfRadio,
   UfRadioGroup,
   UfSelect,
+  UfSkeleton,
   UfSlider,
   UfSpinner,
   UfSwitch,
@@ -1118,6 +1121,65 @@ const dialog = ref();
     ],
   },
   {
+    slug: 'divider',
+    title: 'Divider',
+    tags: ['uf-divider'],
+    module: 'divider',
+    examples: [
+      {
+        title: 'Between sections, or with a label',
+        stack: true,
+        Preview: () => (
+          <>
+            <span>Profile</span>
+            <UfDivider />
+            <span>Notifications</span>
+            <UfDivider>or</UfDivider>
+            <UfButton variant="outline">Continue with GitHub</UfButton>
+          </>
+        ),
+        html: code(`
+<section>Profile</section>
+<uf-divider></uf-divider>
+<section>Notifications</section>
+
+<uf-divider>or</uf-divider>`),
+        react: code(`
+<section>Profile</section>
+<UfDivider />
+<section>Notifications</section>
+
+<UfDivider>or</UfDivider>`),
+        notes: ['Screen readers announce a divider as a separator. A label is read as plain text, so keep it short, like "or".'],
+      },
+      {
+        title: 'Vertical',
+        description: 'Between items in a row. It takes the height of the row.',
+        Preview: () => (
+          <div style={{ display: 'flex', alignItems: 'center', height: '1.5rem' }}>
+            <UfButton variant="link">Edit</UfButton>
+            <UfDivider orientation="vertical" />
+            <UfButton variant="link">Duplicate</UfButton>
+            <UfDivider orientation="vertical" />
+            <UfButton variant="link">Archive</UfButton>
+          </div>
+        ),
+        html: code(`
+<div style="display: flex; align-items: center">
+  <uf-button variant="link">Edit</uf-button>
+  <uf-divider orientation="vertical"></uf-divider>
+  <uf-button variant="link">Duplicate</uf-button>
+</div>`),
+        react: code(`
+<div style={{ display: 'flex', alignItems: 'center' }}>
+  <UfButton variant="link">Edit</UfButton>
+  <UfDivider orientation="vertical" />
+  <UfButton variant="link">Duplicate</UfButton>
+</div>`),
+      },
+    ],
+  },
+  {
     slug: 'drawer',
     title: 'Drawer',
     tags: ['uf-drawer'],
@@ -1526,6 +1588,81 @@ const email = ref('');
     ],
   },
   {
+    slug: 'number-input',
+    title: 'Number input',
+    tags: ['uf-number-input'],
+    module: 'number-input',
+    examples: [
+      {
+        title: 'Basic',
+        description: 'The value is a number, or `null` while the field is empty. The buttons and the arrow keys step it, within `min` and `max`.',
+        stack: true,
+        Preview: () => {
+          const [guests, setGuests] = useState<number | null>(2);
+          return (
+            <>
+              <UfNumberInput
+                label="Guests"
+                hint="Up to 10"
+                min={1}
+                max={10}
+                value={guests}
+                onInput={(e) => setGuests((e.currentTarget as unknown as { value: number | null }).value)}
+              />
+              <span style={{ color: 'var(--uf-color-text-muted)', fontSize: '0.875rem' }}>Value: {String(guests)}</span>
+            </>
+          );
+        },
+        html: code(`
+<uf-number-input name="guests" label="Guests" hint="Up to 10" value="2" min="1" max="10"></uf-number-input>`),
+        react: code(`
+const [guests, setGuests] = useState<number | null>(2);
+
+<UfNumberInput label="Guests" min={1} max={10} value={guests} onInput={(e) => setGuests(e.currentTarget.value)} />`),
+        vue: code(`
+<script setup>
+const guests = ref(2);
+</script>
+
+<template>
+  <UfNumberInput v-model="guests" label="Guests" :min="1" :max="10" />
+</template>`),
+        angular: code(`
+<!-- guests: number | null = 2 -->
+<uf-number-input [(ngModel)]="guests" label="Guests" min="1" max="10"></uf-number-input>`),
+      },
+      {
+        title: 'Steps, units and validation',
+        description: '`step` sets how much the buttons move, and the value must be a multiple of it. Put a unit or a currency in the `prefix` or `suffix` slot.',
+        stack: true,
+        Preview: () => (
+          <>
+            <UfNumberInput label="Price" value={9.5} step={0.5} min={0}>
+              <span slot="prefix">€</span>
+            </UfNumberInput>
+            <UfNumberInput label="Weight" value={250} step={50} min={0} required>
+              <span slot="suffix">g</span>
+            </UfNumberInput>
+          </>
+        ),
+        html: code(`
+<uf-number-input label="Price" value="9.5" step="0.5" min="0">
+  <span slot="prefix">€</span>
+</uf-number-input>
+<uf-number-input label="Weight" value="250" step="50" min="0" required>
+  <span slot="suffix">g</span>
+</uf-number-input>`),
+        react: code(`
+<UfNumberInput label="Price" value={9.5} step={0.5} min={0}>
+  <span slot="prefix">€</span>
+</UfNumberInput>
+<UfNumberInput label="Weight" value={250} step={50} min={0} required>
+  <span slot="suffix">g</span>
+</UfNumberInput>`),
+      },
+    ],
+  },
+  {
     slug: 'pagination',
     title: 'Pagination',
     tags: ['uf-pagination'],
@@ -1720,6 +1857,67 @@ const [page, setPage] = useState(6);
     <option value="us">United States</option>
   </optgroup>
 </UfSelect>`),
+      },
+    ],
+  },
+  {
+    slug: 'skeleton',
+    title: 'Skeleton',
+    tags: ['uf-skeleton'],
+    module: 'skeleton',
+    examples: [
+      {
+        title: 'Shapes',
+        description: 'Lines of text (`lines`), a circle or a block (`rect`), sized with CSS. A shimmer sweeps across them, except for people who asked for less motion.',
+        stack: true,
+        Preview: () => (
+          <div aria-busy="true" style={{ display: 'grid', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <UfSkeleton shape="circle" />
+              <UfSkeleton lines={3} style={{ flex: 1 }} />
+            </div>
+            <UfSkeleton shape="rect" />
+          </div>
+        ),
+        html: code(`
+<div aria-busy="true">
+  <uf-skeleton shape="circle"></uf-skeleton>
+  <uf-skeleton lines="3"></uf-skeleton>
+
+  <uf-skeleton shape="rect"></uf-skeleton>
+</div>`),
+        react: code(`
+<div aria-busy="true">
+  <UfSkeleton shape="circle" />
+  <UfSkeleton lines={3} />
+
+  <UfSkeleton shape="rect" />
+</div>`),
+        notes: [
+          'Skeletons are hidden from screen readers. Mark the region that is loading with `aria-busy="true"`, and remove it when the content arrives.',
+        ],
+      },
+      {
+        title: 'A card while it loads',
+        Preview: () => (
+          <UfCard style={{ width: '16rem' }} aria-busy="true">
+            <UfSkeleton slot="media" shape="rect" style={{ height: '8rem' }} />
+            <UfSkeleton slot="header" style={{ width: '60%' }} />
+            <UfSkeleton lines={2} />
+          </UfCard>
+        ),
+        html: code(`
+<uf-card aria-busy="true">
+  <uf-skeleton slot="media" shape="rect" style="height: 8rem"></uf-skeleton>
+  <uf-skeleton slot="header" style="width: 60%"></uf-skeleton>
+  <uf-skeleton lines="2"></uf-skeleton>
+</uf-card>`),
+        react: code(`
+<UfCard aria-busy="true">
+  <UfSkeleton slot="media" shape="rect" style={{ height: '8rem' }} />
+  <UfSkeleton slot="header" style={{ width: '60%' }} />
+  <UfSkeleton lines={2} />
+</UfCard>`),
       },
     ],
   },

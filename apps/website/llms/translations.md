@@ -39,7 +39,7 @@ document.documentElement.lang = 'fr'; // components update
 
 | Key | English | Where |
 |---|---|---|
-| `close` | Close | Dialog close button |
+| `close` | Close | Dialog and alert close button |
 | `dismiss` | Dismiss | Toast dismiss button |
 | `notifications` | Notifications | Toaster region, unless `label` is set |
 | `showOptions` | Show options | Combobox arrow button |
@@ -74,5 +74,6 @@ document.documentElement.lang = 'fr'; // components update
 | `startDate`, `endDate` | Start date, End date | Date range picker: the inputs' names, after the label |
 | `rangeIncomplete` | Enter both a start and an end date. | Date range picker: only one date set |
 | `endBeforeStart` | The end date can't be before the start date. | Date range picker: reversed range |
+| `decrease`, `increase` | Decrease, Increase | Number input: the minus and plus buttons |
 
 Month and weekday names, date formats and the first day of the week come from the browser (Intl), for the nearest `lang`.

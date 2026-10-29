@@ -22,7 +22,7 @@ const builtIn = [
 ];
 
 const keys: [string, string, string][] = [
-  ['close', 'Close', 'Dialog: the close button'],
+  ['close', 'Close', 'Dialog and alert: the close button'],
   ['dismiss', 'Dismiss', "Toast: each toast's dismiss button"],
   ['notifications', 'Notifications', 'Toaster: the notification region, unless `label` is set'],
   ['showOptions', 'Show options', 'Combobox: the arrow button'],
@@ -62,6 +62,8 @@ const keys: [string, string, string][] = [
   ['endDate', 'End date', "Date range picker: the end input's name, after the label"],
   ['rangeIncomplete', 'Enter both a start and an end date.', 'Date range picker: only one of the two dates is set'],
   ['endBeforeStart', "The end date can't be before the start date.", 'Date range picker: the end is before the start'],
+  ['decrease', 'Decrease', 'Number input: the minus button'],
+  ['increase', 'Increase', 'Number input: the plus button'],
 ];
 
 const columns: TableColumn[] = [

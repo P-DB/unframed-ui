@@ -46,16 +46,19 @@ Unframed 0.11.0: accessible UI components as standard custom elements (Lit). Eve
 | Date picker: Lets users type or pick a date. | `<uf-date-picker>` `<uf-calendar>` | `@unframed/core/date-picker` `@unframed/core/calendar` |
 | Date range picker: Lets users type or pick a start and an end date. | `<uf-date-range-picker>` `<uf-calendar>` | `@unframed/core/date-range-picker` `@unframed/core/calendar` |
 | Dialog: Shows content in a modal window on top of the page. | `<uf-dialog>` | `@unframed/core/dialog` |
+| Divider: Separates groups of content with a line. | `<uf-divider>` | `@unframed/core/divider` |
 | Drawer: A panel that slides in from an edge of the screen. | `<uf-drawer>` | `@unframed/core/drawer` |
 | Dropdown menu: Opens a menu of actions from a button. | `<uf-dropdown>` `<uf-menu>` `<uf-menu-item>` | `@unframed/core/dropdown` `@unframed/core/menu` |
 | File upload: Lets users choose files to upload. | `<uf-file-upload>` | `@unframed/core/file-upload` |
 | Icon: Shows a small symbol. | `<uf-icon>` | `@unframed/core/icon` |
 | Input: Lets users enter a single line of text. | `<uf-input>` | `@unframed/core/input` |
+| Number input: Lets users enter a number, or step it with buttons. | `<uf-number-input>` | `@unframed/core/number-input` |
 | Pagination: Moves between the pages of a long list. | `<uf-pagination>` | `@unframed/core/pagination` |
 | Popover: Shows floating content next to a trigger. | `<uf-popover>` | `@unframed/core/popover` |
 | Progress: Shows how far a task has got. | `<uf-progress>` | `@unframed/core/progress` |
 | Radio group: Lets users pick exactly one option from a list. | `<uf-radio-group>` `<uf-radio>` | `@unframed/core/radio-group` `@unframed/core/radio` |
 | Select: Lets users pick one option from a dropdown list. | `<uf-select>` | `@unframed/core/select` |
+| Skeleton: Holds the place of content while it loads. | `<uf-skeleton>` | `@unframed/core/skeleton` |
 | Slider: Lets users pick a number in a range. | `<uf-slider>` | `@unframed/core/slider` |
 | Spinner: Shows that something is loading. | `<uf-spinner>` | `@unframed/core/spinner` |
 | Switch: Turns a setting on or off. | `<uf-switch>` | `@unframed/core/switch` |

@@ -1284,6 +1284,67 @@ Escape, the close button and any element with `data-dialog="close"` close it.
 | `--uf-dialog-radius` | Corner radius. |
 | `--uf-dialog-backdrop` | Backdrop color. |
 
+## Divider
+
+A line between groups of content, across or beside them. Assistive tech
+announces it as a separator. With a label ("or"), the label is read as plain
+text and the line around it is decorative.
+
+Tags: `<uf-divider>`. Import: `import '@unframed/core/divider';` (or `npx @unframed/cli add divider` to copy the source).
+
+### Between sections, or with a label
+
+```html
+<section>Profile</section>
+<uf-divider></uf-divider>
+<section>Notifications</section>
+
+<uf-divider>or</uf-divider>
+```
+
+- Screen readers announce a divider as a separator. A label is read as plain text, so keep it short, like "or".
+
+### Vertical
+
+Between items in a row. It takes the height of the row.
+
+```html
+<div style="display: flex; align-items: center">
+  <uf-button variant="link">Edit</uf-button>
+  <uf-divider orientation="vertical"></uf-divider>
+  <uf-button variant="link">Duplicate</uf-button>
+</div>
+```
+
+### `<uf-divider>` API
+
+#### Attributes and properties
+
+| Attribute | Property | Type | Default | Description |
+|---|---|---|---|---|
+| `orientation` |  | `DividerOrientation` | `'horizontal'` | `horizontal` (across the content) or `vertical` (between items in a row). |
+
+#### Slots
+
+| Slot | Description |
+|---|---|
+| (default) | An optional label in the middle of the line, like "or". |
+
+#### CSS parts
+
+| Part | Description |
+|---|---|
+| `base` | The line, or the wrapper around a labelled one. |
+| `label` | The label. |
+
+#### CSS custom properties
+
+| Property | Description |
+|---|---|
+| `--uf-divider-color` | Color of the line. |
+| `--uf-divider-width` | Thickness of the line. |
+| `--uf-divider-spacing` | Space before and after the line. |
+
 ## Drawer
 
 A panel that slides in from an edge of the screen, for navigation, filters or
@@ -1772,6 +1833,115 @@ Errors appear after the user edits the field or tries to submit.
 | `--uf-field-border-color` | Border color of the box. |
 | `--uf-field-radius` | Corner radius of the box. |
 
+## Number input
+
+A field for a number, with buttons to step it down and up. The value is a
+number, or `null` while the field is empty. Arrow keys step it too, Enter
+submits the form, and `min`, `max` and `step` validate it like a native
+number input.
+
+The buttons are out of the tab order: arrow keys do the same from the field.
+
+Tags: `<uf-number-input>`. Import: `import '@unframed/core/number-input';` (or `npx @unframed/cli add number-input` to copy the source).
+
+### Basic
+
+The value is a number, or `null` while the field is empty. The buttons and the arrow keys step it, within `min` and `max`.
+
+```html
+<uf-number-input name="guests" label="Guests" hint="Up to 10" value="2" min="1" max="10"></uf-number-input>
+```
+
+### Steps, units and validation
+
+`step` sets how much the buttons move, and the value must be a multiple of it. Put a unit or a currency in the `prefix` or `suffix` slot.
+
+```html
+<uf-number-input label="Price" value="9.5" step="0.5" min="0">
+  <span slot="prefix">€</span>
+</uf-number-input>
+<uf-number-input label="Weight" value="250" step="50" min="0" required>
+  <span slot="suffix">g</span>
+</uf-number-input>
+```
+
+### `<uf-number-input>` API
+
+#### Attributes and properties
+
+| Attribute | Property | Type | Default | Description |
+|---|---|---|---|---|
+| `value` | `defaultValue` | `number \| null` | `null` | Initial value, restored on form reset. Set with the `value` attribute. |
+| `label` |  | `string \| undefined` |  | Visible label. |
+| `hint` |  | `string \| undefined` |  | Help text below the field. |
+| `placeholder` |  | `string \| undefined` |  | Placeholder text. |
+| `size` |  | `FieldSize` | `'md'` | Size of the field. |
+| `readonly` |  | `boolean` | `false` | Makes the field read-only, without the buttons doing anything. |
+| `min` |  | `number \| null` | `null` | Lowest value. |
+| `max` |  | `number \| null` | `null` | Highest value. |
+| `step` |  | `number` | `1` | The buttons and arrow keys move by this much, and the value must be a multiple of it (from `min`). |
+| `name` |  | `string` | `''` | Name submitted with the form. |
+| `disabled` |  | `boolean` | `false` | Disables the control. |
+| `required` |  | `boolean` | `false` | Makes the control required for form submission. |
+
+#### Properties only
+
+| Property | Type | Description |
+|---|---|---|
+| `value` | `number \| null` | Current value, or `null` while the field is empty. |
+| `form` | `HTMLFormElement \| null` | Read-only. The form this control belongs to, if any. |
+| `validity` | `ValidityState` | Read-only. The control's validity state, like a native input's. |
+| `validationMessage` | `string` | Read-only. The error message shown when the value is invalid. |
+| `willValidate` | `boolean` | Read-only. Whether the control takes part in form validation. |
+
+#### Methods
+
+| Method | Description |
+|---|---|
+| `stepUp(count?: unknown)` | Steps the value up by `step` (or `count` steps), like the plus button. |
+| `stepDown(count?: unknown)` | Steps the value down by `step` (or `count` steps), like the minus button. |
+| `checkValidity()` | Returns whether the value is valid, without showing an error. |
+| `reportValidity()` | Returns whether the value is valid, and shows the error if not. |
+| `setCustomValidity(message: string)` | Sets a custom error message. Pass an empty string to clear it. |
+
+#### Events
+
+| Event | Type | Description |
+|---|---|---|
+| `input` | `Event` | Fired on every keystroke and every step. |
+| `change` | `Event` | Fired when the value is committed: blur, Enter or a step. |
+
+#### Slots
+
+| Slot | Description |
+|---|---|
+| `label` | The label, when you need markup. Overrides `label`. |
+| `hint` | Help text below the field. Overrides `hint`. |
+| `prefix` | An icon or text before the number, like a currency. |
+| `suffix` | An icon or text after the number, like a unit. |
+
+#### CSS parts
+
+| Part | Description |
+|---|---|
+| `field` | The wrapper around label, control, hint and error. |
+| `form-label` | The label. |
+| `box` | The bordered box around the input and the buttons. |
+| `input` | The native `<input type="number">`. |
+| `steppers` | The wrapper around the two buttons. |
+| `decrement` | The minus button. |
+| `increment` | The plus button. |
+| `hint` | The hint text. |
+| `error` | The validation message. |
+
+#### CSS custom properties
+
+| Property | Description |
+|---|---|
+| `--uf-field-bg` | Background of the box. |
+| `--uf-field-border-color` | Border color of the box. |
+| `--uf-field-radius` | Corner radius of the box. |
+
 ## Pagination
 
 Navigation between the pages of a list or table. Set `pages` and `page`; the
@@ -2172,6 +2342,67 @@ Built on the native `<select>`: write plain `<option>` and `<optgroup>` children
 | `--uf-field-bg` | Background of the box. |
 | `--uf-field-border-color` | Border color of the box. |
 | `--uf-field-radius` | Corner radius of the box. |
+
+## Skeleton
+
+A grey placeholder in the shape of content that's still loading: lines of
+text, a block or a circle. It's decorative, hidden from assistive tech: mark
+the region that's loading with `aria-busy="true"`, and announce the result
+when it arrives.
+
+Size it with `width` and `height` in CSS; `text` lines take the height of a
+line of text, and `circle` stays round.
+
+Tags: `<uf-skeleton>`. Import: `import '@unframed/core/skeleton';` (or `npx @unframed/cli add skeleton` to copy the source).
+
+### Shapes
+
+Lines of text (`lines`), a circle or a block (`rect`), sized with CSS. A shimmer sweeps across them, except for people who asked for less motion.
+
+```html
+<div aria-busy="true">
+  <uf-skeleton shape="circle"></uf-skeleton>
+  <uf-skeleton lines="3"></uf-skeleton>
+
+  <uf-skeleton shape="rect"></uf-skeleton>
+</div>
+```
+
+- Skeletons are hidden from screen readers. Mark the region that is loading with `aria-busy="true"`, and remove it when the content arrives.
+
+### A card while it loads
+
+```html
+<uf-card aria-busy="true">
+  <uf-skeleton slot="media" shape="rect" style="height: 8rem"></uf-skeleton>
+  <uf-skeleton slot="header" style="width: 60%"></uf-skeleton>
+  <uf-skeleton lines="2"></uf-skeleton>
+</uf-card>
+```
+
+### `<uf-skeleton>` API
+
+#### Attributes and properties
+
+| Attribute | Property | Type | Default | Description |
+|---|---|---|---|---|
+| `shape` |  | `SkeletonShape` | `'text'` | `text` (lines of text), `rect` (a block, like an image) or `circle` (like an avatar). |
+| `lines` |  | `number` | `1` | Number of lines of a `text` placeholder. |
+
+#### CSS parts
+
+| Part | Description |
+|---|---|
+| `base` | The placeholder, or the wrapper around its lines. |
+| `line` | One line of a `text` placeholder. |
+
+#### CSS custom properties
+
+| Property | Description |
+|---|---|
+| `--uf-skeleton-color` | Background of the placeholder. |
+| `--uf-skeleton-highlight` | Color of the shimmer that sweeps across it. |
+| `--uf-skeleton-radius` | Corner radius of `text` and `rect` placeholders. |
 
 ## Slider
 

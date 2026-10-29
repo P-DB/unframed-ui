@@ -47,12 +47,15 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | Alert | `<uf-alert>` | A message in the page: 6 colors by meaning, heading, actions, closable |
 | Badge | `<uf-badge>` | 6 colors by meaning, soft, solid or outline, status dot |
 | Avatar | `<uf-avatar>` | Image, then initials, then an icon; 4 sizes, circle or square |
+| Divider | `<uf-divider>` | Horizontal or vertical separator, with an optional label like "or" |
 | Card | `<uf-card>` | Media, header, content and footer slots; empty ones take no space |
 | Table | `<uf-table>` | Native `<table>` from `columns` and `rows`, sorting, custom cells, sticky header |
 | Pagination | `<uf-pagination>` | Collapsing page ranges, keyboard friendly, pairs with the table |
 | Slider | `<uf-slider>` | Native range input, label and hint, `v-model` and `ngModel` as a number |
+| Number input | `<uf-number-input>` | Minus and plus buttons, `min`/`max`/`step`, a number or `null` for `v-model` and `ngModel` |
 | Progress | `<uf-progress>` | Value or indeterminate, percentage, colors by meaning |
 | Spinner | `<uf-spinner>` | Announced as "Loading", 3 sizes, slows down for reduced motion |
+| Skeleton | `<uf-skeleton>` | Text lines, block or circle placeholders, hidden from screen readers, still for reduced motion |
 | Breadcrumbs | `<uf-breadcrumbs>` + `<uf-breadcrumb-item>` | Navigation landmark, current page marked, custom separators |
 | Drawer | `<uf-drawer>` | A modal panel from any edge, with everything the dialog does |
 | File upload | `<uf-file-upload>` | Button and drop zone, `accept` and `max-size` with clear refusals, submits like a native file input |
