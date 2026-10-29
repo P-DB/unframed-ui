@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import '@unframed/tokens/tokens.css';
 import { axeViolations, commit, fixture, settle, typeInto } from '../../test-utils.js';
+import '../button/button.js';
 import './input.js';
 import type { UfInput } from './input.js';
 
@@ -57,6 +58,45 @@ describe('uf-input', () => {
   it('submits its value with the form', async () => {
     const form = await fixture<HTMLFormElement>('<form><uf-input name="q" value="cats"></uf-input></form>');
     expect(new FormData(form).get('q')).toBe('cats');
+  });
+
+  it('submits the form on Enter, like a native input', async () => {
+    const enter = (el: UfInput) => {
+      const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, composed: true, cancelable: true });
+      native(el).dispatchEvent(event);
+      return event;
+    };
+    const submitted = (form: HTMLFormElement) => {
+      const onSubmit = vi.fn((e: Event) => e.preventDefault());
+      form.addEventListener('submit', onSubmit);
+      return onSubmit;
+    };
+
+    // Through the default button, with its value.
+    const form = await fixture<HTMLFormElement>('<form><uf-input name="q"></uf-input><button name="go" value="1">Go</button></form>');
+    const onSubmit = submitted(form);
+    let submitter: unknown;
+    form.addEventListener('submit', (e) => (submitter = (e as SubmitEvent).submitter));
+    expect(enter(form.querySelector('uf-input')!).defaultPrevented).toBe(true);
+    expect(onSubmit).toHaveBeenCalledOnce();
+    expect(submitter).toBe(form.querySelector('button'));
+
+    // Not when the default button is disabled.
+    const blocked = await fixture<HTMLFormElement>('<form><uf-input name="q"></uf-input><uf-button type="submit" disabled>Go</uf-button></form>');
+    const onBlocked = submitted(blocked);
+    enter(blocked.querySelector('uf-input')!);
+    expect(onBlocked).not.toHaveBeenCalled();
+
+    // Without a submit button: only when it's the only text field.
+    const single = await fixture<HTMLFormElement>('<form><uf-input name="q"></uf-input></form>');
+    const onSingle = submitted(single);
+    enter(single.querySelector('uf-input')!);
+    expect(onSingle).toHaveBeenCalledOnce();
+
+    const two = await fixture<HTMLFormElement>('<form><uf-input name="a"></uf-input><uf-input name="b"></uf-input></form>');
+    const onTwo = submitted(two);
+    enter(two.querySelector('uf-input')!);
+    expect(onTwo).not.toHaveBeenCalled();
   });
 
   it('blocks submission when required and empty, then shows the error', async () => {

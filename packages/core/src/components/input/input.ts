@@ -12,6 +12,23 @@ export type { FieldSize };
 
 export type InputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url' | 'number' | 'date' | 'time';
 
+const submitTypes = new Set(['submit', 'image']);
+
+function isSubmitButton(el: Element): boolean {
+  if (el instanceof HTMLButtonElement) return el.type === 'submit';
+  if (el instanceof HTMLInputElement) return submitTypes.has(el.type);
+  // The property, not the attribute: frameworks may set only the property.
+  return el.localName === 'uf-button' && (el as Element & { type?: string }).type === 'submit';
+}
+
+/** Fields where Enter submits, the ones that count for implicit submission. */
+const textTypes = new Set(['text', 'search', 'url', 'tel', 'email', 'password', 'date', 'month', 'week', 'time', 'datetime-local', 'number']);
+
+function blocksImplicitSubmission(el: Element): boolean {
+  if (el instanceof HTMLInputElement) return textTypes.has(el.type);
+  return el.localName === 'uf-input';
+}
+
 /**
  * A single-line text field with a built-in label, hint and validation message.
  *
@@ -163,6 +180,26 @@ export class UfInput extends FormControl {
     this.emitChange();
   };
 
+  /**
+   * Enter submits the form, like a native input: through its default button (the
+   * first submit button), unless that's disabled. Without one, only when this is
+   * the form's only text field.
+   */
+  #onKeyDown = (event: KeyboardEvent): void => {
+    const form = this.form;
+    if (event.key !== 'Enter' || event.isComposing || event.defaultPrevented || !form) return;
+    const fields = [...form.elements];
+    const submitter = fields.find(isSubmitButton);
+    if (submitter) {
+      if ((submitter as Element & { disabled?: boolean }).disabled || submitter.matches(':disabled')) return;
+    } else if (fields.filter(blocksImplicitSubmission).length > 1) {
+      return;
+    }
+    event.preventDefault();
+    // Native submit buttons go with the form data; ours submit no value.
+    form.requestSubmit(submitter instanceof HTMLButtonElement || submitter instanceof HTMLInputElement ? submitter : undefined);
+  };
+
   override render() {
     const ids = {
       hintId: `${this.#id}-hint`,
@@ -206,6 +243,7 @@ export class UfInput extends FormControl {
             aria-describedby=${ifDefined(describedBy({ ...ids, hint: this.hint, hasHintSlot, error }))}
             @input=${this.#onInput}
             @change=${this.#onChange}
+            @keydown=${this.#onKeyDown}
           />
           <slot name="suffix"></slot>
         </div>
