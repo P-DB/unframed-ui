@@ -94,6 +94,119 @@ Add `multiple` to let several items stay open.
 |---|---|
 | `--uf-accordion-padding` | Horizontal padding of header and content. |
 
+## Alert
+
+A message in the page, like "Your trial ends in 3 days" or "We couldn't save
+your changes". Unlike a toast it stays where it is until it's dismissed.
+
+`warning` and `danger` alerts are announced right away (`role="alert"`), the
+others politely (`role="status"`). Assistive tech announces an alert when it's
+added to the page or shown, not when the page loads with it.
+
+Tags: `<uf-alert>`. Import: `import '@unframed/core/alert';` (or `npx @unframed/cli add alert` to copy the source).
+
+### Variants
+
+Six colors by meaning, each with its icon. `info` is the default.
+
+```html
+<uf-alert>A new version is available.</uf-alert>
+<uf-alert variant="success">Your changes were published.</uf-alert>
+<uf-alert variant="warning">Your trial ends in 3 days.</uf-alert>
+<uf-alert variant="danger">We couldn't charge your card.</uf-alert>
+```
+
+- `warning` and `danger` alerts are announced right away, the others politely. Assistive tech announces an alert when it appears, so add it to the page (or `show()` it) when the message happens.
+
+### Heading and actions
+
+```html
+<uf-alert variant="warning" heading="Your trial ends in 3 days">
+  Choose a plan to keep your projects and invoices.
+  <uf-button slot="actions" size="sm">Choose a plan</uf-button>
+  <uf-button slot="actions" size="sm" variant="ghost">Remind me later</uf-button>
+</uf-alert>
+```
+
+### Closable
+
+`closable` adds a close button that hides the alert and emits `uf-hide`. `show()` brings it back.
+
+```html
+<uf-alert variant="success" closable>Your changes were saved.</uf-alert>
+
+<script>
+  document.querySelector('uf-alert').addEventListener('uf-hide', () => console.log('closed'));
+</script>
+```
+
+### Without an icon, or with your own
+
+```html
+<uf-alert variant="neutral" without-icon>Maintenance on Sunday from 02:00 to 04:00 UTC.</uf-alert>
+<uf-alert variant="accent">
+  <uf-icon slot="icon" name="user"></uf-icon>
+  John Smith shared a project with you.
+</uf-alert>
+```
+
+### `<uf-alert>` API
+
+#### Attributes and properties
+
+| Attribute | Property | Type | Default | Description |
+|---|---|---|---|---|
+| `variant` |  | `AlertVariant` | `'info'` | Color, icon and urgency, by meaning: `neutral`, `accent`, `info`, `success`, `warning` or `danger`. |
+| `heading` |  | `string \| undefined` |  | Bold first line. |
+| `closable` |  | `boolean` | `false` | Shows a close button that hides the alert. |
+| `without-icon` | `withoutIcon` | `boolean` | `false` | Hides the icon. |
+
+#### Methods
+
+| Method | Description |
+|---|---|
+| `show()` | Shows the alert again after it was hidden. |
+| `hide()` | Hides the alert, like its close button. |
+
+#### Events
+
+| Event | Type | Description |
+|---|---|---|
+| `uf-show` | `Event` | The alert was shown with `show()`. |
+| `uf-hide` | `Event` | The alert was hidden, with the close button or `hide()`. |
+
+#### Slots
+
+| Slot | Description |
+|---|---|
+| (default) | The message. |
+| `heading` | The heading, when you need markup. Overrides `heading`. |
+| `icon` | Replaces the variant's icon. |
+| `actions` | Buttons or links below the message. |
+
+#### CSS parts
+
+| Part | Description |
+|---|---|
+| `base` | The alert. |
+| `icon` | The icon. |
+| `content` | The wrapper around the heading, message and actions. |
+| `heading` | The heading. |
+| `message` | The message. |
+| `actions` | The wrapper around the actions. |
+| `close-button` | The close button, when `closable` is set. |
+
+#### CSS custom properties
+
+| Property | Description |
+|---|---|
+| `--uf-alert-bg` | Background color. |
+| `--uf-alert-border-color` | Border color. |
+| `--uf-alert-color` | Text color. |
+| `--uf-alert-icon-color` | Icon color. |
+| `--uf-alert-radius` | Corner radius. |
+| `--uf-alert-padding` | Space inside the alert. |
+
 ## Avatar
 
 A picture of a person or an entity. Shows the image when it loads, the

@@ -45,6 +45,7 @@ const placements = ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bo
 const aliases: Record<string, string[]> = {
   AvatarSize: ['sm', 'md', 'lg', 'xl'],
   AvatarShape: ['circle', 'square'],
+  AlertVariant: ['neutral', 'accent', 'info', 'success', 'warning', 'danger'],
   BadgeVariant: ['neutral', 'accent', 'info', 'success', 'warning', 'danger'],
   BadgeAppearance: ['soft', 'solid', 'outline'],
   BadgeSize: ['sm', 'md', 'lg'],

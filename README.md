@@ -44,6 +44,7 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | Popover | `<uf-popover>` | Popover API, flips at viewport edges |
 | Tooltip | `<uf-tooltip>` | Hover and focus, Escape to dismiss, exposed as `aria-description` |
 | Toast | `toast()` / `<uf-toaster>` | Live region in the top layer, pauses on hover |
+| Alert | `<uf-alert>` | A message in the page: 6 colors by meaning, heading, actions, closable |
 | Badge | `<uf-badge>` | 6 colors by meaning, soft, solid or outline, status dot |
 | Avatar | `<uf-avatar>` | Image, then initials, then an icon; 4 sizes, circle or square |
 | Card | `<uf-card>` | Media, header, content and footer slots; empty ones take no space |

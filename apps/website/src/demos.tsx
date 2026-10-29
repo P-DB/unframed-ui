@@ -2,6 +2,7 @@ import { registerIcons, toast, type TableColumn, type ToastVariant } from '@unfr
 import {
   UfAccordion,
   UfAccordionItem,
+  UfAlert,
   UfAvatar,
   UfBadge,
   UfBreadcrumbItem,
@@ -177,6 +178,144 @@ export const pages: Page[] = [
   </UfAccordionItem>
   <UfAccordionItem summary="Can I edit the components?">…</UfAccordionItem>
 </UfAccordion>`),
+      },
+    ],
+  },
+  {
+    slug: 'alert',
+    title: 'Alert',
+    tags: ['uf-alert'],
+    module: 'alert',
+    examples: [
+      {
+        title: 'Variants',
+        description: 'Six colors by meaning, each with its icon. `info` is the default.',
+        stack: true,
+        Preview: () => (
+          <>
+            <UfAlert variant="neutral">Drafts are kept for 30 days.</UfAlert>
+            <UfAlert variant="accent">You were invited to the Acme workspace.</UfAlert>
+            <UfAlert>A new version is available.</UfAlert>
+            <UfAlert variant="success">Your changes were published.</UfAlert>
+            <UfAlert variant="warning">Your trial ends in 3 days.</UfAlert>
+            <UfAlert variant="danger">We couldn't charge your card.</UfAlert>
+          </>
+        ),
+        html: code(`
+<uf-alert>A new version is available.</uf-alert>
+<uf-alert variant="success">Your changes were published.</uf-alert>
+<uf-alert variant="warning">Your trial ends in 3 days.</uf-alert>
+<uf-alert variant="danger">We couldn't charge your card.</uf-alert>`),
+        react: code(`
+<UfAlert>A new version is available.</UfAlert>
+<UfAlert variant="success">Your changes were published.</UfAlert>
+<UfAlert variant="warning">Your trial ends in 3 days.</UfAlert>
+<UfAlert variant="danger">We couldn't charge your card.</UfAlert>`),
+        notes: [
+          '`warning` and `danger` alerts are announced right away, the others politely. Assistive tech announces an alert when it appears, so add it to the page (or `show()` it) when the message happens.',
+        ],
+      },
+      {
+        title: 'Heading and actions',
+        stack: true,
+        Preview: () => (
+          <UfAlert variant="warning" heading="Your trial ends in 3 days">
+            Choose a plan to keep your projects and invoices.
+            <UfButton slot="actions" size="sm">
+              Choose a plan
+            </UfButton>
+            <UfButton slot="actions" size="sm" variant="ghost">
+              Remind me later
+            </UfButton>
+          </UfAlert>
+        ),
+        html: code(`
+<uf-alert variant="warning" heading="Your trial ends in 3 days">
+  Choose a plan to keep your projects and invoices.
+  <uf-button slot="actions" size="sm">Choose a plan</uf-button>
+  <uf-button slot="actions" size="sm" variant="ghost">Remind me later</uf-button>
+</uf-alert>`),
+        react: code(`
+<UfAlert variant="warning" heading="Your trial ends in 3 days">
+  Choose a plan to keep your projects and invoices.
+  <UfButton slot="actions" size="sm">Choose a plan</UfButton>
+  <UfButton slot="actions" size="sm" variant="ghost">Remind me later</UfButton>
+</UfAlert>`),
+      },
+      {
+        title: 'Closable',
+        description: '`closable` adds a close button that hides the alert and emits `uf-hide`. `show()` brings it back.',
+        stack: true,
+        Preview: () => {
+          const [open, setOpen] = useState(true);
+          return (
+            <>
+              <UfAlert variant="success" closable hidden={!open} onUfHide={() => setOpen(false)}>
+                Your changes were saved.
+              </UfAlert>
+              {!open && (
+                <div>
+                  <UfButton size="sm" variant="outline" onClick={() => setOpen(true)}>
+                    Show it again
+                  </UfButton>
+                </div>
+              )}
+            </>
+          );
+        },
+        html: code(`
+<uf-alert variant="success" closable>Your changes were saved.</uf-alert>
+
+<script>
+  document.querySelector('uf-alert').addEventListener('uf-hide', () => console.log('closed'));
+</script>`),
+        react: code(`
+const [open, setOpen] = useState(true);
+
+<UfAlert variant="success" closable hidden={!open} onUfHide={() => setOpen(false)}>
+  Your changes were saved.
+</UfAlert>`),
+        vue: code(`
+<script setup>
+const open = ref(true);
+</script>
+
+<template>
+  <UfAlert variant="success" closable :hidden="!open" @uf-hide="open = false">
+    Your changes were saved.
+  </UfAlert>
+</template>`),
+        angular: code(`
+<uf-alert variant="success" closable [hidden]="!open" (uf-hide)="open = false">
+  Your changes were saved.
+</uf-alert>`),
+      },
+      {
+        title: 'Without an icon, or with your own',
+        stack: true,
+        Preview: () => (
+          <>
+            <UfAlert variant="neutral" withoutIcon>
+              Maintenance on Sunday from 02:00 to 04:00 UTC.
+            </UfAlert>
+            <UfAlert variant="accent">
+              <UfIcon slot="icon" name="user" />
+              John Smith shared a project with you.
+            </UfAlert>
+          </>
+        ),
+        html: code(`
+<uf-alert variant="neutral" without-icon>Maintenance on Sunday from 02:00 to 04:00 UTC.</uf-alert>
+<uf-alert variant="accent">
+  <uf-icon slot="icon" name="user"></uf-icon>
+  John Smith shared a project with you.
+</uf-alert>`),
+        react: code(`
+<UfAlert variant="neutral" withoutIcon>Maintenance on Sunday from 02:00 to 04:00 UTC.</UfAlert>
+<UfAlert variant="accent">
+  <UfIcon slot="icon" name="user" />
+  John Smith shared a project with you.
+</UfAlert>`),
       },
     ],
   },

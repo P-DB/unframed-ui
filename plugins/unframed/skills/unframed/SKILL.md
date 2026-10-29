@@ -35,6 +35,7 @@ Unframed 0.10.0: accessible UI components as standard custom elements (Lit). Eve
 | Component | Tags | Import |
 |---|---|---|
 | Accordion: A stack of sections that expand and collapse. | `<uf-accordion>` `<uf-accordion-item>` | `@unframed/core/accordion` |
+| Alert: Shows a message in the page, by meaning: info, success, warning or danger. | `<uf-alert>` | `@unframed/core/alert` |
 | Avatar: Shows a person's picture, initials or icon. | `<uf-avatar>` | `@unframed/core/avatar` |
 | Badge: Labels a status, a category or a count. | `<uf-badge>` | `@unframed/core/badge` |
 | Breadcrumbs: Shows the path to the current page. | `<uf-breadcrumbs>` `<uf-breadcrumb-item>` | `@unframed/core/breadcrumbs` |
