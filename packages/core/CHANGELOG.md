@@ -1,5 +1,18 @@
 # @unframed/core
 
+## 0.11.0
+
+### Minor Changes
+
+- 2e09890: New `<uf-alert>`: a message in the page, like "Your trial ends in 3 days". Six variants by meaning (`info` by default), each with its icon; a `heading`, `actions` below the message, and `closable` for a close button that hides it (`hide()`, `show()`, `uf-hide`, `uf-show`). `warning` and `danger` alerts are announced right away, the others politely.
+
+### Patch Changes
+
+- ad59a0b: `<uf-button>` works out whether it's icon-only before rendering, so icon-only buttons render once instead of twice, without Lit's "change-in-update" warning in development.
+- f79c00c: Enter in `<uf-input>` submits its form, like a native input: through the form's first submit button (unless it's disabled), or, without one, when it's the form's only text field.
+- Updated dependencies [2e09890]
+  - @unframed/tokens@0.11.0
+
 ## 0.10.0
 
 ### Minor Changes
