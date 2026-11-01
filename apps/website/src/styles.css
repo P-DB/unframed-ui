@@ -194,6 +194,16 @@ h3 {
     display: none;
   }
 
+  /* Only the icon is left: square, like the theme button. */
+  .site-search__button {
+    --uf-button-gap: 0;
+    --uf-button-padding: 0;
+  }
+
+  .site-search__button::part(base) {
+    width: var(--uf-size-control-sm);
+  }
+
   /* Logo, menu, search and theme in one row on phones. */
   .site-header__inner {
     gap: 0.25rem;
