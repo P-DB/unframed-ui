@@ -727,6 +727,16 @@ h3 {
   color: var(--uf-color-text-muted);
 }
 
+/* Not found, or a page that didn't load: an empty state in the page's place. */
+.page-error {
+  padding: 4rem 1rem;
+}
+
+.page-error h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
 /* Full-width page section */
 .section {
   max-width: 1200px;

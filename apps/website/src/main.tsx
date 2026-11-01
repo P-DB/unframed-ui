@@ -6,6 +6,7 @@ import '@unframed/tokens/tokens.css';
 import '@unframed/core';
 import './styles.css';
 import { Layout } from './components/Layout';
+import { PageError } from './components/PageError';
 import { Home } from './pages/Home';
 
 // Every page but the home page loads when it's first opened, so the first visit downloads less.
@@ -32,22 +33,28 @@ const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      { index: true, element: <Home /> },
-      { path: 'docs/getting-started', element: <GettingStarted /> },
-      { path: 'docs/packages', element: <Packages /> },
-      { path: 'docs/stability', element: <Stability /> },
-      { path: 'docs/ai-assistants', element: <AiAssistants /> },
-      { path: 'docs/frameworks/html', element: <HtmlGuide /> },
-      { path: 'docs/frameworks/react', element: <ReactGuide /> },
-      { path: 'docs/frameworks/vue', element: <VueGuide /> },
-      { path: 'docs/frameworks/angular', element: <AngularGuide /> },
-      { path: 'docs/ssr', element: <Ssr /> },
-      { path: 'docs/theming', element: <Theming /> },
-      { path: 'docs/theme-generator', element: <ThemeGenerator /> },
-      { path: 'docs/translations', element: <Translations /> },
-      { path: 'components', element: <ComponentsIndex /> },
-      { path: 'components/:slug', element: <ComponentPage /> },
-      { path: '*', element: <NotFound /> },
+      {
+        // Without a path: a page that fails shows PageError, keeping the header and footer.
+        errorElement: <PageError />,
+        children: [
+          { index: true, element: <Home /> },
+          { path: 'docs/getting-started', element: <GettingStarted /> },
+          { path: 'docs/packages', element: <Packages /> },
+          { path: 'docs/stability', element: <Stability /> },
+          { path: 'docs/ai-assistants', element: <AiAssistants /> },
+          { path: 'docs/frameworks/html', element: <HtmlGuide /> },
+          { path: 'docs/frameworks/react', element: <ReactGuide /> },
+          { path: 'docs/frameworks/vue', element: <VueGuide /> },
+          { path: 'docs/frameworks/angular', element: <AngularGuide /> },
+          { path: 'docs/ssr', element: <Ssr /> },
+          { path: 'docs/theming', element: <Theming /> },
+          { path: 'docs/theme-generator', element: <ThemeGenerator /> },
+          { path: 'docs/translations', element: <Translations /> },
+          { path: 'components', element: <ComponentsIndex /> },
+          { path: 'components/:slug', element: <ComponentPage /> },
+          { path: '*', element: <NotFound /> },
+        ],
+      },
     ],
   },
 ], {
