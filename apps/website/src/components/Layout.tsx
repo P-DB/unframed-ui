@@ -1,52 +1,14 @@
 import { UfButton, UfDrawer, UfIcon, UfTooltip } from '@unframed/react';
 import { Suspense, useEffect, useState } from 'react';
 import { NavLink, Outlet, ScrollRestoration, useLocation, useNavigate, useOutletContext } from 'react-router';
-import { pages } from '../demos';
+import { isActive, navSections } from '../nav';
+import { SiteSearch } from './SiteSearch';
 import { LogoMark } from './Logo';
 
 export type Theme = 'light' | 'dark';
 
 /** The site's current light or dark mode, for pages that render previews in it. */
 export const useSiteTheme = () => useOutletContext<Theme>();
-
-interface NavEntry {
-  to: string;
-  label: string;
-  /** Active only on this exact path, not on the pages below it. */
-  end?: boolean;
-}
-
-/** The docs navigation: the sidebar on wide screens, the menu drawer on phones. */
-const navSections: { heading: string; links: NavEntry[] }[] = [
-  {
-    heading: 'Get started',
-    links: [
-      { to: '/docs/getting-started', label: 'Installation' },
-      { to: '/docs/packages', label: 'Packages' },
-      { to: '/docs/theming', label: 'Theming' },
-      { to: '/docs/theme-generator', label: 'Theme generator' },
-      { to: '/docs/translations', label: 'Translations' },
-      { to: '/docs/ai-assistants', label: 'AI assistants' },
-      { to: '/docs/stability', label: 'Stability' },
-    ],
-  },
-  {
-    heading: 'Frameworks',
-    links: [
-      { to: '/docs/frameworks/html', label: 'HTML & JavaScript' },
-      { to: '/docs/frameworks/react', label: 'React' },
-      { to: '/docs/frameworks/vue', label: 'Vue' },
-      { to: '/docs/frameworks/angular', label: 'Angular' },
-      { to: '/docs/ssr', label: 'Server-side rendering' },
-    ],
-  },
-  {
-    heading: 'Components',
-    links: [{ to: '/components', label: 'Overview', end: true }, ...pages.map((page) => ({ to: `/components/${page.slug}`, label: page.title }))],
-  },
-];
-
-const isActive = (entry: NavEntry, pathname: string) => (entry.end ? pathname === entry.to : pathname === entry.to || pathname.startsWith(`${entry.to}/`));
 
 /**
  * The navigation on phones: a Menu button that opens it in a <uf-drawer>, each
@@ -159,6 +121,7 @@ export function Layout() {
               </NavLink>
             </nav>
           </div>
+          <SiteSearch theme={theme} />
           <UfTooltip content={`Switch to ${next} theme`} placement="bottom">
             <UfButton variant="ghost" size="sm" label={`Switch to ${next} theme`} onClick={() => setTheme(next)}>
               <UfIcon slot="prefix" name={theme === 'dark' ? 'sun' : 'moon'} />
