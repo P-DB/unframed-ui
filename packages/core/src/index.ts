@@ -39,6 +39,8 @@ export type { DrawerPlacement } from './components/drawer/drawer.js';
 
 export { UfDropdown } from './components/dropdown/dropdown.js';
 
+export { UfEmptyState } from './components/empty-state/empty-state.js';
+
 export { UfFileUpload } from './components/file-upload/file-upload.js';
 
 export { UfIcon, registerIcons } from './components/icon/icon.js';
@@ -48,6 +50,8 @@ export type { FieldSize, InputType } from './components/input/input.js';
 
 export { UfMenu, UfMenuItem } from './components/menu/menu.js';
 export type { MenuSelectDetail } from './components/menu/menu.js';
+
+export { UfMultiSelect } from './components/multi-select/multi-select.js';
 
 export { UfNumberInput } from './components/number-input/number-input.js';
 
@@ -61,6 +65,8 @@ export type { ProgressSize, ProgressVariant } from './components/progress/progre
 
 export { UfRadio } from './components/radio/radio.js';
 export { UfRadioGroup } from './components/radio-group/radio-group.js';
+
+export { UfSegmentedControl } from './components/segmented-control/segmented-control.js';
 
 export { UfSelect } from './components/select/select.js';
 

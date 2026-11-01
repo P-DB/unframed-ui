@@ -32,6 +32,13 @@ const controls: { tag: string; markup: string; prop: string; value: unknown; sub
     submitted: 'b',
   },
   {
+    tag: 'uf-multi-select',
+    markup: '<uf-multi-select name="f" required><option value="a">A</option><option value="b">B</option></uf-multi-select>',
+    prop: 'value',
+    value: ['b'],
+    submitted: 'b',
+  },
+  {
     tag: 'uf-radio-group',
     markup: '<uf-radio-group name="f" label="Pick" required><uf-radio value="a">A</uf-radio><uf-radio value="b">B</uf-radio></uf-radio-group>',
     prop: 'value',

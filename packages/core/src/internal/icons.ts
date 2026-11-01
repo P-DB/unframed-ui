@@ -21,6 +21,7 @@ export const icons = {
   moon: svg`<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />`,
   upload: svg`<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5" /><path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15" />`,
   file: svg`<path d="M13.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z" /><path d="M13.5 3v5.5H19" />`,
+  inbox: svg`<path d="M3 13l2.6-7.4A1.5 1.5 0 0 1 7 4.5h10a1.5 1.5 0 0 1 1.4 1L21 13v5.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z" /><path d="M3 13h5l1.5 2.5h5L16 13h5" />`,
 } satisfies Record<string, SVGTemplateResult>;
 
 export type BuiltInIconName = keyof typeof icons;

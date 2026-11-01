@@ -50,6 +50,7 @@ const fr: Translations = {
   endBeforeStart: 'La date de fin ne peut pas précéder la date de début.',
   decrease: 'Diminuer',
   increase: 'Augmenter',
+  removeOption: 'Retirer {name}',
 };
 
 export default fr;

@@ -84,6 +84,8 @@ export interface Translations {
   decrease: string;
   /** Number input: the plus button's accessible name. */
   increase: string;
+  /** Multi-select: a chip's remove button. Must contain `{name}`. */
+  removeOption: `${string}{name}${string}`;
 }
 
 const english: Translations = {
@@ -129,6 +131,7 @@ const english: Translations = {
   endBeforeStart: "The end date can't be before the start date.",
   decrease: 'Decrease',
   increase: 'Increase',
+  removeOption: 'Remove {name}',
 };
 
 /** Registered translations by lowercase language code; '' applies to every language. */

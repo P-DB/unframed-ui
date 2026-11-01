@@ -52,8 +52,8 @@ const darkTokens = flatten(dark);
 const tags = [
   'uf-accordion', 'uf-accordion-item', 'uf-alert', 'uf-avatar', 'uf-badge', 'uf-breadcrumb-item', 'uf-breadcrumbs', 'uf-button',
   'uf-calendar', 'uf-card', 'uf-checkbox', 'uf-checkbox-group', 'uf-combobox', 'uf-date-picker', 'uf-date-range-picker', 'uf-dialog', 'uf-divider',
-  'uf-drawer', 'uf-dropdown', 'uf-file-upload', 'uf-icon', 'uf-input', 'uf-menu', 'uf-menu-item', 'uf-number-input', 'uf-pagination', 'uf-popover',
-  'uf-progress', 'uf-radio', 'uf-radio-group', 'uf-select', 'uf-skeleton', 'uf-slider', 'uf-spinner', 'uf-switch', 'uf-tab',
+  'uf-drawer', 'uf-dropdown', 'uf-empty-state', 'uf-file-upload', 'uf-icon', 'uf-input', 'uf-menu', 'uf-menu-item', 'uf-multi-select', 'uf-number-input', 'uf-pagination', 'uf-popover',
+  'uf-progress', 'uf-radio', 'uf-radio-group', 'uf-segmented-control', 'uf-select', 'uf-skeleton', 'uf-slider', 'uf-spinner', 'uf-switch', 'uf-tab',
   'uf-tab-panel', 'uf-table', 'uf-tabs', 'uf-textarea', 'uf-toaster', 'uf-tooltip',
 ];
 
@@ -68,7 +68,7 @@ const undefinedComponents = `/* Before the components load: no flash of raw cont
 
 :where(uf-dialog, uf-drawer, uf-toaster, uf-tab-panel):not(:defined),
 :where(uf-dropdown, uf-popover):not(:defined) > :not([slot]),
-:where(uf-select, uf-combobox):not(:defined) > :where(option, optgroup),
+:where(uf-select, uf-combobox, uf-multi-select, uf-segmented-control):not(:defined) > :where(option, optgroup),
 uf-accordion-item:not(:defined):not([open]) > :not([slot]) {
   display: none;
 }`;
