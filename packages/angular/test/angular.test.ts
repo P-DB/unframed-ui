@@ -109,6 +109,23 @@ describe('@unframed/angular', () => {
     expect(el.value).toBe(7);
   });
 
+  it('works with ngModel on the multi-select (an array) and the segmented control', async () => {
+    const { instance } = await mount(
+      `<uf-multi-select [(ngModel)]="toppings" label="Toppings"><option value="cheese">Cheese</option><option value="olives">Olives</option></uf-multi-select>
+       <uf-segmented-control [(ngModel)]="view" label="View"><option value="list">List</option><option value="grid">Grid</option></uf-segmented-control>`,
+      { toppings: ['olives'], view: 'grid' },
+    );
+    const multi = $<HTMLElement & { value: string[] }>('uf-multi-select');
+    expect(multi.value).toEqual(['olives']);
+    expect($<HTMLElement & { value: string }>('uf-segmented-control').value).toBe('grid');
+
+    multi.shadowRoot!.querySelector<HTMLButtonElement>('[part="chip-remove"]')!.click();
+    $('uf-segmented-control').shadowRoot!.querySelector<HTMLButtonElement>('[role="radio"]')!.click();
+    await settle();
+    expect(instance.toppings).toEqual([]);
+    expect(instance.view).toBe('list');
+  });
+
   it('works with ngModel on checkboxes (checked)', async () => {
     const { instance } = await mount(`<uf-checkbox [(ngModel)]="agree">Agree</uf-checkbox>`, { agree: false });
     $('uf-checkbox').shadowRoot!.querySelector('input')!.click();

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createApp, nextTick, ref, type App } from 'vue';
 import '@unframed/tokens/tokens.css';
-import { UfButton, UfCheckbox, UfCheckboxGroup, UfCombobox, UfDialog, UfInput, UfNumberInput, UfPagination, UfSelect, UfSwitch, UfTab, UfTabPanel, UfTable, UfTabs, UnframedVue } from '../src/index.js';
+import { UfButton, UfCheckbox, UfCheckboxGroup, UfCombobox, UfDialog, UfInput, UfMultiSelect, UfNumberInput, UfSegmentedControl, UfPagination, UfSelect, UfSwitch, UfTab, UfTabPanel, UfTable, UfTabs, UnframedVue } from '../src/index.js';
 
 let app: App | undefined;
 let host: HTMLElement;
@@ -75,6 +75,27 @@ describe('@unframed/vue', () => {
     type(el, '');
     await settle();
     expect(guests.value).toBeNull();
+  });
+
+  it('supports v-model on the multi-select (an array) and the segmented control', async () => {
+    const toppings = ref(['olives']);
+    const view = ref('grid');
+    await mount(
+      `<UfMultiSelect v-model="toppings" label="Toppings"><option value="cheese">Cheese</option><option value="olives">Olives</option></UfMultiSelect>
+       <UfSegmentedControl v-model="view" label="View"><option value="list">List</option><option value="grid">Grid</option></UfSegmentedControl>`,
+      () => ({ toppings, view }),
+      { UfMultiSelect, UfSegmentedControl },
+    );
+    const multi = host.querySelector('uf-multi-select') as HTMLElement & { value: string[] };
+    const segmented = host.querySelector('uf-segmented-control') as HTMLElement;
+    expect(multi.value).toEqual(['olives']);
+    expect((segmented as HTMLElement & { value: string }).value).toBe('grid');
+
+    (multi.shadowRoot!.querySelector('[part="chip-remove"]') as HTMLButtonElement).click();
+    segmented.shadowRoot!.querySelector<HTMLButtonElement>('[role="radio"]')!.click();
+    await settle();
+    expect(toppings.value).toEqual([]);
+    expect(view.value).toBe('list');
   });
 
   it('supports v-model on checkboxes and switches (checked)', async () => {
