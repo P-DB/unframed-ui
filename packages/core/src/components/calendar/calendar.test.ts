@@ -146,7 +146,9 @@ describe('uf-calendar', () => {
   describe('range', () => {
     it('picks a start, then an end, and fires change once the range is complete', async () => {
       const el = await fixture<UfCalendar>('<uf-calendar lang="en-US" range></uf-calendar>');
+      // October 2026, whatever today is.
       el.min = '2026-10-01';
+      el.max = '2026-10-31';
       await el.updateComplete;
       const onChange = vi.fn();
       el.addEventListener('change', onChange);
