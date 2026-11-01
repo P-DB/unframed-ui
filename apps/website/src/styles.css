@@ -238,6 +238,7 @@ h3 {
 /* Docs layout: sidebar + content */
 .docs-layout {
   display: grid;
+  width: 100%;
   grid-template-columns: 14rem minmax(0, 1fr);
   gap: 3rem;
   max-width: 1200px;
@@ -727,8 +728,31 @@ h3 {
   color: var(--uf-color-text-muted);
 }
 
-/* Not found, or a page that didn't load: an empty state in the page's place. */
+/* Header, page, footer: the page takes the height left, so the footer stays at the bottom. */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+#root > main,
+#root > .docs-layout {
+  flex: 1;
+}
+
+/* Not found, or a page that didn't load: an empty state centered in the page's place. */
+main:has(> .page-error),
+.docs-layout__content:has(> .page-error) {
+  display: flex;
+  flex-direction: column;
+}
+
 .page-error {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
   padding: 4rem 1rem;
 }
 
