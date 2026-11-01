@@ -6,6 +6,9 @@ coverage/
 packages/core/custom-elements.json
 packages/react/src/generated/
 __screenshots__/
+# Visual references are taken on Linux in CI; local ones (macOS, Windows) stay local.
+packages/core/visual/screenshots/*-darwin.png
+packages/core/visual/screenshots/*-win32.png
 .vitest/
 packages/cli/registry.json
 packages/cli/skill/

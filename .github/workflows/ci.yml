@@ -24,3 +24,15 @@ jobs:
         run: git diff --exit-code -- plugins/ || (echo "::error::plugins/unframed is out of date. Run 'npm run skill -w @unframed/cli' and commit the result." && exit 1)
       - run: npm run typecheck
       - run: npm test
+      # Screenshots of every docs example in light and dark, compared with the committed
+      # references (packages/core/visual). Update them with the "Update screenshots" workflow.
+      - name: Visual tests
+        if: hashFiles('packages/core/visual/screenshots/*-linux.png') != ''
+        run: npm run test:visual -w @unframed/core
+      - name: Upload the screenshot differences
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-differences
+          path: packages/core/.vitest/attachments/
+          if-no-files-found: ignore

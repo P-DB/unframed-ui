@@ -220,6 +220,8 @@ npm test           # Vitest browser mode: core in headless Chromium, Firefox and
 npm run changeset  # describe a change for the next release
 ```
 
+Visual tests take a screenshot of every docs example in light and dark, and compare it with the references in `packages/core/visual/screenshots`. CI compares them on Linux. After a change that's meant to look different, run the **Update screenshots** workflow on GitHub: it opens a pull request with the new references, where GitHub shows each image before and after. Locally, `npm run test:visual -w @unframed/core` keeps references of its own (not committed), handy to check a change before and after.
+
 ## License
 
 MIT © Patrizio Di Bartolomeo

@@ -1,0 +1,45 @@
+name: Update screenshots
+
+# Takes the visual references (packages/core/visual/screenshots) again on Linux, like CI,
+# and opens a pull request with them. Run it after a change that's meant to look different,
+# then check the images in the pull request: GitHub shows each one before and after.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write # the branch with the new screenshots
+  pull-requests: write # the pull request
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build -w @unframed/tokens
+      # From scratch, so screenshots of removed examples go away too.
+      - run: rm -f packages/core/visual/screenshots/*-linux.png
+      - run: npm run test:visual -w @unframed/core -- --update
+      - name: Open a pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain -- packages/core/visual/screenshots)" ]; then
+            echo "The screenshots are up to date."
+            exit 0
+          fi
+          branch="visual/update-screenshots-${{ github.run_id }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add packages/core/visual/screenshots
+          git commit -m "test(core): update the visual references"
+          git push origin "$branch"
+          gh pr create --base "${{ github.ref_name }}" --head "$branch" \
+            --title "test(core): update the visual references" \
+            --body "New screenshots from the \"Update screenshots\" workflow. Check each image before merging: GitHub shows them before and after."

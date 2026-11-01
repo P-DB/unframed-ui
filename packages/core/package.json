@@ -55,6 +55,7 @@
     "analyze": "custom-elements-manifest analyze",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:visual": "vitest run -c vitest.visual.config.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
