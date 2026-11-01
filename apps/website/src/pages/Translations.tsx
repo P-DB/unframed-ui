@@ -64,6 +64,7 @@ const keys: [string, string, string][] = [
   ['endBeforeStart', "The end date can't be before the start date.", 'Date range picker: the end is before the start'],
   ['decrease', 'Decrease', 'Number input: the minus button'],
   ['increase', 'Increase', 'Number input: the plus button'],
+  ['removeOption', 'Remove {name}', 'Multi-select: a chip\'s remove button; must contain `{name}`'],
 ];
 
 const columns: TableColumn[] = [

@@ -75,5 +75,6 @@ document.documentElement.lang = 'fr'; // components update
 | `rangeIncomplete` | Enter both a start and an end date. | Date range picker: only one date set |
 | `endBeforeStart` | The end date can't be before the start date. | Date range picker: reversed range |
 | `decrease`, `increase` | Decrease, Increase | Number input: the minus and plus buttons |
+| `removeOption` | Remove {name} | Multi-select: a chip's remove button |
 
 Month and weekday names, date formats and the first day of the week come from the browser (Intl), for the nearest `lang`.

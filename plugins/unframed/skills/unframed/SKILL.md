@@ -49,14 +49,17 @@ Unframed 0.12.0: accessible UI components as standard custom elements (Lit). Eve
 | Divider: Separates groups of content with a line. | `<uf-divider>` | `@unframed/core/divider` |
 | Drawer: A panel that slides in from an edge of the screen. | `<uf-drawer>` | `@unframed/core/drawer` |
 | Dropdown menu: Opens a menu of actions from a button. | `<uf-dropdown>` `<uf-menu>` `<uf-menu-item>` | `@unframed/core/dropdown` `@unframed/core/menu` |
+| Empty state: Fills an empty list or page with a message and what to do next. | `<uf-empty-state>` | `@unframed/core/empty-state` |
 | File upload: Lets users choose files to upload. | `<uf-file-upload>` | `@unframed/core/file-upload` |
 | Icon: Shows a small symbol. | `<uf-icon>` | `@unframed/core/icon` |
 | Input: Lets users enter a single line of text. | `<uf-input>` | `@unframed/core/input` |
+| Multi-select: Lets users search a list and pick several options. | `<uf-multi-select>` | `@unframed/core/multi-select` |
 | Number input: Lets users enter a number, or step it with buttons. | `<uf-number-input>` | `@unframed/core/number-input` |
 | Pagination: Moves between the pages of a long list. | `<uf-pagination>` | `@unframed/core/pagination` |
 | Popover: Shows floating content next to a trigger. | `<uf-popover>` | `@unframed/core/popover` |
 | Progress: Shows how far a task has got. | `<uf-progress>` | `@unframed/core/progress` |
 | Radio group: Lets users pick exactly one option from a list. | `<uf-radio-group>` `<uf-radio>` | `@unframed/core/radio-group` `@unframed/core/radio` |
+| Segmented control: Picks one of a few options, side by side. | `<uf-segmented-control>` | `@unframed/core/segmented-control` |
 | Select: Lets users pick one option from a dropdown list. | `<uf-select>` | `@unframed/core/select` |
 | Skeleton: Holds the place of content while it loads. | `<uf-skeleton>` | `@unframed/core/skeleton` |
 | Slider: Lets users pick a number in a range. | `<uf-slider>` | `@unframed/core/slider` |

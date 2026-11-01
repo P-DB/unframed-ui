@@ -17,11 +17,13 @@ import {
   UfDateRangePicker,
   UfDialog,
   UfDivider,
+  UfEmptyState,
   UfDrawer,
   UfDropdown,
   UfFileUpload,
   UfIcon,
   UfInput,
+  UfMultiSelect,
   UfNumberInput,
   UfMenu,
   UfMenuItem,
@@ -30,6 +32,7 @@ import {
   UfProgress,
   UfRadio,
   UfRadioGroup,
+  UfSegmentedControl,
   UfSelect,
   UfSkeleton,
   UfSlider,
@@ -1355,6 +1358,62 @@ const drawer = ref();
     ],
   },
   {
+    slug: 'empty-state',
+    title: 'Empty state',
+    tags: ['uf-empty-state'],
+    module: 'empty-state',
+    examples: [
+      {
+        title: 'Basic',
+        description: 'An icon, a heading, a short explanation and what to do next.',
+        Preview: () => (
+          <UfEmptyState heading="No projects yet" style={{ width: '100%' }}>
+            Projects keep your files and your team together.
+            <UfButton slot="actions">
+              <UfIcon slot="prefix" name="plus" />
+              New project
+            </UfButton>
+          </UfEmptyState>
+        ),
+        html: code(`
+<uf-empty-state heading="No projects yet">
+  Projects keep your files and your team together.
+  <uf-button slot="actions">New project</uf-button>
+</uf-empty-state>`),
+        react: code(`
+<UfEmptyState heading="No projects yet">
+  Projects keep your files and your team together.
+  <UfButton slot="actions">New project</UfButton>
+</UfEmptyState>`),
+      },
+      {
+        title: 'No search results',
+        description: 'Another `icon`, and a real heading in the `heading` slot when it belongs in the page outline.',
+        Preview: () => (
+          <UfEmptyState icon="search" style={{ width: '100%' }}>
+            <h3 slot="heading">No results for “invoice 2019”</h3>
+            Check the spelling, or try a shorter search.
+            <UfButton slot="actions" variant="outline">
+              Clear search
+            </UfButton>
+          </UfEmptyState>
+        ),
+        html: code(`
+<uf-empty-state icon="search">
+  <h3 slot="heading">No results for “invoice 2019”</h3>
+  Check the spelling, or try a shorter search.
+  <uf-button slot="actions" variant="outline">Clear search</uf-button>
+</uf-empty-state>`),
+        react: code(`
+<UfEmptyState icon="search">
+  <h3 slot="heading">No results for “invoice 2019”</h3>
+  Check the spelling, or try a shorter search.
+  <UfButton slot="actions" variant="outline">Clear search</UfButton>
+</UfEmptyState>`),
+      },
+    ],
+  },
+  {
     slug: 'file-upload',
     title: 'File upload',
     tags: ['uf-file-upload'],
@@ -1588,6 +1647,113 @@ const email = ref('');
     ],
   },
   {
+    slug: 'multi-select',
+    title: 'Multi-select',
+    tags: ['uf-multi-select'],
+    module: 'multi-select',
+    examples: [
+      {
+        title: 'Basic',
+        description: 'Type to filter, Enter or a click to pick, and the list stays open for the next one. Backspace removes the last chip. The value is an array, in the order of the options.',
+        stack: true,
+        Preview: () => {
+          const [toppings, setToppings] = useState<string[]>(['cheese']);
+          return (
+            <>
+              <UfMultiSelect
+                label="Toppings"
+                placeholder="Pick toppings"
+                value={toppings}
+                onChange={(e) => setToppings([...(e.currentTarget as unknown as { value: string[] }).value])}
+              >
+                <option value="cheese">Cheese</option>
+                <option value="olives">Olives</option>
+                <option value="basil">Basil</option>
+                <option value="mushrooms">Mushrooms</option>
+                <option value="ham" disabled>
+                  Ham (sold out)
+                </option>
+              </UfMultiSelect>
+              <span style={{ color: 'var(--uf-color-text-muted)', fontSize: '0.875rem' }}>Value: {JSON.stringify(toppings)}</span>
+            </>
+          );
+        },
+        html: code(`
+<uf-multi-select name="toppings" label="Toppings" placeholder="Pick toppings">
+  <option value="cheese" selected>Cheese</option>
+  <option value="olives">Olives</option>
+  <option value="basil">Basil</option>
+  <option value="ham" disabled>Ham (sold out)</option>
+</uf-multi-select>`),
+        react: code(`
+const [toppings, setToppings] = useState(['cheese']);
+
+<UfMultiSelect label="Toppings" value={toppings} onChange={(e) => setToppings([...e.currentTarget.value])}>
+  <option value="cheese">Cheese</option>
+  <option value="olives">Olives</option>
+  <option value="basil">Basil</option>
+</UfMultiSelect>`),
+        vue: code(`
+<script setup>
+const toppings = ref(['cheese']);
+</script>
+
+<template>
+  <UfMultiSelect v-model="toppings" label="Toppings">
+    <option value="cheese">Cheese</option>
+    <option value="olives">Olives</option>
+    <option value="basil">Basil</option>
+  </UfMultiSelect>
+</template>`),
+        angular: code(`
+<!-- toppings = ['cheese'] -->
+<uf-multi-select [(ngModel)]="toppings" label="Toppings">
+  <option value="cheese">Cheese</option>
+  <option value="olives">Olives</option>
+  <option value="basil">Basil</option>
+</uf-multi-select>`),
+        notes: ['With a `name`, every picked value is submitted under that name, like a native `<select multiple>`: read them with `formData.getAll(name)`.'],
+      },
+      {
+        title: 'Groups and validation',
+        stack: true,
+        Preview: () => (
+          <UfMultiSelect label="Languages" hint="Pick at least one." required>
+            <optgroup label="Europe">
+              <option>English</option>
+              <option>Italian</option>
+              <option>French</option>
+            </optgroup>
+            <optgroup label="Asia">
+              <option>Japanese</option>
+              <option>Korean</option>
+            </optgroup>
+          </UfMultiSelect>
+        ),
+        html: code(`
+<uf-multi-select name="languages" label="Languages" hint="Pick at least one." required>
+  <optgroup label="Europe">
+    <option>English</option>
+    <option>Italian</option>
+  </optgroup>
+  <optgroup label="Asia">
+    <option>Japanese</option>
+  </optgroup>
+</uf-multi-select>`),
+        react: code(`
+<UfMultiSelect name="languages" label="Languages" hint="Pick at least one." required>
+  <optgroup label="Europe">
+    <option>English</option>
+    <option>Italian</option>
+  </optgroup>
+  <optgroup label="Asia">
+    <option>Japanese</option>
+  </optgroup>
+</UfMultiSelect>`),
+      },
+    ],
+  },
+  {
     slug: 'number-input',
     title: 'Number input',
     tags: ['uf-number-input'],
@@ -1816,6 +1982,92 @@ const [page, setPage] = useState(6);
   <UfRadio value="team">Team</UfRadio>
   <UfRadio value="enterprise" disabled>Enterprise</UfRadio>
 </UfRadioGroup>`),
+      },
+    ],
+  },
+  {
+    slug: 'segmented-control',
+    title: 'Segmented control',
+    tags: ['uf-segmented-control'],
+    module: 'segmented-control',
+    examples: [
+      {
+        title: 'Basic',
+        description: 'One choice among a few, always with one picked: the `value` attribute, a `selected` option, or the first. Arrow keys move and pick.',
+        Preview: () => {
+          const [view, setView] = useState('week');
+          return (
+            <div style={{ display: 'grid', gap: '0.75rem' }}>
+              <UfSegmentedControl label="View" value={view} onChange={(e) => setView((e.currentTarget as unknown as { value: string }).value)}>
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+                <option value="month">Month</option>
+                <option value="year" disabled>
+                  Year
+                </option>
+              </UfSegmentedControl>
+              <span style={{ color: 'var(--uf-color-text-muted)', fontSize: '0.875rem' }}>Value: {view}</span>
+            </div>
+          );
+        },
+        html: code(`
+<uf-segmented-control name="view" label="View" value="week">
+  <option value="day">Day</option>
+  <option value="week">Week</option>
+  <option value="month">Month</option>
+  <option value="year" disabled>Year</option>
+</uf-segmented-control>`),
+        react: code(`
+const [view, setView] = useState('week');
+
+<UfSegmentedControl label="View" value={view} onChange={(e) => setView(e.currentTarget.value)}>
+  <option value="day">Day</option>
+  <option value="week">Week</option>
+  <option value="month">Month</option>
+</UfSegmentedControl>`),
+        vue: code(`
+<script setup>
+const view = ref('week');
+</script>
+
+<template>
+  <UfSegmentedControl v-model="view" label="View">
+    <option value="day">Day</option>
+    <option value="week">Week</option>
+    <option value="month">Month</option>
+  </UfSegmentedControl>
+</template>`),
+        angular: code(`
+<!-- view = 'week' -->
+<uf-segmented-control [(ngModel)]="view" label="View">
+  <option value="day">Day</option>
+  <option value="week">Week</option>
+  <option value="month">Month</option>
+</uf-segmented-control>`),
+        notes: ['For more than five or six options, or long labels, use a select or a radio group instead.'],
+      },
+      {
+        title: 'Sizes',
+        Preview: () => (
+          <div style={{ display: 'grid', gap: '0.75rem', justifyItems: 'start' }}>
+            {(['sm', 'md', 'lg'] as const).map((size) => (
+              <UfSegmentedControl key={size} size={size} label={`Size ${size}`}>
+                <option>List</option>
+                <option>Grid</option>
+              </UfSegmentedControl>
+            ))}
+          </div>
+        ),
+        html: code(`
+<uf-segmented-control size="sm" label="Layout">
+  <option>List</option>
+  <option>Grid</option>
+</uf-segmented-control>`),
+        react: code(`
+<UfSegmentedControl size="sm" label="Layout">
+  <option>List</option>
+  <option>Grid</option>
+</UfSegmentedControl>`),
       },
     ],
   },

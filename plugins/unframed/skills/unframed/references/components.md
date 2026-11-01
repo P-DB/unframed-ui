@@ -1572,6 +1572,75 @@ Arrow keys move, typing a letter jumps to an item, Escape closes.
 | `checkmark` | The check shown for checked checkbox items. |
 | `label` | The label wrapper. |
 
+## Empty state
+
+What to show where content would be: an empty list, no search results, a
+first visit. An icon, a heading, a short explanation and what to do next.
+
+The `heading` attribute is bold text. For a real heading in the page's
+outline, put an `<h2>` or `<h3>` in the `heading` slot.
+
+Tags: `<uf-empty-state>`. Import: `import '@unframed/core/empty-state';` (or `npx @unframed/cli add empty-state` to copy the source).
+
+### Basic
+
+An icon, a heading, a short explanation and what to do next.
+
+```html
+<uf-empty-state heading="No projects yet">
+  Projects keep your files and your team together.
+  <uf-button slot="actions">New project</uf-button>
+</uf-empty-state>
+```
+
+### No search results
+
+Another `icon`, and a real heading in the `heading` slot when it belongs in the page outline.
+
+```html
+<uf-empty-state icon="search">
+  <h3 slot="heading">No results for “invoice 2019”</h3>
+  Check the spelling, or try a shorter search.
+  <uf-button slot="actions" variant="outline">Clear search</uf-button>
+</uf-empty-state>
+```
+
+### `<uf-empty-state>` API
+
+#### Attributes and properties
+
+| Attribute | Property | Type | Default | Description |
+|---|---|---|---|---|
+| `heading` |  | `string \| undefined` |  | Bold text above the explanation. |
+| `icon` |  | `string` | `'inbox'` | A built-in or registered icon name. An empty string hides the icon. |
+
+#### Slots
+
+| Slot | Description |
+|---|---|
+| (default) | The explanation. |
+| `heading` | The heading, when you need markup or a heading level. Overrides `heading`. |
+| `icon` | Replaces the icon. |
+| `actions` | Buttons or links, like "Create a project". |
+
+#### CSS parts
+
+| Part | Description |
+|---|---|
+| `base` | The empty state. |
+| `icon` | The icon. |
+| `heading` | The heading. |
+| `description` | The explanation. |
+| `actions` | The wrapper around the actions. |
+
+#### CSS custom properties
+
+| Property | Description |
+|---|---|
+| `--uf-empty-state-icon-size` | Size of the icon. |
+| `--uf-empty-state-icon-color` | Color of the icon. |
+| `--uf-empty-state-padding` | Space around the content. |
+
 ## File upload
 
 Picks files to send with a form: from a button, or by dragging them onto the
@@ -1829,6 +1898,130 @@ Errors appear after the user edits the field or tries to submit.
 
 | Property | Description |
 |---|---|
+| `--uf-field-bg` | Background of the box. |
+| `--uf-field-border-color` | Border color of the box. |
+| `--uf-field-radius` | Corner radius of the box. |
+
+## Multi-select
+
+A field to pick several options from a list you can search. The picked ones
+show as chips in the field, each with a remove button. Write options as plain
+`<option>` and `<optgroup>` children; `selected` ones start picked.
+
+It follows the WAI-ARIA combobox pattern with a multi-select listbox: typing
+filters the list, arrow keys move through it, Enter picks or unpicks an
+option and keeps the list open, and Backspace in an empty field removes the
+last chip. With a `name`, every picked value is submitted with the form.
+
+Tags: `<uf-multi-select>`. Import: `import '@unframed/core/multi-select';` (or `npx @unframed/cli add multi-select` to copy the source).
+
+### Basic
+
+Type to filter, Enter or a click to pick, and the list stays open for the next one. Backspace removes the last chip. The value is an array, in the order of the options.
+
+```html
+<uf-multi-select name="toppings" label="Toppings" placeholder="Pick toppings">
+  <option value="cheese" selected>Cheese</option>
+  <option value="olives">Olives</option>
+  <option value="basil">Basil</option>
+  <option value="ham" disabled>Ham (sold out)</option>
+</uf-multi-select>
+```
+
+- With a `name`, every picked value is submitted under that name, like a native `<select multiple>`: read them with `formData.getAll(name)`.
+
+### Groups and validation
+
+```html
+<uf-multi-select name="languages" label="Languages" hint="Pick at least one." required>
+  <optgroup label="Europe">
+    <option>English</option>
+    <option>Italian</option>
+  </optgroup>
+  <optgroup label="Asia">
+    <option>Japanese</option>
+  </optgroup>
+</uf-multi-select>
+```
+
+### `<uf-multi-select>` API
+
+#### Attributes and properties
+
+| Attribute | Property | Type | Default | Description |
+|---|---|---|---|---|
+| `label` |  | `string \| undefined` |  | Visible label. |
+| `hint` |  | `string \| undefined` |  | Help text below the field. |
+| `placeholder` |  | `string \| undefined` |  | Placeholder text in the field, while nothing is picked. |
+| `size` |  | `FieldSize` | `'md'` | Size of the field. |
+| `open` |  | `boolean` | `false` | Whether the list is showing. |
+| `name` |  | `string` | `''` | Name submitted with the form. |
+| `disabled` |  | `boolean` | `false` | Disables the control. |
+| `required` |  | `boolean` | `false` | Makes the control required for form submission. |
+
+#### Properties only
+
+| Property | Type | Description |
+|---|---|---|
+| `value` | `string[]` | The picked options' values, in the order of the options. |
+| `form` | `HTMLFormElement \| null` | Read-only. The form this control belongs to, if any. |
+| `validity` | `ValidityState` | Read-only. The control's validity state, like a native input's. |
+| `validationMessage` | `string` | Read-only. The error message shown when the value is invalid. |
+| `willValidate` | `boolean` | Read-only. Whether the control takes part in form validation. |
+
+#### Methods
+
+| Method | Description |
+|---|---|
+| `show()` | Opens the list. |
+| `hide()` | Closes the list. |
+| `checkValidity()` | Returns whether the value is valid, without showing an error. |
+| `reportValidity()` | Returns whether the value is valid, and shows the error if not. |
+| `setCustomValidity(message: string)` | Sets a custom error message. Pass an empty string to clear it. |
+
+#### Events
+
+| Event | Type | Description |
+|---|---|---|
+| `uf-show` | `Event` | The list opened. |
+| `uf-hide` | `Event` | The list closed. |
+| `input` |  | Fired as the user types in the field (the search text, not the value). |
+| `change` | `Event` | Fired when an option is picked or removed. |
+
+#### Slots
+
+| Slot | Description |
+|---|---|
+| (default) | `<option>` and `<optgroup>` elements. They are read, not rendered. |
+| `label` | The label, when you need markup. Overrides `label`. |
+| `hint` | Help text below the field. Overrides `hint`. |
+
+#### CSS parts
+
+| Part | Description |
+|---|---|
+| `field` | The wrapper around label, control, hint and error. |
+| `form-label` | The label. |
+| `box` | The bordered box with the chips and the input. |
+| `chips` | The list of picked options. |
+| `chip` | A picked option. |
+| `chip-remove` | A chip's remove button. |
+| `input` | The native `<input>`. |
+| `toggle` | The button that opens the list. |
+| `listbox` | The floating list. |
+| `option` | Each option. |
+| `group-label` | Each group heading. |
+| `empty` | The "no results" message. |
+| `hint` | The hint text. |
+| `error` | The validation message. |
+
+#### CSS custom properties
+
+| Property | Description |
+|---|---|
+| `--uf-multi-select-max-height` | Maximum height of the list before it scrolls. |
+| `--uf-multi-select-chip-bg` | Background of the chips. |
+| `--uf-multi-select-chip-color` | Text color of the chips. |
 | `--uf-field-bg` | Background of the box. |
 | `--uf-field-border-color` | Border color of the box. |
 | `--uf-field-radius` | Corner radius of the box. |
@@ -2249,6 +2442,109 @@ Arrow keys move the selection; only the selected radio is in the tab order.
 |---|---|
 | `--uf-radio-size` | Size of the circle. |
 | `--uf-radio-checked-bg` | Color of the circle when checked. |
+
+## Segmented control
+
+A row of buttons for one choice among a few, like "List / Grid" or "Day /
+Week / Month". The choices are plain `<option>` children. One is always
+selected: the `value` attribute, an option marked `selected`, or the first.
+
+It's a radio group for assistive tech: arrow keys move and select, Home and
+End jump to the ends, and it submits its value with a form.
+
+Tags: `<uf-segmented-control>`. Import: `import '@unframed/core/segmented-control';` (or `npx @unframed/cli add segmented-control` to copy the source).
+
+### Basic
+
+One choice among a few, always with one picked: the `value` attribute, a `selected` option, or the first. Arrow keys move and pick.
+
+```html
+<uf-segmented-control name="view" label="View" value="week">
+  <option value="day">Day</option>
+  <option value="week">Week</option>
+  <option value="month">Month</option>
+  <option value="year" disabled>Year</option>
+</uf-segmented-control>
+```
+
+- For more than five or six options, or long labels, use a select or a radio group instead.
+
+### Sizes
+
+```html
+<uf-segmented-control size="sm" label="Layout">
+  <option>List</option>
+  <option>Grid</option>
+</uf-segmented-control>
+```
+
+### `<uf-segmented-control>` API
+
+#### Attributes and properties
+
+| Attribute | Property | Type | Default | Description |
+|---|---|---|---|---|
+| `value` | `defaultValue` | `string \| undefined` |  | Initially selected value, restored on form reset. Set with the `value` attribute. |
+| `label` |  | `string \| undefined` |  | Visible label, also the group's accessible name. |
+| `hint` |  | `string \| undefined` |  | Help text below the options. |
+| `size` |  | `FieldSize` | `'md'` | Size of the buttons. |
+| `name` |  | `string` | `''` | Name submitted with the form. |
+| `disabled` |  | `boolean` | `false` | Disables the control. |
+| `required` |  | `boolean` | `false` | Makes the control required for form submission. |
+
+#### Properties only
+
+| Property | Type | Description |
+|---|---|---|
+| `value` | `string` | The selected option's value. |
+| `form` | `HTMLFormElement \| null` | Read-only. The form this control belongs to, if any. |
+| `validity` | `ValidityState` | Read-only. The control's validity state, like a native input's. |
+| `validationMessage` | `string` | Read-only. The error message shown when the value is invalid. |
+| `willValidate` | `boolean` | Read-only. Whether the control takes part in form validation. |
+
+#### Methods
+
+| Method | Description |
+|---|---|
+| `focus(options: FocusOptions)` | Moves focus to the selected option. |
+| `checkValidity()` | Returns whether the value is valid, without showing an error. |
+| `reportValidity()` | Returns whether the value is valid, and shows the error if not. |
+| `setCustomValidity(message: string)` | Sets a custom error message. Pass an empty string to clear it. |
+
+#### Events
+
+| Event | Type | Description |
+|---|---|---|
+| `input` | `Event` | The user picked another option. |
+| `change` | `Event` | The user picked another option. |
+
+#### Slots
+
+| Slot | Description |
+|---|---|
+| (default) | `<option>` elements. `disabled` options can't be picked. |
+| `label` | The label, when you need markup. Overrides `label`. |
+| `hint` | Help text below the options. Overrides `hint`. |
+
+#### CSS parts
+
+| Part | Description |
+|---|---|
+| `base` | The element with `role="radiogroup"`. |
+| `form-label` | The label. |
+| `options` | The row of buttons. |
+| `option` | One button. The selected one also has the part `selected`. |
+| `selected` | The selected button. |
+| `hint` | The hint text. |
+
+#### CSS custom properties
+
+| Property | Description |
+|---|---|
+| `--uf-segmented-control-bg` | Background behind the buttons. |
+| `--uf-segmented-control-selected-bg` | Background of the selected button. |
+| `--uf-segmented-control-selected-color` | Text color of the selected button. |
+| `--uf-segmented-control-radius` | Corner radius of the row. |
 
 ## Select
 
