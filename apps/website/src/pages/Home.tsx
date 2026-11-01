@@ -7,7 +7,7 @@ import { ComponentCards } from '../components/LinkCards';
 import { storybookUrl } from '../links';
 import { version } from '../../../../packages/core/package.json';
 
-const frameworks = ['React', 'Vue', 'Angular', 'Svelte', 'plain HTML'];
+const frameworks = ['React', 'Vue', 'Angular', 'plain HTML'];
 const changelog = 'https://github.com/P-DB/unframed-ui/blob/main/packages/core/CHANGELOG.md';
 const checks = ['WCAG AA contrast', 'Keyboard', 'Screen readers', 'Tested with axe'];
 
@@ -49,7 +49,7 @@ const features = [
   {
     icon: 'check-circle',
     title: 'Works with any framework',
-    text: 'Standard custom elements: React, Vue, Angular, Svelte, Astro or plain HTML. One design system for every app you ship.',
+    text: 'Standard custom elements: React, Vue, Angular or plain HTML. One design system for every app you ship.',
   },
   {
     icon: 'plus',
@@ -152,7 +152,7 @@ export function Home() {
             <UfIcon name="chevron-right" />
           </a>
           <h1 className="hero__title">
-            <span className="visually-hidden">UI components for React, Vue, Angular, Svelte and plain HTML.</span>
+            <span className="visually-hidden">UI components for React, Vue, Angular and plain HTML.</span>
             <span aria-hidden="true">
               UI components for
               <br />
