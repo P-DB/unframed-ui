@@ -19,6 +19,7 @@ export const navSections: { heading: string; links: NavEntry[] }[] = [
       { to: '/docs/translations', label: 'Translations' },
       { to: '/docs/ai-assistants', label: 'AI assistants' },
       { to: '/docs/stability', label: 'Stability' },
+      { to: '/docs/changelog', label: 'Changelog' },
     ],
   },
   {

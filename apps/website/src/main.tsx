@@ -13,6 +13,7 @@ import { Home } from './pages/Home';
 const page = <T extends string>(load: () => Promise<Record<T, ComponentType>>, name: T) =>
   lazy(() => load().then((module) => ({ default: module[name] })));
 
+const Changelog = page(() => import('./pages/Changelog'), 'Changelog');
 const ComponentPage = page(() => import('./pages/ComponentPage'), 'ComponentPage');
 const ComponentsIndex = page(() => import('./pages/ComponentsIndex'), 'ComponentsIndex');
 const AiAssistants = page(() => import('./pages/AiAssistants'), 'AiAssistants');
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
           { path: 'docs/getting-started', element: <GettingStarted /> },
           { path: 'docs/packages', element: <Packages /> },
           { path: 'docs/stability', element: <Stability /> },
+          { path: 'docs/changelog', element: <Changelog /> },
           { path: 'docs/ai-assistants', element: <AiAssistants /> },
           { path: 'docs/frameworks/html', element: <HtmlGuide /> },
           { path: 'docs/frameworks/react', element: <ReactGuide /> },

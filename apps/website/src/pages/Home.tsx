@@ -1,14 +1,13 @@
 import { toast } from '@unframed/core';
 import { UfAlert, UfAvatar, UfBadge, UfButton, UfCard, UfCheckbox, UfCombobox, UfDatePicker, UfIcon, UfInput, UfProgress, UfSwitch } from '@unframed/react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { CodeBlock } from '../components/CodeBlock';
 import { ComponentCards } from '../components/LinkCards';
 import { storybookUrl } from '../links';
 import { version } from '../../../../packages/core/package.json';
 
 const frameworks = ['React', 'Vue', 'Angular', 'plain HTML'];
-const changelog = 'https://github.com/P-DB/unframed-ui/blob/main/packages/core/CHANGELOG.md';
 const checks = ['WCAG AA contrast', 'Keyboard', 'Screen readers', 'Tested with axe'];
 
 /** Cycles through the framework names, or stays on "any framework" for people who asked for less motion. */
@@ -144,13 +143,13 @@ export function Home() {
     <>
       <section className="hero">
         <div className="hero__text">
-          <a className="hero__eyebrow" href={changelog} target="_blank" rel="noreferrer">
+          <Link className="hero__eyebrow" to="/docs/changelog">
             <UfBadge variant="accent" size="sm">
               v{version}
             </UfBadge>
             What's new in Unframed
             <UfIcon name="chevron-right" />
-          </a>
+          </Link>
           <h1 className="hero__title">
             <span className="visually-hidden">UI components for React, Vue, Angular and plain HTML.</span>
             <span aria-hidden="true">

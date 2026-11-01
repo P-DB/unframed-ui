@@ -728,6 +728,46 @@ h3 {
   color: var(--uf-color-text-muted);
 }
 
+/* Changelog: a section per release, its changes grouped by kind. */
+.changelog__release {
+  margin-top: 3rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--uf-color-border);
+}
+
+.changelog__anchor {
+  color: inherit;
+  text-decoration: none;
+}
+
+.changelog__anchor:hover {
+  text-decoration: underline;
+}
+
+.changelog__changes {
+  padding-inline-start: 1.25rem;
+}
+
+.changelog__change + .changelog__change {
+  margin-top: 0.75rem;
+}
+
+.changelog__change > p {
+  margin: 0 0 0.5rem;
+}
+
+.changelog__packages {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-inline-end: 0.5rem;
+  vertical-align: 0.1em;
+}
+
+/* The badges sit on the first line, before its text. */
+.changelog__packages + p {
+  display: inline;
+}
+
 /* Header, page, footer: the page takes the height left, so the footer stays at the bottom. */
 #root {
   display: flex;
