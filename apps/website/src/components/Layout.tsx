@@ -1,4 +1,4 @@
-import { UfButton, UfDrawer, UfIcon, UfTooltip } from '@unframed/react';
+import { UfButton, UfDrawer, UfIcon } from '@unframed/react';
 import { Suspense, useEffect, useState } from 'react';
 import { NavLink, Outlet, ScrollRestoration, useLocation, useNavigate, useOutletContext } from 'react-router';
 import { isActive, navSections } from '../nav';
@@ -122,11 +122,9 @@ export function Layout() {
             </nav>
           </div>
           <SiteSearch theme={theme} />
-          <UfTooltip content={`Switch to ${next} theme`} placement="bottom">
-            <UfButton variant="ghost" size="sm" label={`Switch to ${next} theme`} onClick={() => setTheme(next)}>
-              <UfIcon slot="prefix" name={theme === 'dark' ? 'sun' : 'moon'} />
-            </UfButton>
-          </UfTooltip>
+          <UfButton variant="ghost" size="sm" label={`Switch to ${next} theme`} onClick={() => setTheme(next)}>
+            <UfIcon slot="prefix" name={theme === 'dark' ? 'sun' : 'moon'} />
+          </UfButton>
         </div>
       </header>
 
