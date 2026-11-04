@@ -146,7 +146,7 @@ export class UfAlert extends LitElement {
         margin: calc((1.5em - 1.75rem) / 2) calc(var(--uf-space-1) * -1) 0 0;
         padding: 0;
         border: 0;
-        border-radius: var(--uf-radius-sm);
+        border-radius: var(--uf-radius-control);
         background: transparent;
         color: var(--uf-color-text-muted);
         cursor: pointer;

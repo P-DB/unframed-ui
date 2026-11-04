@@ -184,7 +184,7 @@ export class UfDialog extends LitElement {
         margin: calc(var(--uf-space-1) * -1) calc(var(--uf-space-2) * -1) calc(var(--uf-space-1) * -1) 0;
         padding: 0;
         border: 0;
-        border-radius: var(--uf-radius-md);
+        border-radius: var(--uf-radius-control);
         background: transparent;
         color: var(--uf-color-text-muted);
         cursor: pointer;

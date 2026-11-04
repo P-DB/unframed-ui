@@ -198,7 +198,7 @@ export class UfToaster extends LitElement {
       margin: -0.125rem -0.25rem 0 0;
       padding: 0;
       border: 0;
-      border-radius: var(--uf-radius-sm);
+      border-radius: var(--uf-radius-control);
       background: transparent;
       color: inherit;
       opacity: 0.8;
