@@ -1,5 +1,12 @@
 # @unframed/vue
 
+## 0.13.1
+
+### Patch Changes
+
+- Updated dependencies [4b58708]
+  - @unframed/core@0.13.1
+
 ## 0.13.0
 
 ### Minor Changes
