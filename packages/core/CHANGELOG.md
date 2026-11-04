@@ -1,5 +1,12 @@
 # @unframed/core
 
+## 0.13.1
+
+### Patch Changes
+
+- 4b58708: The close buttons of `<uf-dialog>`, `<uf-drawer>`, `<uf-alert>` and toasts use `--uf-radius-control`, like every other control, so they're square with the default theme.
+- @unframed/tokens@0.13.1
+
 ## 0.13.0
 
 ### Minor Changes
