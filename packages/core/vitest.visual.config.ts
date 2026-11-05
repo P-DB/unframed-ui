@@ -38,7 +38,10 @@ export default defineConfig({
       expect: {
         toMatchScreenshot: {
           comparatorName: 'pixelmatch',
-          comparatorOptions: { allowedMismatchedPixelRatio: 0.001 },
+          // A few pixels, not a share of the image: a share of a full-page screenshot is hundreds
+          // of pixels, more than a rounded corner on a small button changes (about 80). Edge
+          // anti-aliasing is ignored (includeAA: false), so text rendering doesn't count.
+          comparatorOptions: { allowedMismatchedPixels: 10 },
           // Next to the test, not in the ignored __screenshots__ folder. Only the Linux ones are
           // committed; on a Mac, the first run takes local references for before/after checks.
           resolveScreenshotPath: ({ arg, browserName, platform, ext, testFileDirectory, root }) =>
