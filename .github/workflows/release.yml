@@ -38,8 +38,11 @@ jobs:
 
       # No pending changesets means the Version Packages PR was just merged:
       # publish whatever isn't on npm yet (already-published versions are skipped).
+      # npm can take a minute to list a version it just took: a run right after the one
+      # that published sees it as missing, and npm then refuses it (409). The second try
+      # sees it and skips it; a real failure fails again.
       - name: Publish to npm
         if: steps.changesets.outputs.hasChangesets == 'false'
         run: |
-          npm run release
+          npm run release || { sleep 90; npm run release; }
           git push origin --tags
