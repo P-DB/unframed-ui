@@ -33,47 +33,54 @@ describe('uf-drawer', () => {
     expect(onShow).toHaveBeenCalledOnce();
   });
 
-  it('sits on the end edge by default, full height', async () => {
+  it('floats near the end edge by default, a gap away from the screen edges', async () => {
     const el = await fixture<UfDrawer>(markup('open'));
+    el.style.setProperty('--uf-drawer-gap', '12px');
     await el.updateComplete;
-    expect(Math.round(box(el).right)).toBe(window.innerWidth);
-    expect(Math.round(box(el).height)).toBe(window.innerHeight);
+    expect(Math.round(box(el).right)).toBe(window.innerWidth - 12);
+    expect(Math.round(box(el).top)).toBe(12);
+    expect(Math.round(box(el).height)).toBe(window.innerHeight - 24);
     expect(box(el).width).toBeLessThan(window.innerWidth);
   });
 
   it('can slide in from the start, top or bottom, sized with --uf-drawer-size', async () => {
     const start = await fixture<UfDrawer>(markup('open placement="start"'));
+    start.style.setProperty('--uf-drawer-gap', '12px');
     await start.updateComplete;
-    expect(Math.round(box(start).left)).toBe(0);
+    expect(Math.round(box(start).left)).toBe(12);
     start.hide();
     await hidden(start);
 
     const bottom = await fixture<UfDrawer>(markup('open placement="bottom"'));
     bottom.style.setProperty('--uf-drawer-size', '200px');
+    bottom.style.setProperty('--uf-drawer-gap', '12px');
     await bottom.updateComplete;
-    expect(Math.round(box(bottom).bottom)).toBe(window.innerHeight);
+    expect(Math.round(box(bottom).bottom)).toBe(window.innerHeight - 12);
     expect(Math.round(box(bottom).height)).toBe(200);
-    expect(Math.round(box(bottom).width)).toBe(window.innerWidth);
+    expect(Math.round(box(bottom).width)).toBe(window.innerWidth - 24);
   });
 
-  it('rounds the corners on its open side only', async () => {
-    const end = await fixture<UfDrawer>(markup('open'));
-    await end.updateComplete;
-    const style = getComputedStyle(native(end));
-    expect(style.borderTopLeftRadius).not.toBe('0px');
-    expect(style.borderTopRightRadius).toBe('0px');
-    end.hide();
-    await hidden(end);
-    const start = await fixture<UfDrawer>(markup('open placement="start"'));
-    await start.updateComplete;
-    expect(getComputedStyle(native(start)).borderTopRightRadius).not.toBe('0px');
-    expect(getComputedStyle(native(start)).borderTopLeftRadius).toBe('0px');
-  });
-
-  it('starts on the left edge in right-to-left pages', async () => {
-    const el = await fixture<UfDrawer>(`<div dir="rtl">${markup('open')}</div>`, 'uf-drawer');
+  it('sits against the edge with --uf-drawer-gap: 0', async () => {
+    const el = await fixture<UfDrawer>(markup('open'));
+    el.style.setProperty('--uf-drawer-gap', '0px');
     await el.updateComplete;
-    expect(Math.round(box(el).left)).toBe(0);
+    expect(Math.round(box(el).right)).toBe(window.innerWidth);
+    expect(Math.round(box(el).height)).toBe(window.innerHeight);
+  });
+
+  it('rounds every corner, with --uf-drawer-radius', async () => {
+    const el = await fixture<UfDrawer>(markup('open'));
+    el.style.setProperty('--uf-drawer-radius', '10px');
+    await el.updateComplete;
+    const style = getComputedStyle(native(el));
+    expect([style.borderTopLeftRadius, style.borderTopRightRadius, style.borderBottomRightRadius, style.borderBottomLeftRadius]).toEqual(['10px', '10px', '10px', '10px']);
+  });
+
+  it('starts near the left edge in right-to-left pages', async () => {
+    const el = await fixture<UfDrawer>(`<div dir="rtl">${markup('open')}</div>`, 'uf-drawer');
+    el.style.setProperty('--uf-drawer-gap', '12px');
+    await el.updateComplete;
+    expect(Math.round(box(el).left)).toBe(12);
   });
 
   it('closes with Escape and data-dialog="close", like a dialog', async () => {

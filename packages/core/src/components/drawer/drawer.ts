@@ -30,7 +30,8 @@ export type DrawerPlacement = 'start' | 'end' | 'top' | 'bottom';
  * @csspart footer - The footer.
  *
  * @cssprop --uf-drawer-size - Width of a side drawer, or height of a top or bottom one. Defaults to `24rem`.
- * @cssprop --uf-drawer-radius - Corner radius of the corners on the open side; the side against the screen edge stays square.
+ * @cssprop --uf-drawer-gap - Space between the drawer and the screen's edges. `0` puts it against the edge. Defaults to `--uf-space-3`.
+ * @cssprop --uf-drawer-radius - Corner radius.
  * @cssprop --uf-dialog-bg - Background of the drawer.
  * @cssprop --uf-dialog-padding - Padding of header, body and footer.
  * @cssprop --uf-dialog-backdrop - Backdrop color.
@@ -39,64 +40,53 @@ export class UfDrawer extends UfDialog {
   static override styles = [
     ...UfDialog.styles,
     css`
+      /*
+       * A panel floating a gap away from the screen's edges, on top of the page.
+       * With --uf-drawer-gap: 0 it sits against the edge, like a classic drawer.
+       */
       dialog {
-        --_size: min(var(--uf-drawer-size, 24rem), 100vw);
-        --_radius: var(--uf-drawer-radius, var(--uf-radius-md));
-        --_from: 100% 0;
+        --_gap: var(--uf-drawer-gap, var(--uf-space-3));
+        --_size: min(var(--uf-drawer-size, 24rem), 100vw - 2 * var(--_gap));
+        --_from: calc(100% + var(--_gap)) 0;
         position: fixed;
-        inset: 0 0 0 auto;
+        inset: var(--_gap) var(--_gap) var(--_gap) auto;
         width: var(--_size);
-        max-width: 100vw;
-        height: 100dvh;
-        max-height: 100dvh;
+        max-width: none;
+        height: calc(100dvh - 2 * var(--_gap));
+        max-height: none;
         margin: 0;
-        border-width: 0 0 0 1px;
-        border-radius: var(--_radius) 0 0 var(--_radius);
+        border-radius: var(--uf-drawer-radius, var(--uf-radius-md));
         /* Even on every side: the dialog's shadow falls downward, too far below a top drawer and off screen for a bottom one. */
         box-shadow: var(--uf-shadow-drawer);
       }
 
-      :host([placement='start']) dialog {
-        --_from: -100% 0;
-        inset: 0 auto 0 0;
-        border-width: 0 1px 0 0;
-        border-radius: 0 var(--_radius) var(--_radius) 0;
-      }
-
       /* Right-to-left pages: start is on the right, end on the left. */
-      :host(:dir(rtl)) dialog {
-        --_from: -100% 0;
-        inset: 0 auto 0 0;
-        border-width: 0 1px 0 0;
-        border-radius: 0 var(--_radius) var(--_radius) 0;
+      :host([placement='start']) dialog,
+      :host(:dir(rtl):not([placement='start'])) dialog {
+        --_from: calc(-100% - var(--_gap)) 0;
+        inset: var(--_gap) auto var(--_gap) var(--_gap);
       }
 
       :host(:dir(rtl)[placement='start']) dialog {
-        --_from: 100% 0;
-        inset: 0 0 0 auto;
-        border-width: 0 0 0 1px;
-        border-radius: var(--_radius) 0 0 var(--_radius);
+        --_from: calc(100% + var(--_gap)) 0;
+        inset: var(--_gap) var(--_gap) var(--_gap) auto;
       }
 
       :host([placement='top']) dialog,
       :host([placement='bottom']) dialog {
-        --_size: min(var(--uf-drawer-size, 24rem), 100dvh);
-        width: 100vw;
+        --_size: min(var(--uf-drawer-size, 24rem), 100dvh - 2 * var(--_gap));
+        width: calc(100vw - 2 * var(--_gap));
         height: var(--_size);
       }
 
       :host([placement='top']) dialog {
-        --_from: 0 -100%;
-        inset: 0 0 auto 0;
-        border-width: 0 0 1px 0;
-        border-radius: 0 0 var(--_radius) var(--_radius);
+        --_from: 0 calc(-100% - var(--_gap));
+        inset: var(--_gap) var(--_gap) auto;
       }
 
       :host([placement='bottom']) dialog {
-        --_from: 0 100%;
-        inset: auto 0 0 0;
-        border-width: 1px 0 0 0;
-        border-radius: var(--_radius) var(--_radius) 0 0;
+        --_from: 0 calc(100% + var(--_gap));
+        inset: auto var(--_gap) var(--_gap);
       }
 
       dialog[open] {
