@@ -86,7 +86,9 @@ export const buttonStyles = [
       height: var(--uf-button-height, var(--_height));
       padding: 0 var(--uf-button-padding, var(--_padding));
       border: 1px solid var(--uf-button-border-color, var(--_border));
-      border-radius: var(--uf-button-radius, var(--uf-radius-control));
+      /* In a <uf-button-group>: one border between neighbors, square inner corners. */
+      border-width: var(--_uf-group-border-width, 1px);
+      border-radius: var(--_uf-group-radius, var(--uf-button-radius, var(--uf-radius-control)));
       background: var(--uf-button-bg, var(--_bg));
       color: var(--uf-button-color, var(--_fg));
       font-family: var(--uf-button-font-family, var(--uf-font-family-sans));
@@ -105,6 +107,11 @@ export const buttonStyles = [
     }
 
     /* Icon-only: no empty label (its gaps pushed the icon off-center), and square. */
+    /* In a <uf-button-group>: a line between buttons with no border to share, filled or ghost. */
+    :host(:not([variant='outline'], [variant='link'])) .base {
+      box-shadow: var(--_uf-group-divider, none);
+    }
+
     .base.icon-only {
       width: var(--uf-button-height, var(--_height));
       padding: 0;

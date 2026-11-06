@@ -13,6 +13,8 @@ export { UfBreadcrumbItem, UfBreadcrumbs } from './components/breadcrumbs/breadc
 
 export { UfButton } from './components/button/button.js';
 export type { ButtonSize, ButtonType, ButtonVariant } from './components/button/button.js';
+export { UfButtonGroup } from './components/button-group/button-group.js';
+export type { ButtonGroupOrientation } from './components/button-group/button-group.js';
 
 export { UfCalendar } from './components/calendar/calendar.js';
 
