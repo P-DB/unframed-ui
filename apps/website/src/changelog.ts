@@ -37,7 +37,7 @@ function parse(): Release[] {
     let kind: ChangeKind = 'patch';
     let current: Change | undefined;
     for (const line of markdown.split('\n')) {
-      const heading = /^## (\d+\.\d+\.\d+)/.exec(line);
+      const heading = /^## (\d+\.\d+\.\d+(?:-[0-9a-z.]+)?)/.exec(line);
       if (heading) {
         version = heading[1];
         current = undefined;
