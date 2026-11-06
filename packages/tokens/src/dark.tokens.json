@@ -163,19 +163,19 @@
     "$type": "shadow",
     "raised": {
       "$description": "A raised surface, like an elevated card. Shadows barely show on dark backgrounds, so it is a faint accent edge and an accent glow.",
-      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 30%, transparent), 0 12px 32px -8px color-mix(in srgb, var(--uf-palette-accent-600) 55%, transparent)"
+      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 20%, transparent), 0 8px 24px -8px color-mix(in srgb, var(--uf-palette-accent-600) 30%, transparent)"
     },
     "overlay": {
       "$description": "A surface over the page, like a popover, menu or list. Shadows barely show on dark backgrounds, so it is a faint accent edge and an accent glow.",
-      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 25%, transparent), 0 8px 24px -6px color-mix(in srgb, var(--uf-palette-accent-600) 50%, transparent)"
+      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 18%, transparent), 0 6px 16px -6px color-mix(in srgb, var(--uf-palette-accent-600) 28%, transparent)"
     },
     "modal": {
       "$description": "A dialog: like overlay, with a wider glow.",
-      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 30%, transparent), 0 24px 64px -12px color-mix(in srgb, var(--uf-palette-accent-600) 60%, transparent)"
+      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 20%, transparent), 0 16px 40px -12px color-mix(in srgb, var(--uf-palette-accent-600) 32%, transparent)"
     },
     "drawer": {
       "$description": "A drawer: like modal, with the glow even on every side, so it shows from whichever edge the drawer comes in.",
-      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 30%, transparent), 0 0 48px -8px color-mix(in srgb, var(--uf-palette-accent-600) 55%, transparent)"
+      "$value": "0 0 0 1px color-mix(in srgb, var(--uf-palette-accent-400) 20%, transparent), 0 0 32px -8px color-mix(in srgb, var(--uf-palette-accent-600) 30%, transparent)"
     }
   }
 }

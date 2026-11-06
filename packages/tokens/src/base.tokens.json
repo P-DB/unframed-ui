@@ -250,20 +250,20 @@
   "radius": {
     "$type": "dimension",
     "sm": {
-      "$value": "4px"
+      "$value": "2px"
     },
     "md": {
-      "$value": "8px"
+      "$value": "2px"
     },
     "lg": {
-      "$value": "12px"
+      "$value": "2px"
     },
     "full": {
       "$value": "9999px"
     },
     "control": {
-      "$value": "0px",
-      "$description": "Corners of buttons and form controls. Set e.g. 6px for rounded controls."
+      "$value": "2px",
+      "$description": "Corners of buttons and form controls. 0 for square controls, larger for rounder ones."
     }
   },
   "space": {

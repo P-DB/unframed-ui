@@ -85,7 +85,7 @@ export class UfFileUpload extends FormControl {
         gap: var(--uf-space-2);
         padding: var(--_padding, var(--uf-space-5) var(--uf-space-4));
         border: 1px solid var(--uf-file-upload-border-color, var(--uf-color-border-strong));
-        /* Like the fields: square by default, following the theme's control radius. */
+        /* Like the fields: the theme's control radius. */
         border-radius: var(--uf-file-upload-radius, var(--uf-radius-control));
         background: var(--uf-file-upload-bg, transparent);
         color: var(--uf-color-text-muted);

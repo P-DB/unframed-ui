@@ -171,11 +171,11 @@
     },
     "modal": {
       "$description": "A dialog: a deeper shadow.",
-      "$value": "{shadow.lg}"
+      "$value": "0 12px 32px rgb(0 0 0 / 0.12), 0 2px 8px rgb(0 0 0 / 0.06)"
     },
     "drawer": {
       "$description": "A drawer: as deep as a dialog's, but even on every side, so it shows from whichever edge the drawer comes in.",
-      "$value": "0 0 40px rgb(0 0 0 / 0.16), 0 0 12px rgb(0 0 0 / 0.08)"
+      "$value": "0 0 32px rgb(0 0 0 / 0.10), 0 0 8px rgb(0 0 0 / 0.05)"
     }
   }
 }
