@@ -37,6 +37,12 @@ export function Stability() {
         While the version starts with <code>0.</code>, a minor release (0.10 → 0.11) may also include breaking changes. Each
         one is listed in the changelog with what to change in your code.
       </p>
+      <p>
+        Release candidates (<code>1.0.0-rc.0</code>, <code>1.0.0-rc.1</code>…) come before 1.0. They're published under the{' '}
+        <code>rc</code> tag, so a plain <code>npm install</code> keeps the latest <code>0.</code> release until 1.0.0 is out:
+        install one with <code>@rc</code>, like <code>npm install @unframed/core@rc</code>. Between release candidates the API
+        changes only to fix a problem found in one, listed in the changelog.
+      </p>
 
       <h2>The public API</h2>
       <p>Changing or removing any of these is a breaking change:</p>

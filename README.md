@@ -9,7 +9,7 @@
 
 Unframed is a library of accessible, themeable web components built with [Lit](https://lit.dev). They work in React, Vue, Angular, Svelte, Astro, plain HTML, or anything else that renders the DOM.
 
-> Status: early development (v0). APIs may change before 1.0.
+> Status: 1.0 release candidate. Install it with the `rc` tag, like `npm install @unframed/core@rc`. The API changes before 1.0 only to fix a problem found in a release candidate.
 
 ## Packages
 

@@ -8,6 +8,8 @@ Every package follows semantic versioning, and they're all released together wit
 
 While the version starts with `0.`, a minor release (0.10 → 0.11) may also include breaking changes. Each one is listed in the changelog with what to change in your code.
 
+Release candidates (`1.0.0-rc.0`, `1.0.0-rc.1`…) come before 1.0. They're published under the `rc` tag, so a plain `npm install` keeps the latest `0.` release until 1.0.0 is out: install one with `@rc`, like `npm install @unframed/core@rc`. Between release candidates the API changes only to fix a problem found in one, listed in the changelog.
+
 ## The public API
 
 Changing or removing any of these is a breaking change:
