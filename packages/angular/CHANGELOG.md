@@ -1,5 +1,23 @@
 # @unframed/angular
 
+## 1.0.0-rc.0
+
+### Major Changes
+
+- 5ae4be7: Unframed 1.0, release candidate. The public API listed on the [Stability](https://p-db.github.io/unframed-ui/docs/stability) page is now stable: from 1.0, only major releases break it. Install the release candidate with the `rc` tag, like `npm install @unframed/core@rc`, and report anything that should change before 1.0.
+
+### Minor Changes
+
+- fa87309: New `<uf-button-group>`: related buttons joined into one bar. Neighbors share one border, only the outer corners are rounded, and filled or ghost buttons get a thin line between them. Buttons stay joined when wrapped in a tooltip or used as a dropdown trigger, so it makes split buttons too. `orientation="vertical"` stacks them, and a `label` names the group for assistive tech.
+
+### Patch Changes
+
+- Updated dependencies [fa87309]
+- Updated dependencies [182bfc3]
+- Updated dependencies [5ae4be7]
+- Updated dependencies [21b66d6]
+  - @unframed/core@1.0.0-rc.0
+
 ## 0.13.1
 
 ### Patch Changes

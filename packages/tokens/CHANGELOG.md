@@ -1,5 +1,22 @@
 # @unframed/tokens
 
+## 1.0.0-rc.0
+
+### Major Changes
+
+- 5ae4be7: Unframed 1.0, release candidate. The public API listed on the [Stability](https://p-db.github.io/unframed-ui/docs/stability) page is now stable: from 1.0, only major releases break it. Install the release candidate with the `rc` tag, like `npm install @unframed/core@rc`, and report anything that should change before 1.0.
+
+### Minor Changes
+
+- 21b66d6: One corner radius everywhere: 2px. `--uf-radius-control` (buttons and fields) goes from 0 to 2px, and `--uf-radius-sm`, `--uf-radius-md` and `--uf-radius-lg` (cards, menus, dialogs) from 4, 8 and 12px to 2px, so controls and the surfaces around them match. Tooltips follow `--uf-radius-sm` instead of being always square.
+  
+  To get the previous look back, set `--uf-radius-control: 0px`, `--uf-radius-sm: 4px`, `--uf-radius-md: 8px` and `--uf-radius-lg: 12px` on `:root`.
+
+### Patch Changes
+
+- fa87309: New `<uf-button-group>`: related buttons joined into one bar. Neighbors share one border, only the outer corners are rounded, and filled or ghost buttons get a thin line between them. Buttons stay joined when wrapped in a tooltip or used as a dropdown trigger, so it makes split buttons too. `orientation="vertical"` stacks them, and a `label` names the group for assistive tech.
+- 21b66d6: Softer shadows on surfaces over the page. In the dark theme, the accent glow around cards, popovers, menus, dialogs and drawers is about half as strong and tighter, with a fainter edge. In the light theme, dialog and drawer shadows are lighter.
+
 ## 0.13.1
 
 No changes in this release.
