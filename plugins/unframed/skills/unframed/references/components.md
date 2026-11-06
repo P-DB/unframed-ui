@@ -519,6 +519,84 @@ Icon-only buttons need a `label` for screen readers.
 | `--uf-button-font-family` | Font family. |
 | `--uf-button-font-weight` | Font weight. |
 
+## Button group
+
+Related buttons joined into one bar, like "Bold / Italic / Underline" or
+"Save" with a menu of other ways to save. For one choice among a few, use
+`<uf-segmented-control>` instead.
+
+Neighbors share one border, and only the outer corners are rounded. Filled
+and ghost buttons get a thin line between them. Buttons can be wrapped, in a
+`<uf-tooltip>` or as the trigger of a `<uf-dropdown>`, and stay joined.
+
+It's a group for assistive tech: give it a `label` that says what the
+buttons have in common.
+
+Tags: `<uf-button-group>`. Import: `import '@unframed/core/button-group';` (or `npx @unframed/cli add button-group` to copy the source).
+
+### Basic
+
+Related actions in one bar: neighbors share a border, and only the outer corners follow the theme radius. The `label` says what they have in common.
+
+```html
+<uf-button-group label="Clipboard">
+  <uf-button variant="outline">Cut</uf-button>
+  <uf-button variant="outline">Copy</uf-button>
+  <uf-button variant="outline">Paste</uf-button>
+</uf-button-group>
+
+<uf-button-group label="Pages">
+  <uf-button variant="secondary" label="Previous page"><uf-icon slot="prefix" name="chevron-left"></uf-icon></uf-button>
+  <uf-button variant="secondary" label="Next page"><uf-icon slot="prefix" name="chevron-right"></uf-icon></uf-button>
+</uf-button-group>
+```
+
+- To pick one of a few options, like "Day / Week / Month", use a segmented control: it keeps one selected and works as a radio group.
+
+### Split button
+
+A main action with a menu of other ways to do it. Buttons stay joined inside a dropdown or a tooltip, and filled or ghost buttons get a thin line between them.
+
+```html
+<uf-button-group label="Save">
+  <uf-button>Save</uf-button>
+  <uf-dropdown placement="bottom-end">
+    <uf-button slot="trigger" label="More ways to save"><uf-icon slot="prefix" name="chevron-down"></uf-icon></uf-button>
+    <uf-menu label="Save">
+      <uf-menu-item value="draft">Save as draft</uf-menu-item>
+      <uf-menu-item value="template">Save as template</uf-menu-item>
+    </uf-menu>
+  </uf-dropdown>
+</uf-button-group>
+```
+
+### Vertical
+
+`orientation="vertical"` stacks the buttons, as wide as the widest.
+
+```html
+<uf-button-group label="Align" orientation="vertical">
+  <uf-button variant="outline">Top</uf-button>
+  <uf-button variant="outline">Middle</uf-button>
+  <uf-button variant="outline">Bottom</uf-button>
+</uf-button-group>
+```
+
+### `<uf-button-group>` API
+
+#### Attributes and properties
+
+| Attribute | Property | Type | Default | Description |
+|---|---|---|---|---|
+| `label` |  | `string \| undefined` |  | What the buttons have in common, for assistive tech. |
+| `orientation` |  | `ButtonGroupOrientation` | `'horizontal'` | Side by side, or stacked. |
+
+#### Slots
+
+| Slot | Description |
+|---|---|
+| (default) | `<uf-button>` elements, alone or wrapped in a tooltip or dropdown. |
+
 ## Card
 
 A container that groups related content: an optional image, a header, the
@@ -1356,15 +1434,25 @@ Tags: `<uf-drawer>`. Import: `import '@unframed/core/drawer';` (or `npx @unframe
 
 ### Filters
 
-A modal panel from the end edge. Escape, the close button and any element with `data-dialog="close"` close it.
+A modal panel from the end edge, floating a little away from the screen edges. Escape, the close button and any element with `data-dialog="close"` close it.
 
 ```html
 <uf-button variant="outline" onclick="this.nextElementSibling.show()">Filters</uf-button>
 <uf-drawer label="Filters" light-dismiss>
   <uf-checkbox-group label="Status">
-    <uf-checkbox value="open">Open</uf-checkbox>
+    <uf-checkbox value="open" checked>Open</uf-checkbox>
+    <uf-checkbox value="review">In review</uf-checkbox>
     <uf-checkbox value="closed">Closed</uf-checkbox>
   </uf-checkbox-group>
+  <uf-radio-group label="Priority" value="any">
+    <uf-radio value="any">Any</uf-radio>
+    <uf-radio value="high">High</uf-radio>
+    <uf-radio value="low">Low</uf-radio>
+  </uf-radio-group>
+  <uf-select label="Assignee">
+    <option value="anyone">Anyone</option>
+    <option value="john">John Smith</option>
+  </uf-select>
   <uf-button slot="footer" variant="ghost" data-dialog="close">Cancel</uf-button>
   <uf-button slot="footer" data-dialog="close">Apply</uf-button>
 </uf-drawer>
@@ -1372,14 +1460,35 @@ A modal panel from the end edge. Escape, the close button and any element with `
 
 - It is a modal dialog: focus stays inside, the page behind is inert and does not scroll, and focus returns to the button on close.
 
+### Navigation menu
+
+A site menu from the start edge, for small screens. The links are plain HTML in a `<nav>`, styled by your app.
+
+```html
+<uf-button variant="outline" onclick="this.nextElementSibling.show()">Menu</uf-button>
+<uf-drawer label="Menu" placement="start" light-dismiss style="--uf-drawer-size: 18rem">
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="/inbox" aria-current="page"><uf-icon name="inbox"></uf-icon>Inbox</a></li>
+      <li><a href="/calendar"><uf-icon name="calendar"></uf-icon>Calendar</a></li>
+      <li><a href="/documents"><uf-icon name="file"></uf-icon>Documents</a></li>
+      <li><a href="/team"><uf-icon name="user"></uf-icon>Team</a></li>
+    </ul>
+  </nav>
+  <div slot="footer"><uf-avatar name="John Smith" size="sm"></uf-avatar>John Smith</div>
+</uf-drawer>
+```
+
+- Mark the current page with `aria-current="page"`: screen readers announce it, and it is a handy hook for its style.
+
 ### Placement
 
-`start`, `end` (the default), `top` or `bottom`. Start and end follow the page direction. `--uf-drawer-size` sets the width, or the height for top and bottom.
+`start`, `end` (the default), `top` or `bottom`. Start and end follow the page direction. `--uf-drawer-size` sets the width, or the height for top and bottom, and `--uf-drawer-gap` the space around it: `0` puts it against the edge.
 
 ```html
 <uf-drawer label="Menu" placement="start">…</uf-drawer>
 <uf-drawer label="Cart" placement="end" style="--uf-drawer-size: 28rem">…</uf-drawer>
-<uf-drawer label="Cookies" placement="bottom">…</uf-drawer>
+<uf-drawer label="Cookies" placement="bottom" style="--uf-drawer-gap: 0">…</uf-drawer>
 ```
 
 ### `<uf-drawer>` API
@@ -1435,7 +1544,8 @@ A modal panel from the end edge. Escape, the close button and any element with `
 | Property | Description |
 |---|---|
 | `--uf-drawer-size` | Width of a side drawer, or height of a top or bottom one. Defaults to `24rem`. |
-| `--uf-drawer-radius` | Corner radius of the corners on the open side; the side against the screen edge stays square. |
+| `--uf-drawer-gap` | Space between the drawer and the screen's edges. `0` puts it against the edge. Defaults to `--uf-space-3`. |
+| `--uf-drawer-radius` | Corner radius. |
 | `--uf-dialog-bg` | Background of the drawer. |
 | `--uf-dialog-padding` | Padding of header, body and footer. |
 | `--uf-dialog-backdrop` | Backdrop color. |
@@ -3340,4 +3450,4 @@ Tags: `<uf-tooltip>`. Import: `import '@unframed/core/tooltip';` (or `npx @unfra
 | `--uf-tooltip-bg` | Background color. |
 | `--uf-tooltip-color` | Text color. |
 | `--uf-tooltip-max-width` | Maximum width. |
-| `--uf-tooltip-radius` | Corner radius. Square by default. |
+| `--uf-tooltip-radius` | Corner radius. Defaults to `--uf-radius-sm`. |

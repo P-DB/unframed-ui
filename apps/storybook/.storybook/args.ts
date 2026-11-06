@@ -53,6 +53,7 @@ const aliases: Record<string, string[]> = {
   ButtonSize: ['sm', 'md', 'lg'],
   ButtonType: ['button', 'submit', 'reset'],
   CardAppearance: ['outline', 'elevated', 'filled'],
+  ButtonGroupOrientation: ['horizontal', 'vertical'],
   CardOrientation: ['vertical', 'horizontal'],
   DividerOrientation: ['horizontal', 'vertical'],
   SkeletonShape: ['text', 'rect', 'circle'],

@@ -8,6 +8,7 @@ import {
   UfBreadcrumbItem,
   UfBreadcrumbs,
   UfButton,
+  UfButtonGroup,
   UfCalendar,
   UfCard,
   UfCheckbox,
@@ -581,6 +582,116 @@ const open = ref(true);
 <UfButton variant="ghost" label="Search"><UfIcon slot="prefix" name="search" /></UfButton>
 <UfButton loading>Saving</UfButton>
 <UfButton disabled>Disabled</UfButton>`),
+      },
+    ],
+  },
+  {
+    slug: 'button-group',
+    title: 'Button group',
+    tags: ['uf-button-group'],
+    module: 'button-group',
+    examples: [
+      {
+        title: 'Basic',
+        description: 'Related actions in one bar: neighbors share a border, and only the outer corners follow the theme radius. The `label` says what they have in common.',
+        Preview: () => (
+          <>
+            <UfButtonGroup label="Clipboard">
+              <UfButton variant="outline">Cut</UfButton>
+              <UfButton variant="outline">Copy</UfButton>
+              <UfButton variant="outline">Paste</UfButton>
+            </UfButtonGroup>
+            <UfButtonGroup label="Pages">
+              <UfButton variant="secondary" label="Previous page">
+                <UfIcon slot="prefix" name="chevron-left" />
+              </UfButton>
+              <UfButton variant="secondary" label="Next page">
+                <UfIcon slot="prefix" name="chevron-right" />
+              </UfButton>
+            </UfButtonGroup>
+          </>
+        ),
+        html: code(`
+<uf-button-group label="Clipboard">
+  <uf-button variant="outline">Cut</uf-button>
+  <uf-button variant="outline">Copy</uf-button>
+  <uf-button variant="outline">Paste</uf-button>
+</uf-button-group>
+
+<uf-button-group label="Pages">
+  <uf-button variant="secondary" label="Previous page"><uf-icon slot="prefix" name="chevron-left"></uf-icon></uf-button>
+  <uf-button variant="secondary" label="Next page"><uf-icon slot="prefix" name="chevron-right"></uf-icon></uf-button>
+</uf-button-group>`),
+        react: code(`
+<UfButtonGroup label="Clipboard">
+  <UfButton variant="outline">Cut</UfButton>
+  <UfButton variant="outline">Copy</UfButton>
+  <UfButton variant="outline">Paste</UfButton>
+</UfButtonGroup>`),
+        notes: ['To pick one of a few options, like "Day / Week / Month", use a segmented control: it keeps one selected and works as a radio group.'],
+      },
+      {
+        title: 'Split button',
+        description: 'A main action with a menu of other ways to do it. Buttons stay joined inside a dropdown or a tooltip, and filled or ghost buttons get a thin line between them.',
+        Preview: () => (
+          <UfButtonGroup label="Save">
+            <UfButton>Save</UfButton>
+            <UfDropdown placement="bottom-end">
+              <UfButton slot="trigger" label="More ways to save">
+                <UfIcon slot="prefix" name="chevron-down" />
+              </UfButton>
+              <UfMenu label="Save">
+                <UfMenuItem value="draft">Save as draft</UfMenuItem>
+                <UfMenuItem value="template">Save as template</UfMenuItem>
+              </UfMenu>
+            </UfDropdown>
+          </UfButtonGroup>
+        ),
+        html: code(`
+<uf-button-group label="Save">
+  <uf-button>Save</uf-button>
+  <uf-dropdown placement="bottom-end">
+    <uf-button slot="trigger" label="More ways to save"><uf-icon slot="prefix" name="chevron-down"></uf-icon></uf-button>
+    <uf-menu label="Save">
+      <uf-menu-item value="draft">Save as draft</uf-menu-item>
+      <uf-menu-item value="template">Save as template</uf-menu-item>
+    </uf-menu>
+  </uf-dropdown>
+</uf-button-group>`),
+        react: code(`
+<UfButtonGroup label="Save">
+  <UfButton>Save</UfButton>
+  <UfDropdown placement="bottom-end">
+    <UfButton slot="trigger" label="More ways to save"><UfIcon slot="prefix" name="chevron-down" /></UfButton>
+    <UfMenu label="Save">
+      <UfMenuItem value="draft">Save as draft</UfMenuItem>
+      <UfMenuItem value="template">Save as template</UfMenuItem>
+    </UfMenu>
+  </UfDropdown>
+</UfButtonGroup>`),
+      },
+      {
+        title: 'Vertical',
+        description: '`orientation="vertical"` stacks the buttons, as wide as the widest.',
+        Preview: () => (
+          <UfButtonGroup label="Align" orientation="vertical">
+            <UfButton variant="outline">Top</UfButton>
+            <UfButton variant="outline">Middle</UfButton>
+            <UfButton variant="outline">Bottom</UfButton>
+          </UfButtonGroup>
+        ),
+        html: code(`
+<uf-button-group label="Align" orientation="vertical">
+  <uf-button variant="outline">Top</uf-button>
+  <uf-button variant="outline">Middle</uf-button>
+  <uf-button variant="outline">Bottom</uf-button>
+</uf-button-group>`),
+        react: code(`
+<UfButtonGroup label="Align" orientation="vertical">
+  <UfButton variant="outline">Top</UfButton>
+  <UfButton variant="outline">Middle</UfButton>
+  <UfButton variant="outline">Bottom</UfButton>
+</UfButtonGroup>`),
       },
     ],
   },
@@ -1190,7 +1301,7 @@ const dialog = ref();
     examples: [
       {
         title: 'Filters',
-        description: 'A modal panel from the end edge. Escape, the close button and any element with `data-dialog="close"` close it.',
+        description: 'A modal panel from the end edge, floating a little away from the screen edges. Escape, the close button and any element with `data-dialog="close"` close it.',
         Preview: () => {
           const [open, setOpen] = useState(false);
           return (
@@ -1199,12 +1310,26 @@ const dialog = ref();
                 Filters
               </UfButton>
               <UfDrawer label="Filters" open={open} lightDismiss onUfHide={() => setOpen(false)}>
-                <div style={{ display: 'grid', gap: '1rem' }}>
+                <div style={{ display: 'grid', gap: '1.5rem' }}>
                   <UfCheckboxGroup label="Status">
-                    <UfCheckbox value="open">Open</UfCheckbox>
+                    <UfCheckbox value="open" checked>
+                      Open
+                    </UfCheckbox>
+                    <UfCheckbox value="review">In review</UfCheckbox>
                     <UfCheckbox value="closed">Closed</UfCheckbox>
                   </UfCheckboxGroup>
+                  <UfRadioGroup label="Priority" value="any">
+                    <UfRadio value="any">Any</UfRadio>
+                    <UfRadio value="high">High</UfRadio>
+                    <UfRadio value="low">Low</UfRadio>
+                  </UfRadioGroup>
+                  <UfSelect label="Assignee" value="anyone">
+                    <option value="anyone">Anyone</option>
+                    <option value="john">John Smith</option>
+                    <option value="jane">Jane Doe</option>
+                  </UfSelect>
                   <UfSlider label="Maximum price" max={500} step={10} value={250} showValue />
+                  <UfSwitch>Only my projects</UfSwitch>
                 </div>
                 <UfButton slot="footer" variant="ghost" data-dialog="close">
                   Cancel
@@ -1220,9 +1345,19 @@ const dialog = ref();
 <uf-button variant="outline" onclick="this.nextElementSibling.show()">Filters</uf-button>
 <uf-drawer label="Filters" light-dismiss>
   <uf-checkbox-group label="Status">
-    <uf-checkbox value="open">Open</uf-checkbox>
+    <uf-checkbox value="open" checked>Open</uf-checkbox>
+    <uf-checkbox value="review">In review</uf-checkbox>
     <uf-checkbox value="closed">Closed</uf-checkbox>
   </uf-checkbox-group>
+  <uf-radio-group label="Priority" value="any">
+    <uf-radio value="any">Any</uf-radio>
+    <uf-radio value="high">High</uf-radio>
+    <uf-radio value="low">Low</uf-radio>
+  </uf-radio-group>
+  <uf-select label="Assignee">
+    <option value="anyone">Anyone</option>
+    <option value="john">John Smith</option>
+  </uf-select>
   <uf-button slot="footer" variant="ghost" data-dialog="close">Cancel</uf-button>
   <uf-button slot="footer" data-dialog="close">Apply</uf-button>
 </uf-drawer>`),
@@ -1255,10 +1390,91 @@ const drawer = ref();
         notes: ['It is a modal dialog: focus stays inside, the page behind is inert and does not scroll, and focus returns to the button on close.'],
       },
       {
+        title: 'Navigation menu',
+        description: 'A site menu from the start edge, for small screens. The links are plain HTML in a `<nav>`, styled by your app.',
+        Preview: () => {
+          const [open, setOpen] = useState(false);
+          const links = [
+            { icon: 'inbox', label: 'Inbox', count: 12 },
+            { icon: 'calendar', label: 'Calendar' },
+            { icon: 'file', label: 'Documents' },
+            { icon: 'upload', label: 'Uploads' },
+            { icon: 'user', label: 'Team' },
+          ];
+          return (
+            <>
+              <UfButton variant="outline" onClick={() => setOpen(true)}>
+                Menu
+              </UfButton>
+              <UfDrawer label="Menu" placement="start" open={open} lightDismiss onUfHide={() => setOpen(false)} style={{ '--uf-drawer-size': '18rem' } as React.CSSProperties}>
+                <nav aria-label="Main" className="demo-nav">
+                  <ul>
+                    {links.map((link, i) => (
+                      <li key={link.label}>
+                        <a href="#" className="demo-nav__link" aria-current={i === 0 ? 'page' : undefined} onClick={(e) => e.preventDefault()}>
+                          <UfIcon name={link.icon} />
+                          {link.label}
+                          {link.count && (
+                            <UfBadge size="sm" className="demo-nav__count">
+                              {link.count}
+                            </UfBadge>
+                          )}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                  <UfDivider />
+                  <ul>
+                    <li>
+                      <a href="#" className="demo-nav__link" onClick={(e) => e.preventDefault()}>
+                        <UfIcon name="info" />
+                        Help
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+                <div slot="footer" className="demo-nav__user">
+                  <UfAvatar name="John Smith" size="sm" />
+                  John Smith
+                </div>
+              </UfDrawer>
+            </>
+          );
+        },
+        html: code(`
+<uf-button variant="outline" onclick="this.nextElementSibling.show()">Menu</uf-button>
+<uf-drawer label="Menu" placement="start" light-dismiss style="--uf-drawer-size: 18rem">
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="/inbox" aria-current="page"><uf-icon name="inbox"></uf-icon>Inbox</a></li>
+      <li><a href="/calendar"><uf-icon name="calendar"></uf-icon>Calendar</a></li>
+      <li><a href="/documents"><uf-icon name="file"></uf-icon>Documents</a></li>
+      <li><a href="/team"><uf-icon name="user"></uf-icon>Team</a></li>
+    </ul>
+  </nav>
+  <div slot="footer"><uf-avatar name="John Smith" size="sm"></uf-avatar>John Smith</div>
+</uf-drawer>`),
+        react: code(`
+<UfDrawer label="Menu" placement="start" open={open} lightDismiss onUfHide={() => setOpen(false)}>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="/inbox" aria-current="page"><UfIcon name="inbox" />Inbox</a></li>
+      <li><a href="/calendar"><UfIcon name="calendar" />Calendar</a></li>
+    </ul>
+  </nav>
+</UfDrawer>`),
+        notes: ['Mark the current page with `aria-current="page"`: screen readers announce it, and it is a handy hook for its style.'],
+      },
+      {
         title: 'Placement',
-        description: '`start`, `end` (the default), `top` or `bottom`. Start and end follow the page direction. `--uf-drawer-size` sets the width, or the height for top and bottom.',
+        description: '`start`, `end` (the default), `top` or `bottom`. Start and end follow the page direction. `--uf-drawer-size` sets the width, or the height for top and bottom, and `--uf-drawer-gap` the space around it: `0` puts it against the edge.',
         Preview: () => {
           const [placement, setPlacement] = useState<'start' | 'end' | 'top' | 'bottom' | null>(null);
+          const notifications = [
+            { name: 'John Smith', text: 'commented on INV-1042', time: '2 min ago' },
+            { name: 'Jane Doe', text: 'paid invoice INV-1038', time: '1 hour ago' },
+            { name: 'Alex Morgan', text: 'invited you to Design review', time: 'Yesterday' },
+          ];
           return (
             <>
               {(['start', 'end', 'top', 'bottom'] as const).map((p) => (
@@ -1266,8 +1482,21 @@ const drawer = ref();
                   {p}
                 </UfButton>
               ))}
-              <UfDrawer label={`Placement: ${placement}`} placement={placement ?? 'end'} open={placement !== null} lightDismiss onUfHide={() => setPlacement(null)}>
-                Slides in from the {placement} edge.
+              <UfDrawer label="Notifications" placement={placement ?? 'end'} open={placement !== null} lightDismiss onUfHide={() => setPlacement(null)}>
+                <ul className="demo-list">
+                  {notifications.map((item) => (
+                    <li key={item.text} className="demo-list__item">
+                      <UfAvatar name={item.name} size="sm" />
+                      <span>
+                        <strong>{item.name}</strong> {item.text}
+                        <span className="demo-list__time">{item.time}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <UfButton slot="footer" variant="ghost" data-dialog="close">
+                  Mark all as read
+                </UfButton>
               </UfDrawer>
             </>
           );
@@ -1275,11 +1504,11 @@ const drawer = ref();
         html: code(`
 <uf-drawer label="Menu" placement="start">…</uf-drawer>
 <uf-drawer label="Cart" placement="end" style="--uf-drawer-size: 28rem">…</uf-drawer>
-<uf-drawer label="Cookies" placement="bottom">…</uf-drawer>`),
+<uf-drawer label="Cookies" placement="bottom" style="--uf-drawer-gap: 0">…</uf-drawer>`),
         react: code(`
 <UfDrawer label="Menu" placement="start">…</UfDrawer>
 <UfDrawer label="Cart" placement="end" style={{ '--uf-drawer-size': '28rem' }}>…</UfDrawer>
-<UfDrawer label="Cookies" placement="bottom">…</UfDrawer>`),
+<UfDrawer label="Cookies" placement="bottom" style={{ '--uf-drawer-gap': '0' }}>…</UfDrawer>`),
       },
     ],
   },

@@ -27,6 +27,7 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | Component | Tag | Notes |
 |---|---|---|
 | Button | `<uf-button>` | 6 variants (including `link`), 3 sizes, loading, link mode, form submit/reset |
+| Button group | `<uf-button-group>` | Joined buttons with one shared border, split buttons with a dropdown, vertical |
 | Icon | `<uf-icon>` | Built-in set, plus `registerIcons()` for your own |
 | Input | `<uf-input>` | Label, hint and validation built in; form-associated |
 | Textarea | `<uf-textarea>` | `resize="auto"` grows with content |

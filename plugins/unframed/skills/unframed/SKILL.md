@@ -40,6 +40,7 @@ Unframed 0.13.1: accessible UI components as standard custom elements (Lit). Eve
 | Badge: Labels a status, a category or a count. | `<uf-badge>` | `@unframed/core/badge` |
 | Breadcrumbs: Shows the path to the current page. | `<uf-breadcrumbs>` `<uf-breadcrumb-item>` | `@unframed/core/breadcrumbs` |
 | Button: Triggers an action or navigates to a URL. | `<uf-button>` | `@unframed/core/button` |
+| Button group: Joins related buttons into one bar. | `<uf-button-group>` | `@unframed/core/button-group` |
 | Card: Groups related content and actions. | `<uf-card>` | `@unframed/core/card` |
 | Checkbox: Lets users turn an option on or off, or pick several options. | `<uf-checkbox>` `<uf-checkbox-group>` | `@unframed/core/checkbox` `@unframed/core/checkbox-group` |
 | Combobox: Lets users search a list and pick one option. | `<uf-combobox>` | `@unframed/core/combobox` |
