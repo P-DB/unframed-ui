@@ -42,7 +42,7 @@ Form controls join the surrounding `<form>` like native ones: `required`, `FormD
 ```
 
 ```js
-import { toast } from '@unframed/core';
+import { toast } from '@unframed/core/toast';
 
 const form = document.querySelector('#signup');
 const dialog = document.querySelector('#welcome');
@@ -111,7 +111,8 @@ Props are the element's properties. Events: `onInput` and `onChange` for form co
 
 ```tsx
 import { useState } from 'react';
-import { toast, type UfCheckbox as UfCheckboxElement, type UfInput as UfInputElement } from '@unframed/core';
+import type { UfCheckbox as UfCheckboxElement, UfInput as UfInputElement } from '@unframed/core';
+import { toast } from '@unframed/core/toast';
 import { UfButton, UfCheckbox, UfDialog, UfInput } from '@unframed/react';
 
 export function Signup() {
@@ -212,7 +213,7 @@ createApp(App).mount('#app');
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { toast } from '@unframed/core';
+import { toast } from '@unframed/core/toast';
 import { UfButton, UfCheckbox, UfDialog, UfInput } from '@unframed/vue';
 
 const email = ref('');
@@ -285,7 +286,7 @@ Outputs keep the event names: `(input)`, `(change)`, `(uf-hide)`. `UNFRAMED` imp
 ```ts
 import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { toast } from '@unframed/core';
+import { toast } from '@unframed/core/toast';
 import { UNFRAMED } from '@unframed/angular';
 
 @Component({

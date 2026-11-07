@@ -44,8 +44,14 @@ export function ReactGuide() {
           just a starting value the user can change, use <code>defaultValue</code> or <code>defaultChecked</code>.
         </li>
         <li>
-          <strong>Toasts and icons</strong>: <code>toast()</code> and <code>registerIcons()</code> come from{' '}
-          <code>@unframed/core</code>.
+          <strong>Options</strong>: pick them with <code>value</code> (an array for the multi-select) or{' '}
+          <code>defaultValue</code>, not <code>selected</code> on an <code>&lt;option&gt;</code>. React applies{' '}
+          <code>selected</code> only inside a native <code>&lt;select&gt;</code>, and drops it elsewhere.
+        </li>
+        <li>
+          <strong>Toasts and icons</strong>: import <code>toast()</code> from{' '}
+          <code>@unframed/core/toast</code> and <code>registerIcons()</code> from <code>@unframed/core/icon</code>.
+          Importing them from <code>@unframed/core</code> itself also loads every component.
         </li>
       </ul>
 

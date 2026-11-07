@@ -38,7 +38,7 @@ import '@unframed/core/dialog';
   <p>Check your inbox to confirm your email.</p>
   <uf-button slot="footer" data-dialog="close">Got it</uf-button>
 </uf-dialog>`,
-  script: `import { toast } from '@unframed/core';
+  script: `import { toast } from '@unframed/core/toast';
 
 const form = document.querySelector('#signup');
 const dialog = document.querySelector('#welcome');
@@ -67,7 +67,8 @@ export const react = {
   setup: `// main.tsx: load the tokens once
 import '@unframed/tokens/tokens.css';`,
   app: `import { useState } from 'react';
-import { toast, type UfCheckbox as UfCheckboxElement, type UfInput as UfInputElement } from '@unframed/core';
+import type { UfCheckbox as UfCheckboxElement, UfInput as UfInputElement } from '@unframed/core';
+import { toast } from '@unframed/core/toast';
 import { UfButton, UfCheckbox, UfDialog, UfInput } from '@unframed/react';
 
 export function Signup() {
@@ -145,7 +146,7 @@ import App from './App.vue';
 createApp(App).mount('#app');`,
   app: `<script setup lang="ts">
 import { ref } from 'vue';
-import { toast } from '@unframed/core';
+import { toast } from '@unframed/core/toast';
 import { UfButton, UfCheckbox, UfDialog, UfInput } from '@unframed/vue';
 
 const email = ref('');
@@ -190,7 +191,7 @@ export const angular = {
 @import '@unframed/tokens/tokens.css';`,
   component: `import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { toast } from '@unframed/core';
+import { toast } from '@unframed/core/toast';
 import { UNFRAMED } from '@unframed/angular';
 
 @Component({

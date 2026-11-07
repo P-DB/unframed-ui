@@ -32,8 +32,8 @@ export function AngularGuide() {
       />
       <ul>
         <li>
-          <strong>UNFRAMED</strong> imports every component and form directive, so it bundles all of them. Handy to
-          start with; see below to ship only what you use.
+          <strong>UNFRAMED</strong> imports every component and form directive in one go. Angular keeps only the ones
+          your templates use, so it doesn't make your bundle bigger; see below to import them one by one.
         </li>
         <li>
           <strong>Inputs</strong> are the element's properties, typed: <code>[open]</code>, <code>[variant]</code>,{' '}
@@ -49,8 +49,9 @@ export function AngularGuide() {
           <code>pattern</code>…) show the error message under the field.
         </li>
         <li>
-          <strong>Toasts and icons</strong>: <code>toast()</code> and <code>registerIcons()</code> come from{' '}
-          <code>@unframed/core</code>.
+          <strong>Toasts and icons</strong>: import <code>toast()</code> from{' '}
+          <code>@unframed/core/toast</code> and <code>registerIcons()</code> from <code>@unframed/core/icon</code>.
+          Importing them from <code>@unframed/core</code> itself also loads every component.
         </li>
       </ul>
 

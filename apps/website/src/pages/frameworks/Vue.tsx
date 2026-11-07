@@ -38,8 +38,9 @@ export function VueGuide() {
           HTML.
         </li>
         <li>
-          <strong>Toasts and icons</strong>: <code>toast()</code> and <code>registerIcons()</code> come from{' '}
-          <code>@unframed/core</code>.
+          <strong>Toasts and icons</strong>: import <code>toast()</code> from{' '}
+          <code>@unframed/core/toast</code> and <code>registerIcons()</code> from <code>@unframed/core/icon</code>.
+          Importing them from <code>@unframed/core</code> itself also loads every component.
         </li>
       </ul>
 
