@@ -1,5 +1,13 @@
 # @unframed/vue
 
+## 1.0.0-rc.1
+
+### Patch Changes
+
+- Updated dependencies [ab6808b]
+- Updated dependencies [499ea0d]
+  - @unframed/core@1.0.0-rc.1
+
 ## 1.0.0-rc.0
 
 ### Major Changes

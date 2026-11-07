@@ -1,5 +1,14 @@
 # @unframed/angular
 
+## 1.0.0-rc.1
+
+### Patch Changes
+
+- c02a052: Handlers of custom events, like `(uf-hide)` or `(uf-tab-change)`, run once per event instead of twice. Angular already listens to the element's native event, and the outputs re-emitted it. The outputs still type `$event`, but no longer emit: to listen from code, use `addEventListener` on the component's `el`.
+- Updated dependencies [ab6808b]
+- Updated dependencies [499ea0d]
+  - @unframed/core@1.0.0-rc.1
+
 ## 1.0.0-rc.0
 
 ### Major Changes
