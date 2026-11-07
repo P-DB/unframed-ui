@@ -42,6 +42,10 @@ jobs:
       # sees it and skips it; a real failure fails again.
       - name: Publish to npm
         if: steps.changesets.outputs.has-changesets == 'false'
+        # Changesets tags each release with an annotated tag, which needs a git user;
+        # the action no longer sets one, since v2 pushes through the GitHub API.
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           npm run release || { sleep 90; npm run release; }
           git push origin --tags
