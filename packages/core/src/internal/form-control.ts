@@ -225,7 +225,11 @@ export abstract class FormControl extends LitElement {
   /** @internal */
   formDisabledCallback(disabled: boolean): void {
     this.#formDisabled = disabled;
-    this.requestUpdate();
+    // The browser also calls this when an update adds or removes the element's own
+    // `disabled` attribute, after render. Lit drops a request made during an update,
+    // so the control would stay disabled: ask again once the update is done.
+    if (this.isUpdatePending) void this.updateComplete.then(() => this.requestUpdate());
+    else this.requestUpdate();
   }
 
   /** @internal */

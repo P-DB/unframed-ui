@@ -101,6 +101,22 @@ describe('form controls set from code', () => {
   });
 });
 
+describe('disabled form controls', () => {
+  // Starting disabled, then enabled from code: how frameworks bind `disabled`.
+  for (const { tag, markup } of controls) {
+    it(`${tag}: can be enabled again`, async () => {
+      const el = await fixture<Control>(markup.replace(`<${tag} `, `<${tag} disabled `));
+      const native = () => el.shadowRoot!.querySelector<HTMLInputElement>('input, select, textarea, button, [role="radiogroup"], [role="combobox"]')!;
+      expect(el.matches(':disabled')).toBe(true);
+      el.disabled = false;
+      await vi.waitFor(() => {
+        expect(el.matches(':disabled')).toBe(false);
+        expect(native().disabled || native().getAttribute('aria-disabled') === 'true').toBe(false);
+      });
+    });
+  }
+});
+
 describe('invalid form controls', () => {
   for (const { tag, markup } of controls) {
     it(`${tag}: shows its error inline, without the browser's bubble, and takes focus`, async () => {

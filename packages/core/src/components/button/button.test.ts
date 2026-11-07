@@ -67,6 +67,14 @@ describe('uf-button', () => {
     expect(inner(el).hasAttribute('disabled')).toBe(true);
   });
 
+  it('can be enabled again, like a submit button waiting for a valid form', async () => {
+    const el = await fixture<UfButton>('<uf-button disabled>Save</uf-button>');
+    el.disabled = false;
+    await vi.waitFor(() => expect(inner(el).hasAttribute('disabled')).toBe(false));
+    el.disabled = true;
+    await vi.waitFor(() => expect(inner(el).hasAttribute('disabled')).toBe(true));
+  });
+
   it('stays focusable but inert while loading', async () => {
     const el = await fixture<UfButton>('<uf-button loading>Save</uf-button>');
     const onClick = vi.fn();
