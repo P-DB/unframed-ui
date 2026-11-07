@@ -196,8 +196,8 @@ export * from '@unframed/angular/forms';
 export const UF_COMPONENTS = [${allNames.join(', ')}] as const;
 
 /**
- * Every component and form directive: \`imports: [UNFRAMED]\`. Convenient, but it
- * bundles every component; import single ones to ship only what you use.
+ * Every component and form directive: \`imports: [UNFRAMED]\`. Angular keeps only the
+ * ones a template uses, so it doesn't make the bundle bigger.
  */
 export const UNFRAMED = [${[...allNames, ...accessors.map((a) => a.name)].join(', ')}] as const;
 `,

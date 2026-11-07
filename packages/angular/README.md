@@ -20,7 +20,7 @@ export class SignupComponent {
 }
 ```
 
-`UNFRAMED` brings every component. To bundle only what you use, import components by name, from `@unframed/angular` or from each component's entry point:
+`UNFRAMED` brings every component and form directive; Angular keeps only the ones your templates use. To import them one by one, use their names, from `@unframed/angular` or from each component's entry point:
 
 ```ts
 import { UfInput, UfTextValueAccessor } from '@unframed/angular/input';
