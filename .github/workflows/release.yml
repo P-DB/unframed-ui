@@ -27,14 +27,13 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: npm ci
 
+      # v2: Changesets 3, which keeps the changesets a release candidate used in .changeset/pre.
       - id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
-          version: npm run version-packages
-          commit: 'chore: release packages'
-          title: 'chore: release packages'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          version-script: npm run version-packages
+          commit-message: 'chore: release packages'
+          pr-title: 'chore: release packages'
 
       # No pending changesets means the Version Packages PR was just merged:
       # publish whatever isn't on npm yet (already-published versions are skipped).
@@ -42,7 +41,7 @@ jobs:
       # that published sees it as missing, and npm then refuses it (409). The second try
       # sees it and skips it; a real failure fails again.
       - name: Publish to npm
-        if: steps.changesets.outputs.hasChangesets == 'false'
+        if: steps.changesets.outputs.has-changesets == 'false'
         run: |
           npm run release || { sleep 90; npm run release; }
           git push origin --tags
