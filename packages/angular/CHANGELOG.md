@@ -1,5 +1,12 @@
 # @unframed/angular
 
+## 1.0.0-rc.2
+
+### Patch Changes
+
+- e080a14: The README and the `UNFRAMED` docs no longer say it bundles every component: Angular keeps only the components a template uses, so `UNFRAMED` doesn't make an app bigger.
+- @unframed/core@1.0.0-rc.2
+
 ## 1.0.0-rc.1
 
 ### Patch Changes
