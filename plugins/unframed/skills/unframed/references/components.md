@@ -1,4 +1,4 @@
-# Unframed 1.0.0-rc.0 components
+# Unframed 1.0.0-rc.1 components
 
 ## Accordion
 

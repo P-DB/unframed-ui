@@ -1,4 +1,4 @@
-# Using Unframed 1.0.0-rc.0 in each framework
+# Using Unframed 1.0.0-rc.1 in each framework
 
 ## HTML & JavaScript
 
@@ -68,8 +68,8 @@ dialog.addEventListener('uf-hide', () => toast('Welcome aboard!', { variant: 'su
 <!doctype html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unframed/tokens@1.0.0-rc.0/dist/tokens.css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@unframed/core@1.0.0-rc.0/+esm"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unframed/tokens@1.0.0-rc.1/dist/tokens.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@unframed/core@1.0.0-rc.1/+esm"></script>
   </head>
   <body>
     <uf-button variant="primary">It works</uf-button>
