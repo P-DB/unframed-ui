@@ -79,6 +79,19 @@ describe('@unframed/angular', () => {
     expect(instance.tab).toBe('b');
   });
 
+  it('runs a handler for a custom event once', async () => {
+    const { instance } = await mount(
+      `<uf-tabs (uf-tab-change)="changes = changes + 1">
+        <uf-tab panel="a">A</uf-tab><uf-tab panel="b">B</uf-tab>
+        <uf-tab-panel name="a">A</uf-tab-panel><uf-tab-panel name="b">B</uf-tab-panel>
+      </uf-tabs>`,
+      { changes: 0 },
+    );
+    document.querySelectorAll<HTMLElement>('uf-tab')[1].click();
+    await settle();
+    expect(instance.changes).toBe(1);
+  });
+
   it('works with ngModel on text fields', async () => {
     const { instance, update } = await mount(`<uf-input [(ngModel)]="email" label="Email" />`, { email: 'a@b.co' });
     const el = $<HTMLElement & { value: string }>('uf-input');

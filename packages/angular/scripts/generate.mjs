@@ -74,10 +74,13 @@ for (const el of elements) {
 
   const events = (el.events ?? []).filter((e) => e.name && e.name.startsWith('uf-'));
   for (const e of events) for (const t of e.type?.text.match(/\b[A-Z]\w+/g) ?? []) if (!builtInTypes.has(t)) typeImports.add(t);
+  // Declared for the types of `$event` in `(uf-…)` bindings, never emitted: Angular also
+  // listens to the element's native event of the same name, so emitting here would run
+  // every handler twice.
   const outputLines = events.map(
     (e) => `${doc(e.description)}  @Output('${e.name}') readonly ${camel(e.name)} = new EventEmitter<${e.type?.text ?? 'Event'}>();`,
   );
-  const listen = events.map((e) => `    this.el.addEventListener('${e.name}', (event) => this.${camel(e.name)}.emit(event as ${e.type?.text ?? 'Event'}));`);
+  const listen = [];
 
   // Properties the user can change besides the model value: an \`<prop>Change\`
   // output enables two-way binding, e.g. [(indeterminate)].
