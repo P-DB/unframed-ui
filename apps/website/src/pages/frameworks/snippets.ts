@@ -3,8 +3,11 @@
 // (scripts/check-snippets.mjs runs in CI).
 import core from '../../../../../packages/core/package.json' with { type: 'json' };
 
-/** The CDN examples pin the current minor version: 0.x minors can break. */
-const minor = core.version.split('.').slice(0, 2).join('.');
+/**
+ * The version the CDN examples pin: the current minor, since 0.x minors can break, or the
+ * exact version of a release candidate, which a range like `1.0` doesn't match.
+ */
+const cdnVersion = core.version.includes('-') ? core.version : core.version.split('.').slice(0, 2).join('.');
 
 export const html = {
   install: 'npm install @unframed/core @unframed/tokens',
@@ -18,8 +21,8 @@ import '@unframed/core/dialog';
   cdn: `<!doctype html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unframed/tokens@${minor}/dist/tokens.css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@unframed/core@${minor}/+esm"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unframed/tokens@${cdnVersion}/dist/tokens.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@unframed/core@${cdnVersion}/+esm"></script>
   </head>
   <body>
     <uf-button variant="primary">It works</uf-button>
