@@ -65,7 +65,9 @@ export class UfSegmentedControl extends FormControl {
         --_height: var(--uf-size-control-lg);
       }
 
+      /* Share any extra width when the row is stretched, as in a grid; no effect at its natural width. */
       .option {
+        flex: 1 1 auto;
         min-height: calc(var(--_height) - 6px);
         padding: 0 var(--uf-space-3);
         border: 0;

@@ -91,6 +91,17 @@ describe('uf-segmented-control', () => {
     expect(new FormData(form).has('view')).toBe(false);
   });
 
+  it('spreads its options across a stretched row, like a grid item', async () => {
+    await fixture(`<div style="display: grid; width: 500px">
+      <uf-segmented-control label="View"><option>Day</option><option>Week</option><option>Month</option></uf-segmented-control>
+    </div>`);
+    const el = document.querySelector<UfSegmentedControl>('uf-segmented-control')!;
+    const widths = buttons(el).map((b) => b.getBoundingClientRect().width);
+    const row = el.shadowRoot!.querySelector('.options')!.getBoundingClientRect().width;
+    // Everything but the row's border (2px), padding (4px) and two 2px gaps.
+    expect(widths.reduce((a, b) => a + b, 0)).toBeCloseTo(row - 10, 0);
+  });
+
   it('has no axe violations', async () => {
     await fixture(`<main>${markup()}</main>`);
     expect(await axeViolations()).toEqual([]);
