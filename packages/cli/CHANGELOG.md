@@ -1,5 +1,11 @@
 # @unframed/cli
 
+## 1.0.0-rc.0
+
+### Major Changes
+
+- 5ae4be7: Unframed 1.0, release candidate. The public API listed on the [Stability](https://p-db.github.io/unframed-ui/docs/stability) page is now stable: from 1.0, only major releases break it. Install the release candidate with the `rc` tag, like `npm install @unframed/core@rc`, and report anything that should change before 1.0.
+
 ## 0.13.1
 
 No changes in this release.
