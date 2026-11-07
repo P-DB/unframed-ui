@@ -1,6 +1,6 @@
 {
   "name": "@unframed/core",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "Framework-agnostic web components built with Lit.",
   "license": "MIT",
   "author": "Patrizio Di Bartolomeo",
@@ -62,7 +62,7 @@
     "lit": "^3.3.3"
   },
   "peerDependencies": {
-    "@unframed/tokens": "1.0.0-rc.1"
+    "@unframed/tokens": "1.0.0-rc.2"
   },
   "publishConfig": {
     "access": "public"

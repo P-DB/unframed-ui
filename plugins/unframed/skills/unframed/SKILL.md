@@ -5,7 +5,7 @@ description: Builds UI with Unframed web components (@unframed/core, @unframed/r
 
 # Unframed UI
 
-Unframed 1.0.0-rc.1: accessible UI components as standard custom elements (Lit). Every tag starts with `uf-`. They work in plain HTML and every framework; React, Vue and Angular have wrapper packages for typed props, events and form bindings.
+Unframed 1.0.0-rc.2: accessible UI components as standard custom elements (Lit). Every tag starts with `uf-`. They work in plain HTML and every framework; React, Vue and Angular have wrapper packages for typed props, events and form bindings.
 
 ## Before writing code
 
