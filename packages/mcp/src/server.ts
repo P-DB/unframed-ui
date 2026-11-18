@@ -1,6 +1,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import type { ComponentData, Data } from './data.js';
+import { formatReport, validate } from './validate.js';
 
 /** Turns what an agent might pass (Button, <uf-button>, date picker) into a key like date-picker. */
 const normalize = (input: string) =>
@@ -80,6 +81,22 @@ export function createServer(data: Data): McpServer {
       }
       return { content: [{ type: 'text', text: component.docs }] };
     },
+  );
+
+  server.registerTool(
+    'validate_usage',
+    {
+      title: 'Validate Unframed markup',
+      description:
+        'Checks code that uses Unframed components: unknown tags, attributes and events, invalid attribute values, ' +
+        'boolean attributes set to "false", and missing labels. Works with HTML, JSX/React, Vue, Angular, Svelte and Lit ' +
+        'templates. Call it on the markup you wrote before showing it to the user, fix every error, and call it again.',
+      inputSchema: {
+        code: z.string().max(200_000).describe('The markup or component file to check. Only <uf-*> tags and Uf* React components are read.'),
+      },
+      annotations: { readOnlyHint: true },
+    },
+    async ({ code }) => ({ content: [{ type: 'text', text: formatReport(validate(data, code)) }] }),
   );
 
   return server;

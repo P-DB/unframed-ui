@@ -13,9 +13,25 @@ export interface ComponentData {
   docs: string;
 }
 
+export interface ElementData {
+  attributes: {
+    name: string;
+    boolean?: true;
+    /** The values it accepts, when the type is a closed list of strings. */
+    values?: string[];
+  }[];
+  /** Public properties, including those backed by an attribute. */
+  properties: string[];
+  events: string[];
+  /** How it gets an accessible name: a label attribute it can't do without, one an icon-only button needs, or its content. */
+  label?: 'required' | 'icon-only' | 'content';
+}
+
 export interface Data {
   version: string;
   components: ComponentData[];
+  /** Every custom element's API, keyed by tag. */
+  elements: Record<string, ElementData>;
 }
 
 let cached: Data | undefined;

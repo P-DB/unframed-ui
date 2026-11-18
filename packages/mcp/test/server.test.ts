@@ -65,3 +65,13 @@ describe('get_component', () => {
     expect(text).toMatch(/Did you mean: .*date-picker/);
   });
 });
+
+describe('validate_usage', () => {
+  it('is read-only and returns the report as text', async () => {
+    const { tools } = await client.listTools();
+    expect(tools.find((t) => t.name === 'validate_usage')?.annotations?.readOnlyHint).toBe(true);
+    const { isError, text } = await call('validate_usage', { code: '<uf-button varient="ghost">Save</uf-button>' });
+    expect(isError).toBe(false);
+    expect(text).toContain('Did you mean "variant"?');
+  });
+});
