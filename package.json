@@ -11,6 +11,7 @@
     "packages/vue",
     "packages/angular",
     "packages/cli",
+    "packages/mcp",
     "apps/storybook",
     "apps/website"
   ],
