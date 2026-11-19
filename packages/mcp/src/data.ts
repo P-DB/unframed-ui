@@ -1,0 +1,42 @@
+import { readFileSync } from 'node:fs';
+
+export interface ComponentData {
+  /** Short name, e.g. date-picker. */
+  name: string;
+  title: string;
+  summary: string;
+  /** Every tag the component is made of, the main one first. */
+  tags: string[];
+  /** Module specifiers to import, e.g. @unframed/core/accordion. */
+  imports: string[];
+  /** Examples and full API, as Markdown. */
+  docs: string;
+}
+
+export interface ElementData {
+  attributes: {
+    name: string;
+    boolean?: true;
+    /** The values it accepts, when the type is a closed list of strings. */
+    values?: string[];
+  }[];
+  /** Public properties, including those backed by an attribute. */
+  properties: string[];
+  events: string[];
+  /** How it gets an accessible name: a label attribute it can't do without, one an icon-only button needs, or its content. */
+  label?: 'required' | 'icon-only' | 'content';
+}
+
+export interface Data {
+  version: string;
+  components: ComponentData[];
+  /** Every custom element's API, keyed by tag. */
+  elements: Record<string, ElementData>;
+}
+
+let cached: Data | undefined;
+
+export function loadData(): Data {
+  cached ??= JSON.parse(readFileSync(new URL('../data.json', import.meta.url), 'utf8')) as Data;
+  return cached;
+}
