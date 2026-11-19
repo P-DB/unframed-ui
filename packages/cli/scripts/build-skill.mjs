@@ -6,7 +6,8 @@
 // Generated from the same sources as the website, so it matches this version.
 // Also copied into plugins/unframed/ at the repository root: the Claude Code
 // plugin that /plugin installs from this repository's marketplace. That copy is
-// committed, and CI checks it is up to date.
+// committed, and CI checks it is up to date. The plugin also starts the
+// @unframed/mcp server.
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { componentMarkdown, componentPages, coreVersion, elementsByTag, frameworkGuides, pageImports } from '../../../scripts/docs-markdown.mjs';
 
@@ -41,7 +42,9 @@ const plugin = new URL('../../plugins/unframed/skills/unframed/', root);
 await rm(plugin, { recursive: true, force: true });
 await cp(out, plugin, { recursive: true });
 // The plugin's version follows the library's: Claude Code updates installed plugins when it changes.
+// Its MCP server is pinned to the same version, so the plugin's skill and server always agree.
 const manifestUrl = new URL('../../plugins/unframed/.claude-plugin/plugin.json', root);
 const manifest = JSON.parse(await readFile(manifestUrl, 'utf8'));
-await writeFile(manifestUrl, `${JSON.stringify({ ...manifest, version }, null, 2)}\n`);
+const mcpServers = { unframed: { command: 'npx', args: ['-y', `@unframed/mcp@${version}`] } };
+await writeFile(manifestUrl, `${JSON.stringify({ ...manifest, version, mcpServers }, null, 2)}\n`);
 console.log(`skill: SKILL.md and 3 references for ${pages.length} components, also in plugins/unframed/`);

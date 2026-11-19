@@ -1,9 +1,25 @@
 {
   "name": "@unframed/mcp",
-  "private": true,
-  "description": "MCP server for Unframed: lets AI coding tools look up components, their API and examples.",
+  "version": "1.0.0-rc.2",
+  "description": "MCP server for Unframed: lets AI coding tools look up components and check the code they write.",
   "license": "MIT",
   "author": "Patrizio Di Bartolomeo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/P-DB/unframed-ui.git",
+    "directory": "packages/mcp"
+  },
+  "homepage": "https://p-db.github.io/unframed-ui/docs/ai-assistants",
+  "bugs": "https://github.com/P-DB/unframed-ui/issues",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "web-components",
+    "ui",
+    "design-system",
+    "accessibility"
+  ],
   "type": "module",
   "bin": {
     "unframed-mcp": "./dist/index.js"
@@ -20,6 +36,9 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",

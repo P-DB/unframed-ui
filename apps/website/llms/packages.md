@@ -1,6 +1,6 @@
 # Packages
 
-Unframed is six npm packages under the `@unframed` scope, released together with the same version. You install two: the tokens, and either the components or your framework's package. While the version starts with `0.`, a minor release may include breaking changes, listed in the changelog.
+Unframed is seven npm packages under the `@unframed` scope, released together with the same version. You install two: the tokens, and either the components or your framework's package. While the version starts with `0.`, a minor release may include breaking changes, listed in the changelog.
 
 | Package | What it is | Install it |
 |---|---|---|
@@ -10,6 +10,7 @@ Unframed is six npm packages under the `@unframed` scope, released together with
 | `@unframed/vue` | Vue components with typed props and `v-model`; `UnframedVue` plugin; `isUnframedElement` for plain tags. | Vue 3 |
 | `@unframed/angular` | Standalone components and form directives (`ngModel`, reactive forms). `UNFRAMED` imports everything; `@unframed/angular/<component>` entry points ship only one. | Angular 20+ |
 | `@unframed/cli` | Copies component source into your project (`init`, `add`, `list`, `diff`) and installs the AI skill (`skill`). | Run with npx |
+| `@unframed/mcp` | MCP server for AI coding tools: looks up components and checks the code they write. See AI assistants. | As a dev dependency, if you use an AI assistant |
 
 ```bash
 npm install @unframed/react @unframed/tokens     # React

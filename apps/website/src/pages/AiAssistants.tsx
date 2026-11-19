@@ -1,4 +1,4 @@
-import { CodeBlock } from '../components/CodeBlock';
+import { CodeBlock, type CodeSample } from '../components/CodeBlock';
 
 const tree = `.claude/skills/unframed/
 ├── SKILL.md                  # when to use it, the rules, every component and its import
@@ -6,6 +6,13 @@ const tree = `.claude/skills/unframed/
     ├── components.md         # each component's API and examples
     ├── frameworks.md         # setup and usage in HTML, React, Vue and Angular
     └── theming.md            # tokens, custom properties, ::part(), dark mode`;
+
+// JSON is highlighted as JavaScript, which also shows the file name comment.
+const mcpSetup: CodeSample[] = [
+  { label: 'Claude Code', lang: 'bash', code: 'claude mcp add unframed --scope project -- npx unframed-mcp' },
+  { label: 'Cursor', lang: 'javascript', code: '// .cursor/mcp.json\n{ "mcpServers": { "unframed": { "command": "npx", "args": ["unframed-mcp"] } } }' },
+  { label: 'VS Code', lang: 'javascript', code: '// .vscode/mcp.json\n{ "servers": { "unframed": { "type": "stdio", "command": "npx", "args": ["unframed-mcp"] } } }' },
+];
 
 const prompts = [
   'Add a sign-up form with Unframed: email, password, terms checkbox, and a submit button that shows a success toast.',
@@ -20,7 +27,8 @@ export function AiAssistants() {
       <h1>AI assistants</h1>
       <p className="lead">
         Give your coding assistant the Unframed skill, and it writes Unframed code the way the docs do: the right
-        components, attributes, events and form bindings for your framework and your version.
+        components, attributes, events and form bindings for your framework and your version. Add the MCP server, and it
+        checks that code before showing it to you.
       </p>
 
       <h2>The Unframed skill</h2>
@@ -53,8 +61,8 @@ export function AiAssistants() {
       />
       <p>
         Start a new session afterwards. The skill is the same as the one below; the plugin just keeps it up to date for
-        you. If your project pins an older Unframed version, use the project skill instead, which matches the version
-        you install.
+        you, and starts the MCP server too. If your project pins an older Unframed version, use the project skill and
+        server instead, which match the version you install.
       </p>
 
       <h2>In your project: any assistant</h2>
@@ -85,6 +93,35 @@ export function AiAssistants() {
         Skills read their own folder: check their docs, and pass it with <code>--dir</code>.
       </p>
       <CodeBlock standalone samples={[{ label: 'Terminal', code: 'npx @unframed/cli skill --dir .agents/skills' }]} />
+
+      <h2>The MCP server</h2>
+      <p>
+        <code>@unframed/mcp</code> is an{' '}
+        <a href="https://modelcontextprotocol.io" target="_blank" rel="noreferrer">
+          MCP
+        </a>{' '}
+        server: your assistant starts it on its own and calls its tools while it works.
+      </p>
+      <ul>
+        <li>
+          <code>list_components</code> finds the right component, and <code>get_component</code> returns its examples and
+          full API.
+        </li>
+        <li>
+          <code>validate_usage</code> checks the code the assistant wrote: unknown tags, attributes and events, invalid
+          values, <code>disabled="false"</code> and missing labels, each with its line and a fix. It reads HTML, JSX, Vue,
+          Angular, Svelte and Lit templates.
+        </li>
+      </ul>
+      <p>Install it in your project, so it matches your Unframed version:</p>
+      <CodeBlock standalone samples={[{ label: 'Terminal', code: 'npm install -D @unframed/mcp' }]} />
+      <p>Then add it to your assistant, and commit the config file so your team gets it too:</p>
+      <CodeBlock standalone samples={mcpSetup} />
+      <p>
+        Other assistants: start <code>npx unframed-mcp</code> as a stdio MCP server. To try it without installing, use{' '}
+        <code>npx -y @unframed/mcp</code>, which runs the latest version. The Claude Code plugin above already includes
+        it.
+      </p>
 
       <h2>What's inside</h2>
       <CodeBlock standalone samples={[{ label: 'Files', lang: 'bash', code: tree }]} />
