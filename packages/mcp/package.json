@@ -1,6 +1,6 @@
 {
   "name": "@unframed/mcp",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "description": "MCP server for Unframed: lets AI coding tools look up components and check the code they write.",
   "license": "MIT",
   "author": "Patrizio Di Bartolomeo",
