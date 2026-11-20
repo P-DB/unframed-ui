@@ -1,5 +1,11 @@
 # @unframed/mcp
 
+## 1.0.0-rc.4
+
+### Patch Changes
+
+- b988a84: `validate_usage` no longer reports false errors in Vue templates: a bound value like `:sort-direction="dir"` is read as an expression, not as the text `dir`, and `v-model` written out (`:model-value` with `@update:model-value`, or `v-model:indeterminate`) is accepted on form controls. Static values on `<UfX>` wrappers are still checked.
+
 ## 1.0.0-rc.3
 
 ### Minor Changes
