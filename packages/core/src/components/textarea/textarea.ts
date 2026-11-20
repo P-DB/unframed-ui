@@ -104,8 +104,8 @@ export class UfTextarea extends FormControl {
   declare size: FieldSize;
   /** Makes the field read-only. */
   declare readonly: boolean;
-  /** Native `autocomplete` hint. */
-  declare autocomplete: AutoFill | undefined;
+  /** Native `autocomplete` hint: `email`, `nickname`, `shipping street-address`. Any HTML autofill token works. */
+  declare autocomplete: AutoFill | (string & {}) | undefined;
   /** Minimum length. */
   declare minlength: number | undefined;
   /** Maximum length. */

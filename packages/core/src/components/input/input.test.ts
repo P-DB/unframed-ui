@@ -18,6 +18,14 @@ describe('uf-input', () => {
     expect(native(el).labels?.[0]?.textContent?.trim()).toBe('Email');
   });
 
+  it('passes any autofill token to the native input', async () => {
+    const el = await fixture<UfInput>('<uf-input label="Nickname"></uf-input>');
+    // "nickname" is valid HTML that TypeScript's AutoFill type leaves out.
+    el.autocomplete = 'nickname';
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('input')!.getAttribute('autocomplete')).toBe('nickname');
+  });
+
   it("doesn't change its border on hover when disabled", async () => {
     const el = await fixture<UfInput>('<uf-input label="Name" disabled style="--uf-duration-fast: 0s"></uf-input>');
     const box = el.shadowRoot!.querySelector('.box')!;

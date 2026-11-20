@@ -101,8 +101,8 @@ export class UfSelect extends FormControl {
   declare placeholder: string | undefined;
   /** Size of the field. */
   declare size: FieldSize;
-  /** Native `autocomplete` hint. */
-  declare autocomplete: AutoFill | undefined;
+  /** Native `autocomplete` hint: `email`, `nickname`, `shipping street-address`. Any HTML autofill token works. */
+  declare autocomplete: AutoFill | (string & {}) | undefined;
 
   readonly #slots = new HasSlotController(this, 'label', 'hint');
   readonly #id = uniqueId('uf-select');

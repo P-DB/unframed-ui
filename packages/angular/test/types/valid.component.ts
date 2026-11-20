@@ -1,15 +1,25 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UNFRAMED, type UfDialog } from '@unframed/angular';
+import type { TableColumn } from '@unframed/core';
 import { UfButton as EntryButton } from '@unframed/angular/button';
 import { UfInput as EntryInput, UfTextValueAccessor } from '@unframed/angular/input';
 import { UfSwitch as EntrySwitch, UfCheckedValueAccessor } from '@unframed/angular/switch';
+
+// Rows typed by an interface, which has no index signature.
+interface Order {
+  id: string;
+  customer: string;
+  amount: number;
+}
 
 @Component({
   selector: 'app-valid',
   imports: [UNFRAMED, FormsModule, ReactiveFormsModule],
   template: `
     <uf-input [(ngModel)]="email" type="email" label="Email" required />
+    <uf-input label="Nickname" autocomplete="nickname" />
+    <uf-table label="Orders" [columns]="orderColumns" [rows]="orders" rowKey="id" />
     <uf-checkbox [(ngModel)]="agree">Agree</uf-checkbox>
     <uf-date-range-picker [(ngModel)]="stay" label="Stay" min="2026-01-01" />
     <uf-file-upload [(ngModel)]="attachments" label="Attachments" multiple accept=".pdf" max-size="5000000" />
@@ -30,6 +40,8 @@ import { UfSwitch as EntrySwitch, UfCheckedValueAccessor } from '@unframed/angul
 })
 export class ValidComponent {
   email = '';
+  orders: Order[] = [{ id: '1', customer: 'Ada', amount: 12 }];
+  orderColumns: TableColumn<Order>[] = [{ key: 'amount', label: 'Amount', format: (value, row) => `${row.customer}: ${String(value)}` }];
   agree = false;
   volume = 40;
   attachments: File[] = [];
