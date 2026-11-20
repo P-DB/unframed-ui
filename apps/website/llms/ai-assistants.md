@@ -13,7 +13,7 @@ The skill is also a Claude Code plugin, in this repository's marketplace. It wor
 /plugin install unframed@unframed
 ```
 
-From a shell: `claude plugin marketplace add P-DB/unframed-ui`, then `claude plugin install unframed@unframed`. Start a new session afterwards. For a project pinned to an older Unframed version, use the project skill below, which matches the installed version.
+From a shell: `claude plugin marketplace add P-DB/unframed-ui`, then `claude plugin install unframed@unframed`. Start a new session afterwards. The plugin also starts the MCP server. For a project pinned to an older Unframed version, use the project skill and server below, which match the installed version.
 
 ## In your project: any assistant
 
@@ -28,6 +28,22 @@ From a shell: `claude plugin marketplace add P-DB/unframed-ui`, then `claude plu
 4. After upgrading Unframed, run the command again.
 
 Other assistants read skills from their own folder: `npx @unframed/cli skill --dir .agents/skills`.
+
+## The MCP server
+
+`@unframed/mcp` is an MCP server: the assistant starts it on its own and calls its tools while it works.
+
+- `list_components` finds the right component; `get_component` returns its examples and full API.
+- `validate_usage` checks the code the assistant wrote: unknown tags, attributes and events, invalid values, `disabled="false"` and missing labels, each with its line and a fix. It reads HTML, JSX, Vue, Angular, Svelte and Lit templates.
+
+Install it in the project, so it matches the Unframed version: `npm install -D @unframed/mcp`. Then add it to the assistant and commit the config file:
+
+- Claude Code: `claude mcp add unframed --scope project -- npx unframed-mcp`
+- Cursor, `.cursor/mcp.json`: `{ "mcpServers": { "unframed": { "command": "npx", "args": ["unframed-mcp"] } } }`
+- VS Code, `.vscode/mcp.json`: `{ "servers": { "unframed": { "type": "stdio", "command": "npx", "args": ["unframed-mcp"] } } }`
+- Other assistants: start `npx unframed-mcp` as a stdio MCP server.
+
+To try it without installing: `npx -y @unframed/mcp`, which runs the latest version.
 
 ## What's inside
 

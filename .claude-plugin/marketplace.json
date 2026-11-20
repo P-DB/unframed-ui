@@ -9,7 +9,7 @@
     {
       "name": "unframed",
       "source": "./plugins/unframed",
-      "description": "Teaches Claude the Unframed components: every tag, attribute, event and slot, framework setup and theming."
+      "description": "Teaches Claude the Unframed components: every tag, attribute, event and slot, framework setup and theming. Includes an MCP server that checks the code Claude writes."
     }
   ]
 }

@@ -30,6 +30,10 @@ Unframed {{version}}: accessible UI components as standard custom elements (Lit)
 - **Translations.** Built-in texts (dialog close button, "No results", pagination labels, a few error messages) are English. Italian, French, German, Spanish and Portuguese are built in: `import it from '@unframed/core/locales/it'; setTranslations(it, 'it')` (codes `it`, `fr`, `de`, `es`, `pt`), once at startup. For other languages, pass the texts yourself: `setTranslations({ close: 'Zamknij', page: 'Strona {page}' }, 'pl')`; components follow the nearest `lang` attribute. Don't add `aria-label`s to override them.
 - **Dark mode** follows the OS; force it with `data-uf-theme="dark"` (or `"light"`) on any element.
 
+## Check your code
+
+If the Unframed MCP server is connected (its `validate_usage` tool), pass it the code you wrote and fix every error it reports before you finish. It catches unknown attributes and events, invalid values and missing labels.
+
 ## Components
 
 {{components}}

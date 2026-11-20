@@ -27,6 +27,8 @@ Installs an [Agent Skill](https://agentskills.io): a `SKILL.md` with the rules f
 
 In Claude Code you can install the same skill as a plugin instead, kept up to date with each release: `/plugin marketplace add P-DB/unframed-ui`, then `/plugin install unframed@unframed`.
 
+To let your assistant check the code it writes, add the MCP server too: [`@unframed/mcp`](../mcp).
+
 **[Documentation](https://p-db.github.io/unframed-ui/)** · **[Storybook](https://p-db.github.io/unframed-ui/storybook/)** · **[GitHub](https://github.com/P-DB/unframed-ui)**
 
 MIT licensed. Status: 0.x, APIs may change before 1.0.

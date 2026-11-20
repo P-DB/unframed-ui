@@ -21,6 +21,7 @@ Unframed is a library of accessible, themeable web components built with [Lit](h
 | [`@unframed/vue`](packages/vue) | [![npm](https://img.shields.io/npm/v/@unframed/vue?label=&color=6930c3)](https://www.npmjs.com/package/@unframed/vue) | Vue components with `v-model` and typed template props, generated from the manifest |
 | [`@unframed/angular`](packages/angular) | [![npm](https://img.shields.io/npm/v/@unframed/angular?label=&color=6930c3)](https://www.npmjs.com/package/@unframed/angular) | Angular standalone components and form directives (`ngModel`, `formControl`), generated from the manifest |
 | [`@unframed/cli`](packages/cli) | [![npm](https://img.shields.io/npm/v/@unframed/cli?label=&color=6930c3)](https://www.npmjs.com/package/@unframed/cli) | Copies components into your project so you own the code |
+| [`@unframed/mcp`](packages/mcp) | [![npm](https://img.shields.io/npm/v/@unframed/mcp?label=&color=6930c3)](https://www.npmjs.com/package/@unframed/mcp) | MCP server: AI coding tools look up components and check the code they write |
 
 ## Components
 

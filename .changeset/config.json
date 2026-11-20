@@ -9,7 +9,8 @@
       "@unframed/react",
       "@unframed/vue",
       "@unframed/angular",
-      "@unframed/cli"
+      "@unframed/cli",
+      "@unframed/mcp"
     ]
   ],
   "access": "public",

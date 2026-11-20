@@ -1,7 +1,7 @@
 {
   "name": "unframed",
   "displayName": "Unframed",
-  "description": "Teaches Claude the Unframed web components (React, Vue, Angular and plain HTML): every tag, attribute, event and slot, framework setup, forms, theming and translations.",
+  "description": "Teaches Claude the Unframed web components (React, Vue, Angular and plain HTML): every tag, attribute, event and slot, framework setup, forms, theming and translations. Its MCP server looks up each component's API and checks the code Claude writes.",
   "author": {
     "name": "Patrizio Di Bartolomeo",
     "url": "https://p-db.github.io/"
@@ -18,5 +18,14 @@
     "angular",
     "lit"
   ],
-  "version": "1.0.0-rc.2"
+  "version": "1.0.0-rc.2",
+  "mcpServers": {
+    "unframed": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@unframed/mcp@1.0.0-rc.2"
+      ]
+    }
+  }
 }

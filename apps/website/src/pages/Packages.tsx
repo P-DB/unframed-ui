@@ -69,6 +69,13 @@ const packages: Package[] = [
     dependsOn: 'Nothing at runtime',
     entries: [['npx @unframed/cli', 'init, add, list and diff to copy components; skill for AI assistants. See Installation.']],
   },
+  {
+    name: '@unframed/mcp',
+    summary: 'An MCP server for AI coding tools: they look up each component\'s API, and check the code they write, while they work.',
+    install: 'As a dev dependency, if you use an AI assistant. See AI assistants.',
+    dependsOn: '@modelcontextprotocol/sdk, zod',
+    entries: [['npx unframed-mcp', 'Starts the server over stdio, with the list_components, get_component and validate_usage tools.']],
+  },
 ];
 
 export function Packages() {
@@ -76,7 +83,7 @@ export function Packages() {
     <article>
       <h1>Packages</h1>
       <p className="lead">
-        Unframed is six npm packages under the <code>@unframed</code> scope. You install two of them: the tokens, and
+        Unframed is seven npm packages under the <code>@unframed</code> scope. You install two of them: the tokens, and
         either the components or your framework's package.
       </p>
 
