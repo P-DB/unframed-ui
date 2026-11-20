@@ -32,7 +32,8 @@
     "data": "node scripts/build-data.mjs",
     "build": "npm run data && rm -rf dist && tsc -p tsconfig.json",
     "test": "npm run data && vitest run",
-    "typecheck": "npm run data && tsc -p tsconfig.json --noEmit"
+    "typecheck": "npm run data && tsc -p tsconfig.json --noEmit",
+    "eval": "npm run build && node eval/run.mjs"
   },
   "engines": {
     "node": ">=20"
