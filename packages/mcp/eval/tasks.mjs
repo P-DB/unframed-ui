@@ -57,6 +57,48 @@ export const tasks = [
       'module script, as a bundler would resolve them.',
     uses: ['uf-input', 'uf-checkbox', 'uf-button'],
   },
+  // Harder: plain HTML and Vue templates, where no type checker catches mistakes,
+  // with components whose structure and events are easy to get wrong.
+  {
+    id: 'html-preferences',
+    file: 'preferences.html',
+    prompt:
+      'Create preferences.html: a plain HTML preferences page (no framework) with two tabs, Profile and Notifications. ' +
+      'Profile has a bio text area and a theme choice between Light, Dark and System shown as a segmented control. ' +
+      'Notifications has an email frequency choice (Instant, Daily, Weekly) as radio buttons and a volume slider ' +
+      'from 0 to 100. Load the components from @unframed/core in a module script, as a bundler would resolve them.',
+    uses: ['uf-tabs', 'uf-tab', 'uf-tab-panel', 'uf-textarea', 'uf-segmented-control', 'uf-radio-group', 'uf-radio', 'uf-slider'],
+  },
+  {
+    id: 'html-confirm',
+    file: 'confirm.html',
+    prompt:
+      'Create confirm.html: a plain HTML page (no framework) with an "Archive project" button that opens a ' +
+      'confirmation dialog. The dialog has Cancel and Archive buttons; Archive shows a success toast and closes it. ' +
+      'If the user tries to close the dialog while an "archiving" request is still running, keep it open. Load the ' +
+      'components from @unframed/core in a module script, as a bundler would resolve them.',
+    uses: ['uf-button', 'uf-dialog'],
+  },
+  {
+    id: 'vue-checkout',
+    file: 'src/components/CheckoutForm.vue',
+    prompt:
+      'Create src/components/CheckoutForm.vue (Vue 3, <script setup lang="ts">): a checkout form with a country select ' +
+      '(Italy, France, Germany), a payment method choice (Card, PayPal, Bank transfer) as radio buttons, a quantity ' +
+      'between 1 and 10, an optional coupon code, an order summary that can be expanded and collapsed, and a Pay ' +
+      'button that submits the form.',
+    uses: ['uf-select', 'uf-radio-group', 'uf-radio', 'uf-number-input', 'uf-input', 'uf-accordion', 'uf-button'],
+  },
+  {
+    id: 'vue-users',
+    file: 'src/components/UsersTable.vue',
+    prompt:
+      'Create src/components/UsersTable.vue (Vue 3, <script setup lang="ts">): it takes a `users` prop ' +
+      '({ name: string; email: string; role: string; joined: string }[]) and shows them in a table sortable by name ' +
+      'and joined date, 10 per page with pagination, and a friendly empty state with an "Invite people" button when ' +
+      'there are no users.',
+    uses: ['uf-table', 'uf-pagination', 'uf-empty-state', 'uf-button'],
+  },
 ];
 
 /** What each condition gives the agent. */
