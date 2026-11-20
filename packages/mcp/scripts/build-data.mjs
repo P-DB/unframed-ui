@@ -7,6 +7,7 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { componentMarkdown, componentPages, coreVersion, elementsByTag, pageImports } from '../../../scripts/docs-markdown.mjs';
+import { formModels } from '../../../scripts/form-models.mjs';
 
 const elements = elementsByTag();
 const pages = componentPages();
@@ -74,6 +75,8 @@ const data = {
         properties: (el.members ?? []).filter(isPublicField).map((m) => m.name),
         events: (el.events ?? []).map((e) => e.name),
         ...(labelRule(el) ? { label: labelRule(el) } : {}),
+        // Form controls get v-model in Vue: modelValue and update:modelValue, plus v-model:<synced>.
+        ...(formModels[el.tagName] ? { model: { synced: formModels[el.tagName].synced ?? [] } } : {}),
       },
     ]),
   ),

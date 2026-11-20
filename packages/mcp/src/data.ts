@@ -25,6 +25,8 @@ export interface ElementData {
   events: string[];
   /** How it gets an accessible name: a label attribute it can't do without, one an icon-only button needs, or its content. */
   label?: 'required' | 'icon-only' | 'content';
+  /** A form control: the Vue wrapper supports v-model, and v-model:<synced> for these properties. */
+  model?: { synced: string[] };
 }
 
 export interface Data {

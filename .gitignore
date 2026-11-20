@@ -29,3 +29,5 @@ packages/angular/*/
 !packages/angular/forms/
 packages/angular/forms/accessors.ts
 packages/mcp/data.json
+# Agent eval results (local runs, with temporary paths)
+packages/mcp/eval/results/

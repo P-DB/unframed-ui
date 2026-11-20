@@ -23,11 +23,12 @@ interface Attr {
 }
 
 interface Element {
-  /** As written: uf-button, or UfButton for a React wrapper. */
+  /** As written: uf-button, or UfButton for a React or Vue wrapper. */
   written: string;
   /** Always the custom element's tag, e.g. uf-button. */
   tag: string;
-  react: boolean;
+  /** A framework wrapper (UfButton) rather than the custom element itself. */
+  wrapper: boolean;
   attrs: Attr[];
   /** Markup between the opening and closing tag. */
   content: string;
@@ -112,7 +113,7 @@ export function parse(code: string): Element[] {
     elements.push({
       written,
       tag: written.startsWith('Uf') ? kebab(written) : written,
-      react: written.startsWith('Uf'),
+      wrapper: written.startsWith('Uf'),
       attrs,
       content: selfClosing ? '' : contentOf(code, written, i),
       line: lineAt(match.index),
@@ -136,24 +137,26 @@ function contentOf(code: string, written: string, from: number): string {
 
 // --- What each attribute means ------------------------------------------------
 
+// `bound`: the value is an expression (:x="a", [x]="a"), not text to check.
 type Meaning =
-  | { kind: 'attribute'; name: string }
-  | { kind: 'property'; name: string }
+  | { kind: 'attribute'; name: string; bound?: boolean }
+  | { kind: 'property'; name: string; bound?: boolean }
   | { kind: 'event'; name: string }
   | { kind: 'ignore' };
 
 const withoutModifiers = (name: string) => name.split('.')[0]!;
+const camel = (name: string) => name.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
 
 /** Reads an attribute as an attribute, a property binding or an event listener, in any framework's syntax. */
 function meaning(attr: Attr, element: Element): Meaning {
   const raw = attr.raw;
   let m: RegExpMatchArray | null;
   // Angular: [(x)], [x], [attr.x], [class.x], (x), *ngIf, #ref
-  if ((m = raw.match(/^\[\((.+)\)\]$/))) return m[1] === 'ngModel' ? { kind: 'ignore' } : { kind: 'property', name: m[1]! };
+  if ((m = raw.match(/^\[\((.+)\)\]$/))) return m[1] === 'ngModel' ? { kind: 'ignore' } : { kind: 'property', name: m[1]!, bound: true };
   if ((m = raw.match(/^\[(.+)\]$/))) {
-    if (m[1]!.startsWith('attr.')) return { kind: 'attribute', name: m[1]!.slice(5) };
+    if (m[1]!.startsWith('attr.')) return { kind: 'attribute', name: m[1]!.slice(5), bound: true };
     if (/^(class|style)\./.test(m[1]!)) return { kind: 'ignore' };
-    return { kind: 'property', name: m[1]! };
+    return { kind: 'property', name: m[1]!, bound: true };
   }
   if ((m = raw.match(/^\((.+)\)$/))) return { kind: 'event', name: withoutModifiers(m[1]!) };
   if (/^[*#]/.test(raw)) return { kind: 'ignore' };
@@ -161,26 +164,27 @@ function meaning(attr: Attr, element: Element): Meaning {
   if ((m = raw.match(/^(?::|v-bind:)(.+)$/))) {
     const [name, ...mods] = m[1]!.split('.');
     if (name === 'key' || name === 'ref') return { kind: 'ignore' };
-    return mods.includes('attr') ? { kind: 'attribute', name: name! } : { kind: 'property', name: name! };
+    return mods.includes('attr') ? { kind: 'attribute', name: name!, bound: true } : { kind: 'property', name: name!, bound: true };
   }
   if ((m = raw.match(/^(?:@|v-on:)(.+)$/))) return { kind: 'event', name: withoutModifiers(m[1]!) };
-  if ((m = raw.match(/^v-model:(.+)$/))) return { kind: 'property', name: withoutModifiers(m[1]!) };
+  if ((m = raw.match(/^v-model:(.+)$/))) return { kind: 'property', name: withoutModifiers(m[1]!), bound: true };
   if (raw.startsWith('v-')) return { kind: 'ignore' };
   // Lit: .x property, ?x boolean attribute
-  if ((m = raw.match(/^\.(.+)$/))) return { kind: 'property', name: m[1]! };
-  if ((m = raw.match(/^\?(.+)$/))) return { kind: 'attribute', name: m[1]! };
+  if ((m = raw.match(/^\.(.+)$/))) return { kind: 'property', name: m[1]!, bound: true };
+  if ((m = raw.match(/^\?(.+)$/))) return { kind: 'attribute', name: m[1]!, bound: true };
   // Svelte: on:x, bind:x, class:x, use:x
   if ((m = raw.match(/^on:(.+)$/))) return { kind: 'event', name: withoutModifiers(m[1]!.split('|')[0]!) };
-  if ((m = raw.match(/^bind:(.+)$/))) return m[1] === 'this' ? { kind: 'ignore' } : { kind: 'property', name: m[1]! };
+  if ((m = raw.match(/^bind:(.+)$/))) return m[1] === 'this' ? { kind: 'ignore' } : { kind: 'property', name: m[1]!, bound: true };
   if (/^(class|use|style|transition|in|out|animate):/.test(raw)) return { kind: 'ignore' };
   // JSX
   if (['key', 'ref', 'children', 'className', 'htmlFor', 'dangerouslySetInnerHTML', 'suppressHydrationWarning'].includes(raw)) return { kind: 'ignore' };
   if ((m = raw.match(/^on([A-Z]\w*)$/))) {
     // A React wrapper maps onUfPageChange to uf-page-change. On a plain <uf-*> tag in
     // JSX, React's own handling applies, so it isn't checked.
-    return element.react ? { kind: 'event', name: kebab(m[1]!) } : { kind: 'ignore' };
+    return element.wrapper ? { kind: 'event', name: kebab(m[1]!) } : { kind: 'ignore' };
   }
-  if (element.react || attr.value?.kind === 'expression') return { kind: 'property', name: raw };
+  if (attr.value?.kind === 'expression') return { kind: 'property', name: raw, bound: true };
+  if (element.wrapper) return { kind: 'property', name: raw };
   return { kind: 'attribute', name: raw };
 }
 
@@ -250,6 +254,8 @@ function checkElement(element: Element, api: ElementData, problems: Problem[]) {
 
     if (m.kind === 'event') {
       if (api.events.includes(m.name) || DOM_EVENTS.has(m.name)) continue;
+      // v-model, written out: @update:model-value, or @update:<synced> for v-model:<synced>.
+      if (api.model && /^update:/.test(m.name) && ['modelValue', ...api.model.synced].includes(camel(m.name.slice(7)))) continue;
       report(
         'error',
         attr.line,
@@ -280,7 +286,7 @@ function checkElement(element: Element, api: ElementData, problems: Problem[]) {
         }
         continue;
       }
-      if (attr.value?.kind !== 'static') continue;
+      if (attr.value?.kind !== 'static' || m.bound) continue;
       const text = attr.value.text;
       if (known.boolean && text === 'false') {
         report('error', attr.line, `${name}="false" still turns ${name} on: a boolean attribute is on whenever it's present. Remove it, or bind it to false.`);
@@ -291,8 +297,12 @@ function checkElement(element: Element, api: ElementData, problems: Problem[]) {
     }
 
     // A property binding: the property, or an attribute of the same name, both work.
-    if (properties.has(m.name) || attributes.has(m.name) || GLOBAL_PROPERTIES.has(m.name) || GLOBAL_ATTRIBUTES.has(m.name)) {
-      if (attr.value?.kind === 'static' && element.react) {
+    // Vue templates may write it in kebab case (:sort-direction), and v-model in full (:model-value).
+    const known = [m.name, camel(m.name)].some(
+      (n) => properties.has(n) || attributes.has(n) || GLOBAL_PROPERTIES.has(n) || GLOBAL_ATTRIBUTES.has(n) || (api.model && n === 'modelValue'),
+    );
+    if (known) {
+      if (attr.value?.kind === 'static' && !m.bound) {
         const known = attributes.get(m.name);
         if (known?.values && !known.values.includes(attr.value.text)) {
           report('error', attr.line, `${m.name}="${attr.value.text}" isn't a valid value. Use one of ${quoteList(known.values)}.${didYouMean(attr.value.text, known.values)}`);

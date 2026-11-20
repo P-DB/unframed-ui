@@ -147,3 +147,26 @@ describe('formatReport', () => {
     expect(formatReport(validate(data, '<button>Save</button>'))).toMatch(/^No Unframed elements found/);
   });
 });
+
+describe('Vue wrappers', () => {
+  it('treats a bound value as an expression, not text', () => {
+    expect(messages('<UfTable label="Users" :sort-direction="sortDirection" :rows="rows"></UfTable>')).toEqual([]);
+    expect(messages('<uf-button :variant="kind">Save</uf-button>')).toEqual([]);
+    expect(messages('<uf-button [variant]="kind">Save</uf-button>')).toEqual([]);
+  });
+
+  it('still checks static values on wrappers', () => {
+    expect(messages('<UfTable label="Users" sort-direction="up"></UfTable>')[0]).toMatch(/sort-direction="up" isn't a valid value/);
+  });
+
+  it('accepts v-model written out on form controls', () => {
+    expect(messages('<UfNumberInput label="Qty" :model-value="q" @update:model-value="set" />')).toEqual([]);
+    expect(messages('<UfCheckbox :modelValue="a" @update:modelValue="set" @update:indeterminate="mixed">A</UfCheckbox>')).toEqual([]);
+    expect(messages('<UfInput label="Name" v-model:value="name" />')).toEqual([]);
+  });
+
+  it('rejects v-model on components that have none', () => {
+    expect(messages('<UfButton :model-value="a">Save</UfButton>')).toEqual(['error: <uf-button> has no "model-value" property.']);
+    expect(messages('<UfButton @update:model-value="set">Save</UfButton>')[0]).toMatch(/"update:model-value" event, which <uf-button> never fires/);
+  });
+});
