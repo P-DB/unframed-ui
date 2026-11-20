@@ -156,6 +156,23 @@ describe('uf-table', () => {
     expect(base.getAttribute('aria-label')).toBe('People');
   });
 
+  it('takes rows typed by an interface, with typed columns', async () => {
+    // Interfaces have no index signature: rows and columns must still accept them.
+    interface Person {
+      id: number;
+      name: string;
+      role: string;
+      age: number;
+    }
+    const people: Person[] = rows;
+    const typed: TableColumn<Person>[] = [
+      { key: 'name', label: 'Name', format: (value, row) => `${String(value)} (${row.role})` },
+      { key: 'age', label: 'Age', sortable: true, compare: (a, b) => a.age - b.age },
+    ];
+    const el = await table({ columns: typed, rows: people, sortKey: 'age' });
+    expect(column(el, 0)).toEqual(['Mario (Support)', 'jane (Engineer)', 'John (Designer)']);
+  });
+
   it('has no axe violations', async () => {
     const el = await table({ sortKey: 'name', striped: true });
     el.style.setProperty('--uf-table-max-height', '6rem');

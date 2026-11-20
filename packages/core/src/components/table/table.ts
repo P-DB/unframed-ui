@@ -7,14 +7,17 @@ import { Translator } from '../../internal/i18n.js';
 import { iconSvg, icons } from '../../internal/icons.js';
 import { focusRing, hostStyles } from '../../internal/shared.styles.js';
 
-/** A row of data: column keys to values. */
-export type TableRow = Record<string, unknown>;
+/**
+ * A row of data: any object, such as an `interface Order { … }`. Columns read
+ * its properties by `key`.
+ */
+export type TableRow = object;
 export type SortDirection = 'ascending' | 'descending';
 export type TableDensity = 'comfortable' | 'compact';
 
 export interface TableColumn<Row extends TableRow = TableRow> {
   /** The row property this column shows, and its id for sorting. */
-  key: string;
+  key: Extract<keyof Row, string> | (string & {});
   /** Header text. */
   label: string;
   /** Lets the user sort by this column. */
@@ -24,15 +27,20 @@ export interface TableColumn<Row extends TableRow = TableRow> {
   /** Column width, as CSS: `8rem`, `20%`. */
   width?: string;
   /** Cell content from the value: text, or a DOM node such as a badge. Defaults to the value as text. */
-  format?: (value: unknown, row: Row) => string | number | Node | null | undefined;
+  format?(value: unknown, row: Row): string | number | Node | null | undefined;
   /** Sort order for two rows, like `Array.prototype.sort`. Defaults to comparing the values. */
-  compare?: (a: Row, b: Row) => number;
+  compare?(a: Row, b: Row): number;
 }
 
 export interface TableSortDetail {
   /** Key of the sorted column. */
   key: string;
   direction: SortDirection;
+}
+
+/** The value of `key` in a row. */
+function valueOf(row: TableRow, key: string): unknown {
+  return (row as Record<string, unknown>)[key];
 }
 
 const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
@@ -291,7 +299,7 @@ export class UfTable extends LitElement {
     const rows = Array.isArray(this.rows) ? this.rows : [];
     const column = this.columns.find((c) => c.key === this.sortKey);
     if (!column || this.manualSort) return rows;
-    const compare = column.compare ?? ((a: TableRow, b: TableRow) => compareValues(a[column.key], b[column.key]));
+    const compare = column.compare ?? ((a: TableRow, b: TableRow) => compareValues(valueOf(a, column.key), valueOf(b, column.key)));
     const sign = this.sortDirection === 'descending' ? -1 : 1;
     // Stable: equal rows keep their order.
     return [...rows].sort((a, b) => sign * compare(a, b));
@@ -325,7 +333,7 @@ export class UfTable extends LitElement {
   }
 
   #renderCell(column: TableColumn, row: TableRow) {
-    const value = row[column.key];
+    const value = valueOf(row, column.key);
     const content = column.format ? column.format(value, row) : value;
     return html`<td part="cell" class=${classMap({ [`align-${column.align ?? 'start'}`]: true })}>
       ${content === null || content === undefined ? '' : content instanceof Node ? content : String(content)}
@@ -352,7 +360,7 @@ export class UfTable extends LitElement {
           ${rows.length
             ? repeat(
                 rows,
-                (row, index) => (this.rowKey ? row[this.rowKey] : index),
+                (row, index) => (this.rowKey ? valueOf(row, this.rowKey) : index),
                 (row) => html`<tr part="row">${columns.map((column) => this.#renderCell(column, row))}</tr>`,
               )
             : html`<tr class="empty-row">

@@ -1946,7 +1946,7 @@ Errors appear after the user edits the field or tries to submit.
 | `placeholder` |  | `string \| undefined` |  | Placeholder text. |
 | `size` |  | `FieldSize` | `'md'` | Size of the field. |
 | `readonly` |  | `boolean` | `false` | Makes the field read-only. |
-| `autocomplete` |  | `AutoFill \| undefined` |  | Native `autocomplete` hint. |
+| `autocomplete` |  | `AutoFill \| (string & {}) \| undefined` |  | Native `autocomplete` hint: `email`, `nickname`, `shipping street-address`. Any HTML autofill token works. |
 | `inputmode` |  | `string \| undefined` |  | Native `inputmode` hint for virtual keyboards. |
 | `pattern` |  | `string \| undefined` |  | Regex the value must match. |
 | `min` |  | `string \| undefined` |  | Minimum value, for number and date types. |
@@ -2690,7 +2690,7 @@ Built on the native `<select>`: write plain `<option>` and `<optgroup>` children
 | `hint` |  | `string \| undefined` |  | Help text below the field. |
 | `placeholder` |  | `string \| undefined` |  | Text shown while nothing is selected. |
 | `size` |  | `FieldSize` | `'md'` | Size of the field. |
-| `autocomplete` |  | `AutoFill \| undefined` |  | Native `autocomplete` hint. |
+| `autocomplete` |  | `AutoFill \| (string & {}) \| undefined` |  | Native `autocomplete` hint: `email`, `nickname`, `shipping street-address`. Any HTML autofill token works. |
 | `name` |  | `string` | `''` | Name submitted with the form. |
 | `disabled` |  | `boolean` | `false` | Disables the control. |
 | `required` |  | `boolean` | `false` | Makes the control required for form submission. |
@@ -3277,7 +3277,7 @@ Tags: `<uf-textarea>`. Import: `import '@unframed/core/textarea';` (or `npx @unf
 | `resize` |  | `TextareaResize` | `'vertical'` | How the user can resize the field. `auto` grows with the content. |
 | `size` |  | `FieldSize` | `'md'` | Size of the field. |
 | `readonly` |  | `boolean` | `false` | Makes the field read-only. |
-| `autocomplete` |  | `AutoFill \| undefined` |  | Native `autocomplete` hint. |
+| `autocomplete` |  | `AutoFill \| (string & {}) \| undefined` |  | Native `autocomplete` hint: `email`, `nickname`, `shipping street-address`. Any HTML autofill token works. |
 | `minlength` |  | `number \| undefined` |  | Minimum length. |
 | `maxlength` |  | `number \| undefined` |  | Maximum length. |
 | `name` |  | `string` | `''` | Name submitted with the form. |

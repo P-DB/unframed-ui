@@ -90,8 +90,8 @@ export class UfInput extends FormControl {
   declare size: FieldSize;
   /** Makes the field read-only. */
   declare readonly: boolean;
-  /** Native `autocomplete` hint. */
-  declare autocomplete: AutoFill | undefined;
+  /** Native `autocomplete` hint: `email`, `nickname`, `shipping street-address`. Any HTML autofill token works. */
+  declare autocomplete: AutoFill | (string & {}) | undefined;
   /** Native `inputmode` hint for virtual keyboards. */
   declare inputmode: string | undefined;
   /** Regex the value must match. */

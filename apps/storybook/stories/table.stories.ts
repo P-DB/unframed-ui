@@ -103,7 +103,9 @@ export const ManualSort: Story = {
       // Stands in for a request like GET /invoices?sort=amount&order=desc
       await new Promise((r) => setTimeout(r, 300));
       const sign = direction === 'ascending' ? 1 : -1;
-      table.rows = [...table.rows].sort((a, b) => sign * String(a[key]).localeCompare(String(b[key]), undefined, { numeric: true }));
+      const rows = table.rows as Invoice[];
+      const value = (row: Invoice) => String(row[key as keyof Invoice]);
+      table.rows = [...rows].sort((a, b) => sign * value(a).localeCompare(value(b), undefined, { numeric: true }));
       table.nextElementSibling!.textContent = `Fetched rows sorted by ${key}, ${direction}.`;
     };
     return html`<uf-table label="Invoices" .columns=${invoiceColumns} .rows=${invoices.slice(0, 8)} manual-sort row-key="id" @uf-sort=${sortOnServer}></uf-table>
