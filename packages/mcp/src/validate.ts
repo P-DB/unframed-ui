@@ -3,7 +3,7 @@ import type { Data, ElementData } from './data.js';
 export interface Problem {
   severity: 'error' | 'warning';
   line: number;
-  /** The tag as written, e.g. uf-button or UfButton. */
+  /** The tag as written, e.g. uf-button or UfButton, or the module of an import, e.g. @unframed/react. */
   tag: string;
   message: string;
 }
@@ -325,10 +325,63 @@ function checkElement(element: Element, api: ElementData, problems: Problem[]) {
   }
 }
 
-/** Checks every Unframed element in the code against the library's API and labelling rules. */
+// --- Imports -----------------------------------------------------------------
+
+const IMPORT = /\bimport\s+(?:(type)\s+)?(?:([^'";]*?)\s*from\s*)?['"](@unframed\/(?:react|vue|angular)(?:\/[^'"]*)?)['"]/g;
+
+/** The names an import brings in, without type-only ones: `{ UfButton, type X, UfInput as Input }` → UfButton, UfInput. */
+function importedNames(clause: string): string[] {
+  const braces = /\{([^}]*)\}/.exec(clause)?.[1] ?? '';
+  return braces
+    .split(',')
+    .map((part) => part.trim())
+    .filter((part) => part && !part.startsWith('type '))
+    .map((part) => part.split(/\s+as\s+/)[0]!.trim());
+}
+
+/**
+ * Imports from the framework packages that don't exist: subpaths of @unframed/react
+ * and @unframed/vue (they have one entry point), unknown Angular entries, and
+ * component names without the Uf prefix or misspelled.
+ */
+function checkImports(data: Data, code: string, problems: Problem[]): void {
+  const wrappers = new Set(data.components.flatMap((c) => c.wrappers));
+  const entries = new Set(data.components.flatMap((c) => c.imports).map((p) => p.replace('@unframed/core/', '')));
+  const lineAt = (index: number) => code.slice(0, index).split('\n').length;
+  for (const match of code.matchAll(IMPORT)) {
+    const [, typeOnly, clause = '', specifier] = match;
+    const [, pkg, sub] = /^@unframed\/(react|vue|angular)(?:\/(.*))?$/.exec(specifier!)!;
+    const line = lineAt(match.index);
+    const names = typeOnly ? [] : importedNames(clause);
+    const report = (message: string) => problems.push({ severity: 'error', line, tag: specifier!, message });
+
+    if (sub !== undefined && pkg !== 'angular') {
+      const list = names.length ? names.join(', ') : 'UfButton';
+      report(`@unframed/${pkg} has one entry point, without subpaths: \`import { ${list} } from '@unframed/${pkg}';\``);
+      continue;
+    }
+    if (sub !== undefined && !entries.has(sub)) {
+      const match = closest(sub, entries);
+      report(`There is no Angular entry "${sub}".${match ? ` Did you mean '@unframed/angular/${match}'?` : ''} Entries are named like the core ones: list_components shows them.`);
+      continue;
+    }
+    for (const name of names) {
+      if (wrappers.has(name)) continue;
+      const unprefixed = wrappers.has(`Uf${name}`);
+      // Other exports (types, createWrapper, UNFRAMED, Angular's Uf…ValueAccessor directives) are left to the compiler:
+      // only names without the Uf prefix, and misspelled components in React and Vue, are flagged.
+      if (!unprefixed && (pkg === 'angular' || !/^Uf[A-Z]/.test(name))) continue;
+      const suggestion = unprefixed ? `Uf${name}` : closest(name, wrappers);
+      report(`${specifier} has no component ${name}.${suggestion ? ` Did you mean ${suggestion}?` : ''} Call list_components to see every component.`);
+    }
+  }
+}
+
+/** Checks every Unframed element in the code against the library's API and labelling rules, and its imports. */
 export function validate(data: Data, code: string): Report {
   const elements = parse(code);
   const problems: Problem[] = [];
+  checkImports(data, code, problems);
   for (const element of elements) {
     const api = data.elements[element.tag];
     if (!api) {
@@ -353,12 +406,12 @@ export function validate(data: Data, code: string): Report {
 /** The report as text for the agent: what's wrong, where, and how to fix it. */
 export function formatReport(report: Report): string {
   const count = report.elements.length;
-  if (!count) {
+  if (!count && !report.problems.length) {
     return 'No Unframed elements found. validate_usage checks <uf-*> tags and the React wrappers, like <UfButton>.';
   }
   const found = `${count} Unframed element${count === 1 ? '' : 's'}`;
   if (!report.problems.length) {
-    return `No problems found in ${found}. Checked: tags, attributes and their values, events and labels. It doesn't run the code.`;
+    return `No problems found in ${found}. Checked: tags, attributes and their values, events, labels and imports. It doesn't run the code.`;
   }
   const errors = report.problems.filter((p) => p.severity === 'error').length;
   const warnings = report.problems.length - errors;
@@ -368,6 +421,6 @@ export function formatReport(report: Report): string {
   return [
     `Found ${summary} in ${found}. Fix the errors, then call validate_usage again.`,
     '',
-    ...report.problems.map((p, i) => `${i + 1}. ${p.severity}, line ${p.line}, <${p.tag}>: ${p.message}`),
+    ...report.problems.map((p, i) => `${i + 1}. ${p.severity}, line ${p.line}, ${p.tag.startsWith('@') ? p.tag : `<${p.tag}>`}: ${p.message}`),
   ].join('\n');
 }

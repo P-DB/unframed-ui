@@ -9,7 +9,9 @@ export interface ComponentData {
   tags: string[];
   /** Module specifiers to import, e.g. @unframed/core/accordion. */
   imports: string[];
-  /** Examples and full API, as Markdown. */
+  /** The React, Vue and Angular components for its tags, e.g. UfTabs, UfTab, UfTabPanel. */
+  wrappers: string[];
+  /** Examples, imports in each framework and full API, as Markdown. */
   docs: string;
 }
 
@@ -29,8 +31,12 @@ export interface ElementData {
   model?: { synced: string[] };
 }
 
+export type Framework = 'html' | 'react' | 'vue' | 'angular';
+
 export interface Data {
   version: string;
+  /** How to install, set up and use Unframed in each framework, as Markdown. */
+  frameworks: Record<Framework, string>;
   components: ComponentData[];
   /** Every custom element's API, keyed by tag. */
   elements: Record<string, ElementData>;

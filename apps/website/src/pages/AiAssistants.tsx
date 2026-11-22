@@ -104,12 +104,12 @@ export function AiAssistants() {
       </p>
       <ul>
         <li>
-          <code>list_components</code> finds the right component, and <code>get_component</code> returns its examples and
-          full API.
+          <code>list_components</code> finds the right component, <code>get_component</code> returns its examples, imports
+          in each framework and full API, and <code>get_framework_guide</code> the setup in HTML, React, Vue or Angular.
         </li>
         <li>
           <code>validate_usage</code> checks the code the assistant wrote: unknown tags, attributes and events, invalid
-          values, <code>disabled="false"</code> and missing labels, each with its line and a fix. It reads HTML, JSX, Vue,
+          values, <code>disabled="false"</code>, missing labels and imports that don't exist, each with its line and a fix. It reads HTML, JSX, Vue,
           Angular, Svelte and Lit templates.
         </li>
       </ul>

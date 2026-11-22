@@ -81,7 +81,7 @@ function createProject(dir, condition) {
 
 // --- One run -------------------------------------------------------------------
 
-const MCP_TOOLS = ['list_components', 'get_component', 'validate_usage'].map((t) => `mcp__unframed__${t}`);
+const MCP_TOOLS = ['list_components', 'get_component', 'get_framework_guide', 'validate_usage'].map((t) => `mcp__unframed__${t}`);
 
 function runAgent(task, condition, dir) {
   const { skill, mcp } = conditions[condition];

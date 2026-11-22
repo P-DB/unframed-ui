@@ -33,7 +33,8 @@ export function createServer(data: Data): McpServer {
     {
       title: 'List Unframed components',
       description:
-        'Lists every Unframed web component with a one-line summary, its tags and what to import. ' +
+        'Lists every Unframed web component with a one-line summary, its tags and what to import, ' +
+        'in plain HTML and as React, Vue and Angular components. ' +
         'Call this first to find the right component, before writing any <uf-*> markup.',
     },
     async () => ({
@@ -43,7 +44,17 @@ export function createServer(data: Data): McpServer {
           text: [
             `Unframed ${data.version}: ${data.components.length} components.`,
             '',
-            ...data.components.map((c) => `- ${c.name}: ${c.summary} Tags: ${c.tags.map((t) => `<${t}>`).join(' ')}. Import: ${c.imports.join(', ')}`),
+            'Imports:',
+            "- HTML, Lit, Svelte and others: import each component's core entry, e.g. `import '@unframed/core/button';`, then write <uf-*> tags.",
+            "- React: `import { UfButton } from '@unframed/react';`. Vue: `import { UfButton } from '@unframed/vue';`. One entry point each: there is no `@unframed/react/button`.",
+            "- Angular: `import { UfButton } from '@unframed/angular/button';` (the core entry's name), or `UNFRAMED` from '@unframed/angular' for all.",
+            '- Call get_framework_guide for the setup (tokens CSS), events and form bindings of your framework.',
+            '',
+            ...data.components.map(
+              (c) =>
+                `- ${c.name}: ${c.summary} Tags: ${c.tags.map((t) => `<${t}>`).join(' ')}. Import: ${c.imports.join(', ')}. ` +
+                `React/Vue/Angular: ${c.wrappers.join(', ')}`,
+            ),
           ].join('\n'),
         },
       ],
@@ -84,12 +95,27 @@ export function createServer(data: Data): McpServer {
   );
 
   server.registerTool(
+    'get_framework_guide',
+    {
+      title: 'Get the Unframed guide for a framework',
+      description:
+        'How to install and set up Unframed in plain HTML, React, Vue or Angular: what to import, loading the tokens CSS, ' +
+        'events, form bindings (v-model, ngModel) and refs. Call it once before writing code for that framework.',
+      inputSchema: {
+        framework: z.enum(['html', 'react', 'vue', 'angular']).describe('The framework of the project. Use "html" for plain HTML, Lit, Svelte and others.'),
+      },
+      annotations: { readOnlyHint: true },
+    },
+    async ({ framework }) => ({ content: [{ type: 'text', text: data.frameworks[framework] }] }),
+  );
+
+  server.registerTool(
     'validate_usage',
     {
       title: 'Validate Unframed markup',
       description:
         'Checks code that uses Unframed components: unknown tags, attributes and events, invalid attribute values, ' +
-        'boolean attributes set to "false", and missing labels. Works with HTML, JSX/React, Vue, Angular, Svelte and Lit ' +
+        'boolean attributes set to "false", missing labels, and imports from @unframed packages that do not exist. Works with HTML, JSX/React, Vue, Angular, Svelte and Lit ' +
         'templates. Call it on the markup you wrote before showing it to the user, fix every error, and call it again.',
       inputSchema: {
         code: z.string().max(200_000).describe('The markup or component file to check. Only <uf-*> tags and Uf* React components are read.'),
