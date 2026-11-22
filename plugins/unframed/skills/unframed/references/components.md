@@ -3096,6 +3096,7 @@ Describe the columns and pass the rows. Columns marked `sortable` sort on click.
 </script>
 ```
 
+- In TypeScript, give the columns your row type: `const columns: TableColumn<Invoice>[] = [...]`, with `TableColumn` from `@unframed/core`. Rows can be any interface. Without the annotation, a separate `const columns = [...]` widens `align` to `string`, which `columns` rejects.
 - To sort on the server, add `manual-sort`: the table shows the sort and fires `uf-sort`, and you load the rows in that order.
 - Set `--uf-table-max-height` to scroll long tables under a sticky header.
 

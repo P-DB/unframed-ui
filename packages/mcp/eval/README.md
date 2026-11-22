@@ -41,3 +41,18 @@ Unframed 1.0.0-rc.3, Sonnet, 6 tasks (4 React, 1 Vue, 1 HTML) × 4 setups × 1 r
 Four plain HTML and Vue tasks (tabs, radio groups, a dialog that refuses to close, a checkout form, a sortable table with an empty state), baseline and skill+mcp, 1 run each. Both setups passed all four; with help the agent used half the turns (11.3 vs 23.8) and time (18 s vs 45 s), at $0.12 instead of $0.22.
 
 Three runs first failed on correct Vue code: false positives in `validate_usage` (a bound `:sort-direction="dir"` read as text, and `v-model` written out). The validator was fixed and the runs regraded with `regrade.mjs`.
+
+## After the type fixes: 2026-11-22
+
+Unframed 1.0.0-rc.4, with `TableRow` and `autocomplete` widened. The same 6 tasks × 4 setups × 1 run as the first run.
+
+| Setup | Passed | Turns | Cost | Time | File searches |
+|---|---|---|---|---|---|
+| baseline | 4/6 | 17.0 | $0.144 | 27 s | 92 |
+| skill | 6/6 | 10.5 | $0.143 | 20 s | 39 |
+| mcp | 5/6 | 15.7 | $0.128 | 29 s | 39 |
+| skill+mcp | 6/6 | 12.2 | $0.131 | 22 s | 12 |
+
+- The library's types no longer fail correct code: react-settings passed in all 4 setups (2 before), react-orders in 2 (0 before).
+- With mcp, react-orders failed on TypeScript's widening: the agent declared `const columns = [...]` without a type, so `align: 'end'` became `string`. The table docs now show `TableColumn<Invoice>[]` and explain why.
+- Without help, the agent twice gave up after searching `node_modules` and wrote no file (react-orders, vue-filters). The sign-up page that used native inputs on rc.3 used Unframed this time.

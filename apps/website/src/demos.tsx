@@ -2616,6 +2616,18 @@ const columns: TableColumn[] = [
   show(1);
 </script>`),
         react: code(`
+interface Invoice {
+  id: string;
+  customer: string;
+  amount: number;
+}
+
+// Typed by the row: format and compare get an Invoice.
+const columns: TableColumn<Invoice>[] = [
+  { key: 'customer', label: 'Customer', sortable: true },
+  { key: 'amount', label: 'Amount', sortable: true, align: 'end', format: (value) => euro.format(value as number) },
+];
+
 const [page, setPage] = useState(1);
 const pageSize = 8;
 
@@ -2643,6 +2655,7 @@ const pageSize = 8;
   (uf-page-change)="page.set($event.detail.page)"
 />`),
         notes: [
+          'In TypeScript, give the columns your row type: `const columns: TableColumn<Invoice>[] = [...]`, with `TableColumn` from `@unframed/core`. Rows can be any interface. Without the annotation, a separate `const columns = [...]` widens `align` to `string`, which `columns` rejects.',
           'To sort on the server, add `manual-sort`: the table shows the sort and fires `uf-sort`, and you load the rows in that order.',
           'Set `--uf-table-max-height` to scroll long tables under a sticky header.',
         ],
