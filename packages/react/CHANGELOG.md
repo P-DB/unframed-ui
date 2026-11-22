@@ -1,5 +1,11 @@
 # @unframed/react
 
+## 1.0.0-rc.6
+
+### Patch Changes
+
+- @unframed/core@1.0.0-rc.6
+
 ## 1.0.0-rc.5
 
 ### Patch Changes
