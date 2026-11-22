@@ -18,13 +18,13 @@
     "angular",
     "lit"
   ],
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.5",
   "mcpServers": {
     "unframed": {
       "command": "npx",
       "args": [
         "-y",
-        "@unframed/mcp@1.0.0-rc.4"
+        "@unframed/mcp@1.0.0-rc.5"
       ]
     }
   }
