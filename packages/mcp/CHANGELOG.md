@@ -1,5 +1,11 @@
 # @unframed/mcp
 
+## 1.0.0-rc.5
+
+### Patch Changes
+
+- c4f3dc6: The table docs that the agent skill and the MCP server serve show how to type columns in TypeScript: `const columns: TableColumn<Invoice>[]`. Without it, a separate `const columns = [...]` widens `align` to `string`, and `columns` rejects it.
+
 ## 1.0.0-rc.4
 
 ### Patch Changes
