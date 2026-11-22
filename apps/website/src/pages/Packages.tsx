@@ -74,7 +74,7 @@ const packages: Package[] = [
     summary: 'An MCP server for AI coding tools: they look up each component\'s API, and check the code they write, while they work.',
     install: 'As a dev dependency, if you use an AI assistant. See AI assistants.',
     dependsOn: '@modelcontextprotocol/sdk, zod',
-    entries: [['npx unframed-mcp', 'Starts the server over stdio, with the list_components, get_component and validate_usage tools.']],
+    entries: [['npx unframed-mcp', 'Starts the server over stdio, with the list_components, get_component, get_framework_guide and validate_usage tools.']],
   },
 ];
 

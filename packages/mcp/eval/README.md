@@ -56,3 +56,16 @@ Unframed 1.0.0-rc.4, with `TableRow` and `autocomplete` widened. The same 6 task
 - The library's types no longer fail correct code: react-settings passed in all 4 setups (2 before), react-orders in 2 (0 before).
 - With mcp, react-orders failed on TypeScript's widening: the agent declared `const columns = [...]` without a type, so `align: 'end'` became `string`. The table docs now show `TableColumn<Invoice>[]` and explain why.
 - Without help, the agent twice gave up after searching `node_modules` and wrote no file (react-orders, vue-filters). The sign-up page that used native inputs on rc.3 used Unframed this time.
+
+## Framework imports in the server: 2026-11-22
+
+On 1.0.0-rc.5 (same 6 tasks × 4 setups), the results matched rc.4 (baseline 4/6, skill 6/6, mcp 5/6, skill+mcp 6/6), and react-orders passed in every setup. The mcp failure was new: the agent imported `UfButton` from `@unframed/react/button`, a path that doesn't exist. The server only gave the core import (`@unframed/core/button`) and HTML examples, and the agent applied the same pattern to the React package. The skill has a framework guide, so the skill setups didn't hit this.
+
+The server now gives the React, Vue and Angular imports in `list_components` and `get_component`, has a `get_framework_guide` tool, and `validate_usage` flags imports that don't exist. The mcp setup, run again on the same tasks:
+
+| mcp setup | Passed | Turns | Cost | Time | File searches |
+|---|---|---|---|---|---|
+| before | 5/6 | 16.0 | $0.119 | 24 s | 44 |
+| after | 6/6 | 11.7 | $0.110 | 18 s | 11 |
+
+Every run called `get_framework_guide` once, and the agent searched `node_modules` a quarter as often.

@@ -6,8 +6,8 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { componentMarkdown, componentPages, coreVersion, elementsByTag, pageImports } from '../../../scripts/docs-markdown.mjs';
-import { formModels } from '../../../scripts/form-models.mjs';
+import { componentMarkdown, componentPages, coreVersion, elementsByTag, frameworkGuides, pageImports } from '../../../scripts/docs-markdown.mjs';
+import { coreImportPath, formModels } from '../../../scripts/form-models.mjs';
 
 const elements = elementsByTag();
 const pages = componentPages();
@@ -51,17 +51,64 @@ const labelRule = (el) => {
 };
 
 const types = literalTypes();
+
+/** The wrapper components of a page (UfTabs, UfTab, UfTabPanel), and their Angular entry points. */
+function wrappers(page) {
+  const els = page.tags.filter((tag) => elements.has(tag)).map((tag) => elements.get(tag));
+  const names = els.map((el) => el.name);
+  const angular = new Map();
+  for (const el of els) {
+    const entry = coreImportPath(el.modulePath).replace('@unframed/core/', '@unframed/angular/');
+    angular.set(entry, [...(angular.get(entry) ?? []), el.name]);
+  }
+  return { names, angular: [...angular].map(([entry, list]) => `import { ${list.join(', ')} } from '${entry}';`) };
+}
+
+/**
+ * The imports in each framework, inserted after the Tags line of a page's docs.
+ * The examples are HTML: agents writing React or Vue need the wrapper names, and
+ * guess subpaths like @unframed/react/button without them.
+ */
+function importSection(page) {
+  const { names, angular } = wrappers(page);
+  const list = names.join(', ');
+  return [
+    '## Import in each framework',
+    '',
+    '```ts',
+    `// HTML, Lit, Svelte and others: register the tags`,
+    ...pageImports(page, elements).map((p) => `import '${p}';`),
+    `// React: one entry point, no subpaths`,
+    `import { ${list} } from '@unframed/react';`,
+    `// Vue: one entry point, no subpaths`,
+    `import { ${list} } from '@unframed/vue';`,
+    `// Angular: per-component entry points, or UNFRAMED from '@unframed/angular' for all`,
+    ...angular,
+    '```',
+    '',
+    `The examples below are HTML. In React and Vue, use \`<${names[0]}>\` and pass the properties in the API tables as props (camelCase in React, like \`rowKey\`). get_framework_guide has the setup, events and v-model.`,
+  ].join('\n');
+}
+
+/** A page's docs with the framework imports after its Tags line. */
+function docsWithImports(page) {
+  const docs = componentMarkdown(page, elements);
+  const at = docs.indexOf('\n\n', docs.indexOf('\nTags: ') + 1);
+  return `${docs.slice(0, at)}\n\n${importSection(page)}${docs.slice(at)}`;
+}
 const isPublicField = (m) => m.kind === 'field' && !m.static && m.privacy !== 'private' && m.privacy !== 'protected';
 
 const data = {
   version: coreVersion(),
+  frameworks: await frameworkGuides(),
   components: pages.map((page) => ({
     name: page.slug,
     title: page.title,
     summary: elements.get(page.tags[0])?.summary ?? '',
     tags: page.tags,
     imports: pageImports(page, elements),
-    docs: componentMarkdown(page, elements),
+    wrappers: wrappers(page).names,
+    docs: docsWithImports(page),
   })),
   elements: Object.fromEntries(
     [...elements.values()].map((el) => [

@@ -32,6 +32,14 @@ describe('list_components', () => {
     expect(text).toContain('<uf-button>');
     expect(text).toContain('@unframed/core/button');
   });
+
+  it('says how to import the components in React, Vue and Angular', async () => {
+    const text = await callText('list_components');
+    expect(text).toContain("import { UfButton } from '@unframed/react';");
+    expect(text).toContain('there is no `@unframed/react/button`');
+    expect(text).toContain("'@unframed/angular/button'");
+    expect(text).toMatch(/- tabs: .*React\/Vue\/Angular: UfTabs, UfTab, UfTabPanel/);
+  });
 });
 
 describe('get_component', () => {
@@ -60,9 +68,28 @@ describe('get_component', () => {
     expect(text).toContain('list_components');
   });
 
+  it('shows the import of every tag in each framework', async () => {
+    const text = await callText('get_component', { name: 'checkbox' });
+    expect(text).toContain("import { UfCheckbox, UfCheckboxGroup } from '@unframed/react';");
+    expect(text).toContain("import { UfCheckbox, UfCheckboxGroup } from '@unframed/vue';");
+    expect(text).toMatch(/import \{ UfCheckbox\b.*\} from '@unframed\/angular\/checkbox';/);
+  });
+
   it('suggests close names', async () => {
     const { text } = await call('get_component', { name: 'date-chooser' });
     expect(text).toMatch(/Did you mean: .*date-picker/);
+  });
+});
+
+describe('get_framework_guide', () => {
+  it.each(['html', 'react', 'vue', 'angular'] as const)('returns the %s guide', async (framework) => {
+    const { isError, text } = await call('get_framework_guide', { framework });
+    expect(isError).toBe(false);
+    expect(text).toBe(data.frameworks[framework]);
+  });
+
+  it('rejects an unknown framework', async () => {
+    expect((await call('get_framework_guide', { framework: 'svelte' })).isError).toBe(true);
   });
 });
 

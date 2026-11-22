@@ -170,3 +170,41 @@ describe('Vue wrappers', () => {
     expect(messages('<UfButton @update:model-value="set">Save</UfButton>')[0]).toMatch(/"update:model-value" event, which <uf-button> never fires/);
   });
 });
+
+describe('imports', () => {
+  it('flags subpaths of @unframed/react and @unframed/vue, with the right import', () => {
+    const code = "import { UfButton } from '@unframed/react/button';\nimport { UfInput } from '@unframed/vue/input';";
+    const { problems } = validate(data, code);
+    expect(problems.map((p) => [p.line, p.tag, p.message])).toEqual([
+      [1, '@unframed/react/button', "@unframed/react has one entry point, without subpaths: `import { UfButton } from '@unframed/react';`"],
+      [2, '@unframed/vue/input', "@unframed/vue has one entry point, without subpaths: `import { UfInput } from '@unframed/vue';`"],
+    ]);
+  });
+
+  it('flags component names without the Uf prefix, and misspelled ones', () => {
+    expect(messages("import { Button, UfDialgo, UfInput } from '@unframed/react';")).toEqual([
+      'error: @unframed/react has no component Button. Did you mean UfButton? Call list_components to see every component.',
+      'error: @unframed/react has no component UfDialgo. Did you mean UfDialog? Call list_components to see every component.',
+    ]);
+  });
+
+  it('leaves types and other exports alone', () => {
+    expect(messages("import { UfButton, type ButtonVariant, UfInput as Input } from '@unframed/react';")).toEqual([]);
+    expect(messages("import type { Whatever } from '@unframed/react';")).toEqual([]);
+    expect(messages("import { createWrapper, UnframedVue } from '@unframed/vue';")).toEqual([]);
+    expect(messages("import { UNFRAMED, UfTextValueAccessor } from '@unframed/angular';")).toEqual([]);
+    expect(messages("import { UfInput, UfTextValueAccessor } from '@unframed/angular/input';")).toEqual([]);
+  });
+
+  it('flags an Angular entry that does not exist', () => {
+    expect(messages("import { UfDatePicker } from '@unframed/angular/datepicker';")).toEqual([
+      'error: There is no Angular entry "datepicker". Did you mean \'@unframed/angular/date-picker\'? Entries are named like the core ones: list_components shows them.',
+    ]);
+  });
+
+  it('reports import problems even without elements', () => {
+    expect(formatReport(validate(data, "import { UfButton } from '@unframed/react/button';"))).toContain(
+      "1. error, line 1, @unframed/react/button: @unframed/react has one entry point",
+    );
+  });
+});

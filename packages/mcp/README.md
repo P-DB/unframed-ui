@@ -6,9 +6,10 @@ An [MCP](https://modelcontextprotocol.io) server for [Unframed](https://p-db.git
 
 | Tool | What it does |
 |---|---|
-| `list_components` | Every component, with a summary, its tags and what to import |
-| `get_component` | One component's examples and full API: attributes, properties, events, slots, parts, CSS custom properties |
-| `validate_usage` | Checks code that uses Unframed: unknown tags, attributes and events, invalid values, `disabled="false"`, missing labels. Each problem comes with its line and a fix. Reads HTML, JSX, Vue, Angular, Svelte and Lit templates. |
+| `list_components` | Every component, with a summary, its tags and what to import, in HTML and as React, Vue and Angular components |
+| `get_component` | One component's examples, its imports in each framework, and full API: attributes, properties, events, slots, parts, CSS custom properties |
+| `get_framework_guide` | Setup and usage in plain HTML, React, Vue or Angular: imports, the tokens CSS, events, form bindings |
+| `validate_usage` | Checks code that uses Unframed: unknown tags, attributes and events, invalid values, `disabled="false"`, missing labels, imports that don't exist (like `@unframed/react/button`). Each problem comes with its line and a fix. Reads HTML, JSX, Vue, Angular, Svelte and Lit templates. |
 
 It works offline: everything it knows ships in the package, generated from the same sources as the docs.
 
