@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://p-db.github.io/unframed-ui/
+    about: Guides, every component's API and examples.
+  - name: Report a security vulnerability
+    url: https://github.com/P-DB/unframed-ui/security/advisories/new
+    about: Privately, so it can be fixed before it's public.

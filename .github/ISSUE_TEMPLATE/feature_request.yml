@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest a new component, an option, or an improvement.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The need behind the request, not the solution yet.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like?
+      description: How it could look, with a markup example if you have one.
+      render: html
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What do you do today?
+      description: Workarounds, or other libraries that solve it.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - A new component
+        - An existing component
+        - Theming and tokens
+        - React, Vue or Angular wrappers
+        - CLI
+        - AI tools (skill, MCP server)
+        - Docs
+        - Something else

@@ -1,0 +1,64 @@
+name: Bug report
+description: Something doesn't work as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting! A small reproduction is the fastest way to a fix. For a security problem, use [private reporting](https://github.com/P-DB/unframed-ui/security/advisories/new) instead.
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      description: Which component, if it's about one.
+      placeholder: uf-combobox
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      options:
+        - "@unframed/core"
+        - "@unframed/react"
+        - "@unframed/vue"
+        - "@unframed/angular"
+        - "@unframed/tokens"
+        - "@unframed/cli"
+        - "@unframed/mcp"
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: 1.0.0-rc.6
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: And what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How to reproduce
+      description: The markup or code, and the steps. A link to a StackBlitz or a repository is great.
+      render: html
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, OS and framework
+      placeholder: Firefox 140 on macOS, React 19
+  - type: dropdown
+    id: accessibility
+    attributes:
+      label: Does it affect accessibility?
+      description: Keyboard use, screen readers, focus, contrast…
+      options:
+        - "No"
+        - "Yes"
+        - Not sure
