@@ -25,9 +25,9 @@ In every project space: issues, pull requests, discussions, code review, and any
 
 ## Reporting
 
-If you see or experience something that breaks this code, report it privately: use **Report content** in the menu of the comment, issue or pull request. Reports reach the maintainer, not the person you report. For something that isn't tied to a comment, or if it involves the maintainer, you can also [report it to GitHub](https://github.com/contact/report-abuse).
+If you see or experience something that breaks this code, report it privately: use **Report content** in the menu of the comment, issue or pull request, or [report it to GitHub](https://github.com/contact/report-abuse) for anything else, including behavior by the maintainer. GitHub reviews the report confidentially, and the person you report isn't told who reported them.
 
-Every report is taken seriously, reviewed fairly and kept confidential.
+The maintainer acts on what breaks this code here, and takes every report seriously.
 
 ## What happens next
 
