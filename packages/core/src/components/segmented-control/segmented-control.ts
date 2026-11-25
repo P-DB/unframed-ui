@@ -123,6 +123,35 @@ export class UfSegmentedControl extends FormControl {
         background: var(--uf-color-border-strong);
         color: var(--uf-color-surface);
       }
+
+      /*
+       * Forced colors: the selected option filled with the selection color. Not adjusted,
+       * so the browser draws no backplate (in Canvas) behind its text.
+       */
+      @media (forced-colors: active) {
+        .option.selected {
+          forced-color-adjust: none;
+          background: Highlight;
+          color: HighlightText;
+        }
+
+        .option:disabled {
+          color: GrayText;
+        }
+
+        .disabled .options {
+          border-color: GrayText;
+        }
+
+        .disabled .option.selected {
+          background: GrayText;
+          color: Canvas;
+        }
+
+        .option:focus-visible {
+          outline-color: CanvasText;
+        }
+      }
     `,
   ];
 

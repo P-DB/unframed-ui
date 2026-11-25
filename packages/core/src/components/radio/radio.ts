@@ -94,6 +94,23 @@ export class UfRadio extends LitElement {
         outline: var(--uf-focus-ring-width) solid var(--uf-color-focus-ring);
         outline-offset: var(--uf-focus-ring-offset);
       }
+
+      /* Forced colors: the selected ring in the system's selection color. */
+      @media (forced-colors: active) {
+        :host([checked]) .control {
+          border-color: Highlight;
+        }
+
+        :host([disabled]),
+        :host([data-group-disabled]) {
+          color: GrayText;
+        }
+
+        :host([disabled]) .control,
+        :host([data-group-disabled]) .control {
+          border-color: GrayText;
+        }
+      }
     `,
   ];
 

@@ -177,6 +177,44 @@ export class UfCalendar extends LitElement {
         opacity: 0.5;
         cursor: not-allowed;
       }
+
+      /*
+       * Forced colors: selected days in the selection color (with no backplate behind
+       * their text), today outlined
+       * (its inset shadow is dropped), unavailable days grey.
+       */
+      @media (forced-colors: active) {
+        td.today {
+          outline: 1px solid CanvasText;
+          outline-offset: -1px;
+        }
+
+        td[aria-selected='true'],
+        td[aria-selected='true']:hover,
+        td.in-range,
+        td.in-range:hover,
+        td.range-start,
+        td.range-end {
+          forced-color-adjust: none;
+          background: Highlight;
+          color: HighlightText;
+        }
+
+        td.in-range {
+          outline: 1px dashed HighlightText;
+          outline-offset: -3px;
+        }
+
+        td[aria-disabled='true'],
+        td.outside {
+          color: GrayText;
+        }
+
+        td:focus-visible {
+          outline: var(--uf-focus-ring-width) solid CanvasText;
+          outline-offset: var(--uf-focus-ring-offset);
+        }
+      }
     `,
   ];
 

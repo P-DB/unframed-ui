@@ -137,6 +137,13 @@ export class UfBadge extends LitElement {
       :host([appearance='outline'][variant='accent']) {
         --_fg: var(--uf-color-accent-strong);
       }
+
+      /* Forced colors drop the dot's fill: draw it in the text color. */
+      @media (forced-colors: active) {
+        .dot {
+          background: CanvasText;
+        }
+      }
     `,
   ];
 

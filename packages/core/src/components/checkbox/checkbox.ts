@@ -116,6 +116,35 @@ export class UfCheckbox extends ToggleControl {
       .native:indeterminate + .icon {
         opacity: 1;
       }
+
+      /* Forced colors drop the checked fill: draw it with system colors. */
+      @media (forced-colors: active) {
+        .native {
+          border-color: CanvasText;
+          background: Canvas;
+        }
+
+        .native:checked,
+        .native:indeterminate {
+          border-color: Highlight;
+          background: Highlight;
+        }
+
+        .icon {
+          color: HighlightText;
+        }
+
+        .disabled .native,
+        .disabled .native:checked,
+        .disabled .native:indeterminate {
+          border-color: GrayText;
+          background: Canvas;
+        }
+
+        .disabled .icon {
+          color: GrayText;
+        }
+      }
     `,
   ];
 

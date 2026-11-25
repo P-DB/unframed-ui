@@ -57,6 +57,14 @@ export class UfSpinner extends LitElement {
           animation-duration: 2s;
         }
       }
+
+      /* Forced colors give every side of the ring one color: hide the track, keep the turning arc. */
+      @media (forced-colors: active) {
+        .base {
+          border-color: Canvas;
+          border-top-color: CanvasText;
+        }
+      }
     `,
   ];
 

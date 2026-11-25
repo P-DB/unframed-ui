@@ -249,6 +249,19 @@ export class UfFileUpload extends FormControl {
       [hidden] {
         display: none !important;
       }
+
+      /* Forced colors drop the thicker border while dragging: an outline shows it instead. */
+      @media (forced-colors: active) {
+        .dropzone.dragging {
+          outline: 2px solid Highlight;
+          outline-offset: -2px;
+        }
+
+        .dropzone.disabled {
+          border-color: GrayText;
+          color: GrayText;
+        }
+      }
     `,
   ];
 

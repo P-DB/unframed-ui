@@ -125,6 +125,37 @@ export class UfSlider extends FormControl {
       :host([disabled]) .value {
         color: var(--uf-color-text-muted);
       }
+
+      /*
+       * Forced colors drop the track's gradient: draw it in system colors instead,
+       * with the filled part in the selection color.
+       */
+      @media (forced-colors: active) {
+        .native {
+          forced-color-adjust: none;
+          --_fill-color: Highlight;
+          --_track-color: CanvasText;
+          --uf-color-focus-ring: CanvasText;
+        }
+
+        .native::-webkit-slider-thumb {
+          background: Canvas;
+        }
+
+        .native::-moz-range-thumb {
+          background: Canvas;
+        }
+
+        .native:disabled {
+          --_fill-color: GrayText;
+          --_track-color: GrayText;
+        }
+
+        :host([disabled]) .field-label,
+        :host([disabled]) .value {
+          color: GrayText;
+        }
+      }
     `,
   ];
 

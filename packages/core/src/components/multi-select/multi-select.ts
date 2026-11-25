@@ -259,6 +259,33 @@ export class UfMultiSelect extends FormControl {
         clip-path: inset(50%);
         white-space: nowrap;
       }
+
+      /* Forced colors drop the highlight fill: use the system's selection colors, with no backplate behind the text. */
+      @media (forced-colors: active) {
+        .option.active {
+          forced-color-adjust: none;
+          background: Highlight;
+          color: HighlightText;
+        }
+
+        .option[aria-disabled='true'] {
+          color: GrayText;
+        }
+
+        .option[aria-selected='true'] .check {
+          border-color: Highlight;
+          background: Highlight;
+          color: HighlightText;
+        }
+
+        .option.active .check {
+          border-color: HighlightText;
+        }
+
+        .chip {
+          border: 1px solid CanvasText;
+        }
+      }
     `,
   ];
 

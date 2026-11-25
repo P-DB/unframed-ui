@@ -127,6 +127,13 @@ export class UfAccordionItem extends LitElement {
           transition: none;
         }
       }
+
+      /* Forced colors: disabled in the system's disabled color. */
+      @media (forced-colors: active) {
+        :host([disabled]) summary {
+          color: GrayText;
+        }
+      }
     `,
   ];
 

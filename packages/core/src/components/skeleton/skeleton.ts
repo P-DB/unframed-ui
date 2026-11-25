@@ -102,6 +102,14 @@ export class UfSkeleton extends LitElement {
           animation: none;
         }
       }
+
+      /* Forced colors drop the fill: outline the placeholder shapes instead. */
+      @media (forced-colors: active) {
+        .block,
+        .line {
+          border: 1px solid GrayText;
+        }
+      }
     `,
   ];
 

@@ -164,6 +164,19 @@ export class UfCombobox extends FormControl {
         clip-path: inset(50%);
         white-space: nowrap;
       }
+
+      /* Forced colors drop the highlight fill: use the system's selection colors, with no backplate behind the text. */
+      @media (forced-colors: active) {
+        .option.active {
+          forced-color-adjust: none;
+          background: Highlight;
+          color: HighlightText;
+        }
+
+        .option[aria-disabled='true'] {
+          color: GrayText;
+        }
+      }
     `,
   ];
 

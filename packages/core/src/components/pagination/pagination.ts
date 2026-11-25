@@ -134,6 +134,21 @@ export class UfPagination extends LitElement {
         min-width: var(--_size);
         color: var(--uf-color-text-muted);
       }
+
+      /* Forced colors: the current page filled with the selection color, with no backplate behind its text. */
+      @media (forced-colors: active) {
+        .current,
+        .current:hover:not(:disabled) {
+          forced-color-adjust: none;
+          border-color: Highlight;
+          background: Highlight;
+          color: HighlightText;
+        }
+
+        .button:focus-visible {
+          outline-color: CanvasText;
+        }
+      }
     `,
   ];
 

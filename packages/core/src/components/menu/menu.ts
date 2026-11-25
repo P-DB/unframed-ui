@@ -36,6 +36,13 @@ export class UfMenu extends LitElement {
       border: 0;
       background: var(--uf-color-border);
     }
+
+    /* Forced colors drop the separator's fill: draw it in the text color. */
+    @media (forced-colors: active) {
+      ::slotted(hr) {
+        background: CanvasText;
+      }
+    }
   `;
 
   static override properties: PropertyDeclarations = {
