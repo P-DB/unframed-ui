@@ -92,6 +92,13 @@ export class UfAvatar extends LitElement {
       ::slotted(*) {
         font-size: inherit;
       }
+
+      /* Forced colors drop the fill: outline the shape. */
+      @media (forced-colors: active) {
+        .base {
+          border: 1px solid CanvasText;
+        }
+      }
     `,
   ];
 

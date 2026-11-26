@@ -16,6 +16,7 @@ A component library can't make an app accessible on its own: it gives you access
 - **Focus:** a visible focus ring on every interactive part; dialogs and drawers trap focus, make the rest of the page inert, and return focus to the opener when they close.
 - **Announcements:** toasts, alerts and changing results (combobox, multi-select, file upload) use live regions, so screen readers announce them.
 - **Contrast:** the default tokens meet WCAG AA text contrast in light and dark, and form control borders meet 3:1 ([1.4.11](https://www.w3.org/TR/WCAG22/#non-text-contrast)). The [theme generator](https://p-db.github.io/unframed-ui/docs/theme-generator) checks the contrast of your own colors.
+- **Windows high contrast:** in forced colors mode, components redraw in the system's colors what the OS would otherwise erase. Checked, selected and current states (switch, checkbox, radio, segmented control, tabs, pagination, calendar, menu and listbox options) use the selection color; focus stays visible, with an outline on fields; slider tracks, progress bars, spinners, skeletons, avatars and badge dots keep their shape; disabled controls are grey.
 - **Motion:** animations in dialogs, toasts, switches, accordions, tabs, progress and loading indicators respect `prefers-reduced-motion`.
 - **AI coding tools:** the agent skill and the MCP server's `validate_usage` tool flag a form control or an icon-only button without a label, so assistants write accessible markup too.
 
@@ -27,6 +28,7 @@ A component library can't make an app accessible on its own: it gives you access
 - Every component's tests run in Chromium, Firefox and WebKit.
 - Accessible names are read from the browser's own accessibility tree (Chromium), not just the DOM, including when a label changes after the first render.
 - Screenshots of every docs example, in light and dark.
+- Forced colors mode, emulated in Chromium: checked, selected, focus and disabled states are checked to use system colors.
 
 **Manual:**
 
@@ -35,7 +37,7 @@ A component library can't make an app accessible on its own: it gives you access
 
 ## Known limitations
 
-- **Windows high contrast (`forced-colors`) isn't supported yet.** Borders and states drawn with the tokens may not show in forced colors mode.
+- **Windows high contrast is tested in Chromium's emulation of forced colors**, not on Windows with each contrast theme. Colors you set through component tokens give way to the system's colors in that mode, as they should; report anything that disappears.
 - **NVDA and JAWS aren't part of regular testing.** The components follow the WAI-ARIA patterns those screen readers support, but differences can slip through.
 - **Right-to-left layouts aren't tested systematically.** Components with direction-dependent keyboard or layout (calendar, drawer, segmented control, button group) handle `dir="rtl"`; report anything that looks wrong.
 - **No external audit yet.** The target above is ours, checked by the tests and reviews described here, not by a third party.

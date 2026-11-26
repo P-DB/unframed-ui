@@ -59,6 +59,13 @@ export class UfTooltip extends LitElement {
         opacity: 0;
       }
     }
+
+    /* Forced colors drop the dark fill: a border keeps the tooltip apart from the page. */
+    @media (forced-colors: active) {
+      .body {
+        border: 1px solid CanvasText;
+      }
+    }
   `;
 
   static override properties: PropertyDeclarations = {

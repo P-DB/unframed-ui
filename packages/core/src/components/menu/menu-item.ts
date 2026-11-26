@@ -84,6 +84,29 @@ export class UfMenuItem extends LitElement {
       width: 1rem;
       height: 1rem;
     }
+
+    /* Forced colors drop the highlight fill: use the system's selection colors, with no backplate behind the text. */
+    @media (forced-colors: active) {
+      :host(:hover),
+      :host(:focus) {
+        forced-color-adjust: none;
+        background: Highlight;
+        color: HighlightText;
+      }
+
+      :host([disabled]) {
+        background: none;
+        color: GrayText;
+      }
+
+      :host(:focus-visible) {
+        outline-color: HighlightText;
+      }
+
+      ::slotted([slot='suffix']) {
+        color: inherit;
+      }
+    }
   `;
 
   static override properties: PropertyDeclarations = {

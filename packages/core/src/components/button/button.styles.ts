@@ -179,5 +179,25 @@ export const buttonStyles = [
         transform: rotate(360deg);
       }
     }
+
+    /*
+     * Forced colors: a link button stays a link (no button border), disabled
+     * buttons are grey, and the loading spinner keeps its gap so it reads as turning.
+     */
+    @media (forced-colors: active) {
+      :host([variant='link']) .base {
+        border-color: Canvas;
+        color: LinkText;
+      }
+
+      .base.disabled {
+        color: GrayText;
+      }
+
+      .spinner {
+        border-color: ButtonText;
+        border-right-color: ButtonFace;
+      }
+    }
   `,
 ];

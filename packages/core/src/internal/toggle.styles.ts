@@ -68,6 +68,13 @@ export const toggleStyles = css`
     color: var(--uf-color-danger-text);
   }
 
+  /* Forced colors: disabled in the system's disabled color. */
+  @media (forced-colors: active) {
+    .root.disabled {
+      color: GrayText;
+    }
+  }
+
   [hidden] {
     display: none !important;
   }

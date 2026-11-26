@@ -71,6 +71,17 @@ export class UfTab extends LitElement {
         transition: none;
       }
     }
+
+    /* Forced colors: the selected tab's line in the selection color, disabled tabs grey. */
+    @media (forced-colors: active) {
+      :host::after {
+        background: Highlight;
+      }
+
+      :host([disabled]) {
+        color: GrayText;
+      }
+    }
   `;
 
   static override properties: PropertyDeclarations = {

@@ -111,6 +111,38 @@ export class UfSwitch extends ToggleControl {
         translate: calc(var(--_control-width) - var(--_thumb) - 4px) 0;
       }
 
+      /* Forced colors drop backgrounds and shadows: outline the track, fill the thumb. */
+      @media (forced-colors: active) {
+        .native {
+          border: 1px solid CanvasText;
+          background: Canvas;
+        }
+
+        .thumb {
+          background: CanvasText;
+        }
+
+        .native:checked {
+          border-color: Highlight;
+          background: Highlight;
+        }
+
+        .native:checked + .thumb {
+          background: HighlightText;
+        }
+
+        .disabled .native,
+        .disabled .native:checked {
+          border-color: GrayText;
+          background: Canvas;
+        }
+
+        .disabled .thumb,
+        .disabled .native:checked + .thumb {
+          background: GrayText;
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .thumb {
           transition: none;

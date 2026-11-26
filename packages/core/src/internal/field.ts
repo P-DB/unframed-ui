@@ -193,4 +193,20 @@ export const controlBoxStyles = css`
     width: 1em;
     height: 1em;
   }
+
+  /*
+   * Forced colors drop the focus shadow and force every border to one color:
+   * an outline shows focus, and disabled fields use the system's disabled color.
+   */
+  @media (forced-colors: active) {
+    .box:focus-within {
+      outline: var(--uf-focus-ring-width) solid Highlight;
+      outline-offset: 0;
+    }
+
+    .box.disabled {
+      border-color: GrayText;
+      color: GrayText;
+    }
+  }
 `;

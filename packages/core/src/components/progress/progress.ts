@@ -120,6 +120,17 @@ export class UfProgress extends LitElement {
         }
       }
 
+      /* Forced colors drop the fills: outline the track, fill the bar with the selection color. */
+      @media (forced-colors: active) {
+        .track {
+          outline: 1px solid CanvasText;
+        }
+
+        .indicator {
+          background: Highlight;
+        }
+      }
+
       [hidden] {
         display: none !important;
       }
